@@ -1,6 +1,5 @@
 \name{zoo}
 \alias{zoo}
-\alias{c.zoo}
 \alias{range.zoo}
 \alias{print.zoo}
 \alias{as.zoo.factor}
@@ -24,12 +23,9 @@
 \alias{index2char.default}
 \alias{index2char.numeric}
 
-\alias{frequency.zoo}
-\alias{as.zoo.zoo}
 \alias{head.ts}
 \alias{tail.ts}
 \alias{ts.intersect.}
-\alias{as.ts.zoo}
 
 \title{Z's Ordered Observations}
 \description{

@@ -11,7 +11,6 @@
   Indexed Totally Ordered Observations}
 \Plaintitle{zoo: An S3 Class and Methods for
   Indexed Totally Ordered Observations}
-%% \Shorttitle{\pkg{zoo}: \proglang{S3} Infrastructure for Indexed Totally Ordered Observations}
 
 \Keywords{totally ordered observations, irregular time series,
   \proglang{S3}, \proglang{R}}

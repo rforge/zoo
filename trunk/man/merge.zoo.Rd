@@ -1,6 +1,7 @@
 \name{merge.zoo}
 \alias{merge.zoo}
 \alias{rbind.zoo}
+\alias{c.zoo}
 \alias{cbind.zoo}
 \title{Merge Two or More zoo Objects}
 \description{
@@ -62,7 +63,8 @@ The default \code{cbind} method is essentially the default \code{merge}
 method, but does not support the \code{retclass} argument.
 The \code{rbind}
 method combines the dates of the \code{"zoo"} objects (duplicate dates are
-not allowed) and combines the rows of the objects.
+not allowed) and combines the rows of the objects. Furthermore, the
+\code{c} method is identical to the \code{rbind} method.
 }
 
 \value{
