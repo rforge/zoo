@@ -1,14 +1,15 @@
-# runmean, runmax, runmed (, runmad) based on code posted by Jarek Tuszynski at
+# rollmean, rollmax, rollmed (, runmad) based on code posted by Jarek Tuszynski at
 # https://www.stat.math.ethz.ch/pipermail/r-help/2004-October/057363.html
 
 #Z# currently these work only for zoo objects, but maybe these should really
 #Z# be generics with something like the run*0() functions as the default.
 
-runmean <- function(x, k, na.pad = TRUE) { 
+rollmean <- function(x, k, na.pad = TRUE) UseMethod("rollmean")
+rollmean.zoo <- function(x, k, na.pad = TRUE) { 
 	stopifnot(k <= NROW(x))
 	index.x <- index(x)
 	if (!na.pad) index.x <- index.x[-seq(k-1)]
-	runmean0 <- function(x, k, na.rm) {
+	rollmean0 <- function(x, k, na.rm) {
 		x    <- unclass(x)
 		n    <- length(x) 
 		y    <- x[ k:n ] - x[ c(1,1:(n-k)) ] # difference from previous
@@ -20,16 +21,17 @@ runmean <- function(x, k, na.pad = TRUE) {
 			cumsum(y)/k
 	}
 	if (length(dim(x)) == 0) 
-		return(zoo(runmean0(x, k, na.rm), index.x))
+		return(zoo(rollmean0(x, k, na.rm), index.x))
 	else
-		return(zoo(apply(x, 2, runmean0, k=k, na.rm=na.rm), index.x))
+		return(zoo(apply(x, 2, rollmean0, k=k, na.rm=na.rm), index.x))
 }
 
-runmax <- function(x, k, na.pad = TRUE) { 
+rollmax <- function(x, k, na.pad = TRUE) UseMethod("rollmax")
+rollmax.zoo <- function(x, k, na.pad = TRUE) { 
 	stopifnot(k <= NROW(x))
 	index.x <- index(x)
 	if (!na.pad) index.x <- index.x[-seq(k-1)]
-	runmax0 <- function(x, k, na.pad) {
+	rollmax0 <- function(x, k, na.pad) {
            n <- length(x) 
            y <- rep(0, n) 
            a <- 0
@@ -44,12 +46,14 @@ runmax <- function(x, k, na.pad = TRUE) {
 	   y
         } 
 	if (length(dim(x)) == 0) 
-		return(zoo(runmax0(x, k, na.pad), index.x))
+		return(zoo(rollmax0(x, k, na.pad), index.x))
 	else
-		return(zoo(apply(x, 2, runmax0, k=k, na.pad=na.pad), index.x))
+		return(zoo(apply(x, 2, rollmax0, k=k, na.pad=na.pad), index.x))
 }
 
-runmed <- function(x, k, na.pad = TRUE, ...) { 
+rollmed <- function(x, k, na.pad = TRUE, ...) UseMethod("rollmed")
+rollmed.default <- function(x, k, na.pad = TRUE, ...) stats::runmed(x, k, ...)
+rollmed.zoo <- function(x, k, na.pad = TRUE, ...) { 
 	stopifnot(all(!is.na(x)), k <= NROW(x), k %% 2 == 1)
 	# todo:
 	# rather than abort we should do a simple loop to get the medians
@@ -58,16 +62,17 @@ runmed <- function(x, k, na.pad = TRUE, ...) {
 	m <- k %/% 2
 	n <- NROW(x)
 	if (!na.pad) index.x <- index.x[k:n]
-	runmed0 <- function(x, k, na.pad, ...) {
-		x <- stats::runmed(x, k, ...)[-c(seq(m),seq(to=n,len=m))]
+	rollmed0 <- function(x, k, na.pad, ...) {
+		x <- stats::rollmed(x, k, ...)[-c(seq(m),seq(to=n,len=m))]
 		if (na.pad) x <- c(rep(NA,k-1), x)
 		x
 	}
 	if (length(dim(x)) == 0)
-		return(zoo(runmed0(x, k, na.pad = na.pad, ...), index.x))
+		return(zoo(rollmed0(x, k, na.pad = na.pad, ...), index.x))
 	else
-		return(zoo(apply(x, 2, runmed0, k=k, na.pad=na.pad, ...), index.x))
+		return(zoo(apply(x, 2, rollmed0, k=k, na.pad=na.pad, ...), index.x))
 }
 
 # todo:
 # runmad <- function()
+

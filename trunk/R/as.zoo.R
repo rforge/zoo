@@ -20,9 +20,7 @@ as.zoo.factor <- function(x, ...)
   
 as.zoo.ts <- function(x, ...)
 {
-  rval <- as.vector(x)
-  dim(rval) <- dim(x)
-  zoo(rval, time(x))
+  zoo(value(x), unclass(time(x)))
 }  
 
 as.zoo.irts <- function(x, ...)

@@ -1,0 +1,53 @@
+\name{rollmean}
+\alias{rollmean}
+\alias{rollmax}
+\alias{rollmed}
+\title{Running Means/Maximums/Medians}
+\description{
+Compute rolling means, maximums and medians of \code{"zoo"}
+objects.
+}
+\usage{
+rollmean(x, k, na.pad = TRUE)
+rollmax(x, k, na.pad = TRUE)
+rollmed(x, k, na.pad = TRUE, \dots)
+}
+\arguments{
+  \item{x}{a \code{"zoo"} object,}
+  \item{k}{integer width of the rolling window. Must be odd
+    for \code{rollmed}.}  
+  \item{na.pad}{logical. Add \code{NA} padding at beginning
+    so result is same length as input.}
+  \item{\dots}{Further arguments passed to the \code{stats}
+    function \code{\link[stats]{rollmed}} except for na.pad 
+    which is used for preprocessing and not passed.}
+}
+
+\details{
+These functions are still under development and might be subject
+to future changes. The function \code{rollmed} masks the function
+of the same name from \code{stats}. See \code{\link[stats]{rollmed}}.
+}
+
+\value{
+A \code{"zoo"} object with the rolling mean/max/median.
+}
+
+\seealso{\code{\link{zoo}}}
+
+\examples{
+x.Date <- as.Date(paste(2004, rep(1:4, 4:1), sample(1:28, 10), sep = "-"))
+x <- zoo(rnorm(12), x.Date)
+
+rollmean(x, 3)
+rollmax(x, 3)
+rollmed(x, 3)
+
+xm <- zoo(matrix(1:12, 4, 3), x.Date[1:4])
+rollmean(xm, 3)
+rollmax(xm, 3)
+rollmed(xm, 3)
+
+}
+\keyword{ts}
+

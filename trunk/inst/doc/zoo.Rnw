@@ -162,24 +162,27 @@ z1.index <- ISOdatetime(2004, rep(1:2,5), sample(28,10), 0, 0, 0)
 z1.value <- rnorm(10)
 z1 <- zoo(z1.value, z1.index)
 @
-and one with a sinus wave
+and one with a sine wave
 <<zoo-vectors2>>=
-z2.index <- as.POSIXct(paste("2004-", rep(1:2, 5), "-", sample(1:28, 10), sep = ""))
+z2.index <- as.POSIXct(paste(2004, rep(1:2, 5), sample(1:28, 10), sep = "-"))
 z2.value <- sin(2*1:10/pi)
 z2 <- zoo(z2.value, z2.index)
 @
 Furthermore, we create a matrix \code{Z} with random values and a \code{"Date"}
 index
 <<zoo-matrix>>=
-Z.index <- structure(sample(12450:12500, 10), class = "Date")
+Z.index <- as.Date(sample(12450:12500, 10))
 Z.value <- matrix(rnorm(30), ncol = 3)
 colnames(Z.value) <- c("Aa", "Bb", "Cc")
 Z <- zoo(Z.value, Z.index)
 @
-Note, that in the above examples the creation of indexes might seem a bit awkward
-at first sight, but this is only an artefact of the need for random generation
-of random dates for this illustration. In ``real world'' applications, the indexes
-are typically part of the raw data set read into \proglang{R}. See Section~\ref{sec:combining}
+Note that \code{zoo} provides \code{as.Date} methods to convert days 
+since January 1, 1970 to class Date, used in the above.
+The complicated argument to \code{as.Date}
+was used to generate random 
+dates for this illustration. In ``real world'' applications, the indexes
+are typically part of the raw data set read into \proglang{R} so the
+code would be even simpler. See Section~\ref{sec:combining}
 for such examples.
 
 Methods to several standard generic functions are available for
@@ -521,18 +524,16 @@ daily (or higher frequent) financial data. The package \pkg{tseries} provides
 the function \code{get.hist.quote} for obtaining historical financial data
 by querying Yahoo! Finance at \url{http://finance.yahoo.com/},
 an online portal quoting data provided by Reuters. The following code
-queries the quotes of Lucent Technologies starting from 2001-01-01.
+queries the quotes of Lucent Technologies:
 
 <<tseries1,eval=FALSE>>=
 library(tseries)
-LU <- get.hist.quote(instrument = "LU",  start = "2001-01-01",
-  end = "2004-09-30", origin = "1970-01-01")
+LU <- get.hist.quote(instrument = "LU",  origin = as.Date(0))
 @
 
 <<tseries1a,echo=FALSE>>=
 if(online) {
-  LU <- get.hist.quote(instrument = "LU",  start = "2001-01-01",
-    end = "2004-09-30", origin = "1970-01-01")
+  LU <- get.hist.quote("LU",  origin = as.Date(0))
   save(LU, file = "LU.rda", compress = TRUE)
 } else {
   load("LU.rda")
@@ -541,13 +542,15 @@ if(online) {
 
 In the returned \code{LU} object the irregular data is stored by extending
 it to a regular grid and filling the gaps with \code{NA}s. The time is stored
-in days starting from an \code{origin}, in this case specified to be 1970-01-01.
-This series can be transformed easily into an irregula \code{"zoo"} series 
+in days starting from an \code{origin}, in this case specified to be the
+origin used by the \code{Date} class.
+This series can be transformed easily into an irregular \code{"zoo"} series 
 using a \code{"Date"} index. The log-difference returns for Lucent 
 Technologies is depicted in Figure~\ref{fig:tseries}.
 
 <<tseries2>>=
-LU <- zoo(value(LU), structure(time(LU), class = "Date"))
+LU <- as.zoo(LU)
+index(LU) <- as.Date(index(LU))
 LU <- na.omit(LU)
 @
 
