@@ -15,11 +15,8 @@ na.locf.default <- function(object, na.rm = TRUE, ...) {
 
 ## we only need this until 2.1.0 comes out
 ## included for now
-na.contiguous <- function(object, ...)
-     UseMethod("na.contiguous")
-
-na.contiguous.default <- function(object, ...)
-     stats::na.contiguous(object, ...)
+na.contiguous <- function(object, ...) UseMethod("na.contiguous")
+na.contiguous.default <- function(object, ...) stats::na.contiguous(object, ...)
 
 ## does not work only for zoo objects
 na.contiguous.zoo <- function(object, ...) 

@@ -4,8 +4,8 @@ rbind.zoo <- function(..., deparse.level = 1)
   indexes <- do.call("c", lapply(args, index))
 
   my.table <- function(x) {
-    x <- x[order(x)]
-    table(match(x,x))
+    x <- x[ORDER(x)]
+    table(MATCH(x,x))
   }
   if(max(my.table(indexes)) > 1) stop("indexes overlap")
 
@@ -75,15 +75,15 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     # fn to get the unique elements in x, in sorted order, using only
     # [, match, length and order
     sort.unique <- function(x) {
-        x <- x[match(x, x) == seq(length = length(x))]
-        x[order(x)]
+        x <- x[MATCH(x, x) == seq(length = length(x))]
+        x[ORDER(x)]
     }
 
     # fn to get intersection of each element in list of lists
     intersect.list <- function(list) { 
         my.table <- function(x) {
-           x <- x[order(x)]
-           table(match(x, x))
+           x <- x[ORDER(x)]
+           table(MATCH(x, x))
 	}
 	union <- do.call("c", list)
 	sort.unique(union)[ my.table(union) == length(list) ]
@@ -102,9 +102,8 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     # indexes with the values in a.  If ret.zoo is TRUE if it is to return
     # a zoo object.  If ret.zoo is FALSE it simply returns with the matrix
     # just calculated.  Otherwise, converts that matrix into a zoo object.
-    # match is convenience wrapper for match with nomatch=0 default
-    match0 <- function(a, b, nomatch = 0, ...) match(a, b, nomatch = nomatch, 
-        ...)
+    # match0 is convenience wrapper for MATCH with nomatch=0 default
+    match0 <- function(a, b, nomatch = 0, ...) MATCH(a, b, nomatch = nomatch, ...)
     f <- function(a, ret.zoo = TRUE) {
         if (length(a) == 0) 
             return(matrix(nr = length(indexes), nc = 0))

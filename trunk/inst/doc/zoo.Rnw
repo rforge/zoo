@@ -42,7 +42,7 @@
 library(zoo)
 library(tseries)
 library(strucchange)
-online <- TRUE
+online <- FALSE
 @
 
 %% TODO:
@@ -132,18 +132,20 @@ and the index can, in principle, be of arbitrary classes. However, most of the
 following methods (plotting, aggregating, mathematical operations) for \code{"zoo"}
 objects are typically only useful for numeric values \code{x}. In contrast, special
 effort in the design was put into independence from a particular class for
-the index vector. In \pkg{zoo} it is assumed that combination \code{c()},
-querying the \code{length()}, value matching \code{match()}, subsetting \code{[,},
-and, of course, ordering \code{order()} work when applied to the index. 
+the index vector. In \pkg{zoo}, it is assumed that combination \code{c()},
+querying the \code{length()}, value matching \code{MATCH()}, subsetting \code{[,},
+and, of course, ordering \code{ORDER()} work when applied to the index. 
 This is the case, e.g., for standard numeric and character vectors and for
 vectors of classes \code{"Date"}, \code{"POSIXct"} or \code{"times"}
-from package \pkg{chron}, but not for the
-class \code{"dateTime"} in \pkg{fBasics}. In the latter case, the solution
-is to provide methods for the above mentioned functions so that indexing
-\code{"zoo"} objects with \code{"dateTime"} vectors works. To achieve this 
-independence of the index class the non-generic functions \code{order} and
-\code{match} are made \proglang{S3} generics in \pkg{zoo} with their base
-definition as the default method.
+from package \pkg{chron}, but not for the class \code{"dateTime"} in \pkg{fBasics}.
+In the latter case, the solution is to provide methods for the above mentioned
+functions so that indexing \code{"zoo"} objects with \code{"dateTime"} vectors works.
+To achieve this  independence of the index class, new generic functions for
+ordering (\code{ORDER()}) and value matching (\code{match()}) are introduced
+as the corresponding base functions \code{order()} and \code{match()} are 
+non-generic. The default methods simply call the corresponding base functions, i.e.,
+no new method needs to be introduced for a particular index class if the 
+non-generic functions \code{order()} and \code{match()} work for this class.
 
 To illustrate the usage of \code{zoo}, we first load the package and set the
 random seed to make the examples in this paper exactly reproducible.
@@ -563,16 +565,15 @@ plot(diff(log(LU)))
 
 Although the methods in \pkg{zoo} work out of the box for many index classes,
 it might be necessary for some index classes to provide \code{c}, \code{length},
-\code{order} and \code{match} methods such that the methods in \pkg{zoo} 
+\code{ORDER} and \code{MATCH} methods such that the methods in \pkg{zoo} 
 work properly. An example for such an index class which requires a bit more
 attention is \code{"timeDate"} from the \pkg{fBasics} package.
 
 But after the necessary methods have been defined
 <<fBasics1>>=
 length.timeDate <- function(x) prod(x@Dim)
-order.timeDate <- function(x, ...) order.default(as.POSIXct(x), ...)
-match.timeDate <- function(x, y, ...) 
-  match.default(as.POSIXct(x), as.POSIXct(y), ...)
+ORDER.timeDate <- function(x, ...) order(as.POSIXct(x), ...)
+MATCH.timeDate <- function(x, y, ...) match(as.POSIXct(x), as.POSIXct(y), ...)
 @
 the class \code{"timeDate"} can be used for indexing \code{"zoo"} objects.
 The following example illustrates how \code{z2} can be transformed
@@ -596,5 +597,9 @@ binding, several mathematical operations, extracting and replacing value
 and index, coercion and \code{NA} handling.
 
 \bibliography{zoo}
+
+\begin{appendix}
+\include{zooref}
+\end{appendix}
 
 \end{document}

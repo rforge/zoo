@@ -1,8 +1,7 @@
-
 zoo <- function (x, order.by = index(x)) 
 {
     if (missing(order.by)) order.by = index(x)
-    index <- order(order.by)
+    index <- ORDER(order.by)
     order.by <- order.by[index]
     if (missing(x) || is.null(x)) 
         x <- numeric()
@@ -103,21 +102,6 @@ tail.zoo <- function(x, n = 6, ...) {
 
 
 
-## currently needed for making zoo independent of
-## index class
-order <- function(x, ...)
-	UseMethod("order")
-
-order.default <- function(x, ...) {
-	base::order(x, ...)
-}
-
-
-match <- function(x, y, ...)
-	UseMethod("match")
-	
-match.default <- function(x, y, ...)
-	base::match(x, y, ...)
 
 as.Date.numeric <- function(x, ...)
 	structure(floor(x + .001), class = "Date")

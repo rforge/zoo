@@ -1,6 +1,6 @@
 aggregate.zoo <- function(x, by, FUN, ...)
 {
-	my.unique <- function(x) x[match(x,x) == seq(length = length(x))]
+	my.unique <- function(x) x[MATCH(x,x) == seq(length = length(x))]
 	if (!is.list(by)) by <- list(by)
 	stopifnot( length(time(x)) == length(by[[1]]) )
 	df <- aggregate(unclass(x), by, FUN, ...)

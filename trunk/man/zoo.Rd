@@ -19,10 +19,6 @@
 \alias{na.contiguous}
 \alias{na.contiguous.default}
 \alias{na.contiguous.zoo}
-\alias{order}
-\alias{order.default}
-\alias{match}
-\alias{match.default}
 \title{Z's Ordered Observations}
 \description{
 \code{zoo} is the creator for an S3 class of indexed
@@ -67,14 +63,14 @@ When creating a \code{"zoo"} object with the function \code{zoo},
 the vector of indexes \code{order.by} can be of (a single) arbitrary class
 (if \code{x} is shorter or longer than \code{order.by} it is
 expanded accordingly),
-but it is essential that \code{order(order.by)} works. For other
+but it is essential that \code{ORDER(order.by)} works. For other
 functions it is assumed that \code{c()}, \code{length()},
-\code{match()} and subsetting \code{[,} work. If this is not the case
+\code{MATCH()} and subsetting \code{[,} work. If this is not the case
 for a particular index/date/time class, then methods for these 
 generic functions should be created. Note, that to achieve this
-the non-generic base functions \code{\link{order}} and \code{\link{match}}
-are made generics in \code{zoo} with the base functions being the
-default (see \code{\link[base]{order}} and \code{\link[base]{match}}).
+new generic functions \code{\link{ORDER}} and \code{\link{MATCH}} are created in
+the \code{zoo} package with default methods corresponding to
+the non-generic base functions \code{\link[base]{order}} and \code{\link[base]{match}}.
 
 Methods to standard generics for \code{"zoo"} objects currently
 include: \code{print} (see above), \code{summary}, \code{str}, \code{head},
