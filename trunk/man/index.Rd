@@ -24,8 +24,8 @@ index(x, \dots)
 index(x) <- value
 }
 \arguments{
-  \item{x}{an object,}
-  \item{\dots}{currently not used,}
+  \item{x}{an object.}
+  \item{\dots}{further arguments passed to methods.}
   \item{value}{an ordered vector of the same length
     as the \code{"index"} attribute of \code{x}.}
 }
@@ -35,7 +35,7 @@ index(x) <- value
 of objects, currently it has a default method and a method
 for \code{\link{zoo}} objects which is the same as the
 \code{\link{time}} method for \code{\link{zoo}} objects.
-Another pair of generic function provides replacing
+Another pair of generic functions provides replacing
 the \code{index} or \code{time} attribute. 
 Methods are available for \code{"zoo"} objects only, see examples below.
 

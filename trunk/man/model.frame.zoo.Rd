@@ -2,7 +2,6 @@
 \alias{model.frame.AsIs}
 \alias{model.frame.zoo}
 \alias{model.frame.ts}
-\alias{as.list.ts}
 \concept{dynamic regression}
 \title{Model Frame for zoo Series}
 \description{
@@ -149,11 +148,11 @@ from lm, glm and similar routines rather than directly by the user.
 	# random forest
 	set.seed(1)
 	if (require(randomForest))
-		randomForest(I(lag(yz) ~ diff(xz)+fz))
+		randomForest(I(lag(yz) ~ diff(xz) + fz))
 
 	# support vector machine
 	if (require(e1071))
-		svm(I(lag(yz) ~ diff(xz)+fz))
+		svm(I(lag(yz) ~ diff(xz) + fz))
 
 }
 \keyword{regression}

@@ -3,8 +3,8 @@
 \alias{window<-.zoo}
 \title{Extract/Replacing the Time Windows of Objects}
 \description{
-Generic functions for extracting time windows
-of (zoo) objects and replacing it.
+Methods for extracting time windows
+of \code{"zoo"} objects and replacing it.
 }
 
 \usage{
@@ -24,8 +24,8 @@ of (zoo) objects and replacing it.
 }
 
 \value{
-The methods for \code{"zoo"} objects either extract the time window of the
-object (and hence return a \code{"zoo"} object) or replacing it.
+Either the time window of the object is extracted (and hence return a \code{"zoo"}
+object) or it is replaced.
 }
 
 \seealso{\code{\link{zoo}}}

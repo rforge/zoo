@@ -16,20 +16,14 @@ versions of database "join" operations.
 \arguments{
   \item{\dots}{two or more objects of class \code{"zoo"}.}
   \item{all}{logical vector of the same length as the number of \code{"zoo"}
-    objects which should be merged (otherwise expanded). All indexes
-    (times) of the objects corresponding to TRUE are included, for those
-    corresponding to FALSE only the indexes present in all objects are
-    included. For the default \code{all = TRUE} this corresponds to 
-    a union of all indexes, for \code{all = FALSE} to the intersection
-    of all indexes.}
-  \item{fill}{an element for filling the gaps in merged \code{"zoo"}
-    objects which can arise when all = TRUE and some zoo arguments have some
-    index values not in all other zoo arguments.}
+    objects which should be merged (otherwise expanded).}
+  \item{fill}{an element for filling gaps in merged \code{"zoo"}
+    objects (if any).}
   \item{suffixes}{character vector of the same length as the number of
     \code{"zoo"} objects that specifies the suffixes to be used for making
     the merged column names unique.}
   \item{retclass}{character that specifies the class of the return result,
-    can be \code{"zoo"} (the default), \code{"zoo"} or \code{NULL}. For details
+    can be \code{"zoo"} (the default), \code{"list"} or \code{NULL}. For details
     see below.}
 }
 
@@ -37,7 +31,15 @@ versions of database "join" operations.
 The \code{merge} method for \code{"zoo"} objects combines the columns
 of several objects either along the union of the dates (for \code{all = TRUE}, the default),
 or the intersection of their dates (for \code{all = FALSE})
-filling up the created gaps with the \code{fill} pattern.
+filling up the created gaps (if any) with the \code{fill} pattern.
+
+\code{all} can be a vector of the same length as the number of \code{"zoo"}
+objects to merged (if not, it is expanded): All indexes
+(times) of the objects corresponding to \code{TRUE} are included, for those
+corresponding to \code{FALSE} only the indexes present in all objects are
+included. For the default \code{all = TRUE} this corresponds to 
+a union of all indexes, for \code{all = FALSE} to the intersection
+of all indexes.
 
 If \code{retclass} is \code{"zoo"} (the default) a single merged \code{"zoo"}
 object is returned. If it is set to \code{"list"} a list of \code{"zoo}
@@ -49,8 +51,8 @@ The indexes of different
 \code{"zoo"} objects can be of different classes and are coerced to
 one class in the resulting object (with a warning).
 
-The default
-\code{merge} method is synonymous to the \code{cbind} method.
+The default \code{cbind} method is essentially the default \code{merge}
+method, but does not support the \code{retclass} argument.
 The \code{rbind}
 method combines the dates of the \code{"zoo"} objects (duplicate dates are
 not allowed) and combines the rows of the objects.

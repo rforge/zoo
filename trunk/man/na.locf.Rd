@@ -12,7 +12,7 @@ na.locf(object, na.rm = TRUE, \dots)
 \arguments{
   \item{object}{an object.}
   \item{na.rm}{logical. Should leading \code{NA}s be removed?}
-  \item{\dots}{currently not used.}
+  \item{\dots}{further arguments passed to methods.}
 }
 
 \value{

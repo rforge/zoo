@@ -10,18 +10,18 @@ values.
 na.approx(y, x, FUN, na.rm = TRUE, \dots) 
 }
 \arguments{
-  \item{y}{variable for which NAs are to be replaced}
+  \item{y}{variable for which \code{NA}s are to be replaced}
+  \item{x}{variable to use for interpolation. If \code{FUN} is specified then
+   it defaults to \code{FUN(time(y))}; otherwise, it defaults to 1, 2, 3, \dots .}
+  \item{FUN}{function to transform time into x.  May be omitted.}
   \item{na.rm}{logical. Should leading \code{NA}s be removed?}
-  \item{x}{variable to use for interpolation.   If FUN is specified then
-   it defaults to FUN(time(y)) ; otherwise, it defaults to 1, 2, 3, \dots .}
-  \item{FUN}{FUN to transform time into x.  May be omitted.}
-  \item{\dots}{currently not used.}
+  \item{\dots}{further arguments passed to methods.}
 }
 
 \value{
 An object in which each \code{NA} in the input object is replaced
 by interpolating the non-\code{NA} values before and after it.
-the \code{NA} is omitted (if \code{na.rm = TRUE}) or it is not replaced (if \code{na.rm = FALSE}). 
+Leading \code{NA}s are omitted (if \code{na.rm = TRUE}) or not replaced (if \code{na.rm = FALSE}). 
 }
 
 \seealso{\code{\link{zoo}}}

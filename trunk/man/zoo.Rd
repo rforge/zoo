@@ -1,8 +1,6 @@
 \name{zoo}
 \alias{zoo}
 \alias{print.zoo}
-\alias{as.Date.integer}
-\alias{as.Date.numeric}
 \alias{as.zoo.factor}
 \alias{summary.zoo}
 \alias{str.zoo}
@@ -46,13 +44,16 @@ zoo(x, order.by = index(x))
 \code{zoo} provides infrastructure for ordered observations
 which are stored internally in a vector or matrix with an
 index attribute (with in principle arbitrary class, see below)
-which has to be of the same length as \code{NROW(x)}.  Partial
-support for \code{zoo} factors is also provided.
+which has to be of the same length as \code{NROW(x)}. Emphasis has
+been given to make all methods independent of the index/time class
+(given in \code{order.by}). In principle, the data \code{x} could also
+be arbitrary, but currently there is only support for vectors and matrices
+and partial support for factors.
 
 \code{zoo} is particularly aimed at irregular time series of numeric
 vectors/matrices. \code{zoo}'s key design goals are independence of a particular
 index/date/time class and consistency (to the extent possible)
-with ts and base R by providing methods to standard generics. Therefore,
+with \code{ts} and base R by providing methods to standard generics. Therefore,
 standard functions can be used to work with \code{"zoo"} objects and no
 new set of commands has to be employed.
 
@@ -64,7 +65,7 @@ but it is essential that \code{ORDER(order.by)} works. For other
 functions it is assumed that \code{c()}, \code{length()},
 \code{MATCH()} and subsetting \code{[,} work. If this is not the case
 for a particular index/date/time class, then methods for these 
-generic functions should be created. Note, that to achieve this
+generic functions should be created. Note, that to achieve this,
 new generic functions \code{\link{ORDER}} and \code{\link{MATCH}} are created in
 the \code{zoo} package with default methods corresponding to
 the non-generic base functions \code{\link[base]{order}} and \code{\link[base]{match}}.
@@ -107,7 +108,7 @@ various classes, in particular \code{"ts"}, \code{"irts"} and \code{"its"}
 objects can be coerced to \code{"zoo"}, the reverse is available for
 \code{"its"} and for \code{"irts"} (the latter in package \code{tseries}).
 Furthermore, \code{"zoo"} objects can be coerced to vectors, matrices and
-data frames (dropping the index/time attribute). See \code{\link{as.zoo}}.
+lists and data frames (dropping the index/time attribute). See \code{\link{as.zoo}}.
 
 Four methods are available for \code{NA} handling in the data of 
 \code{"zoo"} objects: \code{\link{na.omit}} which returns a \code{"zoo"}

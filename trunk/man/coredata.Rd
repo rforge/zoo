@@ -9,7 +9,7 @@
 \alias{coredata<-.ts}
 \alias{coredata<-.irts}
 \alias{coredata<-.its}
-\title{Extract/Replace the Core Data of Objects}
+\title{Extracting/Replacing the Core Data of Objects}
 \description{
 Generic functions for extracting the core data contained in
 a (more complex) object and replacing it.
@@ -22,12 +22,12 @@ coredata(x) <- value
 
 \arguments{
   \item{x}{an object.}
-  \item{value}{a suitable value object for use with \code{x}.}
   \item{\dots}{further arguments passed to methods.}
+  \item{value}{a suitable value object for use with \code{x}.}
 }
 
 \value{
-In \code{zoo}, there are currently \code{coredata} methods for the time series
+In \code{zoo}, there are currently \code{coredata} methods for time series
 objects of class \code{"zoo"}, \code{"ts"}, \code{"its"}, \code{"irts"}, all of
 which strip off the index/time attributes and return only the observations.
 The are also corresponding replacement methods for these classes.

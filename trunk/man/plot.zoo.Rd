@@ -16,14 +16,14 @@ Plotting method for objects of class \code{"zoo"}.
   \item{x}{an object of class \code{"zoo"}.}
   \item{plot.type}{for multivariate zoo objects, should the observations
      be plotted separately (with a common index axis) or on a single plot?}
-  \item{panel}{a 'function(x, y, col, lty, \dots)'  which gives the
+  \item{panel}{a \code{function(x, y, col, lty, \dots)}  which gives the
      action to be carried out in each panel of the display for
-    'plot.type="multiple"'.  The default is 'lines'.}
+    \code{plot.type = "multiple"}.}
   \item{xlab, ylab, main, ylim, oma, type}{graphical arguments, see \code{\link{par}}.}
   \item{col, lty, pch}{graphical arguments that can be vectorized or 
     (named) lists. See the details for more information.}
-  \item{nc}{the number of columns to use when 'plot.type="multiple"'.
-    Defaults to 1 for up to 4 series, otherwise to 2.}
+  \item{nc}{the number of columns to use when \code{plot.type = "multiple"}.
+    Defaults to \code{1} for up to \code{4} series, otherwise to \code{2}.}
   \item{\dots}{additional graphical arguments.}
 }
 
