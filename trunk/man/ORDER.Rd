@@ -9,7 +9,7 @@ permutations.
 
 \usage{
 ORDER(x, \dots)
-\method{ORDER}{default}(x, \dots, na.last = TRUE, decreasing = TRUE)
+\method{ORDER}{default}(x, \dots, na.last = TRUE, decreasing = FALSE)
 }
 \arguments{
   \item{x}{an object.}
