@@ -12,10 +12,11 @@ defaultfrequency.default <- function(x, ts.eps = getOption("ts.eps")) {
 }
 
 as.ts.zoo <- function(x) {
-	# next two lines should become args if as.ts in R 2.1.0
+	# next three lines should become args if as.ts in R 2.1.0
 	# is changed from function(x) to function(x, ...)
 	start = as.numeric(time(x[1])) 
-	frequency = defaultfrequency(time(x), ts.eps = getOption("ts.eps"))
+	ts.eps = getOption("ts.eps")
+	frequency = defaultfrequency(time(x), ts.eps = ts.eps)
 	deltat <- 1/frequency
 	tt <- as.numeric(time(x))
 	xx <- zoo(coredata(x), tt)

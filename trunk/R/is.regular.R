@@ -31,6 +31,7 @@ cycle.zoo <- function(x, ...)
 
 index2char.numeric <- function(x, digits = 4, ...)
 {
+  if (length(x) < 2) return(index2char.default(x))
   freq <- 1/diff(x)
   mfreq <- round(max(freq), digits = 0)
   if(identical(all.equal(freq, as.integer(round(freq, digits = 0))), TRUE) && mfreq > 1)

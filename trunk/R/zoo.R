@@ -82,6 +82,7 @@ str.zoo <- function(object, ...)
 	# we had previously just j to all cols if missing 
 	# but that did not work for zero columns
 	# so we now process the two cases separately
+	if (length(i) == 1) drop <- FALSE
         if(missing(j)) 
 		zoo(x[i, , drop = drop, ...], x.index[i])
 	else

@@ -55,10 +55,13 @@ lag.zoo <- function(x, k = 1, ...)
    return(xx)
 }
 
+# log does not preserve zoo but exp does!
+log.zoo <- function(x, base = exp(1)) zoo(log(coredata(x)), time(x))
+
 diff.zoo <- function(x, lag = 1, differences = 1, arithmetic = TRUE, ...)
 {
     stopifnot(lag >= 1, differences >= 1)
-    if (!arithmetic) x <- log(x)
+    if (!arithmetic) x <- log.zoo(x)
     for(i in 1:differences) {
 	x <- x - lag(x, k = -lag)
     }

@@ -15,6 +15,8 @@ as.Date.yearmon <- function(x, ...) {
 	month <- floor(12 * (x - year) + 1 + .5 + .001)
 	as.Date(paste(year, month, 1, sep = "-"))
 }
+c.yearmon <- function(...)
+   structure(do.call("c", lapply(list(...), as.numeric)), class = "yearmon")
 format.yearmon <- function (x, format = "%b %Y", ...) 
 {
     xx <- format(as.Date(x), format = format, ...)
