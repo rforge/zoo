@@ -497,13 +497,13 @@ z1
 na.omit(z1)
 na.contiguous(z1)
 na.approx(z1)
-na.approx(z1, index(z1))
+na.approx(z1, 1:NROW(z1))
 na.locf(z1)
 @
 
 As the above example illustrates, \code{na.approx} uses by default
-an equidistant spacing of the observations which can be changed,
-e.g., to the underlying time scale, by setting the second argument of
+the underlying time scale for interpolation. This can be changed, e.g.,
+to an equidistant spacing, by setting the second argument of
 \code{na.approx}.
 
 \section[Combining zoo with other packages]{Combining \pkg{zoo} with other packages}

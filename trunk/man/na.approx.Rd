@@ -7,16 +7,23 @@ Generic function for replacing each \code{NA} with interpolated
 values.
 }
 \usage{
-na.approx(y, x, \dots) 
-\method{na.approx}{default}(y, x, FUN, na.rm = TRUE, \dots) 
+na.approx(object, \dots) 
+\method{na.approx}{default}(object, along = index(object), na.rm = TRUE, \dots) 
 }
 \arguments{
-  \item{y}{variable for which \code{NA}s are to be replaced}
-  \item{x}{variable to use for interpolation. If \code{FUN} is specified then
-   it defaults to \code{FUN(time(y))}; otherwise, it defaults to 1, 2, 3, \dots .}
-  \item{FUN}{function to transform time into x.  May be omitted.}
+  \item{object}{object in which \code{NA}s are to be replaced}
+  \item{along}{variable to use for interpolation. Has to be numeric, is
+    otherwise coerced to numeric.}
   \item{na.rm}{logical. Should leading \code{NA}s be removed?}
   \item{\dots}{further arguments passed to methods.}
+}
+
+\details{
+  By default the index associated with \code{object} is used
+  for interpolation. Note, that if this calls \code{index.default}
+  this gives an equidistant spacing \code{1:NROW(object)}. If \code{object}
+  is a matrix or data.frame, the interpolation is done separately for
+  each column.
 }
 
 \value{
@@ -30,12 +37,12 @@ Leading \code{NA}s are omitted (if \code{na.rm = TRUE}) or not replaced (if \cod
 \examples{
 
 z <- zoo(c(2,NA,1,4,5,2), c(1,3,4,6,7,8))
+
+## use underlying time scale for interpolation
 na.approx(z) 
-na.approx(z, 1:6) # same
-na.approx(z, time(z))
-na.approx(z, FUN = as.numeric) # same
+## use equidistant spacing
+na.approx(z, 1:6)
 
 na.approx(zoo(c(NA,9,3,2,3,2)))
-
 }
 \keyword{ts}

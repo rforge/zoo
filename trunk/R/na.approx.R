@@ -1,25 +1,19 @@
 
-na.approx <- function(y, x, ...) UseMethod("na.approx")
+na.approx <- function(object, ...) UseMethod("na.approx")
 
-# interpolates y using x which defaults to seq(along = y) if FUN
-# is missing or to FUN(time(y)) if not
-na.approx.default <- function(y, 
-	x = if (missing(FUN)) seq(len=length(time(y))) else FUN(time(y)), 
-	FUN, na.rm = TRUE, ...)
+# interpolates object along along which defaults to index(object)
+# along has to be numeric, is otherwise coerced
+na.approx.default <- function(object, along = index(object), na.rm = TRUE, ...)
 {
-	# na.approx is based on post from r-help by 
-	# Sundar Dorai-Raj <sundar.dorai-raj@PDF.COM>
+	along <- as.numeric(along)
 	na.approx.0 <- function(y) {
 		na <- is.na(y)
 		if(all(!na)) return(y)
-		y[na] <- approx(x[!na], y[!na], x[na], ...)$y
-		y
+		y[na] <- approx(along[!na], y[!na], along[na], ...)$y
+		return(y)
 	}
 
-        y[] <- if (length(dim(y)) == 0)
-                na.approx.0(y)
-        else
-                apply(y, 2, na.approx.0)
-        if (na.rm) na.omit(y) else y
+        object[] <- if (length(dim(object)) == 0) na.approx.0(object)
+        	else apply(object, 2, na.approx.0)
+        if (na.rm) na.omit(object) else object
 }
-
