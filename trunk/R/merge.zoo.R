@@ -39,16 +39,17 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     parent <- parent.frame()
 
     is.plain <- function(x) 
-	all(class(x) %in% c("array", "integer", "numeric", "matrix"))
+	all(class(x) %in% c("array", "integer", "numeric", "factor", "matrix"))
 
     is.scalar <- function(x) is.plain(x) && length(x) == 1
 
     # ensure all ... plain args are of length 1 or have same NROW as arg 1
-    stopifnot(all(sapply(args, function(x) is.zoo(x) ||
-	(is.plain(x) && (NROW(x) == NROW(args[[1]]) || is.scalar(x))))))
+    stopifnot(all(sapply(args, function(x) is.zoo(x) || !is.plain(x) ||
+      (is.plain(x) && (NROW(x) == NROW(args[[1]]) || is.scalar(x))))))
 
     scalars <- sapply(args, is.scalar)
 
+    if(!is.zoo(args[[1]])) args[[1]] <- as.zoo(args[[1]])
     for(i in seq(along = args))
 	if (is.plain(args[[i]]))  
 		args[[i]] <- zoo(args[[i]], time(args[[1]]))
