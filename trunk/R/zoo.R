@@ -114,3 +114,6 @@ c.zoo <- function(...) {
     zoo(do.call("c", lapply(args, coredata)), do.call("c", lapply(args, time)))
 }
 
+range.zoo <- function(..., na.rm = FALSE)
+	range(sapply(list(...), coredata))
+

@@ -1,6 +1,8 @@
 coredata <- function(x, ...)
   UseMethod("coredata")
 
+coredata.default <- function(x, ...) x
+
 coredata.zoo <- function(x, ...)
 {
   attr(x, "class") <- attr(x, "oclass")

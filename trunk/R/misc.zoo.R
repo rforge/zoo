@@ -182,7 +182,8 @@ spacedness <- function(x) {
 # model.frame generic -- replaces same function in stats
 ###########################################################
 # dispatch on class of response variable or failing that on class of formula
-model.frame <- 
+### change this from .model.frame to model.frame to turn it on
+.model.frame <- 
 function (formula, data = NULL, subset = NULL, na.action = na.omit, 
 	drop.unused.levels = FALSE, xlev = NULL, ...) 
 {

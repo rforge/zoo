@@ -78,14 +78,14 @@ plot.zoo <- function(x,
   } else {
     if(is.null(ylab)) ylab <- deparse(substitute(x))
     if(is.null(main)) main <- ""
-    if(is.null(ylim)) ylim <- range(coredata(x), na.rm = TRUE)
+    if(is.null(ylim)) ylim <- range(x, na.rm = TRUE)
 
     lty <- rep(lty, length.out = nser)
     col <- parm(cn, as.list(col), NROW(x), 1)
     pch <- parm(cn, as.list(pch), NROW(x), par("pch"))
     type <- parm(cn, as.list(type), NROW(x), "l")
    
-    dummy <- rep(range(coredata(x), na.rm = TRUE), 
+    dummy <- rep(range(x, na.rm = TRUE), 
 	length.out = length(index(x)))
 	    
     args <- list(x.index, dummy, xlab = xlab, ylab = ylab[1], ylim = ylim, ...)
