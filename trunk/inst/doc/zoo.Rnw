@@ -33,7 +33,7 @@
 
 \SweaveOpts{engine=R,eps=FALSE}
 %\VignetteIndexEntry{zoo: An S3 Class and Methods for Indexed Totally Ordered Observations}
-%\VignetteDepends{zoo,tseries,fBasics,strucchange}
+%\VignetteDepends{zoo,tseries,fBasics,strucchange,quantreg,DAAG}
 %\VignetteKeywords{totally ordered observations, irregular time series, S3, R}
 %\VignettePackage{zoo}
 
