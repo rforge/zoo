@@ -109,7 +109,8 @@ index2char <- function(x, ...) UseMethod("index2char")
 index2char.default <- function(x, ...) as.character(x)
 
 c.zoo <- function(...) {
-	z <- list(...)
-	zoo(do.call("c", lapply(z, coredata)), do.call("c", lapply(z, time)))
+    args <- list(...)
+    stopifnot(NROW(do.call("merge.zoo", args)) == sum(sapply(args, NROW)))
+    zoo(do.call("c", lapply(args, coredata)), do.call("c", lapply(args, time)))
 }
 
