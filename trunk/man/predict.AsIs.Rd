@@ -1,9 +1,9 @@
 \name{predict.AsIs}
+\alias{predict.AsIs}
 \title{Model Predictions}
 \usage{
 \method{predict}{AsIs}(object, newdata, \dots)
 }
-\alias{predict}
 \arguments{
   \item{object}{a model object for which prediction is desired.}
   \item{newdata}{list containing zoo objects to be used for prediction.}

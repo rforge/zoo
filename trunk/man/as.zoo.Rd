@@ -17,9 +17,12 @@ a generic function \code{as.zoo} for coercing objects to class \code{"zoo"}.
 }
 \usage{
 as.zoo(x, \dots)
+\method{as.zoo}{ts}(x, 
+timeclass = if (frequency(x) == 12) "yearmon" else "numeric", \dots)
 }
 \arguments{
   \item{x}{an object,}
+  \item{timeclass}{class of time or index of the zoo object.}
   \item{\dots}{currently not used.}
 }
 

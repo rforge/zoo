@@ -123,7 +123,7 @@ axis.yearmon <- function (side, x, at, format, ...)
 # grid.  If frequency is missing then use 0 if the series is
 # regular, 12 if the series has index class "yearmon", 1 if
 # the series has index class "Date" and 0 otherwise.
-as.ts.zoo <- function(y, frequency) {
+old.as.ts.zoo <- function(y, frequency) {
    tt <- time(y)
    if (missing(frequency)) { frequency <-
 	if (identical(all.equal(spacedness(y),1), TRUE))
@@ -148,12 +148,7 @@ as.ts.zoo <- function(y, frequency) {
    }
 }
 
-defaultfrequency <- function(x) UseMethod("defaultfrequency")
-defaultfrequency.Date <- function(x) 1
-defaultfrequency.yearmon <- function(x) 12
-defaultfrequency.default <- function(x) round(1/min(diff(as.numeric(x))))
-
-as.ts.zoo <- function(x, start = as.numeric(time(x[1])), 
+old.as.ts.zoo <- function(x, start = as.numeric(time(x[1])), 
 		frequency = defaultfrequency(time(x))) {
 	tt <- round(as.numeric(time(x)) * frequency)
 	stopifnot(!any(duplicated(tt)))

@@ -3,6 +3,7 @@
 \alias{as.yearmon.numeric}
 \alias{as.yearmon.integer}
 \alias{as.yearmon.default} 
+\alias{c.yearmon}
 \alias{as.Date.yearmon}
 \alias{format.yearmon}
 \alias{as.character.yearmon}
@@ -35,8 +36,4 @@ as.yearmon(x)
 as.yearmon(1950 + seq(0, 23)/12)
 
 }
-
-
-
-
-
+\keyword{ts}

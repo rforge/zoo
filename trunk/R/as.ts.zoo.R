@@ -1,7 +1,7 @@
 defaultfrequency <- function(x, ...) UseMethod("defaultfrequency")
-defaultfrequency.Date <- function(x) 1
-defaultfrequency.yearmon <- function(x) 12
-defaultfrequency.default <- function(x, ts.eps = getOption("ts.eps")) {
+defaultfrequency.Date <- function(x, ...) 1
+defaultfrequency.yearmon <- function(x, ...) 12
+defaultfrequency.default <- function(x, ts.eps = getOption("ts.eps"), ...) {
 	d <- diff(as.numeric(x))
 	deltat <- min(d)
 	frequency <- 1/deltat
@@ -11,17 +11,14 @@ defaultfrequency.default <- function(x, ts.eps = getOption("ts.eps")) {
 	frequency
 }
 
-as.ts.zoo <- function(x) {
-	# next three lines should become args if as.ts in R 2.1.0
-	# is changed from function(x) to function(x, ...)
-	start = as.numeric(time(x[1])) 
-	ts.eps = getOption("ts.eps")
-	frequency = defaultfrequency(time(x), ts.eps = ts.eps)
-	deltat <- 1/frequency
-	tt <- as.numeric(time(x))
-	xx <- zoo(coredata(x), tt)
-	xx <- merge(xx, zoo(, seq(head(tt,1), tail(tt,1), deltat)))
-	zz <- ts(coredata(xx), start = start, frequency = frequency)
-	zz
+as.ts.zoo <- function(x, start = as.numeric(time(x[1])),
+   frequency = defaultfrequency(time(x), ts.eps = ts.eps), deltat = 1,
+   ts.eps = getOption("ts.eps"), ...) {
+	if (missing(deltat)) deltat <- 1/frequency else frequency <- 1/deltat
+	round. <- function(x) deltat * round(x/deltat)
+	tt <- round.(time(x))
+	tt2 <- round.(seq(head(tt,1), tail(tt,1), deltat))
+	xx <- merge(zoo(coredata(x), tt), zoo(, tt2))
+	ts(coredata(xx), start = start, frequency = frequency)
 }
 

@@ -1,14 +1,18 @@
 \name{defaultfrequency}
 \alias{defaultfrequency}
+\alias{defaultfrequency.yearmon}
+\alias{defaultfrequency.Date}
+\alias{defaultfrequency.default}
 \title{ Default frequency }
 \description{
   Frequency associated with a series.
 }
 \usage{
-defaultfrequency(x)
+defaultfrequency(x, \dots) 
 }
 \arguments{
   \item{x}{ times }
+  \item{\dots}{ additional arguments }
 }
 \details{
   This is a generic function.  Methods are available for 
@@ -33,3 +37,4 @@ defaultfrequency(as.Date(1:10))
 defaultfrequency(as.yearmon(1950:2000))
 defaultfrequency(.1:1)
 }
+\keyword{ts}

@@ -19,10 +19,19 @@ as.zoo.factor <- function(x, ...)
 	zoo(x)
 }
   
-as.zoo.ts <- function(x, ...)
+#as.zoo.ts <- function(x, ...)
+#{
+#  zoo(coredata(x), unclass(time(x)))
+#}  
+
+as.zoo.ts <- function(x, 
+   timeclass = if (frequency(x) == 12) "yearmon" else "numeric", ...)
 {
-  zoo(coredata(x), unclass(time(x)))
-}  
+  tt <- unclass(time(x))
+  tt <- eval(parse(text=paste("as", timeclass, sep = ".")))(tt)
+  zoo(coredata(x), tt)
+} 
+
 
 as.zoo.irts <- function(x, ...)
 {
