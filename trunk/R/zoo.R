@@ -131,9 +131,10 @@ plot.zoo <- function(x,
     nr <- ceiling(nser / nc)
     par(mfcol = c(nr, nc))
     for(i in 1:nser) {
-      if(i%%nr==0 || i == nser)
+      if(i%%nr==0 || i == nser) {
         plot(x.index, x[, i], xlab= "", ylab= ylab[i], type = "n", ...)
-      else {      
+	mtext(xlab, side = 1, line = 3)
+      } else {      
         plot(x.index, x[, i], axes = FALSE, xlab= "", ylab= ylab[i], type = "n", ...)
         box()
         axis(2, xpd = NA)
