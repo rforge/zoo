@@ -1,6 +1,5 @@
-
 rapply <- function(data, width, FUN, MARGIN = 1, by.column = TRUE, na.pad = TRUE, ...)
-	UseMethod("rapply")
+    UseMethod("rapply")
 
 rapply.zoo <- function(data, width, FUN, MARGIN = 1, by.column = TRUE, na.pad = TRUE, ...) {
     if (by.column) switch(deparse(substitute(FUN)),

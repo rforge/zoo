@@ -1,16 +1,9 @@
 \name{rapply}
 \alias{rapply}
 \alias{rapply.zoo}
-\alias{rollmean}
-\alias{rollmean.zoo}
-\alias{rollmed}
-\alias{rollmed.zoo}
-\alias{rollmax}
-\alias{rollmax.zoo}
 \title{Apply Rolling Functions}
 \description{
-  Returns a vector or array or list of values obtained by applying a
-  function to margins of an array.
+  A generic function for applying a function to rolling margins of an array.
 }
 \usage{
 rapply(data, width, FUN, MARGIN = 1, by.column = TRUE, na.pad = TRUE, \dots)
@@ -39,16 +32,20 @@ rapply(data, width, FUN, MARGIN = 1, by.column = TRUE, na.pad = TRUE, \dots)
   applies \code{FUN} to the corresponding values.   If \code{FUN} is
   \code{mean}, \code{max} or \code{median} and \code{by.column} is 
   \code{TRUE} then special purpose code is used to enhance performance.
+  See \code{\link{rollmean}}, \code{\link{rollmax}} and \code{\link{rollmed}}
+  for more details.
 }
 \value{
   A \code{zoo} object.
 }
+
+\seealso{\code{\link{rollmean}}, \code{\link{rollmax}}, \code{\link{rollmed}}}
+
 \examples{
 z <- zoo(11:15, as.Date(31:35)) 
 rapply(z, 2, mean)
 zm <- zoo(matrix(1:12, 4), as.Date(31:34))
 rapply(zm, 2, mean)
-
 }
 \keyword{iteration}
 \keyword{array}

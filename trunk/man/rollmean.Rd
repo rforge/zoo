@@ -2,9 +2,15 @@
 \alias{rollmean}
 \alias{rollmax}
 \alias{rollmed}
-\title{Running Means/Maximums/Medians}
+\alias{rollmean.zoo}
+\alias{rollmed.zoo}
+\alias{rollmax.zoo}
+\alias{rollmean.default}
+\alias{rollmed.default}
+\alias{rollmax.default}
+\title{Rolling Means/Maximums/Medians}
 \description{
-Compute rolling means, maximums and medians of \code{"zoo"}
+Generic functions for computing rolling means, maximums and medians of \code{"zoo"}
 objects.
 }
 \usage{
@@ -25,8 +31,7 @@ rollmed(x, k, na.pad = TRUE, \dots)
 
 \details{
 These functions are still under development and might be subject
-to future changes. The function \code{rollmed} masks the function
-of the same name from \code{stats}. See \code{\link[stats]{rollmed}}.
+to future changes. 
 }
 
 \value{
