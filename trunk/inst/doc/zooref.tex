@@ -1,9 +1,10 @@
 %Z% ToDo:
 %Z% indexing
 %Z% runfoo -> rollfoo
+%% 1: removed \large in headings.  They seemed too large.
 
 \begin{tabular}{rp{11cm}}
-\multicolumn{2}{l}{\textbf{\large Creation}} \\
+\multicolumn{2}{l}{\textbf{Creation}} \\
 \code{zoo(x, order.by)} & creation of a \code{"zoo"} object
   from the observations \code{x} (a vector or a matrix) and an index
   \code{order.by} by which the observations are ordered. \\
@@ -12,7 +13,7 @@
   querying lenght \code{length()}, subsetting \code{[,}, ordering
   \code{ORDER()} and value matching \code{MATCH()}.\\[0.5cm]
 
-\multicolumn{2}{l}{\textbf{\large Standard methods}} \\
+\multicolumn{2}{l}{\textbf{Standard methods}} \\
 \code{plot} & plotting \\
 \code{lines} & adding a \code{"zoo"} series to a plot \\
 \code{print} & printing \\
@@ -20,7 +21,7 @@
 \code{str} & displaying structure of \code{"zoo"} objects \\
 \code{head, tail} & head and tail of \code{"zoo"} objects \\[0.5cm]
 
-\multicolumn{2}{l}{\textbf{\large Coercion}} \\
+\multicolumn{2}{l}{\textbf{Coercion}} \\
 \code{as.zoo} & coercion to \code{"zoo"} is available for objects
     of class \code{"ts"}, \code{"its"}, \code{"irts"} (plus a default
     method).\\
@@ -30,20 +31,22 @@
     and \code{"its"}. \\
 \code{is.zoo} & querying wether ab object is of class \code{"zoo"} \\[0.5cm]
 
-\multicolumn{2}{l}{\textbf{\large Merging and binding}} \\
-\code{merge} & merging along the union or intersection of the index\\
+\multicolumn{2}{l}{\textbf{Merging and binding}} \\
+%% 1: changed next line
+\code{merge} & union, intersection, left join, right join along indexes\\
 \code{cbind} & column binding along the intersection of the index\\
 \code{rbind} & row binding (indexes may not overlap)\\
 \code{aggregate} & compute summary statistics along a coarser grid of indexes \\[0.5cm]
 
-\multicolumn{2}{l}{\textbf{\large Mathematical operations}} \\
+\multicolumn{2}{l}{\textbf{Mathematical operations}} \\
 \code{Ops} & group generic functions performed along the intersection of indexes\\
 \code{t} & transposing (coerces to \code{"matrix"} before \\
+%% 1: minor wording improvement to next line
 \code{cumsum} & compute (columnwise) cumulative quantities: sums
     \code{cumsum()}, products \code{cumprod()}, maximum \code{cummax()},
     minimum \code{cummin()}.\\[0.5cm]
 
-\multicolumn{2}{l}{\textbf{\large Extracting and replacing data and index}} \\
+\multicolumn{2}{l}{\textbf{Extracting and replacing data and index}} \\
 \code{index, time} & extract the index of a series\\
 \code{index<-, time<-} & replace the index of a series\\
 \code{value} & extract the data associated with a \code{"zoo"} object
@@ -55,12 +58,14 @@
 \code{window, window<-} & subsetting of \code{"zoo"} objects
     using their index\\[0.5cm]
 
-\multicolumn{2}{l}{\textbf{\large \code{NA} handling}} \\
+\multicolumn{2}{l}{\textbf{\code{NA} handling}} \\
 \code{na.omit} & omit \code{NA}s \\
 \code{na.contiguous} & compute longest sequence of non-\code{NA} observations \\
-\code{na.locf} & eliminate \code{NA}s by carrying forward the last observation\\[0.5cm]
+\code{na.locf} & eliminate \code{NA}s by carrying forward the last observation\\
+%% 1: added next line
+\code{na.approx} & eliminate \code{NA}s by interpolation\\[0.5cm]
 
-\multicolumn{2}{l}{\textbf{\large Rolling operations}} \\
-\code{runmean} & running mean \code{runmean}, median \code{runmed} and
-  maximum \code{runmax}
+\multicolumn{2}{l}{\textbf{Rolling operations}} \\
+\code{runmean} & running mean, median and maxim are \code{runmean}, \code{runmed} and
+  \code{runmax}, respectively
 \end{tabular}
