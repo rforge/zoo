@@ -18,7 +18,12 @@ rbind.zoo <- function(..., deparse.level = 1)
     zoo(do.call("c", lapply(args, unclass)), indexes)
 }
 
-cbind.zoo <-
+cbind.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c("zoo", "list"))
+{
+  merge.zoofunction(..., all = all, fill = fill,
+    suffixes = suffixes, retclass = retclass)
+}
+
 merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c("zoo", "list"))
 {
     if (!is.null(retclass)) retclass <- match.arg(retclass)
