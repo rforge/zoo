@@ -68,7 +68,9 @@ not allowed) and combines the rows of the objects.
 \value{
 An object of class \code{"zoo"} if \code{retclass="zoo"}, an object of
 class \code{"list"} if \code{retclass="list"} or modified arguments as
-explained above if \code{retclass=NULL}.  
+explained above if \code{retclass=NULL}.   If the result is an object
+of class \code{"zoo"} then its frequency is the common frequency of its
+zoo arguments, if they have a common frequency.
 }
 
 \seealso{\code{\link{zoo}}}

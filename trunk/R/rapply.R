@@ -26,15 +26,18 @@ rapply.zoo <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = T
     tt <- index(data)[seq(width, nr, by)]
     res <- if (is.null(dim(data)))
 	   zoo(apply( embedi(nr, width, by, ascending), 1, 
-                function(st) FUN(data[st], ...)), tt)
+                function(st) FUN(data[st], ...)), tt, 
+			if (by==1) frequency(data))
     else if (by.column) {
 	    e <- embedi(nr, width, by, ascending)
 	    zoo( sapply( 1:ncol(data), function(i)
-			apply( e, 1, function(st) FUN(data[st,i], ...) ) )
+			apply( e, 1, function(st) FUN(data[st,i], ...) ) ),
+			tt, if (by == 1) frequency(data)
 	    )
     } else
 	   zoo(apply( embedi(nr, width, by, ascending), 1, 
-                function(st) FUN(data[st,], ...)), tt)
-    if (na.pad) merge(res, zoo(,index(data))) else res
+                function(st) FUN(data[st,], ...)), tt, 
+			if (by ==1) frequency(data))
+    if (na.pad) merge(res, zoo(,index(data), frequency(data))) else res
 } 
 

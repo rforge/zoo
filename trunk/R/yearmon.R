@@ -1,19 +1,27 @@
 
-as.yearmon <- function(x) UseMethod("as.yearmon")
-as.yearmon.numeric <- function(x, unit = "year") switch(unit,
+as.yearmon <- function(x, ...) UseMethod("as.yearmon")
+as.yearmon.yearqtr <- function(x, ...) as.yearmon(as.Date(x))
+as.yearmon.numeric <- function(x, unit = "year", ...) switch(unit,
 	year = structure(x, class = "yearmon"),
 	month = structure(x/12, class = "yearmon"))
-as.yearmon.integer <- function(x, unit = "year") switch(unit,
+as.yearmon.integer <- function(x, unit = "year", ...) switch(unit,
 	year = structure(x, class = "yearmon"),
 	month = structure(x/12, class = "yearmon"))
-as.yearmon.default <- function(x) 
-  structure( with(as.POSIXlt(x,tz="GMT"), 1900+year+mon/12), 
-	class = "yearmon")
-as.Date.yearmon <- function(x, ...) {
+as.yearmon.default <- function(x, ...) 
+  as.yearmon(as.Date(x))
+as.yearmon.yearmon <- function(x, ...) x
+as.POSIXct.yearmon <- function(x, tz)
+	as.POSIXct(as.Date(x), tz = tz)
+as.POSIXlt.yearmon <- function(x, tz = "") 
+	as.POSIXlt(as.Date(x), tz = tz)
+# returned Date is the fraction of the way through the period given by frac
+as.Date.yearmon <- function(x, frac = 1, ...) {
 	x <- unclass(x)
 	year <- floor(x + .001)
 	month <- floor(12 * (x - year) + 1 + .5 + .001)
-	as.Date(paste(year, month, 1, sep = "-"))
+	dd.start <- as.Date(paste(year, month, 1, sep = "-")) 
+	dd.end <- dd.start + 32 - as.numeric(format(dd.start + 32, "%d"))
+	as.Date((1-frac) * as.numeric(dd.start) + frac * as.numeric(dd.end))
 }
 c.yearmon <- function(...)
    structure(do.call("c", lapply(list(...), as.numeric)), class = "yearmon")
@@ -38,4 +46,5 @@ print.yearmon <- function(x, ...) {
 }
 axis.yearmon <- function (side, x, at, format, ...) 
 	axis.Date(side, as.Date(x), at, format, ...)
-
+MATCH.yearmon <- function(x, table, nomatch = NA, ...)
+	match(as.Date(x), as.Date(table), nomatch = nomatch, ...)

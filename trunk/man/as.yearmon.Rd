@@ -10,15 +10,22 @@
 \alias{print.yearmon}
 \alias{[.yearmon}
 \alias{axis.yearmon}
+\alias{as.POSIXct.yearmon}
+\alias{as.POSIXlt.yearmon}
+\alias{as.yearmon.yearmon}
+\alias{as.yearmon.yearqtr}
+\alias{MATCH.yearmon}
+
 \title{ Coerce to yearmon class }
 \description{
   yearmon class represents monthly data
 }
 \usage{
-as.yearmon(x)
+as.yearmon(x, ...)
 }
 \arguments{
   \item{x}{ a numeric, integer, Date or object that is coercable to POSIXlt }
+  \item{\dots}{ other arguments }
 }
 \details{
   The yearmon class is used to represent monthly data.  Internally it holds
@@ -30,7 +37,6 @@ as.yearmon(x)
   Returns its argument converted to class \code{yearmon}.
 }
 
-\seealso{ See Also \code{\link{as.ts.zoo}} }
 \examples{
 
 as.yearmon(1950 + seq(0, 23)/12)

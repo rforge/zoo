@@ -16,12 +16,14 @@ Methods for coercing \code{"zoo"} objects to other classes and
 a generic function \code{as.zoo} for coercing objects to class \code{"zoo"}.
 }
 \usage{
-as.zoo(x, \dots)
-\method{as.zoo}{ts}(x, 
-timeclass = if (frequency(x) == 12) "yearmon" else "numeric", \dots)
+as.zoo(x, frequency, \dots)
+\method{as.zoo}{ts}(x, frequency, timeclass, \dots)
 }
 \arguments{
   \item{x}{an object,}
+  \item{frequency}{the resulting zoo object should use this frequency.
+     If omitted the frequency of the underlying object, if it has one
+     is used; otherwise, no frequency is used.}
   \item{timeclass}{class of time or index of the zoo object.}
   \item{\dots}{currently not used.}
 }

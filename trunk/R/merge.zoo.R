@@ -50,6 +50,23 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     scalars <- sapply(args, is.scalar)
 
     if(!is.zoo(args[[1]])) args[[1]] <- as.zoo(args[[1]])
+
+    # get the frequency of an object
+    freq <- function(x) 
+	if ((is.zoo(x) && !is.null(frequency(x))) || is.ts(x)) 
+		frequency(x)
+	else if (is.plain(x)) 
+		0
+	else
+		NA
+
+    # if there is a single non-NA frequency among the non-zero
+    # frequency arguments, then that is the frequency of the result of
+    # merge.zoo; otherwise, the result has no frequency.
+    freqs <- sapply(args, freq)
+    ufreq <- unique(freqs[freqs != 0])
+    if (length(ufreq) != 1 || is.na(ufreq)) ufreq <- NULL
+
     for(i in seq(along = args))
 	if (is.plain(args[[i]]))  
 		args[[i]] <- zoo(args[[i]], time(args[[1]]))
@@ -119,10 +136,10 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     # just calculated.  
     # match0 is convenience wrapper for MATCH with nomatch=0 default
     match0 <- function(a, b, nomatch = 0, ...) MATCH(a, b, nomatch = nomatch, ...)
-    f <- if (any(all)) 
+    f <- if (any(all)) {
        function(a, ret.zoo = TRUE) {
         if (length(a) == 0 && length(dim(a)) == 0)
-		return( if (ret.zoo) zoo(,indexes) else numeric() )
+	   return( if (ret.zoo) zoo(, indexes, frequency=ufreq) else numeric())
         z <- matrix(fill, length(indexes), NCOL(a))
 	if (length(dim(a)) > 0)
            z[match0(index(a), indexes), ] <- 
@@ -131,10 +148,10 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
            z[match0(index(a), indexes), ] <- a[match0(indexes, index(a))]
            z <- z[,1,drop=TRUE]
         }
- 	if (ret.zoo) zoo(z,indexes) else z
+ 	if (ret.zoo) zoo(z, indexes, frequency = ufreq) else z
       }
     
-    else
+    } else {
     # if all contains only FALSE elements then the following f is used
     # instead of the prior f for performance purposes.  If all contains
     # only FALSE then the resulting index is the intersection of the
@@ -144,14 +161,15 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
 	if (!ret.zoo) class(a) <- NULL
 	if (length(dim(a)) == 0) {
 		if (length(a) == 0) {
-			if (ret.zoo) zoo(,indexes) else numeric()
+		   if (ret.zoo) zoo(, indexes, frequency = ufreq) else numeric()
 		} else
-			a[match0(indexes, attr(a,"index"))]
+		   as.zoo(a[match0(indexes, attr(a,"index"))],
+			frequency = ufreq)
 	} else
-		a[match0(indexes, attr(a,"index")),,drop=FALSE]
+		as.zoo(a[match0(indexes, attr(a,"index")),,drop=FALSE], 
+			frequency = ufreq)
       }
-
-
+    }
 
 
     # if retclass is NULL do not provide a return value but instead
@@ -168,7 +186,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
 	invisible(return(NULL))
     } 
 
-    # apply f to each arg put result of performing this on all args in list rval
+    # apply f to each arg, put result of doing this on all args in list rval
     # and then cbind that list together to produce the required matrix
     rval <- lapply(args, f, ret.zoo = retclass == "list")
     for(i in which(scalars)) rval[[i]] <- rval[[i]][] <- rval[[i]][1]
@@ -187,7 +205,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     else
 	rval[[1]]
     # return if vector since remaining processing is only for column names
-    if (length(dim(rval)) == 0) return(zoo(rval,indexes))
+    if (length(dim(rval)) == 0) return(zoo(rval,indexes,frequency=ufreq))
 
     #
     # processing from here on is to compute nice column names
@@ -240,7 +258,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
 	)
         colnames(rval) <- make.unique(zoocolnames)
     }
-    rval <- zoo(rval, indexes)
+    rval <- zoo(rval, indexes, frequency = ufreq)
     # assign(".Last.value.merge.zoo", rval, .GlobalEnv)
     return(rval)
 }

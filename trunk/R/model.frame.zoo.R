@@ -15,7 +15,10 @@ model.frame.zoo <- function (formula, data = NULL, subset = NULL,
 	args$retclass <- "list"
 	args$all <- FALSE
 	formula <- terms(formula)
-	attr(formula, "predvars") <- as.call(append(merge.zoo, args))
+	# attr(formula, "predvars") <- as.call(append(merge.zoo, args))
+	attr(formula, "predvars") <- as.call(append(merge, args))
+	if (!is.null(data)) data <- as.list(data)
+	# attr(formula, "predvars1") <- as.call(append(merge.zoo, append(args[2], args[-1])))
 	NextMethod("model.frame", formula = formula)
 }
 
@@ -26,5 +29,11 @@ model.frame.ts <- function (formula, data = NULL, subset = NULL,
 	args$dframe <- TRUE
 	formula <- terms(formula)
 	attr(formula, "predvars") <- as.call(append(ts.intersect, args))
-	NextMethod("model.frame", formula = formula)
+	if (!is.null(data)) data <- as.list(data)
+	# attr(formula, "predvars1") <- as.call(append(ts.intersect, append(args[2], args[-1])))
+	mf <- NextMethod("model.frame", formula = formula)
+	attr(mf, "ts") <- 
+		eval(attr(formula, "predvars"), data, environment(formula))
+	mf
 }
+

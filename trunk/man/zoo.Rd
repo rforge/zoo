@@ -23,6 +23,13 @@
 \alias{index2char}
 \alias{index2char.default}
 
+\alias{frequency.zoo}
+\alias{as.zoo.zoo}
+\alias{head.ts}
+\alias{tail.ts}
+\alias{ts.intersect.}
+\alias{as.ts.zoo}
+
 \title{Z's Ordered Observations}
 \description{
 \code{zoo} is the creator for an S3 class of indexed
@@ -30,13 +37,16 @@ totally ordered observations which includes irregular
 time series.
 }
 \usage{
-zoo(x, order.by = index(x))
+zoo(x, order.by = index(x), frequency = NULL)
 \method{print}{zoo}(x, style = , quote = FALSE, \dots) 
 }
 \arguments{
   \item{x}{a numeric vector, matrix or a factor.}
   \item{order.by}{a vector by which the observations in \code{x}
     are ordered.}
+  \item{frequency}{if specified, the index when converted to numeric,
+    is a subset of a \code{ts} class time base.  This can be used
+    if the object is later converted to a \code{ts} object.}
   \item{style}{a string specifying the printing style which can be
     \code{"horizontal"} (the default for vectors), \code{"vertical"}
     (the default for matrices) or \code{"plain"} (which first prints

@@ -6,7 +6,7 @@ plot.zoo <- function(x,
   xlab = "Index", ylab = NULL, main = NULL, ylim = NULL,
   oma = c(6, 0, 5, 0), col = 1, lty = 1, pch = 1, type = "l", nc, ...)
 {
-  parm <- function(nams, x, n, def, recycle = sum(unnamed) > 0) {
+  parm <- function(nams, x, n, m, def, recycle = sum(unnamed) > 0) {
   # if nams are the names of our variables and x is a parameter
   # specification such as list(a = c(1,2), c(3,4)) then 
   # create a new list which uses the named variables from x
@@ -15,7 +15,10 @@ plot.zoo <- function(x,
   # unnamed variables if recycle = TRUE.  The default value for
   # recycle is TRUE if there is at least one unnamed variable
   # in x and is false if there are only named variables in x.
+  # n is the length of the series and m is the total number of series
+  # It only needs to know whether m is 1 or greater than m.
 	stopifnot(all(names(x) %in% c("", nams)))
+	if (!is.list(x)) x <- if (nser == 1) list(x) else as.list(x)
 	y <- vector(mode = "list", length = length(nams))
 	names(y) <- nams
 	in.x <- nams %in% names(x)
@@ -46,9 +49,9 @@ plot.zoo <- function(x,
     if(is.null(ylab)) ylab <- paste("Series", 1:nser)
     ylab <- rep(ylab, length.out = nser)
     lty <- rep(lty, length.out = nser)
-    col <- parm(cn, as.list(col), NROW(x), 1)
-    pch <- parm(cn, as.list(pch), NROW(x), par("pch"))
-    type <- parm(cn, as.list(type), NROW(x), "l")
+    col <- parm(cn, col, NROW(x), nser, 1)
+    pch <- parm(cn, pch, NROW(x), nser, par("pch"))
+    type <- parm(cn, type, NROW(x), nser, "l")
 
     panel <- match.fun(panel)
     if(nser > 10) stop("Can't plot more than 10 series")
@@ -81,9 +84,9 @@ plot.zoo <- function(x,
     if(is.null(ylim)) ylim <- range(x, na.rm = TRUE)
 
     lty <- rep(lty, length.out = nser)
-    col <- parm(cn, as.list(col), NROW(x), 1)
-    pch <- parm(cn, as.list(pch), NROW(x), par("pch"))
-    type <- parm(cn, as.list(type), NROW(x), "l")
+    col <- parm(cn, col, NROW(x), nser, 1)
+    pch <- parm(cn, pch, NROW(x), nser, par("pch"))
+    type <- parm(cn, type, NROW(x), nser, "l")
    
     dummy <- rep(range(x, na.rm = TRUE), 
 	length.out = length(index(x)))

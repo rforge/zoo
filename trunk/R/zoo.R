@@ -1,4 +1,4 @@
-zoo <- function (x, order.by = index(x)) 
+zoo <- function (x, order.by = index(x), frequency = NULL) 
 {
     index <- ORDER(order.by)
     order.by <- order.by[index]
@@ -15,6 +15,7 @@ zoo <- function (x, order.by = index(x))
     attr(x, "oclass") <- attr(x, "class")
     attr(x, "index") <- order.by
     class(x) <- "zoo"
+    attr(x, "frequency") <- frequency
     return(x)
 }
 
@@ -72,6 +73,7 @@ str.zoo <- function(object, ...)
 "[.zoo" <- function(x, i, j, drop = TRUE, ...)
 {
   if(!is.zoo(x)) stop("method is only for zoo objects")
+  freq <- frequency(x)
   x.index <- index(x)
   attr(x, "index") <- NULL
   nclass <- class(x)[-(1:which(class(x) == "zoo"))]
@@ -84,11 +86,11 @@ str.zoo <- function(object, ...)
 	# so we now process the two cases separately
 	if (length(i) == 1) drop <- FALSE
         if(missing(j)) 
-		zoo(x[i, , drop = drop, ...], x.index[i])
+		zoo(x[i, , drop = drop, ...], x.index[i], frequency = freq)
 	else
-		zoo(x[i, j, drop = drop, ...], x.index[i])
+		zoo(x[i, j, drop = drop, ...], x.index[i], frequency = freq)
    } else
-	zoo(x[i], x.index[i])
+	zoo(x[i], x.index[i], frequency = freq)
 }
 
 head.zoo <- function(x, n = 6, ...) {
@@ -115,5 +117,7 @@ c.zoo <- function(...) {
 }
 
 range.zoo <- function(..., na.rm = FALSE)
-	range(sapply(list(...), coredata))
+	range(sapply(list(...), coredata), na.rm = na.rm)
 
+frequency.zoo <- function(x, ...) 
+	attr(x, "frequency")

@@ -1,5 +1,15 @@
 \name{predict.AsIs}
 \alias{predict.AsIs}
+\alias{predict.ts}
+\alias{predict.zoo}
+\alias{fitted.AsIs}
+\alias{fitted.ts}
+\alias{fitted.zoo}
+\alias{residuals.AsIs}
+\alias{residuals.ts}
+\alias{residuals.zoo}
+\alias{ts.intersect.2}
+
 \title{Model Predictions}
 \usage{
 \method{predict}{AsIs}(object, newdata, \dots)
@@ -19,6 +29,11 @@
 \examples{
 x.lm <- lm(I(gdp ~ lag(ipi, -1)), 
                list(gdp = zoo(1:10), ipi = zoo(1:10)^2))
-predict(I(x.lm), list(ipi = zoo(11:15)))
+
+x.pred <- predict(I(x.lm), list(ipi = zoo(11:15), gdp = zoo(23:16)))
 }
-\keyword{methods}
+\keyword{ts}
+
+
+
+

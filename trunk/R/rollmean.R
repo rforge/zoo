@@ -22,9 +22,10 @@ rollmean.zoo <- function(x, k, na.pad = FALSE) {
   index.x <- index(x)
   if(!na.pad) index.x <- index.x[-seq(k-1)]
   if(length(dim(x)) == 0) 
-    return(zoo(rollmean.default(x, k, na.pad), index.x))
+    return(zoo(rollmean.default(x, k, na.pad), index.x, frequency(x)))
   else
-    return(zoo(apply(x, 2, rollmean.default, k=k, na.pad=na.pad), index.x))
+    return(zoo(apply(x, 2, rollmean.default, k=k, na.pad=na.pad), index.x,
+	frequency(x)))
 }
 
 
@@ -53,9 +54,10 @@ rollmax.zoo <- function(x, k, na.pad = FALSE, ...) {
   index.x <- index(x)
   if (!na.pad) index.x <- index.x[-seq(k-1)]
   if (length(dim(x)) == 0) 
-    return(zoo(rollmax.default(x, k, na.pad), index.x))
+    return(zoo(rollmax.default(x, k, na.pad), index.x, frequency(x)))
   else
-    return(zoo(apply(x, 2, rollmax.default, k=k, na.pad = na.pad), index.x))
+    return(zoo(apply(x, 2, rollmax.default, k=k, na.pad = na.pad), index.x,
+       frequency(x)))
 }
 
 
@@ -80,9 +82,11 @@ rollmed.zoo <- function(x, k, na.pad = FALSE, ...) {
 		x
 	}
 	if (length(dim(x)) == 0)
-		return(zoo(rollmed0(x, k, na.pad = na.pad, ...), index.x))
+		return(zoo(rollmed0(x, k, na.pad = na.pad, ...), index.x,
+			frequency(x)))
 	else
-		return(zoo(apply(x, 2, rollmed0, k = k, na.pad = na.pad, ...), index.x))
+		return(zoo(apply(x, 2, rollmed0, k = k, na.pad = na.pad, ...), 
+			index.x, frequency(x)))
 }
 
 
