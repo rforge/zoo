@@ -20,7 +20,7 @@ Plotting method for objects of class \code{"zoo"}.
   \item{panel}{a \code{function(x, y, col, lty, \dots)}  which gives the
      action to be carried out in each panel of the display for
     \code{plot.type = "multiple"}.}
-  \item{xlab, ylab, main, ylim, oma, type}{graphical arguments, see \code{\link{par}}.}
+  \item{xlab, ylab, main, ylim, oma}{graphical arguments, see \code{\link{par}}.}
   \item{col, lty, pch, type}{graphical arguments that can be vectors or 
     (named) lists. See the details for more information.}
   \item{nc}{the number of columns to use when \code{plot.type = "multiple"}.

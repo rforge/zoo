@@ -19,10 +19,10 @@ rollmax(x, k, na.pad = FALSE)
 rollmed(x, k, na.pad = FALSE, \dots)
 }
 \arguments{
-  \item{x}{a \code{"zoo"} object,}
+  \item{x}{a \code{"zoo"} object.}
   \item{k}{integer width of the rolling window. Must be odd
     for \code{rollmed}.}  
-  \item{na.pad}{logical. Add \code{NA} padding at beginning
+  \item{na.pad}{logical. Add \code{NA} padding at beginning.}
   \item{\dots}{Further arguments passed. Only applicable to \code{rollmed}.}
 }
 

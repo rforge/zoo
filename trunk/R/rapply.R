@@ -1,4 +1,4 @@
-rapply <- function(data, width, FUN, MARGIN = 1, by.column = TRUE, na.pad = TRUE, ...)
+rapply <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE, ...)
     UseMethod("rapply")
 
 rapply.zoo <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE, ...) {
