@@ -13,7 +13,7 @@ totally ordered observations which includes irregular
 time series.
 }
 \usage{
-zoo(x, order.by)
+zoo(x = NA, order.by = index(x))
 }
 \arguments{
   \item{x}{a vector or matrix.}
@@ -31,6 +31,9 @@ The vector of indexes \code{order.by} can be of arbitrary class,
 but it is essential that \code{order(order.by)} works. For other
 functions it is assumed that \code{c()}, \code{length()} and subsetting
 \code{[,} work.
+
+If \code{x} is shorter or longer than \code{order.by} it is
+expanded accordingly.
 }
 
 \value{
@@ -48,5 +51,9 @@ plot(x)
 time(x)
 
 x[1:3]
+
+zoo(, 1:4)
+
+zoo(1:4, 1:3)
 }
 \keyword{ts}

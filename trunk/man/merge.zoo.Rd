@@ -7,7 +7,7 @@ versions of database "join" operations.
 }
 
 \usage{
-\method{merge}{zoo}(\dots, all = TRUE)
+\method{merge}{zoo}(\dots, all = TRUE, fill = NA, suffixes = NULL)
 }
 
 \arguments{
@@ -19,6 +19,11 @@ versions of database "join" operations.
     included. For the default \code{all = TRUE} this corresponds to 
     a union of all indexes, for \code{all = FALSE} to the intersection
     of all indexes.}
+  \item{fill}{an element for filling the gaps in merged \code{"zoo"}
+    objects.}
+  \item{suffixes}{character vector of the same length as the number of
+    \code{"zoo"} objects that specifies the suffixes to be used for making
+    the merged column names unique.}
 }
 
 \details{
@@ -41,6 +46,9 @@ y1 <- zoo(matrix(1:10, ncol = 2), 1:5)
 y2 <- zoo(matrix(rnorm(10), ncol = 2), 3:7)
 
 merge(y1, y2, all = FALSE)
+merge(y1, y2, all = FALSE, suffixes = c("y1", "y2"))
+
 merge(x, y1, y2, all = TRUE)
+merge(x, y1, y2, all = TRUE, fill = 0)
 }
 \keyword{ts}

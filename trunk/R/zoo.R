@@ -1,16 +1,14 @@
-zoo <- function(x, order.by)
+zoo <- function(x = NA, order.by = index(x))
 {
   index <- order(order.by)
   order.by <- order.by[index]
 
-  if(NROW(x) != length(index)) stop(paste("dimensions of", dQuote("x"), "and", dQuote("order.by"), "do not match"))
-  
   if(is.vector(x))
-    x <- x[index]
+    x <- rep(x, length.out = length(index))[index]
   else if(is.matrix(x))
-    x <- x[index, , drop = FALSE]
+    x <- (x[rep(1:NROW(x), length.out = length(index)), , drop = FALSE])[index, , drop = FALSE]
   else if(is.data.frame(x))
-    x <- x[index, , drop = FALSE]  
+    x <- (x[rep(1:NROW(x), length.out = length(index)), , drop = FALSE])[index, , drop = FALSE]  
   else
     stop(paste(dQuote("x"), "has to be a vector or matrix"))
 
@@ -214,13 +212,13 @@ rbind.zoo <- function(..., deparse.level = 1)
     zoo(do.call("c", lapply(args, unclass)), indexes)
 }
 
-merge.zoo <- function(..., all = TRUE)
+merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL)
 {
-  ## args <- list(x, y, ...)
   args <- list(...)
   if(!all(unlist(lapply(args, is.zoo)))) stop("all arguments must be zoo objects")
 
-  makeNames <- function(l) {
+  if(is.null(suffixes)) {
+    makeNames <- function(l) {
       nm <- names(l)
       fixup <- if (is.null(nm)) 
 	  seq(along = l)
@@ -231,15 +229,15 @@ merge.zoo <- function(..., all = TRUE)
       if (any(fixup)) 
 	  nm[fixup] <- dep
       nm
+    }
+    suffixes <- makeNames(as.list(substitute(list(...)))[-1])
   }
-  ## zoonames <- makeNames(as.list(substitute(list(x, y, ...)))[-1])
-  zoonames <- makeNames(as.list(substitute(list(...)))[-1])
 
   all <- rep(all, length(args))
   indexlist <- lapply(args, index)
   indexclasses <- sapply(indexlist, function(x) class(x)[1])
   if(!all(indexclasses == indexclasses[1]))
-    warning("not all indexes are of the same class")
+    warning(paste("Index vectors are of different classes:", paste(indexclasses, collapse = " ")))
   indexes <- do.call("c", indexlist)
 
   sort.unique <- function(x) {
@@ -259,15 +257,17 @@ merge.zoo <- function(..., all = TRUE)
   match0 <- function(a, b, nomatch = 0, ...) match(a, b, nomatch = nomatch, ...)
 
   f <- function(a) {
-    z <- matrix(NA, length(indexes), NCOL(a))
+    if (length(a) == 0) return(matrix(nr = length(indexes), nc = 0))
+    z <- matrix(fill, length(indexes), NCOL(a))
     z[match0(index(a), indexes),] <- a[match0(indexes, index(a)),, drop = FALSE]
-    z
+    return(z)
   }
 
   rval <- do.call("cbind", lapply(args, f))
   
   fixcolnames <- function(a) {
-    if(NCOL(a) < 2) {
+    if (length(a) == 0) return(NULL)
+    if (!is.matrix(a)) {
       return("")
     } else {
       rval <- colnames(a)
@@ -276,14 +276,41 @@ merge.zoo <- function(..., all = TRUE)
       } else {
         rval[rval == ""] <- as.character(which(rval == ""))
       }
-      rval <- paste(".", rval, sep = "")
       return(rval)
     }
   }
   
   zoocolnames <- lapply(args, fixcolnames)
-  zoocolnames <- unlist(lapply(seq(along = args), function(i) paste(zoonames[i], zoocolnames[[i]], sep = "")))
-  colnames(rval) <- zoocolnames
+  
+  zcn <- unlist(zoocolnames)
+  fixme <- lapply(zoocolnames, function(x) x %in% zcn[duplicated(zcn)])
+  zoocolnames <- lapply(seq(along = args), function(i) { rval <- zoocolnames[[i]]; 
+    rval[rval == ""] <- suffixes[i]; rval })
+
+  if(any(duplicated(unlist(zoocolnames))))
+    zoocolnames <- lapply(seq(along = args),
+      function(i) ifelse(fixme[[i]], paste(zoocolnames[[i]], suffixes[i], sep = "."), zoocolnames[[i]]))
+  colnames(rval) <- make.unique(unlist(zoocolnames))
   
   zoo(rval, indexes)
 }
+
+aggregate.zoo <- function(x, by, FUN, ...)
+{
+  my.unique <- function(x) x[match(x,x) == seq(length = length(x))]
+  if (!is.list(by)) by <- list(by)
+  stopifnot( length(time(x)) == length(by[[1]]) )
+  df <- aggregate(unclass(x), by, FUN, ...)[,-1]
+  if (is.matrix(x)) df <- as.matrix(df)
+  return(zoo(df, my.unique(by[[1]])))
+}
+
+
+
+
+
+
+
+
+
+
