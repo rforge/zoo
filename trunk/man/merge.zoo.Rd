@@ -1,5 +1,7 @@
 \name{merge.zoo}
 \alias{merge.zoo}
+\alias{rbind.zoo}
+\alias{cbind.zoo}
 \title{Merge Two or More zoo Objects}
 \description{
 Merge two zoo objects by common indexes (times), or do other
@@ -20,7 +22,8 @@ versions of database "join" operations.
     a union of all indexes, for \code{all = FALSE} to the intersection
     of all indexes.}
   \item{fill}{an element for filling the gaps in merged \code{"zoo"}
-    objects.}
+    objects which can arise when all = TRUE and some zoo arguments have some
+    index values not in all other zoo arguments.}
   \item{suffixes}{character vector of the same length as the number of
     \code{"zoo"} objects that specifies the suffixes to be used for making
     the merged column names unique.}

@@ -13,7 +13,8 @@ reduced zoo object.
 
 \arguments{
   \item{x}{an object of class \code{"zoo"}.}
-  \item{by}{a coarser index vector than that of \code{index(x)}.}
+  \item{by}{index vector the same length as \code{index(x)} which defines
+    aggregation groups and the new index to be associated with each group.}
   \item{FUN}{a scalar function to compute the summary statistics
     which can be applied to all subsets.}
   \item{\dots}{further arguments passed to \code{FUN}.}
