@@ -76,14 +76,14 @@ include: \code{print} (see above), \code{summary}, \code{str}, \code{head},
 \code{plot} and \code{lines} (see \code{\link{plot.zoo}}).
 
 Additionally, \code{zoo} provides several generic functions and methods
-to work (a) on the value or data contained in a \code{"zoo"} object, (b) the
+to work (a) on the data contained in a \code{"zoo"} object, (b) the
 index (or time) attribute associated to it, and (c) on both data and
 index:
 
 (a) The data contained in \code{"zoo"} objects can be extracted by
-\code{value} (strips off all \code{"zoo"}-specific attributes) and modified
-using \code{value<-}. Both are new generic functions with methods for
-\code{"zoo"} objects, see \code{\link{value}}.
+\code{coredata} (strips off all \code{"zoo"}-specific attributes) and modified
+using \code{coredata<-}. Both are new generic functions with methods for
+\code{"zoo"} objects, see \code{\link{coredata}}.
 
 (b) The index associated with a \code{"zoo"} object can be extracted
 by \code{index} and modified by \code{index<-}. As the interpretation

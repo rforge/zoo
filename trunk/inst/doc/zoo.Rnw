@@ -25,7 +25,7 @@
   within \pkg{zoo} and provides several illustrations 
   of the available methods for \code{"zoo"} objects which include
   plotting, merging and binding, several mathematical operations,
-  extracting and replacing value and index, coercion and \code{NA}
+  extracting and replacing data and index, coercion and \code{NA}
   handling.
 }
 
@@ -99,7 +99,7 @@ only few additional commands have to be learned.
 This paper describes how these design goals are implemented in \pkg{zoo}.
 Section~\ref{sec:zoo-class} explains how \code{"zoo"} objects are created
 and illustrates how the corresponding methods for plotting, merging and
-binding, several mathematical operations, extracting and replacing value
+binding, several mathematical operations, extracting and replacing data
 and index, coercion and \code{NA} handling can be used. Section~\ref{sec:combining}
 outlines how other packages can build on this basic infrastructure
 before Section~\ref{sec:summary} gives a few summarizing remarks.
@@ -127,10 +127,10 @@ is the index by which the observations should be ordered. It has to be
 of the same length as \code{NROW(x)}, i.e., either the same length as \code{x}
 for vectors or the same number of rows for matrices. The \code{"zoo"} object
 created is essentially the vector/matrix as before but has an additional
-\code{"index"} attribute in which the index is stored. Both the value \code{x}
+\code{"index"} attribute in which the index is stored. Both the data \code{x}
 and the index can, in principle, be of arbitrary classes. However, most of the
 following methods (plotting, aggregating, mathematical operations) for \code{"zoo"}
-objects are typically only useful for numeric values \code{x}. In contrast, special
+objects are typically only useful for numeric observations \code{x}. In contrast, special
 effort in the design was put into independence from a particular class for
 the index vector. In \pkg{zoo}, it is assumed that combination \code{c()},
 querying the \code{length()}, value matching \code{MATCH()}, subsetting \code{[,},
@@ -156,25 +156,25 @@ set.seed(1071)
 @
 
 Then, we create two vectors \code{z1} and \code{z2} with \code{"POSIXct"} 
-indexes, one with random values
+indexes, one with random observations
 <<zoo-vectors1>>=
 z1.index <- ISOdatetime(2004, rep(1:2,5), sample(28,10), 0, 0, 0)
-z1.value <- rnorm(10)
-z1 <- zoo(z1.value, z1.index)
+z1.data <- rnorm(10)
+z1 <- zoo(z1.data, z1.index)
 @
 and one with a sine wave
 <<zoo-vectors2>>=
 z2.index <- as.POSIXct(paste(2004, rep(1:2, 5), sample(1:28, 10), sep = "-"))
-z2.value <- sin(2*1:10/pi)
-z2 <- zoo(z2.value, z2.index)
+z2.data <- sin(2*1:10/pi)
+z2 <- zoo(z2.data, z2.index)
 @
-Furthermore, we create a matrix \code{Z} with random values and a \code{"Date"}
+Furthermore, we create a matrix \code{Z} with random observations and a \code{"Date"}
 index
 <<zoo-matrix>>=
 Z.index <- as.Date(sample(12450:12500, 10))
-Z.value <- matrix(rnorm(30), ncol = 3)
-colnames(Z.value) <- c("Aa", "Bb", "Cc")
-Z <- zoo(Z.value, Z.index)
+Z.data <- matrix(rnorm(30), ncol = 3)
+colnames(Z.data) <- c("Aa", "Bb", "Cc")
+Z <- zoo(Z.data, Z.index)
 @
 Note that \code{zoo} provides \code{as.Date} methods to convert days 
 since January 1, 1970 to class Date, used in the above.
@@ -201,7 +201,7 @@ and matrices in \code{"vertical"} style
 Z
 Z[1:3, 2:3]
 @
-Additionally, there is a \code{"plain"} style which simply first prints the value 
+Additionally, there is a \code{"plain"} style which simply first prints the data 
 and then the index.
 
 Summaries and most other methods for \code{"zoo"} objects are carried out
@@ -341,22 +341,22 @@ cumsum(Z)
 @
 
 
-\subsection{Extracting and replacing the value and the index}
+\subsection{Extracting and replacing the data and the index}
 \label{sec:window}
 
 \pkg{zoo} provides several generic functions and methods
-to work on the value (or data) contained in a \code{"zoo"} object, the
+to work on the data contained in a \code{"zoo"} object, the
 index (or time) attribute associated to it, and on both data and
 index.
 
-The value stored in \code{"zoo"} objects can be extracted by
-\code{value} which strips off all \code{"zoo"}-specific attributes and 
-it can be replaced using \code{value<-}. Both are new generic functions
+The data stored in \code{"zoo"} objects can be extracted by
+\code{coredata} which strips off all \code{"zoo"}-specific attributes and 
+it can be replaced using \code{coredata<-}. Both are new generic functions
 with methods for \code{"zoo"} objects as illustrated in the following
 example.
-<<value>>=
-value(z1)
-value(z1) <- 1:10
+<<coredata>>=
+coredata(z1)
+coredata(z1) <- 1:10
 z1
 @
 
@@ -383,7 +383,7 @@ end(z1)
 @
 
 
-To work on both value and index/time, \pkg{zoo} provides method
+To work on both data and index/time, \pkg{zoo} provides method
 a method to \code{window} and also adds a new generic 
 \code{window<-} with a method for \code{"zoo"} objects. In both
 cases the window is specified by
@@ -436,7 +436,7 @@ as.data.frame(Z)
 \subsection[NA handling]{\code{NA} handling}
 
 Three methods for dealing with \code{NA}s (missing observations) 
-in the value are applicable to \code{"zoo"} objects:
+in the observations are applicable to \code{"zoo"} objects:
 \code{na.omit}, \code{na.contiguous}, \code{na.locf}.
 \code{na.omit}---or its default method to be more precise---returns a \code{"zoo"}
 object with incomplete observations removed. \code{na.contiguous}
@@ -583,7 +583,7 @@ The following example illustrates how \code{z2} can be transformed
 to use the \code{"timeDate"} class.
 <<fBasics2>>=
 library(fBasics)
-z2td <- zoo(value(z2), timeDate(index(z2), FinCenter = "GMT"))
+z2td <- zoo(coredata(z2), timeDate(index(z2), FinCenter = "GMT"))
 z2td
 @
 
@@ -596,7 +596,7 @@ and compatibility with standard generics similar to the behaviour of
 the corresponding \code{"ts"} methods. This paper describes how
 these are implemented in \pkg{zoo} and illustrates the usage of 
 the methods for plotting, merging and
-binding, several mathematical operations, extracting and replacing value
+binding, several mathematical operations, extracting and replacing data
 and index, coercion and \code{NA} handling.
 
 \bibliography{zoo}

@@ -58,6 +58,6 @@ plot(z, type = "b", pch = 1:3, col = 1:3)
 plot(z, type = "b", pch = list(A = 1:5, B = 3), col = list(C = 4, 2))
 
 ## plot one zoo series against the other.  This does NOT use plot.zoo.
-plot(value(merge(x, x2)))
+plot(coredata(merge(x, x2)))
 }
 \keyword{ts}

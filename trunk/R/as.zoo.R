@@ -20,7 +20,7 @@ as.zoo.factor <- function(x, ...)
   
 as.zoo.ts <- function(x, ...)
 {
-  zoo(value(x), unclass(time(x)))
+  zoo(coredata(x), unclass(time(x)))
 }  
 
 as.zoo.irts <- function(x, ...)
@@ -84,3 +84,10 @@ as.list.zoo <- function(x, ...) {
   		else lapply(as.data.frame(x), zoo, index(x))
 }
 
+as.list.ts <- function(x, ...) {
+	if (is.matrix(x))
+		lapply(as.data.frame(x), ts, 
+			start = start(x), end = end(x), freq = frequency(x))
+	else
+		list(x)
+}

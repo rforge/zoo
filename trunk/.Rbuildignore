@@ -1,4 +1,5 @@
 R/fBasics.R
-roll
-rapply
-mean
+R/rollmean.R
+R/rapply.R
+man/rollmean.Rd
+man/rapply.Rd

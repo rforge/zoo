@@ -2,19 +2,15 @@
 \alias{model.frame.AsIs}
 \alias{model.frame.zoo}
 \alias{model.frame.ts}
-\alias{as.list.ts}
 \concept{dynamic regression}
 \title{Model Frame for zoo Series}
 \description{
-  \code{model.frame.zoo} is used to create model frames for zoo series.
-  It can be used in conjunction with lm, glm, 
-Design::lrm, 
-e1071::svm, 
-MASS::lqs 
-quantreg::rq, 
-randomForest::randomForest, 
-and possibly other regression-like routines.  It is normally called
-from lm, glm and similar routines rather than directly by the user.
+  \code{model.frame.zoo} is used to create model frames for \code{"zoo"} series.
+  It can be used (at least) in conjunction with \code{\link[stats]{lm}}, \code{\link[stats]{glm}}, 
+  \code{\link[Design]{lrm}}, \code{\link[e1071]{svm}}, \code{\link[MASS]{lqs}},
+  \code{\link[quantreg]{rq}}, \code{\link[randomForest]{randomForest}}
+  and possibly other regression-like routines.  It is normally called
+  from the model fitting function rather than directly by the user.
 }
 \usage{
 
@@ -26,8 +22,7 @@ model.frame.zoo(formula, data = NULL, subset = NULL,
     The details of model specification are given below.}
 
   \item{data}{an optional data frame containing the variables
-    in the model. 
-    The variables are taken from \code{environment(formula)},
+    in the model. The variables are taken from \code{environment(formula)},
     typically the environment from which \code{model.frame.zoo} is called.}
 
   \item{subset}{an optional vector specifying a subset of observations
@@ -39,7 +34,6 @@ model.frame.zoo(formula, data = NULL, subset = NULL,
     \code{\link{na.fail}} if that is unset.  The \dQuote{factory-fresh}
     default is \code{\link{na.omit}}.  Other possible values include
     \code{\link{na.contiguous}} and \code{\link{na.locf}}. }
-
 
   \item{drop.unused.levels}{should factors have unused levels dropped?
     Defaults to \code{FALSE}.}
@@ -118,10 +112,10 @@ model.frame.zoo(formula, data = NULL, subset = NULL,
 	# return zoo objects.
 
 	# resistant regression
-	library(MASS)
-	lqs(I(lag(yz) ~ diff(xz)+fz))
+	if(require(MASS))
+		lqs(I(lag(yz) ~ diff(xz)+fz))
 
-	# rank regression
+	# quantile regression
 	if (require(quantreg))
 		rq(I(lag(yz) ~ fz), tau = 0.25)
 

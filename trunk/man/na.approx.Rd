@@ -1,7 +1,7 @@
 \name{na.approx}
 \alias{na.approx}
 \alias{na.approx.default}
-\title{NA Interpoolation}
+\title{Replace NA by Interpolation}
 \description{
 Generic function for replacing each \code{NA} with interpolated
 values.

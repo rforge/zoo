@@ -4,15 +4,18 @@ zoo <- function (x, order.by = index(x))
     order.by <- order.by[index]
     if (missing(x) || is.null(x)) 
         x <- numeric()
-    else if (is.vector(x) || is.factor(x)) 
+    else if (is.vector(x)) 
         x <- rep(x, length.out = length(index))[index]
+    else if (is.factor(x))         
+        x <- factor(rep(as.character(x), length.out = length(index))[index], labels = levels(x))
     else if (is.matrix(x) || is.data.frame(x)) 
         x <- (x[rep(1:NROW(x), length.out = length(index)), , 
             drop = FALSE])[index, , drop = FALSE]
     else stop(paste(dQuote("x"), ": attempt to define illegal zoo object"))
+    attr(x, "oclass") <- attr(x, "class")
     attr(x, "index") <- order.by
-    class(x) <- c("zoo", class(x))
-    x
+    class(x) <- "zoo"
+    return(x)
 }
 
 print.zoo <-
@@ -38,7 +41,7 @@ function (x, style = ifelse(length(dim(x)) == 0, "horizontal",
     else {
         x.index <- index(x)
         attr(x, "index") <- NULL
-        cat("Value:\n")
+        cat("Data:\n")
         print(unclass(x))
         cat("\nIndex:\n")
         print(x.index)
@@ -94,42 +97,5 @@ tail.zoo <- function(x, n = 6, ...) {
 		x[seq(to = length(x), length = min(n, length(x)))]
 	else
 		x[seq(to = nrow(x), length = min(n, nrow(x))),]
-}
-
-
-
-
-as.Date.numeric <- function(x, ...)
-	structure(floor(x + .001), class = "Date")
-
-as.Date.integer <- function(x, ...)
-	structure(x, class = "Date")
-
-as.Date.ts <- function(x, ...) {
-   # if by is "days" then times of x are treated as days since as.Date(0);
-   # otherwise, they are treated as last two digits of years if 1st time < 100
-   # or years if 1st time > 100.  If 1st time < yearcutoff then century is 
-   # assumed to be 2000; otherwise, it is assumed to be 1900. Default for
-   # yearcutoff is 25.
-   args <- list(...)
-   yearcutoff <- if (is.null(args$yearcutoff)) 25 else args$yearcutoff
-   by <- if (is.null(args$by)) 1 else pmatch(args$by, c("years", "days"))
-   time.x <- unclass(time(x))
-   if (by == 2 ) {
-	stopifnot(frequency(x) == 1)
-	return(as.Date(time.x))
-   }
-   if (time.x[1] <= yearcutoff) 
-	time.x <- time.x + 2000
-   else if (time.x[1] < 100)
-	time.x <- time.x + 1900
-   if (frequency(x) == 1)
-	as.Date(paste(time.x, 1, 1, sep = "-"))
-   else if (frequency(x) == 4)
-	as.Date(paste((time.x + .001) %/% 1, 3*(cycle(x)-1)+1, 1, sep = "-"))
-   else if (frequency(x) == 12)
-	as.Date(paste((time.x + .001) %/% 1, cycle(x), 1, sep = "-"))
-   else
-	stop("unable to convert ts time to Date class")
 }
 

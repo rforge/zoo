@@ -56,31 +56,3 @@ end.zoo <- function(x, ...)
 	if (lx > 0) index(x)[lx]
 	  else NULL
 }
-
-if(!exists("value") || !is.function(get("value"))) {
-  ## value is also a generic function (with the same
-  ## definition) in tseries  
-  value <- function(x, ...) UseMethod("value")
-}
-
-value.default <- function(x, ...)
-{
-	y <- x
-	attributes(y) <- NULL
-	dim(y) <- dim(x)
-	dimnames(y) <- dimnames(x)
-	y
-}
-
-"value<-" <- function(x, value)
-{
-	UseMethod("value<-")
-}
-
-"value<-.default" <- function(x, value)
-{
-	stopifnot(length(x) == length(value))
-	x[] <- value
-	x
-}
-

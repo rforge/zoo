@@ -8,6 +8,7 @@
 \alias{as.vector.zoo}
 \alias{as.data.frame.zoo}
 \alias{as.list.zoo}
+\alias{as.list.ts}
 \alias{as.irts.zoo}
 \alias{as.its.zoo}
 \title{Coercion from and to zoo}
@@ -29,7 +30,8 @@ for \code{\link{ts}}, \code{\link[its]{its}} and \code{\link[tseries]{irts}} obj
 
 Methods for coercing objects of class \code{"zoo"} to other classes
 currently include: \code{\link{as.matrix}}, \code{\link{as.vector}},
-\code{\link{as.data.frame}}, \code{\link{as.list}}. Furthermore the two coercion functions
+\code{\link{as.data.frame}}, \code{\link{as.list}} (the latter also being available
+for \code{"ts"} objects). Furthermore the two coercion functions
 \code{as.its.zoo} and \code{as.irts.zoo} are provided, but work only
 if the corresponding packages are attached.
 }

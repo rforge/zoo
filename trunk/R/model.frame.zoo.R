@@ -1,5 +1,3 @@
-# model.frame.AsIs, model.frame.zoo, model.frame.ts (and as.list.ts used by it)
-
 model.frame.AsIs <- function (formula, data = NULL, subset = NULL, 
     na.action = na.omit, drop.unused.levels = FALSE, xlev = NULL, ...) 
 {
@@ -21,14 +19,6 @@ model.frame.zoo <- function (formula, data = NULL, subset = NULL,
 	NextMethod("model.frame", formula = formula)
 }
 
-as.list.ts <- function(x, ...) {
-	if (is.matrix(x))
-		lapply(as.data.frame(x), ts, 
-			start = start(x), end = end(x), freq = frequency(x))
-	else
-		list(x)
-}
-
 model.frame.ts <- function (formula, data = NULL, subset = NULL, 
     na.action = na.omit, drop.unused.levels = FALSE, xlev = NULL, ...) 
 {
@@ -38,4 +28,3 @@ model.frame.ts <- function (formula, data = NULL, subset = NULL,
 	attr(formula, "predvars") <- as.call(append(ts.intersect, args))
 	NextMethod("model.frame", formula = formula)
 }
-
