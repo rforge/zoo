@@ -108,3 +108,22 @@ as.Date.numeric <- function(x, ...)
 
 as.Date.integer <- function(x, ...)
 	structure(x, class = "Date")
+
+as.Date.ts <- function(x, ...) {
+   args <- list(...)
+   if (is.null(args$yearcutoff)) yearcutoff <- 25
+   time.x <- unclass(time(x))
+   if (time.x[1] <= yearcutoff) 
+	time.x <- time.x + 2000
+   else if (time.x[1] < 100)
+	time.x <- time.x + 1900
+   if (frequency(x) == 1)
+	as.Date(paste(time.x, 1, 1, sep = "-"))
+   else if (frequency(x) == 4)
+	as.Date(paste((time.x + .001) %/% 1, 3*(cycle(x)-1)+1, 1, sep = "-"))
+   else if (frequency(x) == 12)
+	as.Date(paste((time.x + .001) %/% 1, cycle(x), 1, sep = "-"))
+   else
+	stop("unable to convert ts time to Date class")
+}
+
