@@ -27,19 +27,14 @@ FEATURES
       instead of
         diff(y) ~ lag(y, k = -1)
 
-  
-  o dynlm
-    - when dynlm() grows we should probably start a 
-      package dynlm which depends on zoo
-      
-      
+        
   o [.zoo [<-.zoo
     - allow indexing by index, i.e., datetime argument
 
 
   o misc functions
-    - get runmed working with NAs, add runmax, consolidate and
-      generalize runmean, runmax, runmed and runmad
+    - rapply: a function for applying functions to rolling windows
+      (prototype ready but not yet in release version)
 
     - interface to additional statistical routines such as the ones
       referenced in:
@@ -54,40 +49,22 @@ FEATURES
 
     - additional use and testing
 
-  o plot
-    - plot(I(y ~ x))
-
 
 
 INTERFACES
 **********
-
-  o generic functions:
-    - ask R-core to make order() and match() generic,
-      and also na.contiguous()
-    
-    - new generics in zoo which could go to stats or base:
-      value, value<-, na.locf, window<-
-
-  o investigate whether there are alternative
-    primitives that already have standard generics in the core
-    that could be used in place of order and match. Is a
-    smaller set of primitives possible?
 
   o move as.its.zoo over to its [Z: Whit will do this as the new
     maintainer of its]
 
   o provide fBasics interface routine to the Rmetrics projects
 
-  o model.frame.ts ?
-
 
 
 DOCUMENTATION & COMMUNICATION
 *****************************
 
-  o Vignette(s), JSS paper, R news article [Z: something is on the
-    way here]
+  o JSS paper, R news article based on the vignette
 
   o some data to include with zoo
 
@@ -95,10 +72,6 @@ DOCUMENTATION & COMMUNICATION
 
   o FAQ
   
-  o pdf one page reference card which lists all functions
-    available [Z: closest thing available is currently
-    ?zoo]
-
   o what facilities does the R project provide to subprojects for 
     mailing lists, web space, wiki, forum, etc.
 
