@@ -20,8 +20,7 @@ rbind.zoo <- function(..., deparse.level = 1)
 
 cbind.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c("zoo", "list"))
 {
-  merge.zoofunction(..., all = all, fill = fill,
-    suffixes = suffixes, retclass = retclass)
+  merge.zoo(..., all = all, fill = fill, suffixes = suffixes, retclass = retclass)
 }
 
 merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c("zoo", "list"))

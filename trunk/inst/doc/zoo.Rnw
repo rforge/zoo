@@ -179,7 +179,7 @@ summary(Z)
 @
 
  
-\subsection[Plotting "zoo" objects]{Plotting \code{"zoo"} objects}
+\subsection{Plotting}
 \label{sec:plot}
 
 The \code{plot} method for \code{"zoo"} objects, in particular for
@@ -234,7 +234,7 @@ are depicted in Figure~\ref{fig:plot13} and the single panel plot in \ref{fig:pl
 \end{figure}
 
 
-\subsection[Combining "zoo" objects]{Combining \code{"zoo"} objects}
+\subsection{Merging and binding}
 \label{sec:merge}
 
 As for many rectangular data formats in \proglang{R}, there are
@@ -303,8 +303,7 @@ cumsum(Z)
 @
 
 
-\subsection[Extracting/replacing the value und/or index of "zoo" objects]{%
-  Extracting/replacing the value und/or index of \code{"zoo"} objects}
+\subsection{Extracting and replacing of the value und/or index}
 \label{sec:window}
 
 \pkg{zoo} provides several generic functions and methods
