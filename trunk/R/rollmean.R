@@ -2,10 +2,10 @@
 # https://www.stat.math.ethz.ch/pipermail/r-help/2004-October/057363.html
 # ToDo: runmad, currently rapply() can be used
 
-rollmean <- function(x, k, na.pad = FALSE)
+rollmean <- function(x, k, na.pad = FALSE, ...)
   UseMethod("rollmean")
 
-rollmean.default <- function(x, k, na.pad = FALSE)
+rollmean.default <- function(x, k, na.pad = FALSE, ...)
 {
   x <- unclass(x)
   n <- length(x) 
@@ -17,22 +17,26 @@ rollmean.default <- function(x, k, na.pad = FALSE)
   return(rval)
 }
 
-rollmean.zoo <- function(x, k, na.pad = FALSE) { 
+rollmean.zoo <- function(x, k, na.pad = FALSE, ...)
+{ 
   stopifnot(k <= NROW(x))
   index.x <- index(x)
   if(!na.pad) index.x <- index.x[-seq(k-1)]
   if(length(dim(x)) == 0) 
-    return(zoo(rollmean.default(x, k, na.pad), index.x, frequency(x)))
+    return(zoo(rollmean.default(coredata(x), k, na.pad), index.x, attr(x, "frequency")))
   else
-    return(zoo(apply(x, 2, rollmean.default, k=k, na.pad=na.pad), index.x,
-	frequency(x)))
+    return(zoo(apply(coredata(x), 2, rollmean.default, k=k, na.pad=na.pad), index.x,
+	attr(x, "frequency")))
 }
 
+rollmean.ts <- function(x, k, na.pad = FALSE, ...)
+  as.ts(rollmean(as.zoo(x), k = k, na.pad = na.pad, ...))
 
-rollmax <- function(x, k, na.pad = FALSE)
+
+rollmax <- function(x, k, na.pad = FALSE, ...)
   UseMethod("rollmax")
 
-rollmax.default <- function(x, k, na.pad = FALSE)
+rollmax.default <- function(x, k, na.pad = FALSE, ...)
 {
   n <- length(x) 
   rval <- rep(0, n) 
@@ -49,44 +53,61 @@ rollmax.default <- function(x, k, na.pad = FALSE)
   return(rval)
 } 
 
-rollmax.zoo <- function(x, k, na.pad = FALSE, ...) { 
+rollmax.zoo <- function(x, k, na.pad = FALSE, ...)
+{ 
   stopifnot(k <= NROW(x))
   index.x <- index(x)
   if (!na.pad) index.x <- index.x[-seq(k-1)]
   if (length(dim(x)) == 0) 
-    return(zoo(rollmax.default(x, k, na.pad), index.x, frequency(x)))
+    return(zoo(rollmax.default(coredata(x), k, na.pad), index.x, attr(x, "frequency")))
   else
-    return(zoo(apply(x, 2, rollmax.default, k=k, na.pad = na.pad), index.x,
-       frequency(x)))
+    return(zoo(apply(coredata(x), 2, rollmax.default, k=k, na.pad = na.pad), index.x,
+       attr(x, "frequency")))
 }
+
+rollmax.ts <- function(x, k, na.pad = FALSE, ...)
+  as.ts(rollmax(as.zoo(x), k = k, na.pad = na.pad, ...))
+
 
 
 rollmed <- function(x, k, na.pad = FALSE, ...)
   UseMethod("rollmed")
 
 rollmed.default <- function(x, k, na.pad = FALSE, ...)
-  stats::runmed(x, k, ...)
-
-rollmed.zoo <- function(x, k, na.pad = FALSE, ...) { 
-	stopifnot(all(!is.na(x)), k <= NROW(x), k %% 2 == 1)
-	# todo:
-	# rather than abort we should do a simple loop to get the medians
-	# for those columns with NAs.
-	index.x <- index(x)
-	m <- k %/% 2
-	n <- NROW(x)
-	if (!na.pad) index.x <- index.x[k:n]
-	rollmed0 <- function(x, k, na.pad, ...) {
-		x <- stats::runmed(x, k, ...)[-c(seq(m),seq(to=n,len=m))]
-		if (na.pad) x <- c(rep(NA,k-1), x)
-		x
-	}
-	if (length(dim(x)) == 0)
-		return(zoo(rollmed0(x, k, na.pad = na.pad, ...), index.x,
-			frequency(x)))
-	else
-		return(zoo(apply(x, 2, rollmed0, k = k, na.pad = na.pad, ...), 
-			index.x, frequency(x)))
+{
+  ## interfaces runmed from `stats'
+  stopifnot(k <= length(x), k %% 2 == 1)
+  n <- length(x)
+  m <- k %/% 2
+  rval <- runmed(x, k, ...)
+  attr(rval, "k") <- NULL
+  rval <- rval[-c(1:m, (n-m+1):n)]
+  if(na.pad) rval <- c(rep(NA, 2*m), rval)
+  return(rval)
 }
 
+rollmed.zoo <- function(x, k, na.pad = FALSE, ...) { 
+  stopifnot(all(!is.na(x)), k <= NROW(x), k %% 2 == 1)
+  # todo:
+  # rather than abort we should do a simple loop to get the medians
+  # for those columns with NAs.
+  index.x <- index(x)
+  m <- k %/% 2
+  n <- NROW(x)
+  if (!na.pad) index.x <- index.x[k:n]
+  rollmed0 <- function(x, k, na.pad, ...) {
+    x <- stats::runmed(x, k, ...)[-c(seq(m),seq(to=n,len=m))]
+    if (na.pad) x <- c(rep(NA,k-1), x)
+    x
+  }
+  if (length(dim(x)) == 0)
+    return(zoo(rollmed0(coredata(x), k, na.pad = na.pad, ...), index.x,
+      attr(x, "frequency")))
+  else
+    return(zoo(apply(coredata(x), 2, rollmed0, k = k, na.pad = na.pad, ...), 
+      index.x, attr(x, "frequency")))
+}
+
+rollmed.ts <- function(x, k, na.pad = FALSE, ...)
+  as.ts(rollmed(as.zoo(x), k = k, na.pad = na.pad, ...))
 

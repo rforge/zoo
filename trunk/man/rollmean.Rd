@@ -5,38 +5,43 @@
 \alias{rollmean.zoo}
 \alias{rollmed.zoo}
 \alias{rollmax.zoo}
+\alias{rollmean.ts}
+\alias{rollmed.ts}
+\alias{rollmax.ts}
 \alias{rollmean.default}
 \alias{rollmed.default}
 \alias{rollmax.default}
 \title{Rolling Means/Maximums/Medians}
 \description{
-Generic functions for computing rolling means, maximums and medians of \code{"zoo"}
-objects.
+Generic functions for computing rolling means, maximums and medians of ordered observations.
 }
 \usage{
-rollmean(x, k, na.pad = FALSE)
-rollmax(x, k, na.pad = FALSE)
+rollmean(x, k, na.pad = FALSE, \dots)
+rollmax(x, k, na.pad = FALSE, \dots)
 rollmed(x, k, na.pad = FALSE, \dots)
 }
 \arguments{
   \item{x}{an object (representing a series of observations).}
-  \item{k}{integer width of the rolling window. Must be odd
-    for \code{rollmed}.}  
-  \item{na.pad}{logical. Add \code{NA} padding at beginning.}
-  \item{\dots}{Further arguments passed. Only applicable to \code{rollmed}.}
+  \item{k}{integer width of the rolling window. Must be odd for \code{rollmed}.}  
+  \item{na.pad}{logical. Should \code{NA} padding be added at beginning?}
+  \item{\dots}{Further arguments passed to methods.}
 }
 
 \details{
-These functions are similar to \code{\link{rapply}} but are
-optimized for speed.  The extra arguments available are
-those accepted by \code{mean}, \code{max} and \code{med}.
+These functions compute rolling means, maximums and medians respectively
+and are thus similar to \code{\link{rapply}} but are
+optimized for speed.
+
+Currently, there are methods for \code{"zoo"} and \code{"ts"} series and
+default methods (intended for vectors). The default method of \code{rollmed}
+is an interface to \code{\link{runmed}}.
 }
 
 \value{
-A \code{"zoo"} object with the rolling mean/max/median.
+An object of the same class as \code{x} with the rolling mean/max/median.
 }
 
-\seealso{\code{\link{zoo}}}
+\seealso{\code{\link{rapply}}, \code{\link{zoo}}}
 
 \examples{
 x.Date <- as.Date(paste(2004, rep(1:4, 4:1), sample(1:28, 10), sep = "-"))
@@ -52,8 +57,7 @@ rollmax(xm, 3)
 rollmed(xm, 3)
 
 rapply(xm, 3, mean) # uses rollmean
-rapply(xm, 3, function(x)mean(x)) # does not use rollmean
+rapply(xm, 3, function(x) mean(x)) # does not use rollmean
 
 }
 \keyword{ts}
-
