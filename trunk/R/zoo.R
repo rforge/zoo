@@ -24,8 +24,8 @@ function (x, style = ifelse(length(dim(x)) == 0, "horizontal",
     "vertical"), quote = FALSE, ...) 
 {
     style <- match.arg(style, c("horizontal", "vertical", "plain"))
-    if (is.null(dim(x)) || (length(dim(x)) > 0 && style == "horizontal"))
-	style <- "plain"
+    if (is.null(dim(x)) && length(x) == 0) style <- "plain"
+    if (length(dim(x)) > 0 && style == "horizontal") style <- "plain"
     if (style == "vertical") {
         y <- format(eval(as.matrix(x), parent.frame(n = 3)))
         if (length(colnames(x)) < 1) {

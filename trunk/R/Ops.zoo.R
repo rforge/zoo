@@ -1,6 +1,7 @@
+
 Ops.zoo <- function (e1, e2) 
 {
-    if (missing(e2)) {
+    e <- if (missing(e2)) {
         NextMethod(.Generic)
     }
     else if (any(nchar(.Method) == 0)) {
@@ -10,8 +11,11 @@ Ops.zoo <- function (e1, e2)
 	merge(e1, e2, all = FALSE, retclass = NULL)
         NextMethod(.Generic)
     }
+    if (is.null(attr(e, "index"))) 
+	zoo(e, index(e1))
+    else
+	e
 }
-
 
 t.zoo <- function(x)
 	t(as.matrix.zoo(x))
