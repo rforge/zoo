@@ -7,7 +7,8 @@ Generic function for replacing each \code{NA} with interpolated
 values.
 }
 \usage{
-na.approx(y, x, FUN, na.rm = TRUE, \dots) 
+na.approx(y, x, \dots) 
+\method{na.approx}{default}(y, x, FUN, na.rm = TRUE, \dots) 
 }
 \arguments{
   \item{y}{variable for which \code{NA}s are to be replaced}

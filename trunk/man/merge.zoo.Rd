@@ -15,16 +15,16 @@ versions of database "join" operations.
 
 \arguments{
   \item{\dots}{two or more objects of class \code{"zoo"}.}
-  \item{all}{logical vector of the same length as the number of \code{"zoo"}
-    objects which should be merged (otherwise expanded).}
+  \item{all}{logical vector having the same length as the number of \code{"zoo"}
+    objects to be merged (otherwise expanded).}
   \item{fill}{an element for filling gaps in merged \code{"zoo"}
     objects (if any).}
   \item{suffixes}{character vector of the same length as the number of
-    \code{"zoo"} objects that specifies the suffixes to be used for making
+    \code{"zoo"} objects specifying the suffixes to be used for making
     the merged column names unique.}
-  \item{retclass}{character that specifies the class of the return result,
-    can be \code{"zoo"} (the default), \code{"list"} or \code{NULL}. For details
-    see below.}
+  \item{retclass}{character that specifies the class of the returned result.
+    It can be \code{"zoo"} (the default), \code{"list"} or \code{NULL}. For 
+    details see below.}
 }
 
 \details{
@@ -37,9 +37,8 @@ filling up the created gaps (if any) with the \code{fill} pattern.
 objects to merged (if not, it is expanded): All indexes
 (times) of the objects corresponding to \code{TRUE} are included, for those
 corresponding to \code{FALSE} only the indexes present in all objects are
-included. For the default \code{all = TRUE} this corresponds to 
-a union of all indexes, for \code{all = FALSE} to the intersection
-of all indexes.
+included.  This allows intersection, union and left and right joins 
+to be expressed.
 
 If \code{retclass} is \code{"zoo"} (the default) a single merged \code{"zoo"}
 object is returned. If it is set to \code{"list"} a list of \code{"zoo}
@@ -66,7 +65,7 @@ An object of class \code{"zoo"}.
 
 \examples{
 ## simple merging
-x.date <- as.POSIXct(paste("2003-02-", c(1, 3, 7, 9, 14), sep = ""))
+x.date <- as.POSIXct(paste(2003, 02, c(1, 3, 7, 9, 14), sep = "-"))
 x <- zoo(rnorm(5), x.date)
 
 y1 <- zoo(matrix(1:10, ncol = 2), 1:5)
@@ -81,7 +80,7 @@ merge(y1, y2, all = TRUE, fill = 0)
 ## if different index classes are merged, as in
 merge(x, y1, y2, all = TRUE)
 ## a warning is issued and the indexes are coerced
-## (not necessarily giving a satisfying result, as in this case)
+## It is up to the user to ensure that the result makes sense.
 
 ## extend an irregular series to a regular one:
 # create a constant series

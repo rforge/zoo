@@ -44,8 +44,10 @@ zoo(x, order.by = index(x))
 \details{
 \code{zoo} provides infrastructure for ordered observations
 which are stored internally in a vector or matrix with an
-index attribute (with in principle arbitrary class, see below)
-which has to be of the same length as \code{NROW(x)}. Emphasis has
+index attribute (of arbitrary class, see below).  The index
+must have the same length as \code{NROW(x)} except in the 
+case of a zero length numeric vector in which case the index
+length can be any length. Emphasis has
 been given to make all methods independent of the index/time class
 (given in \code{order.by}). In principle, the data \code{x} could also
 be arbitrary, but currently there is only support for vectors and matrices
@@ -53,10 +55,10 @@ and partial support for factors.
 
 \code{zoo} is particularly aimed at irregular time series of numeric
 vectors/matrices. \code{zoo}'s key design goals are independence of a particular
-index/date/time class and consistency (to the extent possible)
+index/date/time class and consistency 
 with \code{ts} and base R by providing methods to standard generics. Therefore,
-standard functions can be used to work with \code{"zoo"} objects and no
-new set of commands has to be employed.
+standard functions can be used to work with \code{"zoo"} objects and 
+memorization of new commands is reduced.
 
 When creating a \code{"zoo"} object with the function \code{zoo},
 the vector of indexes \code{order.by} can be of (a single) arbitrary class
@@ -66,10 +68,11 @@ but it is essential that \code{ORDER(order.by)} works. For other
 functions it is assumed that \code{c()}, \code{length()},
 \code{MATCH()} and subsetting \code{[,} work. If this is not the case
 for a particular index/date/time class, then methods for these 
-generic functions should be created. Note, that to achieve this,
+generic functions should be created by the user. Note, that to achieve this,
 new generic functions \code{\link{ORDER}} and \code{\link{MATCH}} are created in
 the \code{zoo} package with default methods corresponding to
-the non-generic base functions \code{\link[base]{order}} and \code{\link[base]{match}}.
+the non-generic base functions \code{\link[base]{order}} 
+and \code{\link[base]{match}}.
 
 Methods to standard generics for \code{"zoo"} objects currently
 include: \code{print} (see above), \code{summary}, \code{str}, \code{head},

@@ -94,15 +94,15 @@ status, a second key design goal became more and more clear: to provide
 methods to standard generic functions for the \code{"zoo"} class that 
 are similar to those for the \code{"ts"} class (and base \proglang{R} in
 general) such that the usage of \pkg{zoo} is rather intuitive because
-only few additional commands have to be learned.
+few additional commands have to be learned.
 
 This paper describes how these design goals are implemented in \pkg{zoo}.
 Section~\ref{sec:zoo-class} explains how \code{"zoo"} objects are created
 and illustrates how the corresponding methods for plotting, merging and
 binding, several mathematical operations, extracting and replacing data
 and index, coercion and \code{NA} handling can be used. Section~\ref{sec:combining}
-outlines how other packages can build on this basic infrastructure
-before Section~\ref{sec:summary} gives a few summarizing remarks.
+outlines how other packages can build on this basic infrastructure.
+Section~\ref{sec:summary} gives a few summarizing remarks.
 
 \clearpage
 
@@ -115,7 +115,7 @@ before Section~\ref{sec:summary} gives a few summarizing remarks.
 
 The simple idea for the creation of \code{"zoo"} objects is to have
 some vector or matrix of observations \code{x} which are totally ordered
-by some index vector. In time series applications this index is measure of
+by some index vector. In time series applications this index is a measure of
 time but every other numeric, character or even more abstract vector that
 provides a total ordering of the observations is also suitable. Objects
 of class \code{"zoo"} are created by the function
@@ -125,7 +125,8 @@ zoo(x, order.by)
 where \code{x} is the vector or matrix of observations and \code{order.by}
 is the index by which the observations should be ordered. It has to be
 of the same length as \code{NROW(x)}, i.e., either the same length as \code{x}
-for vectors or the same number of rows for matrices. The \code{"zoo"} object
+for vectors or the same number of rows for matrices. (This constraint is
+not imposed for zero length vectors.)   The \code{"zoo"} object
 created is essentially the vector/matrix as before but has an additional
 \code{"index"} attribute in which the index is stored. Both the data \code{x}
 and the index can, in principle, be of arbitrary classes. However, most of the
@@ -138,7 +139,7 @@ and, of course, ordering \code{ORDER()} work when applied to the index.
 This is the case, e.g., for standard numeric and character vectors and for
 vectors of classes \code{"Date"}, \code{"POSIXct"} or \code{"times"}
 from package \pkg{chron}, but not for the class \code{"dateTime"} in \pkg{fBasics}.
-In the latter case, the solution is to provide methods for the above mentioned
+In the last case, the solution is to provide methods for the above mentioned
 functions so that indexing \code{"zoo"} objects with \code{"dateTime"} vectors works.
 To achieve this  independence of the index class, new generic functions for
 ordering (\code{ORDER()}) and value matching (\code{match()}) are introduced
@@ -178,8 +179,7 @@ Z <- zoo(Z.data, Z.index)
 @
 Note that \code{zoo} provides \code{as.Date} methods to convert days 
 since January 1, 1970 to class Date, used in the above.
-The complicated argument to \code{as.Date}
-was used to generate random 
+The argument to \code{as.Date} was used to generate random 
 dates for this illustration. In ``real world'' applications, the indexes
 are typically part of the raw data set read into \proglang{R} so the
 code would be even simpler. See Section~\ref{sec:combining}
@@ -205,7 +205,7 @@ Additionally, there is a \code{"plain"} style which simply first prints the data
 and then the index.
 
 Summaries and most other methods for \code{"zoo"} objects are carried out
-column wise, reflecting the rectangular structure indexed by rows. In addition,
+column wise, reflecting the rectangular structure. In addition,
 a summary of the index is provided.
 
 <<summary>>=
@@ -231,7 +231,7 @@ but can also display all series in a single panel
 <<plot2,eval=FALSE>>=
 plot(Z, plot.type = "single", col = 2:4)
 @
-where in both cases additional graphical parameters like color \code{col},
+In both cases additional graphical parameters like color \code{col},
 plotting character \code{pch} and line type \code{lty} can be
 expanded to the number of series. But the \code{plot} method for
 \code{"zoo"} objects offers some more flexibility in specification
@@ -287,20 +287,23 @@ the indexes and fills the created gaps by \code{NA}s.
 <<cbind>>=
 cbind(z1, z2)
 @
-In fact, the \code{cbind} method is synonymous to the \code{merge}
-method which also allows for combining the columns by the intersection
-of the indexes using the argument \code{all = FALSE}.
+In fact, the \code{cbind} method is synonymous with the \code{merge}
+method except that the latter provides additional arguments
+which allow for combining the columns by the intersection
+of the indexes using the argument \code{all = FALSE}
 <<merge>>=
 merge(z1, z2, all = FALSE)
 @
-Additionally, the filling pattern can be changed and the naming of the
-columns can be modified. In the case of merging of objects with 
+Additionally, the filling pattern can be changed in \code{merge},
+the naming of the
+columns can be modified and the return class of the result can
+be specified. In the case of merging of objects with 
 different index classes, \proglang{R} gives a warning and tries to
-coerce the indexes, but this is generally rather difficult
-
+coerce the indexes.  It is the responsibility of the user to ensure
+that the result is as intended.
 
 Another function which performs operations along a subset of indexes
-is \code{aggregate}, which is therefore discussed in this section although
+is \code{aggregate}, which is discussed in this section although
 it does not combine several objects. Using the \code{aggregate} method, \code{"zoo"} objects
 are split into subsets along a coarser index grid,
 summary statistics are computed for each and then the 
@@ -309,13 +312,13 @@ first a function is set up which returns for a given \code{"Date"}
 value the corresponding first of the month. This function is then
 used to compute the coarser grid for the \code{aggregate} call: in
 the first example the mean of the observations in the month
-is returned, in the second example the last observation.
+is returned, in the second example the first observation.
 %%FIXME: maybe also firstofquarter, see man pages
 
 <<aggregate>>=
 firstofmonth <- function(x) as.Date(sub("..$", "01", format(x)))
 aggregate(Z, firstofmonth(Z.index), mean)
-aggregate(Z, firstofmonth(Z.index), tail, 1)
+aggregate(Z, firstofmonth(Z.index), head, 1)
 @
 
 
@@ -362,14 +365,14 @@ z1
 
 The index associated with a \code{"zoo"} object can be extracted
 by \code{index} and modified by \code{index<-}. As the interpretation
-of the index as ``time'' in time series applications is more natural,
+of the index as ``time'' in time series applications is natural,
 there are also synonymous methods \code{time} and \code{time<-}. 
 Hence, the following two commands return equivalent results
 <<index>>=
 index(z2)
 time(z2)
 @
-The index scale of \code{z2} can be change to that of \code{z1} by
+The index scale of \code{z2} can be changed to that of \code{z1} by
 <<index2>>=
 index(z2) <- index(z1)
 z2
@@ -383,8 +386,8 @@ end(z1)
 @
 
 
-To work on both data and index/time, \pkg{zoo} provides method
-a method to \code{window} and also adds a new generic 
+To work on both data and index/time, \pkg{zoo} provides
+a \code{window} method and also adds a new generic 
 \code{window<-} with a method for \code{"zoo"} objects. In both
 cases the window is specified by
 \begin{Scode}
@@ -407,12 +410,15 @@ window(z1, end = as.POSIXct("2004-02-01")) <- 9:5
 z1
 @
 
-Two methods to generic functions that are standard in time series applications
-are \code{lag} and \code{diff} which are available with the same
+Two methods that are standard in time series applications
+are \code{lag} and \code{diff}. These are available with the same
 arguments as the \code{"ts"} methods---with the only exception that \code{diff}
 not only allows for arithmetic but also geometric differences.
+
 <<lagdiff>>=
 lag(z1, k = -1)
+# pairs each element of z1 (first column) with the next future one
+merge(z1, lag(z1, k = 1))
 diff(z1)
 @
 
@@ -465,9 +471,84 @@ na.locf(z1)
 
 The main purpose of the package \pkg{zoo} is to provide basic infrastructure for
 working with indexed totally ordered observations that can be either employed by
-useres directly or can be a basic ingredient on top of which other packages can
+users directly or can be a basic ingredient on top of which other packages can
 build. The latter is illustrated with a few brief examples involving the packages
+\pkg{stats},
+\pkg{glm}, \pkg{randomForest}, \pkg{e1071}, \pkg{MASS}, \pkg{quantreg},
 \pkg{strucchange}, \pkg{tseries} and \pkg{fBasics} in this section.
+
+\subsection[lm, glm, randomForest, e1071, MASS, quantreg: regression-style modelling with \code{zoo}]{\pkg{lm}, \pkg{glm}, \pkg{randomForest}, \pkg{e1071}, \pkg{MASS}, \pkg{quantreg}: regression-style modelling with \code{zoo}}
+
+\code{zoo} provides a general mechanism for interfacing with regression
+style functions that utilizes \code{AsIs} and \code{zoo} 
+methods of \code{model.frame}.  This mechanism can be used with linear modelling
+function \code{lm}, general linear modelling function \code{glm}
+and many other regression-style functions found in various R packages
+provided their code is sufficiently standardized.  Functions which can
+be in this way include the \code{randomForest} ensemble approach
+from the \pkg{randomForest}
+package, the \code{svm} support vector machine function
+from the \pkg{e1071} package, the \code{lqs} resistant regression
+function from the
+\pkg{MASS} package and \code{rq} quantile regression fucntion
+from the \pkg{quantreg} package.  
+
+\code{zoo} allows one to 
+specify formulas to these functions provided that all variables are
+\code{zoo} objects.  In this case \code{zoo} will automatically align the 
+zoo objects
+in case they have different overlapping time scales.  \code{lag}
+and \code{diff} can also be used in the formulas and will also
+result in appropriate alignment.
+
+In each case, the user simply places \code{I(...)} around the 
+formula.   For example,
+
+<<regression1>>=
+	yz <- zoo(1:12)^2
+	xz <- zoo(1:9)^2
+	fz <- zoo(gl(2,5))
+
+	# example of dispatching on response, using diff and
+	# lag, using a factor and returning residuals and fitted 
+	# zoo objects
+	yz.lm <- lm(I(lag(yz) ~ diff(xz) + fz))
+	residuals(yz.lm)
+	fitted(yz.lm)
+
+	# examples of using list in data argument
+	lm(I(lag(y) ~ diff(x) + f), list(y = yz, x = xz, f = fz))
+	lm(I(y ~ x+f), list(y=lag(yz), x=diff(xz), f=fz))
+
+	# examples of using a zoo object in the data argument
+	lm(I(lag(y) ~ diff(x)), merge(y=yz, x=xz))
+	lm(I(lag(yz) ~ diff(xz)), merge(yz, xz))
+	lm(I(y ~ x), merge(y = lag(yz), x = diff(xz)))
+
+	# using a variety of other modelling functions
+	# note that residuals and fitted may or may not
+	# work with these and if they do work may not
+	# return zoo objects.
+
+	# resistant regression
+	library(MASS)
+	lqs(I(lag(yz) ~ diff(xz)+fz))
+
+	# quantile regression
+	if (require(quantreg))
+		rq(I(lag(yz) ~ fz), tau = 0.25)
+
+	# random forest
+	set.seed(1)
+	if (require(randomForest))
+		randomForest(I(lag(yz) ~ diff(xz) + fz))
+
+	# support vector machine
+	if (require(e1071))
+		svm(I(lag(yz) ~ diff(xz) + fz))
+@
+
+See the help page for \code{model.frame.zoo} for more information.
 
 
 \subsection[strucchange: empirical fluctuation processes of class "zoo"]{\pkg{strucchange}: empirical fluctuation processes of class \code{"zoo"}}
@@ -482,7 +563,7 @@ observations is required. This was the motivation for starting the \pkg{zoo}
 project.
 
 A simple example for the need of \code{"zoo"} objects in \pkg{strucchange}
-which could not (easily) be implemented by any of the other irregular time series classes
+which is not (easily) be implemented by other irregular time series classes
 available on CRAN is described in the following. We assess the constancy of the
 electrical resistance over the apparent juice content of kiwi fruits. The data
 set \code{fruitohms} is contained in the \pkg{DAAG} package \citep{zoo:DAAG:2004}.
@@ -540,8 +621,10 @@ if(online) {
 }
 @  
 
+\code{zoo} has provided additional methods to \code{as.Date} which
+this example uses.
 In the returned \code{LU} object the irregular data is stored by extending
-it to a regular grid and filling the gaps with \code{NA}s. The time is stored
+it in a regular grid and filling the gaps with \code{NA}s. The time is stored
 in days starting from an \code{origin}, in this case specified to be the
 origin used by the \code{Date} class.
 This series can be transformed easily into an irregular \code{"zoo"} series 

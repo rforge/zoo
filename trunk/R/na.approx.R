@@ -1,5 +1,5 @@
 
-na.approx <- function(y, x, FUN, na.rm = TRUE, ...) UseMethod("na.approx")
+na.approx <- function(y, x, ...) UseMethod("na.approx")
 
 # interpolates y using x which defaults to seq(along = y) if FUN
 # is missing or to FUN(time(y)) if not

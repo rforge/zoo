@@ -36,7 +36,7 @@ The are also corresponding replacement methods for these classes.
 \seealso{\code{\link{zoo}}}
 
 \examples{
-x.date <- as.POSIXct(paste("2003-", rep(1:4, 4:1), "-", sample(1:28, 10, replace = TRUE), sep = ""))
+x.date <- as.Date(paste(2003, rep(1:4, 4:1), seq(1,20,2), sep = "-"))
 x <- zoo(matrix(rnorm(20), ncol = 2), x.date)
 
 ## the full time series

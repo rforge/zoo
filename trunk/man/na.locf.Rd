@@ -32,10 +32,9 @@ na.locf(bz)
 cz <- zoo(c(NA,9,3,2,3,2))
 na.locf(cz)
 
-# Set up for regressing next period az on bz and diff(cz).
+# Apply na.locf to independent variables but not reponse
 
-z.ok <- merge(lag.az = lag(az), bz = na.locf(bz), diff.cz = diff(na.locf(cz)))
-z.ok
-# lm(I(lag.az ~ bz + diff.cz), na.omit(z.ok))
+lm(I(lag(az) ~ na.locf(bz) + diff(na.locf(cz))))
+
 }
 \keyword{ts}

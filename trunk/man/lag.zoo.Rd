@@ -29,14 +29,22 @@ methods. The only additional argument is \code{arithmetic} in \code{diff}.
 The lagged or differenced \code{"zoo"} object.
 }
 
+
+\note{
+  Note the sign of \code{k}: a series lagged by a positive \code{k}
+  is shifted \emph{earlier} in time.
+}
+
+
 \seealso{\code{\link{zoo}}, \code{\link[stats]{lag}}, \code{\link[stats]{diff}}}
 
 \examples{
-x.date <- as.POSIXct(paste("2003-", rep(1:4, 4:1), "-", sample(1:28, 10, replace = TRUE), sep = ""))
-x <- zoo(matrix(rnorm(20), ncol = 2), x.date)
+x <- zoo(11:21)
 
 lag(x, k = 1)
 lag(x, k = -1)
-diff(x)
+# this pairs each value of x with the next or future value
+merge(x, lag1 = lag(x, k=1))
+diff(x^2)
 }
 \keyword{ts}

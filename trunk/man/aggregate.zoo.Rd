@@ -29,7 +29,7 @@ An object of class \code{"zoo"}.
 \examples{
 ## averaging over values in a month:
 # long series
-x.date <- as.Date(paste(2004, rep(1:4, 4:1), sample(1:28, 10), sep = "-"))
+x.date <- as.Date(paste(2004, rep(1:4, 4:1), seq(1,20,2), sep = "-"))
 x <- zoo(rnorm(12), x.date)
 # coarser dates
 x.date2 <- as.Date(paste(2004, rep(1:4, 4:1), 1, sep = "-"))
@@ -46,9 +46,10 @@ y <- zoo(matrix(11:15,nr=5,nc=2), chron(c(15,20,80,100,110)))
 colnames(y) <- c("A", "B")
 
 # aggregate by month using first of month as times for coarser series
+# replacing each such group with the first observation in that month.
 # Uses fact that chron dates format, by default, to mm/dd/yy
 firstofmonth <- function(x) chron(sub("/../", "/01/", format(x)))
-y2 <- aggregate(y, firstofmonth(time(y)), tail, 1)
+y2 <- aggregate(y, firstofmonth(time(y)), head, 1)
 
 # fill in missing months by merging with an empty series containing
 # a complete set of 1st of the months
@@ -67,24 +68,8 @@ z.day <- zoo(0:300, tt)
 first.of.quarter <- function(tt) with(as.POSIXlt(tt), 
   as.Date(paste(1900+year, 3*(mon\%/\%3) + 1, 1, sep = "-")))
 
-# aggregate z over quarters
+# average z over quarters
 z.qtr <- aggregate(z.day, first.of.quarter(tt), mean)
-
-
-## create regular series using Date class
-# test data
-x <- zoo(1:5, structure(c(15,20,80,100,110), class = "Date"))
-
-# aggregate by month using first of month as times for coarser series
-# Uses fact that format.Date defaults to yyyy-mm-dd
-firstofmonth <- function(x) as.Date(sub("..$", "01", format(x)))
-x2 <- aggregate(x, firstofmonth(time(x)), tail, 1)
-
-# fill in missing months by merging with an empty series containing
-# a complete set of 1st of the months
-xrt2 <- range(time(x2))
-x0 <- zoo( , seq(from = xrt2[1], to = xrt2[2], by = "month"))
-merge(x2, x0)
 
 }
 \keyword{ts}

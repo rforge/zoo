@@ -13,7 +13,8 @@ MASS::lqs
 quantreg::rq, 
 randomForest::randomForest, 
 and possibly other regression-like routines.  It is normally called
-from lm, glm and similar routines rather than directly by the user.
+from lm, glm and similar routines although it can be called
+directly by the user.
 }
 \usage{
 
@@ -88,10 +89,6 @@ from lm, glm and similar routines rather than directly by the user.
   (and may well add attributes).  The levels of any factors in the data
   frame are adjusted according to the \code{drop.unused.levels} and
   \code{xlev} arguments.
-
-  Unless \code{na.action = NULL}, time-series attributes will be removed
-  from the variables found (since they will be wrong if \code{NA}s are
-  removed).
 
   Note that model.frame.AsIs examines the class of the response variable
   and dispatches model.frame.X if its class is X.  Thus specifying
