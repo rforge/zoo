@@ -1,3 +1,9 @@
+#Z# reminder for myself: 
+#Z# ts method could probably easily be introduced via
+#Z# as.ts(rapply(as.zoo(data), ...))
+#Z# similar for rollfoo functions
+#Z# also check freq usage
+
 rapply <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE, ...)
     UseMethod("rapply")
 

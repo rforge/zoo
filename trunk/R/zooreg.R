@@ -1,20 +1,21 @@
-zooreg <- function(x, start = 1, end = numeric(), frequency = 1, 
+zooreg <- function(data, start = 1, end = numeric(), frequency = 1, 
   deltat = 1, ts.eps = getOption("ts.eps"), order.by = NULL)
 {
+    ## choose frequency/deltat
+    if (missing(frequency)) frequency <- 1/deltat
+    	else if(missing(deltat)) deltat <- 1/frequency
+    if (frequency > 1 && abs(frequency - round(frequency)) < ts.eps)
+    	frequency <- round(frequency)
+
     ## if no index (i.e., order.by) is specified: behave as ts()
     ## else: behave as zoo()
 
     if (is.null(order.by)) {
-        if (missing(x) || is.null(x)) x <- NA
-	if(!any(c(is.vector(x), is.factor(x), is.matrix(x), is.data.frame(x))))
-  	    stop(paste(dQuote("x"), ": attempt to define illegal zoo object"))
-	ndata <- NROW(x)        
+        if (missing(data) || is.null(data)) data <- NA
+	if(!any(c(is.vector(data), is.factor(data), is.matrix(data), is.data.frame(data))))
+  	    stop(paste(dQuote("data"), ": attempt to define illegal zoo object"))
+	ndata <- NROW(data)        
 
-        ## choose frequency/deltat
-        if (missing(frequency)) frequency <- 1/deltat
-            else if (missing(deltat)) deltat <- 1/frequency
-        if (frequency > 1 && abs(frequency - round(frequency)) < ts.eps)
-            frequency <- round(frequency)
         ## choose start/end
         if (length(start) > 1) start <- start[1] + (start[2] - 1)/frequency
         if (length(end) > 1) end <- end[1] + (end[2] - 1)/frequency
@@ -27,17 +28,17 @@ zooreg <- function(x, start = 1, end = numeric(), frequency = 1,
 	nobs <- length(order.by)
         ## nobs <- floor((end - start) * frequency + 1.01)
         if (nobs != ndata) {
-	  if(is.vector(x)) x <- rep(x, length.out = nobs)
-	  else if(is.factor(x)) x <- factor(rep(as.character(x), length.out = nobs), labels = levels(x))
-	  else if(is.matrix(x) || is.data.frame(x)) x <- x[rep(1:ndata, length.out = nobs), , drop = FALSE]
+	  if(is.vector(data)) data <- rep(data, length.out = nobs)
+	  else if(is.factor(data)) data <- factor(rep(as.character(data), length.out = nobs), labels = levels(data))
+	  else if(is.matrix(data) || is.data.frame(data)) data <- data[rep(1:ndata, length.out = nobs), , drop = FALSE]
         }
 
-        attr(x, "oclass") <- attr(x, "class")
-        attr(x, "index") <- order.by
-        attr(x, "frequency") <- frequency
-        class(x) <- c("zooreg", "zoo")
-        return(x)
+        attr(data, "oclass") <- attr(data, "class")
+        attr(data, "index") <- order.by
+        attr(data, "frequency") <- frequency
+        class(data) <- c("zooreg", "zoo")
+        return(data)
     } else {
-        return(zoo(x, order.by, frequency))
+        return(zoo(data, order.by, frequency))
     }
 }

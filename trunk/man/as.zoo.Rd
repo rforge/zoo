@@ -1,18 +1,18 @@
 \name{as.zoo}
 \alias{as.zoo}
 \alias{as.zoo.default}
-\alias{as.zoo.ts}
 \alias{as.zoo.its}
 \alias{as.zoo.irts}
 \alias{as.zoo.zoo}
-\alias{as.ts.zoo}
-\alias{as.ts.zooreg}
 \alias{as.matrix.zoo}
 \alias{as.vector.zoo}
 \alias{as.data.frame.zoo}
 \alias{as.list.zoo}
 \alias{as.list.ts}
 \alias{as.its.zoo}
+\alias{as.zoo.ts}
+\alias{as.ts.zoo}
+
 \title{Coercion from and to zoo}
 \description{
 Methods for coercing \code{"zoo"} objects to other classes and

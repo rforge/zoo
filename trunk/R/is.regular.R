@@ -55,14 +55,12 @@ deltat.zooreg <- function(x, ...)
 
 cycle.zooreg <- function(x, ...)
 {
-  ix <- index(x)
+  freq <- frequency(x)
+  ix <- as.numeric(index(x))
   d <- diff(ix)
-  deltat <- min(d)
-  freq <- 1/deltat
-  if(freq > 1 && identical(all.equal(freq, round(freq)), TRUE)) freq <- round(freq)
   if(!identical(all.equal(freq*d, round(freq*d)), TRUE))
     stop(paste(sQuote("cycle"), "not available for", sQuote("x")))  
-  return(zoo(round((ix - floor(ix)) * freq) + 1, order.by = ix, frequency(x)))
+  return(zoo(round((ix - floor(ix)) * freq) + 1, order.by = index(x), freq))
 }
 
 cycle.zoo <- function(x, ...)

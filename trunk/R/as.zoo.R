@@ -88,6 +88,11 @@ as.list.ts <- function(x, ...) {
 
 ## regular series coercions
 
+as.zooreg <- function(x, ...)
+{
+  UseMethod("as.zooreg")
+}
+
 as.zooreg.ts <- as.zoo.ts <- function(x, ...)
 {
   xtsp <- tsp(x)
