@@ -1,5 +1,6 @@
 \name{zoo}
 \alias{zoo}
+\alias{c.zoo}
 \alias{print.zoo}
 \alias{as.zoo.factor}
 \alias{summary.zoo}

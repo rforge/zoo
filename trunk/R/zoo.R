@@ -107,3 +107,9 @@ tail.zoo <- function(x, n = 6, ...) {
 
 index2char <- function(x, ...) UseMethod("index2char")
 index2char.default <- function(x, ...) as.character(x)
+
+c.zoo <- function(...) {
+	z <- list(...)
+	zoo(do.call("c", lapply(z, coredata)), do.call("c", lapply(z, time)))
+}
+
