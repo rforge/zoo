@@ -48,6 +48,9 @@ FEATURES
 
     - additional use and testing
 
+  o rapply
+    - position argument with values left, center, right
+
 
 
 INTERFACES
