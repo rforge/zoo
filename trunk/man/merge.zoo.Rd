@@ -10,7 +10,7 @@ versions of database \emph{join} operations.
 
 \usage{
 \method{merge}{zoo}(\dots, all = TRUE, fill = NA, suffixes = NULL,
-  retclass = c("zoo", "list"), LAST.SERIES = FALSE)
+  retclass = c("zoo", "list"))
 }
 
 \arguments{
@@ -25,8 +25,6 @@ versions of database \emph{join} operations.
   \item{retclass}{character that specifies the class of the returned result.
     It can be \code{"zoo"} (the default), \code{"list"} or \code{NULL}. For 
     details see below.}
-  \item{LAST.SERIES}{logical value.  If TRUE, the return value is also placed
-    in a variable \code{LAST.SERIES} in the global environment.}
 }
 
 \details{
@@ -68,7 +66,9 @@ not allowed) and combines the rows of the objects.
 }
 
 \value{
-An object of class \code{"zoo"}.
+An object of class \code{"zoo"} if \code{retclass="zoo"}, an object of
+class \code{"list"} if \code{retclass="list"} or modified arguments as
+explained above if \code{retclass=NULL}.  
 }
 
 \seealso{\code{\link{zoo}}}

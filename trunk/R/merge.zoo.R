@@ -28,13 +28,12 @@ cbind.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL)
 
 #Z# instead of:
 #Z# cbind.zoo <- 
-merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c("zoo", "list"), LAST.SERIES = FALSE)
+merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c("zoo", "list"))
 {
     if (!is.null(retclass)) retclass <- match.arg(retclass)
     # cl are calls to the args and args is a list of the arguments
     cl <- as.list(match.call())
-    cl[[1]] <- cl$all <- cl$fill <- cl$retclass <- NULL
-    cl$suffixes <- cl$LAST.SERIES <- NULL
+    cl[[1]] <- cl$all <- cl$fill <- cl$retclass <- cl$suffixes <- NULL
     args <- list(...)
 
     parent <- parent.frame()
@@ -174,7 +173,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     for(i in which(scalars)) rval[[i]] <- rval[[i]][] <- rval[[i]][1]
     names(rval) <- suffixes
     if (retclass == "list") { 
-	if (LAST.SERIES) assign("LAST.SERIES", rval, .GlobalEnv)
+	# assign(".Last.merge.zoo", rval, .GlobalEnv)
 	return(rval)
     }
     # remove zero length arguments
@@ -241,7 +240,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
         colnames(rval) <- make.unique(zoocolnames)
     }
     rval <- zoo(rval, indexes)
-    if (LAST.SERIES) assign(LAST.SERIES, rval, .GlobalEnv)
+    # assign(".Last.merge.zoo", rval, .GlobalEnv)
     return(rval)
 }
 

@@ -14,7 +14,6 @@ model.frame.zoo <- function (formula, data = NULL, subset = NULL,
 	args <- as.list(attr(terms(formula), "variables"))[-1]
 	args$retclass <- "list"
 	args$all <- FALSE
-	args$LAST.SERIES <- TRUE
 	formula <- terms(formula)
 	attr(formula, "predvars") <- as.call(append(merge.zoo, args))
 	NextMethod("model.frame", formula = formula)
