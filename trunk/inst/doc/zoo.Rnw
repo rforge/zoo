@@ -190,7 +190,7 @@ Methods to several standard generic functions are available for
 \code{tail} and \code{[} (subsetting), a few of which are illustrated in
 the following. 
 
-There are three printing code styles for \code{"zoo"} objects: vectors are default
+There are three printing code styles for \code{"zoo"} objects: vectors are by default
 printed in \code{"horizontal"} style
 <<print1>>=
 z1
@@ -387,9 +387,8 @@ end(z1)
 
 
 To work on both data and index/time, \pkg{zoo} provides
-a \code{window} method and also adds a new generic 
-\code{window<-} with a method for \code{"zoo"} objects. In both
-cases the window is specified by
+\code{window} and \code{window<-} methods for \code{"zoo"} objects.
+In both cases the window is specified by
 \begin{Scode}
 window(x, index, start, end)
 \end{Scode}
@@ -508,26 +507,25 @@ formula to tell the system that the special processing
 just described should be invoked.   For example,
 
 <<regression1>>=
-	yz <- zoo(1:12)^2
-	xz <- zoo(1:9)^2
-	fz <- zoo(gl(2,5)) # zoo factor object
+yz <- zoo(1:12)^2
+xz <- zoo(1:9)^2
+fz <- zoo(gl(2,5)) # zoo factor object
 
-	# example using diff and lag -- note I(...)
-	lm(I(lag(yz) ~ diff(xz) + fz))
+# example using diff and lag -- note I(...)
+lm(I(lag(yz) ~ diff(xz) + fz))
 
-	# same example using glm
-	glm(I(lag(yz) ~ diff(xz) + fz))
+# same example using glm
+glm(I(lag(yz) ~ diff(xz) + fz))
 
-	# same example using RandomForest from package RandomForest
-	library(randomForest)
-	set.seed(1) 
-	randomForest(I(lag(yz) ~ diff(xz) + fz))
+# same example using RandomForest from package RandomForest
+library(randomForest)
+randomForest(I(lag(yz) ~ diff(xz) + fz))
 @
 
 See the help page for \code{model.frame.zoo} for more examples
 and additional information.
 
-\subsection[strucchange: empirical fluctuation processes of class "zoo"]{\pkg{strucchange}: empirical fluctuation processes of class \code{"zoo"}}
+\subsection[strucchange: Empirical fluctuation processes of class "zoo"]{\pkg{strucchange}: Empirical fluctuation processes of class \code{"zoo"}}
 
 The package \pkg{strucchange} provides a collection of methods for testing,
 monitoring and dating structural changes, in particular in linear regression models.
@@ -581,27 +579,27 @@ daily (or higher frequent) financial data. The package \pkg{tseries} provides
 the function \code{get.hist.quote} for obtaining historical financial data
 by querying Yahoo! Finance at \url{http://finance.yahoo.com/},
 an online portal quoting data provided by Reuters. The following code
-queries the quotes of Lucent Technologies:
+queries the quotes of Lucent Technologies starting from 2001-01-01:
 
 <<tseries1,eval=FALSE>>=
 library(tseries)
-LU <- get.hist.quote(instrument = "LU",  origin = as.Date(0))
+LU <- get.hist.quote(instrument = "LU", start = "2001-01-01",
+  end = "2004-09-30", origin = "1970-01-01")
 @
 
 <<tseries1a,echo=FALSE>>=
 if(online) {
-  LU <- get.hist.quote("LU",  origin = as.Date(0))
+  LU <- get.hist.quote("LU", start = "2001-01-01",
+  end = "2004-09-30", origin = "1970-01-01")
   save(LU, file = "LU.rda", compress = TRUE)
 } else {
   load("LU.rda")
 }
 @  
 
-\code{zoo} has provided additional methods to \code{as.Date} which
-this example uses.
 In the returned \code{LU} object the irregular data is stored by extending
 it in a regular grid and filling the gaps with \code{NA}s. The time is stored
-in days starting from an \code{origin}, in this case specified to be the
+in days starting from an \code{origin}, in this case specified to be 1970-01-01, the
 origin used by the \code{Date} class.
 This series can be transformed easily into an irregular \code{"zoo"} series 
 using a \code{"Date"} index. The log-difference returns for Lucent 
@@ -623,7 +621,7 @@ plot(diff(log(LU)))
 \end{figure}
 
 
-\subsection[fBasics: indexes of class "timeDate"]{\pkg{fBasics}: indexes of class \code{"timeDate"}}
+\subsection[fBasics: Indexes of class "timeDate"]{\pkg{fBasics}: Indexes of class \code{"timeDate"}}
 
 Although the methods in \pkg{zoo} work out of the box for many index classes,
 it might be necessary for some index classes to provide \code{c}, \code{length},
@@ -650,7 +648,7 @@ z2td
 
 The package \pkg{zoo} provides an \proglang{S3} class and methods
 for indexed totally ordered observations, such as irregular time series.
-its key design goals are independence of a particular index class 
+Its key design goals are independence of a particular index class 
 and compatibility with standard generics similar to the behaviour of 
 the corresponding \code{"ts"} methods. This paper describes how
 these are implemented in \pkg{zoo} and illustrates the usage of 
@@ -658,10 +656,27 @@ the methods for plotting, merging and
 binding, several mathematical operations, extracting and replacing data
 and index, coercion and \code{NA} handling.
 
+
+\section*{Computational details}
+
+The results in this paper were obtained using \proglang{R}
+\Sexpr{paste(R.Version()[6:7], collapse = ".")} with the packages
+\pkg{zoo} \Sexpr{gsub("-", "--", packageDescription("zoo")$Version)},
+\pkg{strucchange} \Sexpr{gsub("-", "--", packageDescription("strucchange")$Version)},
+\pkg{fBasics} \Sexpr{gsub("-", "--", packageDescription("fBasics")$Version)},
+\pkg{tseries} \Sexpr{gsub("-", "--", packageDescription("tseries")$Version)},
+\pkg{randomForest} \Sexpr{gsub("-", "--", packageDescription("randomForest")$Version)} and
+\pkg{DAAG} \Sexpr{gsub("-", "--", packageDescription("DAAG")$Version)}.
+\proglang{R} itself and all packages used are available from
+CRAN at \url{http://CRAN.R-project.org/}.
+
+
 \bibliography{zoo}
 
 \begin{appendix}
-\include{zooref}
+\newpage
+\section{Reference card}
+\input{zooref-raw}
 \end{appendix}
 
 \end{document}

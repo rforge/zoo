@@ -3,9 +3,7 @@ FEATURES
 
   o zoo()
     - support zoo data.frame objects
-
-    - support logical zoo objects
-
+ 
     
   o merge()
     - merge.zoo to accept non-zoo arguments (other than first)

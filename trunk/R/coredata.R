@@ -35,6 +35,7 @@ coredata.its <- function(x, ...)
 {
   stopifnot(length(x) == length(value))
   x[] <- value
+  attr(x, "oclass") <- attr(value, "class")
   return(x)
 }
 

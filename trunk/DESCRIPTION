@@ -1,6 +1,6 @@
 Package: zoo
 Version: 0.9-1
-Date: 2004-11-07
+Date: 2004-11-29
 Title: Z's ordered observations
 Author: Achim Zeileis, Gabor Grothendieck
 Maintainer: Achim Zeileis <Achim.Zeileis@wu-wien.ac.at>
@@ -11,6 +11,5 @@ Description: An S3 class with methods for totally ordered indexed
              index/date/time class and consistency with with ts and 
              base R by providing methods to extend standard generics.
 Depends: R (>= 2.0.0)
-Suggests: chron, fBasics, randomForest, e1071, MASS, nnet, quantreg
+Suggests: chron, fBasics, its, tseries
 License: GPL
-

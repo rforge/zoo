@@ -1,21 +1,11 @@
+Changes in Version 0.9-1
 
-Changes in Version 0.9-2 (under development)
-
-  o [.zoo supports indexing by times
-
-  o rapply for rolling application of function to series.  
-    rollmean, rollmax, rollmed are optimized versions for 
-    respective functions.
-
-
-Changes in Version 0.9-1 (current version)
-
-  o base functions new generic functions ORDER()
-    and MATCH() (with order() and match() as the
-    default) so that zoo() can handle 
-    arbitrary index/time classes when suitable methods
-    for the generic function c(), length(), order(),
-    match() and subsetting [, are supplied.
+  o new generic functions ORDER() and MATCH() (with
+    order() and match() as the default) so that zoo()
+    can handle  arbitrary index/time classes when
+    suitable methods for the generic function c(),
+    length(), order(), match() and subsetting [, are
+    supplied.
 
   o improved printing of "zoo" objects and added
     a summary() method.
@@ -58,17 +48,18 @@ Changes in Version 0.9-1 (current version)
     for "zoo" objects, t(), cumsum(), cumprod(), cummin(),
     and cummax().
 
-  o added model.frame.zoo support for regression functions
-    such as lm, glm, Design::lrm, e1071::svm, MASS::lqs nnet::nnet,
-    quantreg::rq, randomForest::randomForest, and possibly other 
-    R regression functions. 
+  o added model.frame.AsIs and model.frame.zoo to support
+    regression based on zoo objects, in particular with lm().
+    Other regression methods which work on zoo objects using
+    this approach include lrm (Design), svm (e1071), lqs (MASS),
+    nnet (nnet), rq (quantreg), randomForest (randomForest). 
 
   o Zero length vector zoo objects may have non-zero index vectors 
-    intended to be used in merge to extend zoo objects.  zoo
+    intended to be used in merge to extend zoo objects. zoo
     changed to enable the creation of such objects by omitting
     first argument.
 
-  o zoo vignette added
+  o added a vignette explaining the new features
   
 
 
