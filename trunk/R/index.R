@@ -63,7 +63,7 @@ if(!exists("value") || !is.function(get("value"))) {
   value <- function(x, ...) UseMethod("value")
 }
 
-value.zoo <- function(x, ...)
+value.default <- function(x, ...)
 {
 	y <- x
 	attributes(y) <- NULL
@@ -77,7 +77,7 @@ value.zoo <- function(x, ...)
 	UseMethod("value<-")
 }
 
-"value<-.zoo" <- function(x, value)
+"value<-.default" <- function(x, value)
 {
 	stopifnot(length(x) == length(value))
 	x[] <- value

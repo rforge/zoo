@@ -1,1 +1,4 @@
 R/fBasics.R
+inst
+inst/doc
+inst/doc/*

@@ -2,10 +2,10 @@
 \alias{window.zoo}
 \alias{window<-}
 \alias{window<-.zoo}
-\title{Extract/Assign to Time Windows of Objects}
+\title{Extract/Replacing the Time Windows of Objects}
 \description{
 Generic functions for extracting time windows
-of (zoo) objects and assigning a value to it.
+of (zoo) objects and replacing it.
 }
 
 \usage{
@@ -29,7 +29,7 @@ window(x, \dots) <- value
 
 \value{
 The methods for \code{"zoo"} objects either extract the time window of the
-object (and hence return a \code{"zoo"} object) or assign a value to it.
+object (and hence return a \code{"zoo"} object) or replacing it.
 }
 
 \seealso{\code{\link{zoo}}}

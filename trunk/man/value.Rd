@@ -1,12 +1,12 @@
 \name{value}
 \alias{value}
-\alias{value.zoo}
+\alias{value.default}
 \alias{value<-}
-\alias{value<-.zoo}
-\title{Extract/Assign to the Value of Objects}
+\alias{value<-.default}
+\title{Extract/Replace the Value of Objects}
 \description{
 Generic functions for extracting the value of a (more complex)
-object and assigning a value to it.
+object and replacing it.
 }
 
 \usage{
@@ -21,9 +21,8 @@ value(x) <- value
 }
 
 \value{
-The methods for \code{"zoo"} objects either extract the value of the
-object, i.e., the observations without the index/time attribute, or
-assign a value to it (and hence return an object of class \code{"zoo"}).
+The default methods extract the value of the object (i.e., stripping off
+all attributes) or replacing to it.
 }
 
 \seealso{\code{\link{zoo}}}

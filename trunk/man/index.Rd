@@ -10,10 +10,10 @@
 \alias{time<-.zoo}
 \alias{start.zoo}
 \alias{end.zoo}
-\title{Extracting/Assigning to Index of Objects}
+\title{Extracting/Replacing the Index of Objects}
 \description{
 Generic functions for extracting the index of an object
-and assigning some value to it.
+and replacing it.
 }
 \usage{
 index(x, \dots)
@@ -31,7 +31,7 @@ index(x) <- value
 of objects, currently it has a default method and a method
 for \code{\link{zoo}} objects which is the same as the
 \code{\link{time}} method for \code{\link{zoo}} objects.
-Another pair of generic function provides assigning to 
+Another pair of generic function provides replacing
 the \code{index} or \code{time} attribute. 
 Methods are available for \code{"zoo"} objects only, see examples below.
 
@@ -49,7 +49,7 @@ x <- zoo(rnorm(5), x.date)
 index(x)
 time(x)
 
-## assign a new index/time to zoo object
+## replace index/time of a zoo object
 index(x) <- 1:5
 x
 time(x) <- 6:10
