@@ -2,9 +2,18 @@ na.locf <- function(object, na.rm = TRUE, ...)
 	UseMethod("na.locf")
 
 na.locf.default <- function(object, na.rm = TRUE, ...) {
-	na.locf.0 <- function(object) {
-	      L <- !is.na(object)
-	      object[c(NA,which(L))[cumsum(L)+1]]
+	na.locf.0 <- function(x) {
+	      L <- !is.na(x)
+	      idx <- c(NA,which(L))[cumsum(L)+1]
+	      # na.index(x,i) returns x[i] except if i[j] is NA then
+	      # x[i[j]] is NA too
+	      na.index <- function(x, i) {
+		L <- !is.na(i)
+		x[!L] <- NA
+		x[L] <- x[i[L]]
+	  	x
+	      }
+	      na.index(object, idx)
 	}
 	object[] <- if (length(dim(object)) == 0)
 		na.locf.0(object)

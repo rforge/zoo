@@ -549,14 +549,14 @@ formula to tell the system that the special processing
 just described should be invoked.   For example,
 
 <<regression1>>=
-yz <- zoo(1:12)^2
-xz <- zoo(1:9)^2
-fz <- zoo(gl(2,5)) # zoo factor object
+yz <- zoo(1:20)^2
+xz <- zoo(1:18)^2
+fz <- zoo(gl(4,5)) # zoo factor object
 
 lm(I(lag(yz) ~ diff(xz) + fz))
 
-library(randomForest)
-randomForest(I(lag(yz) ~ diff(xz) + fz))
+library(quantreg)
+rq(I(lag(yz) ~ diff(xz) + fz))
 @
 
 See the help page for \code{model.frame.zoo} for more examples
