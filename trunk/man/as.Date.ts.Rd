@@ -22,10 +22,10 @@
 }
 \details{
   The \code{as.Date.integer} method interprets the argument \code{x} as
-  the number of days since the origin 1970-01-01 which corresponds
-  to 0.  Negative values are allowed.
+  the number of days since the origin 1970-01-01 so that the origin
+  corresponds to 0.  Negative values are allowed.
 
-  The \code{as.Date.numeric} method behaves as the \code{as.Date.integer}
+  The \code{as.Date.numeric} method like the \code{as.Date.integer}
   method applied to \code{floor(x)}.
 
   The \code{as.Date.ts} inspects \code{time(x)} and \code{frequency(x)}:

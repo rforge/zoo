@@ -48,7 +48,7 @@
     regression fitting functions (see below).}
 }
 \details{
-  Regression functions, like \code{lm} say, typically specify the data
+  Regression functions such as \code{lm} typically specify the data
   to be used based on a \code{formula} (and optional further arguments)
   as in \code{lm(formula, \dots)}. The regression function then typically
   calls the generic function \code{model.frame} to convert the formula  
@@ -59,15 +59,15 @@
   \code{formula} determines which method of \code{model.frame} is used for
   data handling by the regression function.  
 
-  Typically (or rather: virtually always) the class of \code{formula} is
-  \code{"formula"} such that \code{model.frame.formula} is called. In time
+  Normally the class of \code{formula} is
+  \code{"formula"} which causes \code{model.frame.formula} to be called. In time
   series regression (and potentially in other situations as well), a more
   specialized \code{model.frame} method should be called depending on the
-  type of the dependent variable. For this alternate dispatch, 
+  class of the dependent variable. For this alternate form of dispatch, 
   \code{model.frame.AsIs} is introduced: by insulating the \code{formula}
   argument in \code{I(formula)} the class is changed to \code{"AsIs"}
-  (leaving \code{formula} unchanged) and thus \code{model.frame.AsIs}
-  is called. This does no processing of its own other than
+  (leaving \code{formula} unchanged) so that \code{model.frame.AsIs}
+  is dispatched. \code{mode.frame.AsIs} does no processing of its own other than
   to examine the dependent variable of the formula and redispatch according
   to its class.
   Thus, if the dependent variable specified in \code{I(formula)} is of
@@ -79,14 +79,16 @@
   that may contain only \code{zoo} objects as variables and transform
   it to a model frame that can be used in various regression functions
   appropriately aligning the various series. If the \code{"zoo"} series
-  should be specified using the \code{data} argument, they can be 
-  a list object of \code{"zoo"} objects, a single zoo object, or
+  should be specified using the \code{data} argument, such argument can be 
+  a list of \code{"zoo"} objects, a single zoo object, or
   a data frame of \code{"zoo"} objects. Similarly, a \code{model.frame.ts}
   method is provided for \code{"ts"} objects. Note, that despite their names
   these methods do \emph{not} expect a normal \code{"zoo"} or \code{"ts"} object
   as their respective first argument but rather they expect a \code{formula}
-  (specifying \code{"zoo"} or \code{"ts"} series respectively).
-  Their behaviour is essentially the same as in the default \code{\link{model.frame}}
+  (whose dependent variable is of class 
+  \code{"zoo"} or \code{"ts"} respectively).
+  Their behaviour is essentially the same as in the default 
+  \code{\link{model.frame}}
   method, but they retain the index/time information. Furthermore, they
   enable the user to use \code{\link{diff}} and \code{\link{lag}} in the
   model specification.
@@ -98,9 +100,11 @@
   usually not have to call any of the \code{model.frame} functions explicitly
   but only has to insulate the \code{formula} with \code{I()}. 
   See the examples for an illustration.
-  The regression functions for which this approach is known to work includes \code{\link[stats]{lm}},
+  The regression functions for which this approach is known to work 
+  includes \code{\link[stats]{lm}},
   \code{\link[stats]{glm}}, \code{\link[Design]{lrm}}, \code{\link[MASS]{lqs}},
-  \code{\link[nnet]{nnet}}, \code{\link[e1071]{svm}}, \code{\link[quantreg]{rq}},
+  \code{\link[nnet]{nnet}}, \code{\link[e1071]{svm}}, 
+  \code{\link[quantreg]{rq}},
   \code{\link[randomForest]{randomForest}} and possibly many others.
 
    IMPORTANT: Note, that this feature is under development and might

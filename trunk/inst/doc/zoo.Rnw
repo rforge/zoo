@@ -635,6 +635,12 @@ z2td
 \subsection[stats: (Dynamic) regression modelling]{\pkg{stats}: (Dynamic) regression modelling}
 \label{sec:stats}
 
+\code{zoo} provides a facility for extending regression functions such
+as \code{lm} to handle time series.  One simply encloses the \code{formula}
+argument in \code{I(...)} and ensures that all variables in
+the formula are of class \code{zoo}
+or all are of class \code{ts}.
+
 Basic regression functions, like \code{lm} or \code{glm}, in which regression
 relationships are specified via a \code{formula} only have limited
 support for time series regression. The reason is that \code{lm(formula, ...)}
@@ -655,7 +661,7 @@ respectively. The advantage of \code{model.frame.zoo} is that it aligns
 the variables along a common index, it allows the usage of \code{lag} and
 \code{diff} in the model specification and works with the \code{NA} handling methods
 described in Section~\ref{sec:NA}. Therefore, dynamic linear regression models
-can be fit easily using the standard \code{lm} function and just insulating
+can be fit easily using the standard \code{lm} function by just insulating
 \code{I(formula)} in the corresponding call.
 \footnote{In addition to \code{lm} and \code{glm}, this approach works for
 many other regression functions including

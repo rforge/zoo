@@ -29,8 +29,9 @@ versions of database \emph{join} operations.
 
 \details{
 The \code{merge} method for \code{"zoo"} objects combines the columns
-of several objects either along the union of the dates (for \code{all = TRUE}, the default),
-or the intersection of their dates (for \code{all = FALSE})
+of several objects along the union of the dates 
+for \code{all = TRUE}, the default,
+or the intersection of their dates for \code{all = FALSE}
 filling up the created gaps (if any) with the \code{fill} pattern.
 
 \code{all} can be a vector of the same length as the number of \code{"zoo"}
