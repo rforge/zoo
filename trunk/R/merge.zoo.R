@@ -168,7 +168,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     else
 	rval[[1]]
     # return if vector since remaining processing is only for column names
-    if (length(dim(rval)) == 0) return(rval)
+    if (length(dim(rval)) == 0) return(zoo(rval,indexes))
 
     #
     # processing from here on is to compute nice column names
