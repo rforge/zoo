@@ -474,7 +474,6 @@ working with indexed totally ordered observations that can be either employed by
 users directly or can be a basic ingredient on top of which other packages can
 build. The latter is illustrated with a few brief examples involving the packages
 \pkg{stats},
-\pkg{glm}, \pkg{randomForest}, \pkg{e1071}, \pkg{MASS}, \pkg{quantreg},
 \pkg{strucchange}, \pkg{tseries} and \pkg{fBasics} in this section.
 
 \subsection[stats: regression-style modelling with "zoo"]{\pkg{stats}: regression-style modelling with \code{zoo}}
@@ -491,7 +490,8 @@ from the \pkg{randomForest}
 package, the \code{svm} support vector machine function
 from the \pkg{e1071} package, the \code{lqs} resistant regression
 function from the
-\pkg{MASS} package and \code{rq} quantile regression fucntion
+\pkg{MASS} package, the \code{nnet} neural network function 
+from the \pkg{nnet} and \code{rq} quantile regression function
 from the \pkg{quantreg} package.  
 
 \code{zoo} allows one to 

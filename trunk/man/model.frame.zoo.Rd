@@ -10,6 +10,7 @@
 Design::lrm, 
 e1071::svm, 
 MASS::lqs 
+nnet::nnet,
 quantreg::rq, 
 randomForest::randomForest, 
 and possibly other regression-like routines.  It is normally called
@@ -137,6 +138,10 @@ directly by the user.
 	# resistant regression
 	library(MASS)
 	lqs(I(lag(yz) ~ diff(xz)+fz))
+
+	# neural network
+	library(nnet)
+	nnet(I(lag(yz) ~ diff(xz)+fz), size = 1)
 
 	# rank regression
 	if (require(quantreg))
