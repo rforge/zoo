@@ -5,7 +5,8 @@ as.zoo <- function(x, ...)
 
 as.zoo.default <- function(x, ...)
 {
-  zoo(structure(x, dim = dim(x)), index(x))
+  if(is.zoo(x)) x
+    else zoo(structure(x, dim = dim(x)), index(x))
 }
 
 as.zoo.factor <- function(x, ...) 
