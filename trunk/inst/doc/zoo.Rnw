@@ -32,6 +32,12 @@
 \begin{document}
 
 \SweaveOpts{engine=R,eps=FALSE}
+%\VignetteIndexEntry{zoo: An S3 Class and Methods for Indexed Totally Ordered Observations}
+%\VignetteDepends{zoo,tseries,fBasics,strucchange}
+%\VignetteKeywords{totally ordered observations, irregular time series, S3, R}
+%\VignettePackage{zoo}
+
+
 <<preliminaries,echo=FALSE,results=hide>>=
 library(zoo)
 library(tseries)
