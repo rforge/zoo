@@ -45,48 +45,62 @@
     regression fitting functions (see below).}
 }
 \details{
-  When fitting models to data based on a formula specification, the data
-  handling is usually done by the default method to the generic function
-  \code{model.frame}. For example \code{lm(formula)} dispatches to
-  \code{model.frame.default}. In some situations, it might be desirable
-  to dispatch to another function that does the data handling depending
-  on the class of the variables that are specified in \code{formula}.
-  This is not (easily) possible in R, neither using S3 nor S4 methods,
-  because the first argument \code{formula} is of class \code{"formula"}
-  and it is not straightforwardly possible to dispatch on the data specified
-  by it. To work around this, \code{zoo} provides a function \code{model.frame.AsIs}
-  which is called if the model is specified by \code{lm(I(formula))}, i.e.,
-  the \code{formula} is insulated by \code{I()} providing an object of
-  class \code{"AsIs"} (and not \code{"formula"}). The function \code{model.frame.AsIs}
-  examines the data specified by the formula and re-dispatches to a
-  \code{model.frame} method depending on the class of the dependent variable.  
+  \code{lm(formula)} and certain other formula-based regression 
+  functions call generic function
+  \code{model.frame} to convert the formula and related data specification
+  to a data frame which forms the basic data used by the regression.
+  In such a situation, the \code{formula} argument of the regression
+  function is passed to \code{model.frame} so the class of the
+  \code{formula} argument to the regression function and, hence, 
+  \code{model.frame} determines which method of 
+  \code{model.frame} is ultimately used for data handling 
+  by the regression function.  
+
+  The class of the \code{formula} argument is often 
+  of class \code{formula}; however, the user can instruct \code{lm(formula)}
+  and certain other regression functions to use alternate data
+  handling methods by providing a \code{formula} argument with a different
+  class.  This is done by surrounding the \code{formula} argument 
+  of the regression function with an \code{I()} as shown in the examples.
+  The \code{I()} function simply passes its argument unchanged except for
+  setting the class to \code{AsIs}.  This causes \code{model.frame.AsIs}
+  to be dispatched and that method does no processing of its own other than
+  to examine the dependent variable of the formula and redispatch according
+  to its class.
   Thus, if the dependent variable specified in \code{I(formula)} is of
   class \code{"foo"} the method \code{model.frame.foo} will be called for
   handling the data.
 
-  If the dependent variable in such a model is of class \code{"zoo"} and
+  If the dependent variable in such a model is of class \code{"zoo"} then
   \code{model.frame.zoo} will be called. Its  key role is to inspect a formula
   that contains only \code{zoo} objects as variables and transform
   it to a model frame that can be used in various regression functions
-  appropriately aligning the various series. Similarly, a \code{model.frame.ts}
+  appropriately aligning the various series. It also supports the use of
+  an optional list object of \code{zoo} objects, a single zoo object or
+  a data frame of zoo objects 
+  as the data argument to the regression function.
+  Similarly, a \code{model.frame.ts}
   method is provided for \code{"ts"} objects. Note, that despite their names
-  these function do \emph{not} expect a \code{"zoo"} or \code{"ts"} object
-  as their respective first argument, they expect a \code{formula}.
-  Their behaviour is essentially the same as in the default \code{\link{model.frame}}
+  these methods do \emph{not} expect a normal \code{"zoo"} or \code{"ts"} object
+  as their respective first argument, but rather they expect a \code{formula}
+  whose class has been set, typically by \code{I()}
+  to \code{"zoo"} or \code{ts}.  Their behaviour is essentially the same 
+  as in the default \code{\link{model.frame}}
   method, but they retain the index/time information. Furthermore, it
   enables the user to use \code{\link{diff}} and \code{\link{lag}} in the
   model specification.
   
   As many regression functions in R use the same steps to extract the 
   data from a specified \code{formula}, this approach modularizes the
-  data management and regression based on \code{"zoo"} objects is
-  easily available using various regression functions. Hence, the user will
-  usually not have to call any of the \code{model.frame} functions explicitely
-  but only has to insulate the \code{formula}. See the examples for an illustration.
-  (The regression functions for which this approach is known to work includes \code{\link[stats]{lm}},
+  data management and regression based on \code{"zoo"} objects making it
+  available in various regression functions. Hence, the user will
+  usually not have to call any of the \code{model.frame} functions explicitly
+  but only has to insulate the \code{formula} with \code{I()}. 
+  See the examples for an illustration.
+  The regression functions for which this approach is known to work includes \code{\link[stats]{lm}},
   \code{\link[stats]{glm}}, \code{\link[Design]{lrm}}, \code{\link[MASS]{lqs}},
   \code{\link[nnet]{nnet}}, \code{\link[e1071]{svm}}, \code{\link[quantreg]{rq}},
-  \code{\link[randomForest]{randomForest}} and possibly many others.)  
+  \code{\link[randomForest]{randomForest}} and possibly many others.
 }
 
 \value{
