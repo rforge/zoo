@@ -94,22 +94,24 @@ str.zoo <- function(object, ...)
 {
   if(!is.zoo(x)) stop("method is only for zoo objects")
   x.index <- index(x)
-  attr(x, "index") <- NULL
-  nclass <- class(x)[-(1:which(class(x) == "zoo"))]
-  if(length(nclass) < 1) nclass <- NULL 
-  class(x) <- nclass
-  if(missing(i)) i <- 1:NROW(x)
-  if(length(dim(x)) == 2) {
-	# we had previously just j to all cols if missing 
-	# but that did not work for zero columns
-	# so we now process the two cases separately
+  rval <- coredata(x)
+  if(missing(i)) i <- 1:NROW(rval)
+
+  ## also support that i can be index:
+  ## if i is not numeric/integer/logical, it is interpreted to be the index
+  if(!(all(class(i) == "numeric") ||
+       all(class(i) == "integer") ||
+       all(class(i) == "logical")))
+    i <- which(x.index %in% i)
+  
+  if(length(dim(rval)) == 2) {
 	if (length(i) == 1) drop <- FALSE
         if(missing(j)) 
-		rval <- zoo(x[i, , drop = drop, ...], x.index[i])
+		rval <- zoo(rval[i, , drop = drop, ...], x.index[i])
 	  else
-		rval <- zoo(x[i, j, drop = drop, ...], x.index[i])
+		rval <- zoo(rval[i, j, drop = drop, ...], x.index[i])
   } else
-	rval <- zoo(x[i], x.index[i])
+	rval <- zoo(rval[i], x.index[i])
 
   attr(rval, "oclass") <- attr(x, "oclass")
   attr(rval, "levels") <- attr(x, "levels")
@@ -117,6 +119,15 @@ str.zoo <- function(object, ...)
   if(!is.null(attr(rval, "frequency"))) class(rval) <- c("zooreg", class(rval))
 
   return(rval)
+}
+
+"[[.zoo" <- function(x, index, drop = TRUE, ...)
+{
+  if(!is.zoo(x)) stop("method is only for zoo objects")
+  x.index <- index.zoo(x)
+  if(missing(index)) index <- x.index
+  wi <- which(x.index %in% index)
+  return(x[wi,,])
 }
 
 head.zoo <- function(x, n = 6, ...) {
