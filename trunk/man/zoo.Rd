@@ -13,7 +13,14 @@
 \alias{cumprod.zoo}
 \alias{cummin.zoo}
 \alias{cummax.zoo}
-\alias{window.zoo}
+\alias{na.omit.zoo}
+\alias{na.contiguous.zoo}
+\alias{na.contiguous}
+\alias{na.contiguous.default}
+\alias{order}
+\alias{order.default}
+\alias{match}
+\alias{match.default}
 \title{Z's Ordered Observations}
 \description{
 \code{zoo} is the creator for an S3 class of indexed
@@ -50,36 +57,45 @@ with ts and base R by providing methods to standard generics. Therefore,
 standard functions can be used to work with \code{"zoo"} objects and no
 new set of commands has to be employed.
 
-The vector of indexes \code{order.by} can be of arbitrary class,
+When creating a \code{"zoo"} object with the function \code{zoo},
+the vector of indexes \code{order.by} can be of arbitrary class
+(if \code{x} is shorter or longer than \code{order.by} it is
+expanded accordingly),
 but it is essential that \code{order(order.by)} works. For other
 functions it is assumed that \code{c()}, \code{length()},
-\code{match()} and subsetting \code{[,} work.
-
-If \code{x} is shorter or longer than \code{order.by} it is
-expanded accordingly.
-
+\code{match()} and subsetting \code{[,} work. If this is not the case
+for a particular index/date/time class, then methods for these 
+generic functions should be created. Note, that to achieve this
+the non-generic base functions \code{\link{order}} and \code{\link{match}}
+are made generics in \code{zoo} with the base functions being the
+default (see \code{\link[base]{order}} and \code{\link[base]{match}}).
 
 Methods to standard generics for \code{"zoo"} objects currently
-include: \code{print}, \code{summary}, \code{str}, \code{head}, \code{tail},
-\code{[} (subsetting), \code{rbind}, \code{cbind}, \code{merge}
-(see \code{\link{merge.zoo}})
+include: \code{print} (see above), \code{summary}, \code{str}, \code{head},
+\code{tail}, \code{[} (subsetting), \code{rbind}, \code{cbind}, \code{merge}
+(see \code{\link{merge.zoo}}), \code{aggregate} (see \code{\link{aggregate.zoo}}),
+\code{plot} and \code{lines} (see \code{\link{plot.zoo}}).
 
-Working on data
+Additionally, \code{zoo} provides several generic functions and methods
+to work (a) on the value or data contained in a \code{"zoo"} object, (b) the
+index (or time) attribute associated to it, and (c) on both data and
+index:
 
-Working on index attribute
+(a) The data contained in \code{"zoo"} objects can be extracted by
+\code{value} (strips off all \code{"zoo"}-specific attributes) and modified
+using \code{value<-}. Both are new generic functions with methods for
+\code{"zoo"} objects, see \code{\link{value}}.
 
+(b) The index associated with a \code{"zoo"} object can be extracted
+by \code{index} and modified by \code{index<-}. As the interpretation
+of the index as ``time'' in time series applications is more natural,
+there are also synonymous methods \code{time} and \code{time<-}. The
+start and the end of the index/time vector can be queried by
+\code{start} and \code{end}. See \code{\link{index}}.
 
-
-is still under development, but it provides \code{plot}
-and \code{index} (or \code{time}) methods for \code{"zoo"} objects
-and can convert \code{"ts"} and \code{"irts"} objects with
-\code{\link{as.zoo}}.
-
-
-Working on data and index
-
-\code{window}, 
-
+(c) To work on both data and index/time, \code{zoo} provides methods
+\code{lag}, \code{diff} (see \code{\link{lag.zoo}}) and \code{window}, 
+\code{window<-} (see \code{\link{window.zoo}}).
 
 In addition to standard group generic function (see \code{\link{Ops}}),
 the following mathematical operations are availabe as methods for
@@ -87,8 +103,19 @@ the following mathematical operations are availabe as methods for
 first, and \code{cumsum}, \code{cumprod}, \code{cummin}, \code{cummax}
 which are applied column wise.
 
-Coercion to and from \code{"zoo"} objects, see \code{\link{as.zoo}}.
+Coercion to and from \code{"zoo"} objects is available for objects of
+various classes, in particular \code{"ts"}, \code{"irts"} and \code{"its"}
+objects can be coerced to \code{"zoo"}, the reverse is available for
+\code{"its"} and for \code{"irts"} (the latter in package \code{tseries}).
+Furthermore, \code{"zoo"} objects can be coerced to vectors, matrices and
+data frames (dropping the index/time attribute). See \code{\link{as.zoo}}.
 
+Two methods are available for \code{NA} handling in the data of 
+\code{"zoo"} objects: \code{\link{na.omit}} which returns a \code{"zoo"}
+object with incomplete observations removed and \code{\link{na.contiguous}}
+which extracts the longest consecutive stretch of non-missing values
+in a \code{"zoo"} object. Note, that the letter function is made a
+generic in \code{zoo} with the base function being the default.
 }
 
 \value{

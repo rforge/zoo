@@ -1,0 +1,71 @@
+as.zoo <- function(x, ...)
+{
+  UseMethod("as.zoo")
+}
+
+as.zoo.default <- function(x, ...)
+{
+  zoo(structure(x, dim = dim(x)), index(x))
+}
+  
+as.zoo.ts <- function(x, ...)
+{
+  rval <- as.vector(x)
+  dim(rval) <- dim(x)
+  zoo(rval, time(x))
+}  
+
+as.zoo.irts <- function(x, ...)
+{
+  zoo(x$value, x$time)
+}
+
+as.zoo.its <- function(x, ...) 
+{
+	index <- attr(x, "dates")
+	class(x) <- attr(x, "dates") <- NULL
+	zoo(x, index)
+}
+
+as.its.zoo <- function(x) {
+	stopifnot(require(its))
+	index <- attr(x, "index")
+	stopifnot(inherits(index, "POSIXct"))
+	attr(x, "index") <- NULL
+	its(unclass(x), index)
+}
+
+
+as.vector.zoo <- function(x, mode = "any")
+	as.vector(as.matrix(x), mode = mode)
+
+as.matrix.zoo <- function(x) 
+{
+	y <- as.matrix(unclass(x))
+	attr(y, "index") <- NULL
+	colnames(y) <- if (length(colnames(x)) > 0) 
+		colnames(x)
+	else {
+		lab <- deparse(substitute(x))
+		if (NCOL(x) == 1) lab
+		  else paste(lab, 1:NCOL(x), sep=".")
+	}
+	return(y)
+}
+
+as.data.frame.zoo <- function(x, row.names = NULL, optional = FALSE)
+{
+	y <- as.data.frame(unclass(x))
+        if(NCOL(x) > 0) {
+		colnames(y) <- if (length(colnames(x)) > 0) 
+			colnames(x)
+		else {
+			lab <- deparse(substitute(x))
+			if (NCOL(x) == 1) lab
+	                  else paste(lab, 1:NCOL(x), sep = ".")
+		}
+	}
+	if (!is.null(row.names)) row.names(y) <- row.names
+	return(y)
+}
+

@@ -40,6 +40,17 @@ if the corresponding packages are attached.
 \seealso{\code{\link{zoo}}, \code{\link{ts}}, \code{\link[its]{its}}, \code{\link[tseries]{irts}}}
 
 \examples{
+## coercion to zoo:
+## default method
 as.zoo(rnorm(5))
+## method for "ts" objects
+as.zoo(ts(rnorm(5), start = 1981, freq = 12))
+
+## coercion from zoo:
+x.date <- as.POSIXct(paste("2003-", rep(1:4, 4:1), "-", sample(1:28, 10, replace = TRUE), sep = ""))
+x <- zoo(matrix(rnorm(24), ncol = 2), x.date)
+as.matrix(x)
+as.vector(x)
+as.data.frame(x)
 }
 \keyword{ts}

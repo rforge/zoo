@@ -24,11 +24,14 @@ print.zoo <- function(x,
 	style <- match.arg(style, c("horizontal", "vertical", "plain"))
 	if (length(dim(x)) > 0 && style == "horizontal") style <- "plain"
 	if (style == "vertical") {
-		y <- format(as.matrix(x))
+		y <- format(eval(as.matrix(x), parent.frame(n = 3)))
 		if (length(colnames(x)) < 1) {
-			lab <- deparse(substitute(x))
-			colnames(y) <- if (NCOL(x) == 1) lab
-			  else paste(lab, 1:NCOL(x), sep=".")
+			colnames(y) <- rep("", NCOL(x))
+## cannot recover deparse(substitute(x))
+##			lab <- deparse(substitute(x))
+##			print(lab)
+##			colnames(y) <- if (NCOL(x) == 1) lab
+##			  else paste(lab, 1:NCOL(x), sep=".")
 		}
 		rownames(y) <- as.character(index(x))
 		print(y, quote = quote, ...)
@@ -47,15 +50,15 @@ print.zoo <- function(x,
 	invisible(x)
 }
 
-summary.zoo <- function(x, ...) 
+summary.zoo <- function(object, ...) 
 {
-	y <- as.data.frame(x)
-	if (length(colnames(x)) < 1) {
-		lab <- deparse(substitute(x))
-		colnames(y) <- if (NCOL(x) == 1) lab
-		  else paste(lab, 1:NCOL(x), sep=".")
+	y <- as.data.frame(object)
+	if (length(colnames(object)) < 1) {
+		lab <- deparse(substitute(object))
+		colnames(y) <- if (NCOL(object) == 1) lab
+		  else paste(lab, 1:NCOL(object), sep=".")
 	}
-	summary(cbind(data.frame(Index = index(x)), y), ...)
+	summary(cbind(data.frame(Index = index(object)), y), ...)
 }
 
 
@@ -83,49 +86,6 @@ str.zoo <- function(object, ...)
 	zoo(x[i], x.index[i])
 }
 
-window.zoo <- function(x, index = index.zoo(x), start = NULL, end = NULL, ...)
-{
-  all.indexes <- index.zoo(x)
-  in.index <- all.indexes %in% index
-
-  if(is.null(start)) {
-    if(is.null(end)) {
-      wi <- which(all.indexes %in% index)
-      return(x[wi,,])
-    } else {
-      wi <- which(in.index & all.indexes <= end)
-      return(x[wi,,])
-    }
-  } else {
-    if(is.null(end)) {
-      wi <- which(in.index & all.indexes >= start)
-    } else {
-      wi <- which(in.index & all.indexes >= start & all.indexes <= end)
-    }
-    return(x[wi,,])
-  }
-}
-
-"window<-" <- function(x, value, ...) 
-{
-	UseMethod("window<-")
-}
-
-"window<-.zoo" <- function(x, index = index.zoo(x), start = NULL, end = NULL, value)
-{
-	ix <- index.zoo(x)
-	stopifnot(all(index %in% ix))
-	if (!is.null(start)) index <- index[index >= start]
-	if (!is.null(end)) index <- index[index <= end]
-
-	wi <- which(ix %in% index)
-	if (length(dim(x)) == 0)
-		x[wi] <- value
-	else
-		x[wi,] <- value
-	return(x)
-}
- 
 head.zoo <- function(x, n = 6, ...) {
 	if (length(dim(x)) == 0)
 		x[seq(length = min(n, length(x)))]

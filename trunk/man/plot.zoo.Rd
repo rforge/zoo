@@ -8,8 +8,8 @@ Plotting method for objects of class \code{"zoo"}.
 \usage{
 \method{plot}{zoo}(x, plot.type = c("multiple", "single"),
   panel = lines, xlab = "Index", ylab = NULL, main = NULL,
-  ylim = NULL, oma = c(6, 0, 5, 0), col = 1, lty = 1, nc,
-  \dots)
+  ylim = NULL, oma = c(6, 0, 5, 0), col = 1, lty = 1,
+  pch = 1, nc, \dots)
 \method{lines}{zoo}(x, type = "l", \dots)
 }
 \arguments{
@@ -20,8 +20,8 @@ Plotting method for objects of class \code{"zoo"}.
      action to be carried out in each panel of the display for
     'plot.type="multiple"'.  The default is 'lines'.}
   \item{xlab, ylab, main, ylim, oma, type}{graphical arguments, see \code{\link{par}}.}
-  \item{col, lty}{graphical arguments that can be vectorized for
-     'plot.type = "multiple"'.}
+  \item{col, lty, pch}{graphical arguments that can be vectorized or 
+    (named) lists. See the details for more information.}
   \item{nc}{the number of columns to use when 'plot.type="multiple"'.
     Defaults to 1 for up to 4 series, otherwise to 2.}
   \item{\dots}{additional graphical arguments.}
@@ -29,16 +29,32 @@ Plotting method for objects of class \code{"zoo"}.
 
 \details{
 The methods for \code{plot} and \code{lines} are very similar
-to the corresponding \code{ts} methods.
+to the corresponding \code{ts} methods. However, the handling of
+graphical parameters \code{col}, \code{pch} and \code{lty} is more
+flexible for multivariate series. These parameters can simply be
+vectorized with (else are recycled to) the same length as the number
+of series plotted. They can also be (partially) named list, e.g.,
+\code{list(A = c(1,2), c(3,4))} in which \code{c(3, 4)} is the
+default value and \code{c(1, 2)} the value only  for series \code{A}.
+See also the examples.
 }
 
 \seealso{\code{\link{zoo}}, \code{\link{plot.ts}}}
 
 \examples{
 x.date <- as.POSIXct(paste("2003-02-", c(1, 3, 7, 9, 14), sep = ""))
+
+## univariate plotting
 x <- zoo(rnorm(5), x.date)
 x2 <- zoo(rnorm(5, sd = 0.2), x.date)
 plot(x)
 lines(x2, col = 2)
+
+## multivariate plotting
+z <- cbind(x, x2, zoo(rnorm(5, sd = 0.5), x.date))
+colnames(z) <- LETTERS[1:3]
+plot(z, plot.type = "single", col = list(B = 2))
+plot(z, type = "b", pch = 1:3, col = 1:3)
+plot(z, type = "b", pch = list(A = 1:5, B = 3), col = list(C = 4, 2))
 }
 \keyword{ts}
