@@ -11,5 +11,5 @@ Description: An S3 class with methods for totally ordered indexed
              index/date/time class and consistency with with ts and 
              base R by providing methods to extend standard generics.
 Depends: R (>= 2.0.0)
-Suggests: chron, fBasics, its, tseries, strucchange, quantreg, DAAG
+Suggests: chron, fBasics, its, tseries, strucchange, DAAG
 License: GPL

@@ -35,7 +35,7 @@
 
 \SweaveOpts{engine=R,eps=FALSE}
 %\VignetteIndexEntry{zoo: An S3 Class and Methods for Indexed Totally Ordered Observations}
-%\VignetteDepends{zoo,tseries,fBasics,strucchange,quantreg,DAAG}
+%\VignetteDepends{zoo,tseries,fBasics,strucchange,DAAG}
 %\VignetteKeywords{totally ordered observations, irregular time series, S3, R}
 %\VignettePackage{zoo}
 
@@ -44,7 +44,6 @@
 library(zoo)
 library(tseries)
 library(strucchange)
-library(quantreg)
 library(fBasics)
 online <- FALSE ## if set to FALSE the local copy of LU.rda
                 ## is used instead of get.hist.quote()
