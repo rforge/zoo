@@ -10,11 +10,11 @@ versions of database \emph{join} operations.
 
 \usage{
 \method{merge}{zoo}(\dots, all = TRUE, fill = NA, suffixes = NULL,
-  retclass = c("zoo", "list"))
+  retclass = c("zoo", "list"), LAST.SERIES = FALSE)
 }
 
 \arguments{
-  \item{\dots}{two or more objects of class \code{"zoo"}.}
+  \item{\dots}{two or more objects, usually of class \code{"zoo"}.}
   \item{all}{logical vector having the same length as the number of \code{"zoo"}
     objects to be merged (otherwise expanded).}
   \item{fill}{an element for filling gaps in merged \code{"zoo"}
@@ -25,6 +25,8 @@ versions of database \emph{join} operations.
   \item{retclass}{character that specifies the class of the returned result.
     It can be \code{"zoo"} (the default), \code{"list"} or \code{NULL}. For 
     details see below.}
+  \item{LAST.SERIES}{logical value.  If TRUE, the return value is also placed
+    in a variable \code{LAST.SERIES} in the global environment.}
 }
 
 \details{
@@ -33,6 +35,13 @@ of several objects along the union of the dates
 for \code{all = TRUE}, the default,
 or the intersection of their dates for \code{all = FALSE}
 filling up the created gaps (if any) with the \code{fill} pattern.
+
+The first argument must be a \code{zoo} object.   If any of the remaining
+arguments are plain vectors or matrices with the same length or number
+of rows as the first argument then such arguments are coerced to \code{"zoo"}
+using \code{as.zoo}.  If they are plain but have length 1 then they are
+merged after all non-scalars such that their column is filled with the
+value of the scalar.
 
 \code{all} can be a vector of the same length as the number of \code{"zoo"}
 objects to merged (if not, it is expanded): All indexes
@@ -93,5 +102,7 @@ z0 <- zoo(, 1:4)
 merge(z, z0)
 # same but with zero fill
 merge(z, z0, fill = 0)
+
+merge(z, coredata(z),  1)
 }
 \keyword{ts}

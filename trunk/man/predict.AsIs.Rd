@@ -1,4 +1,4 @@
-\name{predict}
+\name{predict.AsIs}
 \title{Model Predictions}
 \usage{
 \method{predict}{AsIs}(object, newdata, \dots)

@@ -28,19 +28,34 @@ cbind.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL)
 
 #Z# instead of:
 #Z# cbind.zoo <- 
-merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c("zoo", "list"))
+merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c("zoo", "list"), LAST.SERIES = FALSE)
 {
     if (!is.null(retclass)) retclass <- match.arg(retclass)
     # cl are calls to the args and args is a list of the arguments
     cl <- as.list(match.call())
-    cl[[1]] <- cl$all <- cl$fill <- cl$retclass <- cl$suffixes <- NULL
+    cl[[1]] <- cl$all <- cl$fill <- cl$retclass <- NULL
+    cl$suffixes <- cl$LAST.SERIES <- NULL
     args <- list(...)
 
     parent <- parent.frame()
 
-    # ensure all ... args are of class zoo
-    stopifnot(all(sapply(args, is.zoo)))
+    is.plain <- function(x) 
+	all(class(x) %in% c("array", "integer", "numeric", "matrix"))
 
+    is.scalar <- function(x) is.plain(x) && length(x) == 1
+
+    # ensure all ... plain args are of length 1 or have same NROW as arg 1
+    stopifnot(all(sapply(args, function(x) is.zoo(x) ||
+	(is.plain(x) && (NROW(x) == NROW(args[[1]]) || is.scalar(x))))))
+
+    scalars <- sapply(args, is.scalar)
+
+    for(i in seq(along = args))
+	if (is.plain(args[[i]]))  
+		args[[i]] <- zoo(args[[i]], time(args[[1]]))
+	else if (!is.zoo(args[[i]]))
+		args[[i]] <- as.zoo(args[[i]])
+		
     # use argument names if suffixes not specified
     if (is.null(suffixes)) {
         makeNames <- function(l) {
@@ -156,8 +171,12 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     # apply f to each arg put result of performing this on all args in list rval
     # and then cbind that list together to produce the required matrix
     rval <- lapply(args, f, ret.zoo = retclass == "list")
+    for(i in which(scalars)) rval[[i]] <- rval[[i]][] <- rval[[i]][1]
     names(rval) <- suffixes
-    if (retclass == "list") return(rval)
+    if (retclass == "list") { 
+	if (LAST.SERIES) assign("LAST.SERIES", rval, .GlobalEnv)
+	return(rval)
+    }
     # remove zero length arguments
     rval <- rval[sapply(rval, function(x) length(x) > 0)]
     # if there is more than one non-zero length argument then cbind them
@@ -221,6 +240,8 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
 	)
         colnames(rval) <- make.unique(zoocolnames)
     }
-    zoo(rval, indexes)
+    rval <- zoo(rval, indexes)
+    if (LAST.SERIES) assign(LAST.SERIES, rval, .GlobalEnv)
+    return(rval)
 }
 
