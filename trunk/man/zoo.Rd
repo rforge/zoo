@@ -44,16 +44,19 @@ dimension (\code{NROW(x)}) by which \code{x} is ordered.
 \seealso{\code{\link{plot.zoo}}, \code{\link{index}}, \code{\link{merge.zoo}}}
 
 \examples{
+## simple creation and plotting
 x.date <- as.POSIXct(paste("2003-02-", c(1, 3, 7, 9, 14), sep = ""))
 x <- zoo(rnorm(5), x.date)
 plot(x)
-
 time(x)
 
+## subsetting
 x[1:3]
 
-zoo(, 1:4)
+# create a constant series
+z <- zoo(1, seq(4)[-2])
 
-zoo(1:4, 1:3)
+# create a series with zero columns
+z0 <- zoo(, 1:4)[,-1]
 }
 \keyword{ts}

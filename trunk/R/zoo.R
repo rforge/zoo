@@ -232,6 +232,10 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL)
     }
     suffixes <- makeNames(as.list(substitute(list(...)))[-1])
   }
+  if(length(suffixes) != length(args)) {
+    warning("length of suffixes and does not match number of merged objects")
+    suffixes <- rep(suffixes, length.out = length(args))
+  }
 
   all <- rep(all, length(args))
   indexlist <- lapply(args, index)
@@ -264,34 +268,61 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL)
   }
 
   rval <- do.call("cbind", lapply(args, f))
-  
-  fixcolnames <- function(a) {
-    if (length(a) == 0) return(NULL)
-    if (!is.matrix(a)) {
-      return("")
-    } else {
-      rval <- colnames(a)
-      if(is.null(rval)) { 
-        rval <- as.character(1:NCOL(a))
-      } else {
-        rval[rval == ""] <- as.character(which(rval == ""))
-      }
-      return(rval)
-    }
-  }
-  
-  zoocolnames <- lapply(args, fixcolnames)
-  
-  zcn <- unlist(zoocolnames)
-  fixme <- lapply(zoocolnames, function(x) x %in% zcn[duplicated(zcn)])
-  zoocolnames <- lapply(seq(along = args), function(i) { rval <- zoocolnames[[i]]; 
-    rval[rval == ""] <- suffixes[i]; rval })
 
-  if(any(duplicated(unlist(zoocolnames))))
-    zoocolnames <- lapply(seq(along = args),
-      function(i) ifelse(fixme[[i]], paste(zoocolnames[[i]], suffixes[i], sep = "."), zoocolnames[[i]]))
-  colnames(rval) <- make.unique(unlist(zoocolnames))
+  ## rval is essentially finished now. But now we try to 
+  ## produce some sensible column names...a bit fussy...
   
+  if (length(unlist(sapply(args, colnames))) > 0) {
+
+    fixcolnames <- function(i) {
+      a <- args[[i]]
+      if(length(a) == 0) return(NULL)
+      if(NCOL(a) < 2) {
+  	return("")
+      } else {
+  	rval <- colnames(a)
+  	if(is.null(rval)) { 
+  	  rval <- paste(1:NCOL(a), suffixes[i], sep = ".")
+  	} else {
+  	  rval[rval == ""] <- as.character(which(rval == ""))
+  	}
+  	return(rval)
+      }
+    }
+  
+    zoocolnames <- lapply(seq(along = args), fixcolnames)
+  
+    zcn <- unlist(zoocolnames)
+    fixme <- lapply(zoocolnames, function(x) x %in% zcn[duplicated(zcn)])
+    f <- function(i) { 
+      rval <- zoocolnames[[i]]
+      rval[rval == ""] <- suffixes[i]
+      rval 
+    }
+    zoocolnames <- lapply(seq(along = args), f)
+
+    f <- function(i) 
+            ifelse(fixme[[i]], 
+        	  paste(zoocolnames[[i]], suffixes[i], sep = "."), 
+        	  zoocolnames[[i]])
+    if(any(duplicated(unlist(zoocolnames))))
+      zoocolnames <- lapply(seq(along = args), f)
+    colnames(rval) <- make.unique(unlist(zoocolnames))
+      
+  } else {
+  
+    fixcolnames <- function(a) {
+      if(length(a) == 0) return(NULL)
+      if(NCOL(a) < 2) return("")
+        else return(paste(".", 1:NCOL(a), sep = ""))
+    }  
+
+    zoocolnames <- lapply(args, fixcolnames)
+    zoocolnames <- unlist(lapply(seq(along = args),
+      function(i) if(is.null(zoocolnames[[i]])) NULL else paste(suffixes[i], zoocolnames[[i]], sep = "")))
+    colnames(rval) <- make.unique(zoocolnames)
+  }
+	  
   zoo(rval, indexes)
 }
 
