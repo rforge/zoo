@@ -638,8 +638,7 @@ z2td
 \code{zoo} provides a facility for extending regression functions such
 as \code{lm} to handle time series.  One simply encloses the \code{formula}
 argument in \code{I(...)} and ensures that all variables in
-the formula are of class \code{zoo}
-or all are of class \code{ts}.
+the formula are of class \code{"zoo"} or all are of class \code{"ts"}.
 
 Basic regression functions, like \code{lm} or \code{glm}, in which regression
 relationships are specified via a \code{formula} only have limited
@@ -662,15 +661,14 @@ the variables along a common index, it allows the usage of \code{lag} and
 \code{diff} in the model specification and works with the \code{NA} handling methods
 described in Section~\ref{sec:NA}. Therefore, dynamic linear regression models
 can be fit easily using the standard \code{lm} function by just insulating
-\code{I(formula)} in the corresponding call.
-\footnote{In addition to \code{lm} and \code{glm}, this approach works for
-many other regression functions including
+\code{I(formula)} in the corresponding call\footnote{In addition to \code{lm}
+and \code{glm}, this approach works for many other regression functions including
 \code{randomForest} ensembles from \pkg{randomForest},
 \code{svm} support vector machines from \pkg{e1071},
 \code{lqs} resistant regression from \pkg{MASS},
 \code{nnet} neural networks from \pkg{nnet},
 \code{rq} quantile regression from \pkg{quantreg},
-and possibly many others.}
+and possibly many others.}.
 
 A simple example based on artificial data is given below: the lag of a dependent
 variable is explained by the first differences of a numeric regressor and an
