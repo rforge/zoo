@@ -18,6 +18,18 @@ FEATURES
       that would have been created without the scalar. [GG: Not sure we
       really need this but I put it down so I would not forget.]
 
+  o dynlm()
+    - support a data= argument
+    
+    - allow for a simplified model language like
+        d(y) ~ l(y, 1)
+      instead of
+        diff(y) ~ lag(y, k = -1)
+
+    - when dynlm() grows we should probably start a 
+      package dynlm which depends on zoo
+      
+      
   o [.zoo [<-.zoo
     - allow indexing by index, i.e., datetime argument
 

@@ -32,16 +32,25 @@ Changes in Version 0.9-0
   o added a cbind() method for "zoo" objects (synonymous
     with merge())
   
-  o NA handling for "zoo" objects via na.omit() and
-    na.contiguous().
+  o NA handling for "zoo" objects via na.omit(),
+    na.contiguous() and na.locf().
 
-  o LOCF() generic function with default and zoo method
-    which implements Last Observation Carried Forward.
+  o na.locf() generic function with default method (suitable
+    for "zoo" objects) which implements Last Observation
+    Carried Forward.
   
   o added mathematical methods: group generic functions
     for "zoo" objects, t(), cumsum(), cumprod(), cummin(),
     and cummax().
   
+  o new function dynlm() which implements dynamic linear
+    regression models based on "zoo" objects. This is
+    still under development.
+    
+  o new functions runmean(), runmax(), runmed() implementing
+    running mean, max and median. The latter masks the stats
+    function of the same name. All functions are still under
+    development.
 
 
 Changes in Version 0.2-0

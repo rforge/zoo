@@ -18,11 +18,16 @@ rbind.zoo <- function(..., deparse.level = 1)
     zoo(do.call("c", lapply(args, unclass)), indexes)
 }
 
-cbind.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c("zoo", "list"))
+#Z# I think restricting cbind (as opposed to merge) might be a good
+#Z# idea, along the lines of:
+ 
+cbind.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL)
 {
-  merge.zoo(..., all = all, fill = fill, suffixes = suffixes, retclass = retclass)
+  merge.zoo(..., all = all, fill = fill, suffixes = suffixes, retclass = "zoo")
 }
 
+#Z# instead of:
+#Z# cbind.zoo <- 
 merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c("zoo", "list"))
 {
     if (!is.null(retclass)) retclass <- match.arg(retclass)

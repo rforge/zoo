@@ -19,8 +19,8 @@
   \pkg{zoo} is an \proglang{R} package providing an \proglang{S3}
   class with methods for indexed totally ordered observations, such as
   irregular time series. Its key design goals are independence of a
-  particular index/time/date class and consistency (to the extent
-  possible) with base \proglang{R} and the \code{"ts"} class for
+  particular index/time/date class and consistency with base
+  \proglang{R} and the \code{"ts"} class for
   regular time series. This paper describes how these are achieved
   within \pkg{zoo} and provides several illustrations 
   of the available methods for \code{"zoo"} objects which include
@@ -39,6 +39,19 @@ library(strucchange)
 online <- TRUE
 @
 
+%% TODO:
+%%
+%% the zoo package seems disarmingly simple so I think it might be a good
+%% idea to give some measure of size in the abstract and introduction such 
+%% as 50+ functions and methods since many might not realize that it has 
+%% that much functionality.
+%%
+%% I think we need both [ and also [<- and not sure if subsetting covers
+%% both or not.
+%% 
+%% simplify random indexes
+%%
+%% check cbind.zoo naming
 
 \section{Introduction} \label{sec:intro}
 
@@ -58,9 +71,10 @@ With these packages available, why would anybody want yet another
 package providing infrastructure for irregular time series?
 The above mentioned implementations have in common that they are restricted to a particular
 class for the time scale: the former implementation comes with its own time class
-\code{"timeDate"} whereas the latter two use the \code{"POSIXct"} class
-available in base \proglang{R}. And this was the starting point for
-the \pkg{zoo} project: the first author of the present paper needed
+\code{"timeDate"} built on top of the \code{"POSIXt"} classes
+available in base \proglang{R} whereas the latter two use \code{"POSIXct"} directly.
+And this was the starting point for the \pkg{zoo} project: the first author
+of the present paper needed
 more general support for ordered observations, independent of a particular
 index class, for the package \pkg{strucchange}
 \citep{zoo:Zeileis+Leisch+Hornik:2002}. Hence the package was called
@@ -74,7 +88,7 @@ status, a second key design goal became more and more clear: to provide
 methods to standard generic functions for the \code{"zoo"} class that 
 are similar to those for the \code{"ts"} class (and base \proglang{R} in
 general) such that the usage of \pkg{zoo} is rather intuitive because
-no new set of commands has to be learned.
+only few additional commands have to be learned.
 
 This paper describes how these design goals are implemented in \pkg{zoo}.
 Section~\ref{sec:zoo-class} explains how \code{"zoo"} objects are created
@@ -136,7 +150,7 @@ set.seed(1071)
 Then, we create two vectors \code{z1} and \code{z2} with \code{"POSIXct"} 
 indexes, one with random values
 <<zoo-vectors1>>=
-z1.index <- as.POSIXct(paste("2004-", rep(1:2, 5), "-", sample(1:28, 10), sep = ""))
+z1.index <- ISOdatetime(2004, rep(1:2,5), sample(28,10), 0, 0, 0)
 z1.value <- rnorm(10)
 z1 <- zoo(z1.value, z1.index)
 @
@@ -510,6 +524,7 @@ LU <- get.hist.quote(instrument = "LU",  start = "2001-01-01",
 if(online) {
   LU <- get.hist.quote(instrument = "LU",  start = "2001-01-01",
     end = "2004-09-30", origin = "1970-01-01")
+  save(LU, file = "LU.rda", compress = TRUE)
 } else {
   load("LU.rda")
 }
