@@ -276,3 +276,23 @@ zoo.intersect <- function(...)
   zoo(rval, indexes)
 }
 
+window.zoo <- function(x, start = NULL, end = NULL, ...)
+{
+  indexes <- index(x)
+
+  if(is.null(start)) {
+    if(is.null(end)) {
+      return(x)
+    } else {
+      wi <- which(indexes <= end)
+      return(x[wi,,])
+    }
+  } else {
+    if(is.null(end)) {
+      wi <- which(indexes >= start)
+    } else {
+      wi <- which(indexes >= start & indexes <= end)
+    }
+    return(x[wi,,])
+  }
+}

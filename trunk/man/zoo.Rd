@@ -4,6 +4,7 @@
 \alias{is.zoo}
 \alias{[.zoo}
 \alias{str.zoo}
+\alias{window.zoo}
 \title{Z's Ordered Observations}
 \description{
 \code{zoo} is the creator for an S3 class of indexed
