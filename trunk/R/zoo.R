@@ -89,14 +89,14 @@ head.zoo <- function(x, n = 6, ...) {
 	if (length(dim(x)) == 0)
 		x[seq(length = min(n, length(x)))]
 	else
-		x[seq(length = min(n, nrow(x))),]
+		x[seq(length = min(n, nrow(x))),, drop = FALSE]
 }
  
 tail.zoo <- function(x, n = 6, ...) {
 	if (length(dim(x)) == 0)
 		x[seq(to = length(x), length = min(n, length(x)))]
 	else
-		x[seq(to = nrow(x), length = min(n, nrow(x))),]
+		x[seq(to = nrow(x), length = min(n, nrow(x))),, drop = FALSE]
 }
 
 index2char <- function(x, ...) UseMethod("index2char")

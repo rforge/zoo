@@ -13,7 +13,7 @@ na.locf.default <- function(object, na.rm = TRUE, ...) {
 		x[L] <- x[i[L]]
 	  	x
 	      }
-	      na.index(object, idx)
+	      na.index(x, idx)
 	}
 	object[] <- if (length(dim(object)) == 0)
 		na.locf.0(object)

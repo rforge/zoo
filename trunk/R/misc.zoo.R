@@ -66,12 +66,16 @@ as.zoo.ts <- function(x,
 } 
 
 as.yearmon <- function(x) UseMethod("as.yearmon")
-as.yearmon.numeric <- function(x) structure(x, class = "yearmon")
-as.yearmon.integer <- function(x) structure(x, class = "yearmon")
+as.yearmon.numeric <- function(x, unit = "year") switch(unit,
+	year = structure(x, class = "yearmon"),
+	month = structure(x/12, class = "yearmon"))
+as.yearmon.integer <- function(x, unit = "year") switch(unit,
+	year = structure(x, class = "yearmon"),
+	month = structure(x/12, class = "yearmon"))
 as.yearmon.default <- function(x) 
-  structure( with(unclass(as.POSIXlt(x,tz="GMT")), 1900+year+mon/12), 
+  structure( with(as.POSIXlt(x,tz="GMT"), 1900+year+mon/12), 
 	class = "yearmon")
-as.Date.yearmon <- function(x) {
+as.Date.yearmon <- function(x, ...) {
 	x <- unclass(x)
 	year <- floor(x + .001)
 	month <- floor(12 * (x - year) + 1 + .5 + .001)
@@ -79,12 +83,15 @@ as.Date.yearmon <- function(x) {
 }
 format.yearmon <- function (x, format = "%b %Y", ...) 
 {
-    xx <- format(as.POSIXlt(as.Date(x)), format = format, ...)
+    xx <- format(as.Date(x), format = format, ...)
     names(xx) <- names(x)
     xx
 }
 as.character.yearmon <- function(x) format(x)
-print.yearmon <- function(x) { print(format(x)); invisible(x) }
+print.yearmon <- function(x, ...) { 
+	print(format(x), ...)
+	invisible(x) 
+}
 "[.yearmon" <- function (x, ..., drop = TRUE) 
 {
     cl <- oldClass(x)
@@ -100,16 +107,51 @@ axis.yearmon <- function (side, x, at, format, ...)
 ###########################################################
 # as.ts.zoo
 ###########################################################
-# project time onto regularly spaced grid
-as.ts.zoo <- function(y) {
+# old - project time onto regularly spaced grid
+#as.ts.zoo <- function(y) {
+#	fit <- function(y, x=seq(0,length=length(y))) { 
+#		b <- cov(x,y) / var(x)
+#		a <- mean(y) - b * mean(x)
+#		c(a, b)
+#	}
+#	coef <- fit(as.numeric(time(y)))
+#	ts(y, start = coef[1], deltat = coef[2])
+#}
+
+
+# if frequency is 0 then project time onto regularly spaced
+# grid.  If frequency is missing then use 0 if the series is
+# regular, 12 if the series has index class "yearmon", 1 if
+# the series has index class "Date" and 0 otherwise.
+as.ts.zoo <- function(y, frequency) {
+   tt <- time(y)
+   if (missing(frequency)) { frequency <-
+	if (identical(all.equal(spacedness(y),1), TRUE))
+		0
+	else 
+		defaultfrequency(time(y))
+   }
+   if (frequency) {
+	tt <- time(y) <- as.numeric(tt)
+	tt <- seq(floor((frequency * tt[1]) + .0001)/frequency, 
+		tail(tt,1), 1/frequency)
+	merge(y, zoo(, tt), all = c(FALSE, TRUE), retclass = NULL)
+	ts(coredata(y), start = tt[1], freq = frequency)
+   } else {
 	fit <- function(y, x=seq(0,length=length(y))) { 
 		b <- cov(x,y) / var(x)
 		a <- mean(y) - b * mean(x)
 		c(a, b)
 	}
-	coef <- fit(as.numeric(time(y)))
-	ts(y, start = coef[1], deltat = coef[2])
+	coef <- fit(as.numeric(tt))
+	ts(coredata(y), start = coef[1], deltat = coef[2])
+   }
 }
+
+defaultfrequency <- function(x) UseMethod("defaultfrequency")
+defaultfrequency.Date <- function(x) 1
+defaultfrequency.yearmon <- function(x) 12
+defaultfrequency.default <- function(x) 0
 
 
 ###########################################################
@@ -122,8 +164,10 @@ as.zooregspaced <- function(x) UseMethod("as.zooregspaced")
 # spacedness ranges from 
 #  0 for randomly spaced points to
 #  1 for regularly spaced points
-spacedness <- function(x) cor(as.numeric(time(x)), seq(0, length(x)))
-
+spacedness <- function(x) {
+	tt <- time(x)
+	cor(as.numeric(tt), seq(0, length = length(tt)))
+}
 
 ###########################################################
 # model.frame generic -- replaces same function in stats
