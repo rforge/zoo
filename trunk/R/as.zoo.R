@@ -13,13 +13,6 @@ as.zoo.factor <- function(x, ...)
   zoo(x, ...)
 }
 
-as.zoo.ts <- function(x, ...)
-{
-  xtsp <- tsp(x)
-  zooreg(coredata(x), start = xtsp[1], end = xtsp[2], frequency = xtsp[3])
-} 
-
-
 as.zoo.irts <- function(x, ...)
 {
   zoo(x$value, x$time, ...)
@@ -32,9 +25,7 @@ as.zoo.its <- function(x, ...)
 	zoo(x, index, ...)
 }
 
-as.zoo.zoo <- function(x, ...) {
-    zoo(coredata(x), index(x), attr(x, "frequency"))
-}
+as.zoo.zoo <- function(x, ...) x
 
 as.its.zoo <- function(x) {
 	stopifnot(require(its))
@@ -73,7 +64,11 @@ as.data.frame.zoo <- function(x, row.names = NULL, optional = FALSE)
 	                  else paste(lab, 1:NCOL(x), sep = ".")
 		}
 	}
-	if (!is.null(row.names)) row.names(y) <- row.names
+	## before we used 1:NROW(y) as the default:
+	## if (!is.null(row.names)) row.names(y) <- row.names
+	row.names(y) <- if(is.null(row.names))
+	  index2char(index(x), frequency = attr(x, "frequency"))
+	  else row.names
 	return(y)
 }
 
@@ -89,6 +84,15 @@ as.list.ts <- function(x, ...) {
 	else
 		list(x)
 }
+
+
+## regular series coercions
+
+as.zooreg.ts <- as.zoo.ts <- function(x, ...)
+{
+  xtsp <- tsp(x)
+  zooreg(coredata(x), start = xtsp[1], end = xtsp[2], frequency = xtsp[3])
+} 
 
 as.ts.zooreg <- function(x, ...)
 {
@@ -110,4 +114,23 @@ as.ts.zoo <- function(x, ...)
     warning(paste(sQuote("x"), "does not have an underlying regularity"))
     return(ts(coredata(x)))
   }
+}
+
+as.zoo.zooreg <- function(x, ...) {
+  attr(x, "frequency") <- NULL
+  class(x) <- "zoo"
+  return(x)
+}
+
+as.zooreg.zoo <- function(x, ...)
+{
+  freq <- frequency(x)
+  if(!is.null(freq)) {
+    attr(x, "frequency") <- freq
+    class(x) <- c("zooreg", "zoo")
+  } else {
+    warning(paste(sQuote("x"), "does not have an underlying regularity"))
+    x <- zooreg(coredata(x))
+  }
+  return(x)
 }

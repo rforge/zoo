@@ -1,4 +1,3 @@
-
 Ops.zoo <- function (e1, e2) 
 {
     e <- if (missing(e2)) {
@@ -12,7 +11,7 @@ Ops.zoo <- function (e1, e2)
         NextMethod(.Generic)
     }
     if (is.null(attr(e, "index"))) 
-	zoo(e, index(e1))
+	zoo(e, index(e1), attr(e1, "frequency"))
     else
 	e
 }

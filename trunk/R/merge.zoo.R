@@ -136,7 +136,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
 
     ## check whether resulting objects still got the same frequency
     freq <- c(frequency(zoo(,indexes)), freq)
-    if((length(freq) == 2) && identical(all.equal(max(freq)/freq, round(max(freq)/freq)), TRUE))
+    freq <- if((length(freq) == 2) && identical(all.equal(max(freq)/freq, round(max(freq)/freq)), TRUE))
        max(freq) else NULL
 
     # the f function does the real work
@@ -218,9 +218,26 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
 	return(rval)
     }
     if (retclass == "data.frame") {
-      class(rval) <- "data.frame"
-      attr(rval, "row.names") <- index2char(index(rval[[1]]), frequency = freq)
-      is.zoofactor <- function(x) !is.null(attr(x, "oclass")) && attr(x, "oclass") == "factor"      
+      ## transform list to data.frame
+      ## this is simple if all list elements are vectors, but with
+      ## matrices a bit more effort seems to be needed:
+      charindex <- index2char(index(rval[[1]]), frequency = freq)
+      nam1 <- names(rval)
+      rval <- lapply(rval, as.list)
+      todf <- function(x) {
+        class(x) <- "data.frame"
+        attr(x, "row.names") <- charindex
+        return(x)
+      }
+      rval <- lapply(rval, todf)
+      ## name processing
+      nam2 <- sapply(rval, function(z) 1:NCOL(z))
+      for(i in 1:length(nam2)) nam2[[i]] <- paste(names(nam2)[i], nam2[[i]], sep = ".")
+      nam1 <- unlist(ifelse(sapply(rval, NCOL) > 1, nam2, nam1))
+      rval <- do.call("cbind", rval)
+      names(rval) <- nam1
+      ## turn zoo factors into plain factors
+      is.zoofactor <- function(x) !is.null(attr(x, "oclass")) && attr(x, "oclass") == "factor"
       for(i in 1:NCOL(rval)) if(is.zoofactor(rval[,i])) rval[,i] <- coredata(rval[,i])
       return(rval)
     }
