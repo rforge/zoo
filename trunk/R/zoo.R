@@ -30,12 +30,12 @@ function (x, style = ifelse(length(dim(x)) == 0, "horizontal",
         if (length(colnames(x)) < 1) {
             colnames(y) <- rep("", NCOL(x))
         }
-        rownames(y) <- as.character(index(x))
+        rownames(y) <- index2char(index(x))
         print(y, quote = quote, ...)
     }
     else if (style == "horizontal") {
         y <- as.vector(x)
-        names(y) <- as.character(index(x))
+        names(y) <- index2char(index(x))
         print(y, quote = quote, ...)
     }
     else {
@@ -99,3 +99,5 @@ tail.zoo <- function(x, n = 6, ...) {
 		x[seq(to = nrow(x), length = min(n, nrow(x))),]
 }
 
+index2char <- function(x, ...) UseMethod("index2char")
+index2char.default <- function(x, ...) as.character(x)

@@ -1,7 +1,8 @@
 is.regular <- function(x)
 {
-  delta <- as.numeric(diff(index(x)))
-  identical(all.equal(delta, rep.int(delta[1], length(delta))), TRUE)
+  delta <- try(as.numeric(diff(index(x))))
+  if(class(delta) == "try-error") FALSE
+    else identical(all.equal(delta, rep.int(delta[1], length(delta))), TRUE)
 }
 
 as.ts.zoo <- function(x)
@@ -26,4 +27,14 @@ deltat.zoo <- function(x, ...)
 cycle.zoo <- function(x, ...)
 {
   zoo(coredata(cycle(as.ts.zoo(x))), index(x))
+}
+
+index2char.numeric <- function(x, digits = 4, ...)
+{
+  freq <- 1/diff(x)
+  mfreq <- round(max(freq), digits = 0)
+  if(identical(all.equal(freq, as.integer(round(freq, digits = 0))), TRUE) && mfreq > 1)
+    return(paste(floor(x), "(", round((x - floor(x)) * mfreq, digits = 0) + 1, ")", sep = ""))
+  else
+    return(as.character(round(x, digits = 4)))
 }
