@@ -1,5 +1,6 @@
 R/fBasics.R
 R/rollmean.R
 R/rapply.R
+R/is.regular.R
 man/rollmean.Rd
 man/rapply.Rd

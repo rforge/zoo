@@ -42,7 +42,7 @@
 library(zoo)
 library(tseries)
 library(strucchange)
-online <- FALSE
+online <- TRUE
 @
 
 %% TODO:
@@ -95,16 +95,16 @@ methods to standard generic functions for the \code{"zoo"} class that
 are similar to those for the \code{"ts"} class (and base \proglang{R} in
 general) such that the usage of \pkg{zoo} is rather intuitive because
 few additional commands have to be learned.
-
 This paper describes how these design goals are implemented in \pkg{zoo}.
+
+
+
 Section~\ref{sec:zoo-class} explains how \code{"zoo"} objects are created
 and illustrates how the corresponding methods for plotting, merging and
 binding, several mathematical operations, extracting and replacing data
 and index, coercion and \code{NA} handling can be used. Section~\ref{sec:combining}
 outlines how other packages can build on this basic infrastructure.
 Section~\ref{sec:summary} gives a few summarizing remarks.
-
-\clearpage
 
 \section[The class "zoo" and its methods]{The class \code{"zoo"} and its methods}
 \label{sec:zoo-class}
