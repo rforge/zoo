@@ -14,24 +14,22 @@ Generic functions for computing rolling means, maximums and medians of \code{"zo
 objects.
 }
 \usage{
-rollmean(x, k, na.pad = TRUE)
-rollmax(x, k, na.pad = TRUE)
-rollmed(x, k, na.pad = TRUE, \dots)
+rollmean(x, k, na.pad = FALSE)
+rollmax(x, k, na.pad = FALSE)
+rollmed(x, k, na.pad = FALSE, \dots)
 }
 \arguments{
   \item{x}{a \code{"zoo"} object,}
   \item{k}{integer width of the rolling window. Must be odd
     for \code{rollmed}.}  
   \item{na.pad}{logical. Add \code{NA} padding at beginning
-    so result is same length as input.}
-  \item{\dots}{Further arguments passed to the \code{stats}
-    function \code{\link[stats]{rollmed}} except for na.pad 
-    which is used for preprocessing and not passed.}
+  \item{\dots}{Further arguments passed. Only applicable to \code{rollmed}.}
 }
 
 \details{
-These functions are still under development and might be subject
-to future changes. 
+These functions are similar to \code{\link{rapply}} but are
+optimized for speed.  The extra arguments available are
+those accepted by \code{mean}, \code{max} and \code{med}.
 }
 
 \value{
@@ -52,6 +50,9 @@ xm <- zoo(matrix(1:12, 4, 3), x.Date[1:4])
 rollmean(xm, 3)
 rollmax(xm, 3)
 rollmed(xm, 3)
+
+rapply(xm, 3, mean) # uses rollmean
+rapply(xm, 3, function(x)mean(x)) # does not use rollmean
 
 }
 \keyword{ts}

@@ -2,10 +2,10 @@
 # https://www.stat.math.ethz.ch/pipermail/r-help/2004-October/057363.html
 # ToDo: runmad, currently rapply() can be used
 
-rollmean <- function(x, k, na.pad = TRUE)
+rollmean <- function(x, k, na.pad = FALSE)
   UseMethod("rollmean")
 
-rollmean.default <- function(x, k, na.pad = TRUE, ...)
+rollmean.default <- function(x, k, na.pad = FALSE)
 {
   x <- unclass(x)
   n <- length(x) 
@@ -17,7 +17,7 @@ rollmean.default <- function(x, k, na.pad = TRUE, ...)
   return(rval)
 }
 
-rollmean.zoo <- function(x, k, na.pad = TRUE) { 
+rollmean.zoo <- function(x, k, na.pad = FALSE) { 
   stopifnot(k <= NROW(x))
   index.x <- index(x)
   if(!na.pad) index.x <- index.x[-seq(k-1)]
@@ -28,10 +28,10 @@ rollmean.zoo <- function(x, k, na.pad = TRUE) {
 }
 
 
-rollmax <- function(x, k, na.pad = TRUE)
+rollmax <- function(x, k, na.pad = FALSE)
   UseMethod("rollmax")
 
-rollmax.default <- function(x, k, na.pad = TRUE)
+rollmax.default <- function(x, k, na.pad = FALSE)
 {
   n <- length(x) 
   rval <- rep(0, n) 
@@ -48,7 +48,7 @@ rollmax.default <- function(x, k, na.pad = TRUE)
   return(rval)
 } 
 
-rollmax.zoo <- function(x, k, na.pad = TRUE) { 
+rollmax.zoo <- function(x, k, na.pad = FALSE, ...) { 
   stopifnot(k <= NROW(x))
   index.x <- index(x)
   if (!na.pad) index.x <- index.x[-seq(k-1)]
@@ -59,13 +59,13 @@ rollmax.zoo <- function(x, k, na.pad = TRUE) {
 }
 
 
-rollmed <- function(x, k, na.pad = TRUE, ...)
+rollmed <- function(x, k, na.pad = FALSE, ...)
   UseMethod("rollmed")
 
-rollmed.default <- function(x, k, na.pad = TRUE, ...)
+rollmed.default <- function(x, k, na.pad = FALSE, ...)
   stats::runmed(x, k, ...)
 
-rollmed.zoo <- function(x, k, na.pad = TRUE, ...) { 
+rollmed.zoo <- function(x, k, na.pad = FALSE, ...) { 
 	stopifnot(all(!is.na(x)), k <= NROW(x), k %% 2 == 1)
 	# todo:
 	# rather than abort we should do a simple loop to get the medians

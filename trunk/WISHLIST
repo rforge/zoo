@@ -32,10 +32,7 @@ FEATURES
   o [.zoo [<-.zoo
     - allow indexing by index, i.e., datetime argument
 
-
   o misc functions
-    - rapply: a function for applying functions to rolling windows
-      [prototype ready but not yet in release version]
 
     - interface to additional statistical routines such as the ones
       referenced in:
@@ -56,9 +53,6 @@ FEATURES
 INTERFACES
 **********
 
-  o move as.its.zoo over to its [Z: Whit will do this as the new
-    maintainer of its]
-
   o provide fBasics interface routine to the Rmetrics projects
 
 
@@ -73,8 +67,3 @@ DOCUMENTATION & COMMUNICATION
   o more examples for the help files
 
   o FAQ
-  
-  o what facilities does the R project provide to subprojects for 
-    mailing lists, web space, wiki, forum, etc.
-
-  o additional developers

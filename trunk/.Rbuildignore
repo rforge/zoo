@@ -1,7 +1,4 @@
 R/fBasics.R
-R/rollmean.R
-R/rapply.R
 R/is.regular.R
 R/misc.zoo.R
-man/rollmean.Rd
-man/rapply.Rd
+
