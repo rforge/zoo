@@ -1,6 +1,5 @@
 R/fBasics.R
 R/is.regular.R
 R/misc.zoo.R
-R/model.frame.zoo.R
 inst/doc/.*\.log
 inst/doc/.*\.dvi
