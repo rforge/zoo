@@ -1,5 +1,25 @@
+Changes in Version 0.9-9
 
-Changes in Version 0.9-2
+  o regular "zoo" series: objects of class "zooreg" (inheriting from "zoo")
+    can be used to store strictly regular series (similar to "ts" objects)
+    or series with an underlying regularity (as before but with observations
+    omitted). They have a frequency attribute that can be used for conversion
+    between "zoo" and "ts". The function is.regular() can be used for 
+    checking the regularity of a series.
+
+  o improved merge() method: merge.zoo now accepts non-zoo arguments
+    (other than first) if all non-zoo args have the same NROW value
+    as the first argument (or are scalar). In that case the non-zoo
+    args are given the index of the first series. Scalars are added
+    for the full index of the merged series.
+
+  o merge() zoo can now optionally return a "data.frame" that contains
+    the numeric columns as "zoo" series and the "zoo" objects created
+    from factors converted back to "factor".
+    
+  o [.zoo allows now indexing using observations from the index scale
+    (and not only observation numbers). The [[.zoo method is only for
+    indexing with the index class.
 
   o rapply, rollmean, rollmax, rollmed to perform rolling analyses
 
@@ -12,25 +32,12 @@ Changes in Version 0.9-2
 
   o yearmon and yearqtr datetime classes
 
-  o defaultfrequency class (experimental)
-
-  o predict.AsIs, predict.zoo, predict.ts, fitted.AsIs, fitted.ts
-    resid.AsIs, resid.ts (experimental)
-
-  o as.list(...) can be omitted from lm and predict data and newdata args
-
   o head.ts, tail.ts
 
   o c.zoo, range.zoo
 
   o coredata.default, coredata.ts
 
-  o demo
-
-  o zoo objects may have a frequency attribute specifiable in zoo, as.zoo.
-    as.ts.zoo uses this frequency for conversion.
-
-  o is.regular, regularfrequency
 
 Changes in Version 0.9-1
 
