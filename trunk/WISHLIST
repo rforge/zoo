@@ -1,0 +1,88 @@
+FEATURES
+********
+
+  o zoo()
+    - support zoo factor objects
+
+    - support zoo data.frame objects
+
+    
+  o merge()
+    - merge.zoo to accept non-zoo arguments (other than first)
+      if all zoo args have same index and all args have same
+      NROW value.  In that case the non-zoo args are to be given
+      the common index by default.
+
+    - allow a scalar non-zoo element as an argument to merge.zoo in
+      which case it cbinds a constant zoo column to the same merge
+      that would have been created without the scalar. [GG: Not sure we
+      really need this but I put it down so I would not forget.]
+
+  o [.zoo [<-.zoo
+    - allow indexing by index, i.e., datetime argument
+
+
+  o misc functions
+    - data= argument in dynlm
+
+    - get runmed working with NAs, add runmax, consolidate and
+      generalize runmean, runmax, runmed and runmad
+
+    - interface to additional statistical routines such as the ones
+      referenced in:
+      http://cran.r-project.org/doc/contrib/Ricci-refcard-ts.pdf
+
+    - irregular to regular conversion routines [Z: the following
+      functions would be nice as.ts.zoo() is.regular()]
+
+    - interpolation
+
+
+  o QA
+    - regression test suite
+
+    - additional use and testing
+
+
+
+INTERFACES
+**********
+
+  o generic functions:
+    - ask R-core to make order() and match() generic,
+      and also na.contiguous()
+    
+    - new generics in zoo which could go to stats or base:
+      value, value<-, na.locf, window<-
+
+  o investigate whether there are alternative
+    primitives that already have standard generics in the core
+    that could be used in place of order and match. Is a
+    smaller set of primitives possible?
+
+  o move as.its.zoo over to its
+
+  o provide fBasics interface routine to the Rmetrics projects
+
+
+
+DOCUMENTATION & COMMUNICATION
+*****************************
+
+  o Vignette(s), JSS paper, R news article [Z: something is on the
+    way here]
+
+  o some data to include with zoo
+
+  o more examples for the help files
+
+  o FAQ
+  
+  o pdf one page reference card which lists all functions
+    available [Z: closes thing available is currently
+    ?zoo]
+
+  o what facilities does the R project provide to subprojects for 
+    mailing lists, web space, wiki, forum, etc.
+
+  o additional developers

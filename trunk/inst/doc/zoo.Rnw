@@ -36,6 +36,7 @@
 library(zoo)
 library(tseries)
 library(strucchange)
+online <- TRUE
 @
 
 
@@ -501,12 +502,14 @@ queries the quotes of Lucent Technologies starting from 2001-01-01.
 
 <<tseries1,eval=FALSE>>=
 library(tseries)
-LU <- get.hist.quote(instrument = "LU",  start = "2001-01-01", origin = "1970-01-01")
+LU <- get.hist.quote(instrument = "LU",  start = "2001-01-01",
+  end = "2004-09-30", origin = "1970-01-01")
 @
 
 <<tseries1a,echo=FALSE>>=
-if(FALSE) {
-  LU <- get.hist.quote(instrument = "LU",  start = "2001-01-01", origin = "1970-01-01")
+if(online) {
+  LU <- get.hist.quote(instrument = "LU",  start = "2001-01-01",
+    end = "2004-09-30", origin = "1970-01-01")
 } else {
   load("LU.rda")
 }
