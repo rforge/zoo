@@ -88,7 +88,7 @@ index class, for the package \pkg{strucchange}
 Since the first release, a major part of the additions to \pkg{zoo}
 were provided by the second author of this paper, so that the name
 of the package does not really reflect the authorship anymore.
-Nevertheless, independence of a particular index class remained one
+Nevertheless, independence of a particular index class remained
 the most important design goal. While the package evolved to its current
 status, a second key design goal became more and more clear: to provide
 methods to standard generic functions for the \code{"zoo"} class that 
@@ -96,15 +96,20 @@ are similar to those for the \code{"ts"} class (and base \proglang{R} in
 general) such that the usage of \pkg{zoo} is rather intuitive because
 few additional commands have to be learned.
 This paper describes how these design goals are implemented in \pkg{zoo}.
+The resulting package provides the \code{"zoo"} class which offers an
+extensive (and still growing) set of standard and new methods for working
+on indexed observations and `talks' to the classes \code{"ts"}, \code{"its"},
+\code{"irts"} and \code{"timeSeries"}.
 
-
-
+The remainder of the paper is organized as follows:
 Section~\ref{sec:zoo-class} explains how \code{"zoo"} objects are created
 and illustrates how the corresponding methods for plotting, merging and
 binding, several mathematical operations, extracting and replacing data
 and index, coercion and \code{NA} handling can be used. Section~\ref{sec:combining}
 outlines how other packages can build on this basic infrastructure.
-Section~\ref{sec:summary} gives a few summarizing remarks.
+Section~\ref{sec:summary} gives a few summarizing remarks and an outlook
+on future developments. Finally, an appendix provides a reference card that
+gives an overview of the functionality contained in \pkg{zoo}.
 
 \section[The class "zoo" and its methods]{The class \code{"zoo"} and its methods}
 \label{sec:zoo-class}
@@ -122,16 +127,23 @@ of class \code{"zoo"} are created by the function
 \begin{Scode}
 zoo(x, order.by)
 \end{Scode}
-where \code{x} is the vector or matrix of observations and \code{order.by}
+where \code{x} is the vector or matrix of observations\footnote{In principle,
+more general objects can be indexed, but currently \pkg{zoo} does not support this.
+Development plans are that \pkg{zoo} should eventually support indexed factors,
+data frames and lists.} and \code{order.by}
 is the index by which the observations should be ordered. It has to be
 of the same length as \code{NROW(x)}, i.e., either the same length as \code{x}
 for vectors or the same number of rows for matrices. (This constraint is
 not imposed for zero length vectors.)   The \code{"zoo"} object
 created is essentially the vector/matrix as before but has an additional
-\code{"index"} attribute in which the index is stored. Both the data \code{x}
-and the index can, in principle, be of arbitrary classes. However, most of the
+\code{"index"} attribute in which the index is stored.\footnote{There is some
+limited support for indexed factors available in which case the \code{"zoo"}
+object also has an attribute \code{"oclass"} with the original class
+of \code{x}. This feature is still under development and might change in future
+versions.} Both the observations in the vector/matrix \code{x}
+and the index \code{order.by} can, in principle, be of arbitrary classes. However, most of the
 following methods (plotting, aggregating, mathematical operations) for \code{"zoo"}
-objects are typically only useful for numeric observations \code{x}. In contrast, special
+objects are typically only useful for numeric observations \code{x}. Special
 effort in the design was put into independence from a particular class for
 the index vector. In \pkg{zoo}, it is assumed that combination \code{c()},
 querying the \code{length()}, value matching \code{MATCH()}, subsetting \code{[,},
@@ -178,13 +190,16 @@ Z.data <- matrix(rnorm(30), ncol = 3)
 colnames(Z.data) <- c("Aa", "Bb", "Cc")
 Z <- zoo(Z.data, Z.index)
 @
-Note that \code{zoo} provides \code{as.Date} methods to convert days 
-since 1970-01-01 to class \code{"Date"}, used in the above.
-The argument to \code{as.Date} was used to generate random 
-dates for this illustration. In ``real world'' applications, the indexes
+In the examples above, the generation of indexes looks a bit awkward
+due to the fact the indexes need to be randomly generated (and there 
+are no special functions for random indexes because these is rarely 
+needed in practice). In ``real world'' applications, the indexes
 are typically part of the raw data set read into \proglang{R} so the
 code would be even simpler. See Section~\ref{sec:combining}
-for such examples.
+for such examples.\footnote{Note, that in the code above a new \code{as.Date}
+method, provided in \pkg{zoo}, is used to convert days 
+since 1970-01-01 to class \code{"Date"}. See the respective help page 
+for more details.}
 
 Methods to several standard generic functions are available for
 \code{"zoo"} objects, such as \code{print}, \code{summary}, \code{str}, \code{head},
@@ -406,14 +421,16 @@ window(x, index, start, end)
 where \code{x} is the \code{"zoo"} object, \code{index} is a set
 of indexes to be selected (by default the full index of \code{x})
 and \code{start} and \code{end} can be used to restrict the 
-\code{index} set. Thus, the first command in the following example
-selects all observations starting from 2004--03--01 whereas the
-second selects only from the observations with the 5th to 8th index
-those up to 2004--03--01.
+\code{index} set. 
 <<window>>=
 window(Z, start = as.Date("2004-03-01"))
 window(Z, index = index(Z)[5:8], end = as.Date("2004-03-01"))
 @
+
+The first example selects all observations starting from 2004-03-01
+whereas the second selects from the from the 5th to 8th observation
+those up to 2004-03-01.
+
 The same syntax can be used for the corresponding replacement function.
 <<window2>>=
 window(z1, end = as.POSIXct("2004-02-01")) <- 9:5
@@ -422,8 +439,12 @@ z1
 
 Two methods that are standard in time series applications
 are \code{lag} and \code{diff}. These are available with the same
-arguments as the \code{"ts"} methods---with the only exception that \code{diff}
-not only allows for arithmetic but also geometric differences.
+arguments as the \code{"ts"} methods.\footnote{\code{diff} also
+has an additional argument that also allows for geometric and
+not only allows arithmetic differences. Furthermore, note the sign
+of the lag in \code{lag}: by default it is positive and shifts the 
+observations \emph{forward}, to obtain the more standard \emph{backward}
+shift the lag has to be negative.}
 
 <<lagdiff>>=
 lag(z1, k = -1)
@@ -532,13 +553,8 @@ yz <- zoo(1:12)^2
 xz <- zoo(1:9)^2
 fz <- zoo(gl(2,5)) # zoo factor object
 
-# example using diff and lag -- note I(...)
 lm(I(lag(yz) ~ diff(xz) + fz))
 
-# same example using glm
-glm(I(lag(yz) ~ diff(xz) + fz))
-
-# same example using RandomForest from package RandomForest
 library(randomForest)
 randomForest(I(lag(yz) ~ diff(xz) + fz))
 @
@@ -561,7 +577,11 @@ project.
 A simple example for the need of \code{"zoo"} objects in \pkg{strucchange}
 which is not (easily) be implemented by other irregular time series classes
 available on CRAN is described in the following. We assess the constancy of the
-electrical resistance over the apparent juice content of kiwi fruits. The data
+electrical resistance over the apparent juice content of kiwi fruits.\footnote{A different
+approach would be to test whether the slope of a regression of electrical resistance
+on juice content changes with increasing juice content, i.e., to test for
+instabilities in \code{ohms ~ juice} instead of \code{ohms ~ 1}. Both lead to 
+similar results.} The data
 set \code{fruitohms} is contained in the \pkg{DAAG} package \citep{zoo:DAAG:2004}.
 The fitted \code{ocus} object contains the OLS-based CUSUM process for the mean
 of the electrical resistance (variable \code{ohms}) indexed by the juice
@@ -669,7 +689,7 @@ z2td <- zoo(coredata(z2), timeDate(index(z2), FinCenter = "GMT"))
 z2td
 @
 
-\section{Summary} \label{sec:summary}
+\section{Summary and outlook} \label{sec:summary}
 
 The package \pkg{zoo} provides an \proglang{S3} class and methods
 for indexed totally ordered observations, such as irregular time series.
@@ -680,6 +700,25 @@ these are implemented in \pkg{zoo} and illustrates the usage of
 the methods for plotting, merging and
 binding, several mathematical operations, extracting and replacing data
 and index, coercion and \code{NA} handling.
+
+An indexed object of class \code{"zoo"} can be thought of as data plus index
+where the data are essentially vectors or matrices and the index can be
+a vector of (in principle) arbitrary class. Therefore, objects of classes
+\code{"ts"}, \code{"its"}, \code{"irts"} and \code{"timeSeries"} can easily
+be transformed into \code{"zoo"} objects---the reverse transformation is also possible 
+provided that the index fulfills the restrictions of the respective class.
+Hence, the \code{"zoo"} class can also be used as the basis for other
+classes of indexed and objects and more specific functionality can be built on
+top of it.
+
+Whereas a lot of effort was put into achieving independence of a particular
+index class, the types of data that can be indexed with \code{"zoo"} are currently
+limited to vectors and matrices, typically containing numeric values. Although,
+there is some limited support available for indexed factors, one important 
+direction for future development of \pkg{zoo} is to add better support for other
+objects that can also naturally be indexed including specifically factors, data
+frames and lists.
+
 
 
 \section*{Computational details}
@@ -699,7 +738,6 @@ CRAN at \url{http://CRAN.R-project.org/}.
 \bibliography{zoo}
 
 \begin{appendix}
-\newpage
 \section{Reference card}
 \input{zooref-raw}
 \end{appendix}
