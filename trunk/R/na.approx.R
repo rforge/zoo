@@ -19,7 +19,7 @@ na.approx.default <- function(y,
         y[] <- if (length(dim(y)) == 0)
                 na.approx.0(y)
         else
-                apply(x, 2, na.approx.0)
+                apply(y, 2, na.approx.0)
         if (na.rm) na.omit(y) else y
 }
 

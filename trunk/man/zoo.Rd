@@ -17,9 +17,6 @@
 \alias{na.contiguous}
 \alias{na.contiguous.default}
 \alias{na.contiguous.zoo}
-\alias{as.Date.integer}
-\alias{as.Date.numeric}
-\alias{as.Date.ts}
 
 \title{Z's Ordered Observations}
 \description{
