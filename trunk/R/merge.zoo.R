@@ -215,12 +215,11 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     for(i in which(scalars)) rval[[i]] <- rval[[i]][] <- rval[[i]][1]
     names(rval) <- suffixes
     if (retclass == "list") { 
-	# assign(".Last.value.merge.zoo", rval, .GlobalEnv)
 	return(rval)
     }
     if (retclass == "data.frame") {
       class(rval) <- "data.frame"
-      attr(rval, "row.names") <- index2char(index(rval[[1]]))
+      attr(rval, "row.names") <- index2char(index(rval[[1]]), frequency = freq)
       is.zoofactor <- function(x) !is.null(attr(x, "oclass")) && attr(x, "oclass") == "factor"      
       for(i in 1:NCOL(rval)) if(is.zoofactor(rval[,i])) rval[,i] <- coredata(rval[,i])
       return(rval)
