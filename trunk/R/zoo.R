@@ -29,9 +29,9 @@ zoo <- function(x, order.by)
   class(x) <- nclass
   if(NCOL(x) < 2) {
     x <- as.matrix(x)
-    drop <- TRUE
+    if(is.null(drop)) drop <- TRUE
   } else {
-    drop <- FALSE
+    if(is.null(drop)) drop <- FALSE
   }
   if(missing(i)) i <- 1:nrow(x)
   if(missing(j)) j <- 1:ncol(x)
@@ -173,110 +173,6 @@ str.zoo <- function(object, ...)
   str(unclass(object), ...)
 }
 
-zoo.union <- function(...)
-{
-  args <- list(...)
-  if(!all(unlist(lapply(args, is.zoo)))) stop("all arguments must be zoo objects")
-
-  makeNames <- function(...) {
-      l <- as.list(substitute(list(...)))[-1]
-      nm <- names(l)
-      fixup <- if (is.null(nm)) 
-	  seq(along = l)
-      else nm == ""
-      dep <- sapply(l[fixup], function(x) deparse(x)[1])
-      if (is.null(nm)) 
-	  return(dep)
-      if (any(fixup)) 
-	  nm[fixup] <- dep
-      nm
-  }
-  zoonames <- makeNames(...)
-
-  indexes <- unlist(lapply(args, index))
-  indexes <- sort(unique(indexes))
-  f <- function(a) {
-    z <- matrix(NA,length(indexes), NCOL(a))
-    z[match(index(a), indexes), ] <- a
-    z
-  }
-  rval <- do.call("cbind", lapply(args, f))
-
-  fixcolnames <- function(a) {
-    if(NCOL(a) < 2) {
-      return("")
-    } else {
-      rval <- colnames(a)
-      if(is.null(rval)) { 
-        rval <- as.character(1:NCOL(a))
-      } else {
-        rval[rval == ""] <- as.character(which(rval == ""))
-      }
-      rval <- paste(".", rval, sep = "")
-      return(rval)
-    }
-  }
-  
-  zoocolnames <- lapply(args, fixcolnames)
-  zoocolnames <- unlist(lapply(seq(along = args), function(i) paste(zoonames[i], zoocolnames[[i]], sep = "")))
-  colnames(rval) <- zoocolnames
-  
-  zoo(rval, indexes)
-}
-
-zoo.intersect <- function(...)
-{
-  args <- list(...)
-  if(!all(unlist(lapply(args, is.zoo)))) stop("all arguments must be zoo objects")
-
-  makeNames <- function(...) {
-      l <- as.list(substitute(list(...)))[-1]
-      nm <- names(l)
-      fixup <- if (is.null(nm)) 
-	  seq(along = l)
-      else nm == ""
-      dep <- sapply(l[fixup], function(x) deparse(x)[1])
-      if (is.null(nm)) 
-	  return(dep)
-      if (any(fixup)) 
-	  nm[fixup] <- dep
-      nm
-  }
-  zoonames <- makeNames(...)
-
-  indexes <- unlist(lapply(args, index))
-  indexes <- sort(unique(indexes))[table(indexes) == length(args)]
-  if(length(indexes) < 1) warning("non-intersecting observations")
-  match0 <- function(a, b, nomatch = 0, ...) match(a, b, nomatch = nomatch, ...)
-  f <- function(a) {
-    z <- matrix(NA, length(indexes), NCOL(a))
-    z[match0(index(a), indexes), 1:NCOL(a)] <- a[match0(indexes, index(a)),, drop = FALSE]
-    z
-  }
-  rval <- do.call("cbind", lapply(args, f))
-
-  fixcolnames <- function(a) {
-    if(NCOL(a) < 2) {
-      return("")
-    } else {
-      rval <- colnames(a)
-      if(is.null(rval)) { 
-        rval <- as.character(1:NCOL(a))
-      } else {
-        rval[rval == ""] <- as.character(which(rval == ""))
-      }
-      rval <- paste(".", rval, sep = "")
-      return(rval)
-    }
-  }
-  
-  zoocolnames <- lapply(args, fixcolnames)
-  zoocolnames <- unlist(lapply(seq(along = args), function(i) paste(zoonames[i], zoocolnames[[i]], sep = "")))
-  colnames(rval) <- zoocolnames
-  
-  zoo(rval, indexes)
-}
-
 window.zoo <- function(x, start = NULL, end = NULL, ...)
 {
   indexes <- index(x)
@@ -296,4 +192,96 @@ window.zoo <- function(x, start = NULL, end = NULL, ...)
     }
     return(x[wi,,])
   }
+}
+
+rbind.zoo <- function(..., deparse.level = 1)
+{  
+  args <- list(...)
+  indexes <- do.call("c", lapply(args, index))
+
+  my.table <- function(x) {
+    x <- x[order(x)]
+    table(match(x,x))
+  }
+  if(max(my.table(indexes)) > 1) stop("indexes overlap")
+
+  ncols <- sapply(args, NCOL)  
+  if(!all(ncols == ncols[1])) stop("number of columns differ")
+
+  if(ncols[1] > 1)
+    zoo(do.call("rbind", lapply(args, unclass)), indexes)
+  else
+    zoo(do.call("c", lapply(args, unclass)), indexes)
+}
+
+merge.zoo <- function(x, y, ..., all = TRUE)
+{
+  args <- list(x, y, ...)
+  if(!all(unlist(lapply(args, is.zoo)))) stop("all arguments must be zoo objects")
+
+  makeNames <- function(l) {
+      nm <- names(l)
+      fixup <- if (is.null(nm)) 
+	  seq(along = l)
+      else nm == ""
+      dep <- sapply(l[fixup], function(x) deparse(x)[1])
+      if (is.null(nm)) 
+	  return(dep)
+      if (any(fixup)) 
+	  nm[fixup] <- dep
+      nm
+  }
+  zoonames <- makeNames(as.list(substitute(list(x, y, ...)))[-1])
+
+  all <- rep(all, length(args))
+  indexlist <- lapply(args, index)
+  indexclasses <- sapply(indexlist, function(x) class(x)[1])
+  if(!all(indexclasses == indexclasses[1]))
+    warning("not all indexes are of the same class")
+  indexes <- do.call("c", indexlist)
+
+  sort.unique <- function(x) {
+    x <- x[match(x,x) == seq(length = length(x))]
+    x[order(x)]
+  }
+  my.table <- function(x) {
+    x <- x[order(x)]
+    table(match(x,x))
+  }
+
+  indexintersect <- sort.unique(indexes)[my.table(indexes) == length(args)]
+  indexunion <- do.call("c", indexlist[all])
+  if(is.null(indexunion)) indexunion <- indexes[0] 
+
+  indexes <- sort.unique(c(indexunion, indexintersect))
+  match0 <- function(a, b, nomatch = 0, ...) match(a, b, nomatch = nomatch, ...)
+
+  f <- function(a) {
+    z <- matrix(NA, length(indexes), NCOL(a))
+    z[match0(index(a), indexes),] <- a[match0(indexes, index(a)),, drop = FALSE]
+    z
+  }
+
+  rval <- do.call("cbind", lapply(args, f))
+  
+  fixcolnames <- function(a) {
+    if(NCOL(a) < 2) {
+      return("")
+    } else {
+      rval <- colnames(a)
+      if(is.null(rval)) { 
+        rval <- as.character(1:NCOL(a))
+      } else {
+        rval[rval == ""] <- as.character(which(rval == ""))
+      }
+      rval <- paste(".", rval, sep = "")
+      return(rval)
+    }
+  }
+  
+  zoocolnames <- lapply(args, fixcolnames)
+  zoocolnames <- unlist(lapply(seq(along = args), function(i) paste(zoonames[i], zoocolnames[[i]], sep = "")))
+  colnames(rval) <- zoocolnames
+  
+  zoo(rval, indexes)
 }
