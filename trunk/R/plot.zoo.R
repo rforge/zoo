@@ -1,7 +1,10 @@
+# only change is to allow type to be a list so you can specify a mixture
+# points, lines, steps, etc. one one plot command.
+
 plot.zoo <- function(x,
   plot.type = c("multiple", "single"), panel = lines, 
   xlab = "Index", ylab = NULL, main = NULL, ylim = NULL,
-  oma = c(6, 0, 5, 0), col = 1, lty = 1, pch = 1, nc, ...)
+  oma = c(6, 0, 5, 0), col = 1, lty = 1, pch = 1, type = "l", nc, ...)
 {
   parm <- function(nams, x, n, def, recycle = sum(unnamed) > 0) {
   # if nams are the names of our variables and x is a parameter
@@ -45,6 +48,7 @@ plot.zoo <- function(x,
     lty <- rep(lty, length.out = nser)
     col <- parm(cn, as.list(col), NROW(x), 1)
     pch <- parm(cn, as.list(pch), NROW(x), par("pch"))
+    type <- parm(cn, as.list(type), NROW(x), "l")
 
     panel <- match.fun(panel)
     if(nser > 10) stop("Can't plot more than 10 series")
@@ -67,7 +71,8 @@ plot.zoo <- function(x,
         box()
         axis(2, xpd = NA)
       }
-      panel(x.index, x[, i], col = col[[i]], pch = pch[[i]], lty = lty[i], ...)
+      panel(x.index, x[, i], col = col[[i]], pch = pch[[i]], lty = lty[i], 
+		type = type[[i]], ...)
     }
     par(oldpar)
   } else {
@@ -78,6 +83,7 @@ plot.zoo <- function(x,
     lty <- rep(lty, length.out = nser)
     col <- parm(cn, as.list(col), NROW(x), 1)
     pch <- parm(cn, as.list(pch), NROW(x), par("pch"))
+    type <- parm(cn, as.list(type), NROW(x), "l")
    
     dummy <- rep(range(x, na.rm = TRUE), length.out = length(index(x)))
 	    
@@ -87,7 +93,8 @@ plot.zoo <- function(x,
     box()
     y <- as.matrix(x)
     for(i in 1:nser) {
-      panel(x.index, y[, i], col = col[[i]], pch = pch[[i]], lty = lty[i], ...)
+      panel(x.index, y[, i], col = col[[i]], pch = pch[[i]], lty = lty[i], 
+		type = type[[i]], ...)
     }
   }
   title(main)
