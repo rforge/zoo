@@ -79,8 +79,13 @@ str.zoo <- function(object, ...)
   class(x) <- nclass
   if(missing(i)) i <- 1:NROW(x)
   if(length(dim(x)) == 2) {
-        if(missing(j)) j <- 1:ncol(x)
-	zoo(x[i, j, drop = drop, ...], x.index[i])
+	# we had previously just j to all cols if missing 
+	# but that did not work for zero columns
+	# so we now process the two cases separately
+        if(missing(j)) 
+		zoo(x[i, , drop = drop, ...], x.index[i])
+	else
+		zoo(x[i, j, drop = drop, ...], x.index[i])
    } else
 	zoo(x[i], x.index[i])
 }

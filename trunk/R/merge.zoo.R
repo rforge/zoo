@@ -31,15 +31,16 @@ cbind.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL)
 merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c("zoo", "list"))
 {
     if (!is.null(retclass)) retclass <- match.arg(retclass)
-    # arg is a possibly named list with the ... args as char strings
+    # cl are calls to the args and args is a list of the arguments
     cl <- as.list(match.call())
     cl[[1]] <- cl$all <- cl$fill <- cl$retclass <- cl$suffixes <- NULL
-    args <- lapply(cl, deparse)
+    args <- list(...)
 
     parent <- parent.frame()
 
     # ensure all ... args are of class zoo
-    stopifnot(all(sapply(args, function(x) is.zoo(eval(parse(text=x), parent)))))
+    stopifnot(all(sapply(args, is.zoo)))
+
     # use argument names if suffixes not specified
     if (is.null(suffixes)) {
         makeNames <- function(l) {
@@ -54,19 +55,18 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
                 nm[fixup] <- dep
             nm
         }
-        # suffixes <- makeNames(as.list(substitute(list(...)))[-1])
-        suffixes <- makeNames(cl)
+        suffixes <- makeNames(as.list(substitute(list(...)))[-1])
     }
-    if (length(suffixes) != length(args)) {
+    if (length(suffixes) != length(cl)) {
         warning("length of suffixes and does not match number of merged objects")
-        suffixes <- rep(suffixes, length.out = length(args))
+        suffixes <- rep(suffixes, length.out = length(cl))
     }
 
     # extend all to a length equal to the number of args
-    all <- rep(all, length.out = length(args))
+    all <- rep(all, length.out = length(cl))
 
     # ensure the class of the index of each arg are all the same
-    indexlist <- lapply(args, function(x) index(eval(parse(text=x), parent)))
+    indexlist <- lapply(args, index)
     indexclasses <- sapply(indexlist, function(x) class(x)[1])
     if (!all(indexclasses == indexclasses[1])) 
         warning(paste("Index vectors are of different classes:", 
@@ -99,72 +99,88 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
 
     # the f function does the real work
     # it takes a zoo object, a, and fills in a matrix corresponding to
-    # indexes with the values in a.  If ret.zoo is TRUE if it is to return
+    # indexes with the values in a.  ret.zoo is TRUE if it is to return
     # a zoo object.  If ret.zoo is FALSE it simply returns with the matrix
-    # just calculated.  Otherwise, converts that matrix into a zoo object.
+    # just calculated.  
     # match0 is convenience wrapper for MATCH with nomatch=0 default
     match0 <- function(a, b, nomatch = 0, ...) MATCH(a, b, nomatch = nomatch, ...)
-    f <- function(a, ret.zoo = TRUE) {
-        if (length(a) == 0) 
-            return(matrix(nr = length(indexes), nc = 0))
+    f <- if (any(all)) 
+       function(a, ret.zoo = TRUE) {
+        if (length(a) == 0 && length(dim(a)) == 0)
+		return( if (ret.zoo) zoo(,indexes) else numeric() )
         z <- matrix(fill, length(indexes), NCOL(a))
-        z[match0(index(a), indexes), ] <- if (length(dim(a)) == 0)
-		a[match0(indexes, index(a))]                      
-	else                                                      
+	if (length(dim(a)) > 0)
+           z[match0(index(a), indexes), ] <- 
 		a[match0(indexes, index(a)),,drop = FALSE]        
- 	if (!ret.zoo) return(z)
-	if (length(dim(a)) == 0) {
-		zoo(z[,1,drop=TRUE], indexes)
-	} else {
-		colnames(z) <- colnames(a)
-		zoo(z, indexes)
-	}
-    }
+        else {
+           z[match0(index(a), indexes), ] <- a[match0(indexes, index(a))]
+           z <- z[,1,drop=TRUE]
+        }
+ 	if (ret.zoo) zoo(z,indexes) else z
+      }
+    
+    else
     # if all contains only FALSE elements then the following f is used
     # instead of the prior f for performance purposes.  If all contains
     # only FALSE then the resulting index is the intersection of the
     # index of each argument so we can just return a[index] or a[index,].
     # Also if we are not to return a zoo object then unclass it prior to return.
-    if (!any(all)) f <- function(a, ret.zoo = TRUE) {
+      function(a, ret.zoo = TRUE) {
 	if (!ret.zoo) class(a) <- NULL
-	a <- if (length(dim(a)) == 0)
-		a[match0(indexes, attr(a,"index"))]
-	else
+	if (length(dim(a)) == 0) {
+		if (length(a) == 0) {
+			if (ret.zoo) zoo(,indexes) else numeric()
+		} else
+			a[match0(indexes, attr(a,"index"))]
+	} else
 		a[match0(indexes, attr(a,"index")),,drop=FALSE]
-    }
+      }
+
+
+
+
     # if retclass is NULL do not provide a return value but instead
     # update each argument that is a variable, i.e. not an expression,
     # in place.  
     if (is.null(retclass)) {
-        for(vn in args) 
+        for(vn in cl) {
+           if (is.name(vn))
            tryCatch(
-	     eval(substitute(v <- f(v), list(f = f, v = as.name(vn))), parent), 
-	     condition = function(x)NULL
+	     eval(substitute(v <- f(v), list(f = f, v = vn)), parent), 
+	     condition = function(x) {}
            )
+        }
 	invisible(return(NULL))
     } 
 
     # apply f to each arg put result of performing this on all args in list rval
     # and then cbind that list together to produce the required matrix
-    rval <- lapply(args, function(x) 
-		f(eval(parse(text=x), parent), ret.zoo = retclass == "list"))
-    names(rval) <- args
+    rval <- lapply(args, f, ret.zoo = retclass == "list")
+    names(rval) <- suffixes
     if (retclass == "list") return(rval)
-    rval <- do.call("cbind", rval)
+    # remove zero length arguments
+    rval <- rval[sapply(rval, function(x) length(x) > 0)]
+    # if there is more than one non-zero length argument then cbind them
+    # Note that cbind will create matrices, even when given a single vector, 
+    # so its important not to use it in the single vector case.
+    rval <- if (length(rval) > 1) 
+	do.call("cbind", rval)
+    else
+	rval[[1]]
+    # return if vector since remaining processing is only for column names
+    if (length(dim(rval)) == 0) return(rval)
 
     #
     # processing from here on is to compute nice column names
     #
 
-    if (length(unlist(sapply(eval(parse(text=args), parent), colnames))) > 0) {
-        fixcolnames <- function(i) {
-            a <- eval(parse(text=args[[i]]), parent)
+    if (length(unlist(sapply(args, colnames))) > 0) {
+        fixcolnames <- function(a) {
             if (length(a) == 0) 
                 return(NULL)
-            if (NCOL(a) < 2) {
+            if (length(dim(a)) ==0) {
                 return("")
-            }
-            else {
+            } else {
                 rval <- colnames(a)
                 if (is.null(rval)) {
                   rval <- paste(1:NCOL(a), suffixes[i], sep = ".")
@@ -176,7 +192,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
                 return(rval)
             }
         }
-        zoocolnames <- lapply(seq(along = args), fixcolnames)
+        zoocolnames <- lapply(args, fixcolnames)
         zcn <- unlist(zoocolnames)
         fixme <- lapply(zoocolnames, function(x) x %in% zcn[duplicated(zcn)])
         f <- function(i) {
@@ -198,11 +214,11 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
                 return("")
             else return(paste(".", 1:NCOL(a), sep = ""))
         }
-        zoocolnames <- lapply(args, function(i) 
-			fixcolnames(eval(parse(text=i), parent)))
-        zoocolnames <- unlist(lapply(seq(along = args), function(i) if (is.null(zoocolnames[[i]])) 
-            NULL
-        else paste(suffixes[i], zoocolnames[[i]], sep = "")))
+        zoocolnames <- lapply(args, fixcolnames)
+        zoocolnames <- unlist(lapply(seq(along = args), function(i) 
+		if (!is.null(zoocolnames[[i]])) # NULL returned if false
+			paste(suffixes[i], zoocolnames[[i]], sep = ""))
+	)
         colnames(rval) <- make.unique(zoocolnames)
     }
     zoo(rval, indexes)

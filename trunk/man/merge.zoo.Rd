@@ -66,7 +66,7 @@ An object of class \code{"zoo"}.
 
 \examples{
 ## simple merging
-x.date <- as.POSIXct(paste(2003, 02, c(1, 3, 7, 9, 14), sep = "-"))
+x.date <- as.Date(paste(2003, 02, c(1, 3, 7, 9, 14), sep = "-"))
 x <- zoo(rnorm(5), x.date)
 
 y1 <- zoo(matrix(1:10, ncol = 2), 1:5)
@@ -79,9 +79,10 @@ merge(y1, y2, all = TRUE)
 merge(y1, y2, all = TRUE, fill = 0)
 
 ## if different index classes are merged, as in
-merge(x, y1, y2, all = TRUE)
-## a warning is issued and the indexes are coerced
+## the next merge example then ## a warning is issued and 
+### the indexes are coerced.
 ## It is up to the user to ensure that the result makes sense.
+merge(x, y1, y2, all = TRUE)
 
 ## extend an irregular series to a regular one:
 # create a constant series
