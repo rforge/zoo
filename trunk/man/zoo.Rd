@@ -29,7 +29,7 @@ time series.
 }
 \usage{
 zoo(x, order.by = index(x))
-\method{print}{zoo}(x, style = <<see below>>, quote = FALSE, \dots) 
+\method{print}{zoo}(x, style = , quote = FALSE, \dots) 
 }
 \arguments{
   \item{x}{a numeric vector, matrix or a factor.}
