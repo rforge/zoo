@@ -86,11 +86,14 @@ str.zoo <- function(object, ...)
 	# so we now process the two cases separately
 	if (length(i) == 1) drop <- FALSE
         if(missing(j)) 
-		zoo(x[i, , drop = drop, ...], x.index[i], frequency = freq)
-	else
-		zoo(x[i, j, drop = drop, ...], x.index[i], frequency = freq)
-   } else
-	zoo(x[i], x.index[i], frequency = freq)
+		rval <- zoo(x[i, , drop = drop, ...], x.index[i], frequency = freq)
+	  else
+		rval <- zoo(x[i, j, drop = drop, ...], x.index[i], frequency = freq)
+  } else
+	rval <- zoo(x[i], x.index[i], frequency = freq)
+  attr(rval, "oclass") <- attr(x, "oclass") #FIXME#
+  attr(rval, "levels") <- attr(x, "levels") #FIXME#
+  return(rval)
 }
 
 head.zoo <- function(x, n = 6, ...) {

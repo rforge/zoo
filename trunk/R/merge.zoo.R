@@ -28,7 +28,7 @@ cbind.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL)
 
 #Z# instead of:
 #Z# cbind.zoo <- 
-merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c("zoo", "list"))
+merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c("zoo", "list", "data.frame"))
 {
     if (!is.null(retclass)) retclass <- match.arg(retclass)
     # cl are calls to the args and args is a list of the arguments
@@ -148,7 +148,12 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
            z[match0(index(a), indexes), ] <- a[match0(indexes, index(a))]
            z <- z[,1,drop=TRUE]
         }
- 	if (ret.zoo) zoo(z, indexes, frequency = ufreq) else z
+ 	if (ret.zoo) {
+	  z <- zoo(z, indexes, frequency = ufreq)
+	  attr(z, "oclass") <- attr(a, "oclass")  #FIXME#
+	  attr(z, "levels") <- attr(a, "levels")  #FIXME#
+	}
+	return(z)
       }
     
     } else {
@@ -188,12 +193,19 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
 
     # apply f to each arg, put result of doing this on all args in list rval
     # and then cbind that list together to produce the required matrix
-    rval <- lapply(args, f, ret.zoo = retclass == "list")
+    rval <- lapply(args, f, ret.zoo = retclass %in% c("list", "data.frame"))
     for(i in which(scalars)) rval[[i]] <- rval[[i]][] <- rval[[i]][1]
     names(rval) <- suffixes
     if (retclass == "list") { 
 	# assign(".Last.value.merge.zoo", rval, .GlobalEnv)
 	return(rval)
+    }
+    if (retclass == "data.frame") {
+      class(rval) <- "data.frame"
+      attr(rval, "row.names") <- index2char(index(rval[[1]]))
+      is.zoofactor <- function(x) !is.null(attr(x, "oclass")) && attr(x, "oclass") == "factor"      
+      for(i in 1:NCOL(rval)) if(is.zoofactor(rval[,i])) rval[,i] <- coredata(rval[,i])
+      return(rval)
     }
     # remove zero length arguments
     rval <- rval[sapply(rval, function(x) length(x) > 0)]
