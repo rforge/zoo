@@ -13,9 +13,8 @@
 \alias{cumprod.zoo}
 \alias{cummin.zoo}
 \alias{cummax.zoo}
-\alias{na.omit.zoo}
-\alias{na.contiguous.zoo}
 \alias{na.contiguous}
+\alias{na.contiguous.ts}
 \alias{na.contiguous.default}
 \alias{order}
 \alias{order.default}
@@ -110,12 +109,14 @@ objects can be coerced to \code{"zoo"}, the reverse is available for
 Furthermore, \code{"zoo"} objects can be coerced to vectors, matrices and
 data frames (dropping the index/time attribute). See \code{\link{as.zoo}}.
 
-Two methods are available for \code{NA} handling in the data of 
+Three methods are available for \code{NA} handling in the data of 
 \code{"zoo"} objects: \code{\link{na.omit}} which returns a \code{"zoo"}
-object with incomplete observations removed and \code{\link{na.contiguous}}
+object with incomplete observations removed, \code{\link{na.locf}} which
+replaces \code{NA}s by the last previous non-\code{NA} and \code{\link{na.contiguous}}
 which extracts the longest consecutive stretch of non-missing values
 in a \code{"zoo"} object. Note, that the latter function is made a
-generic in \code{zoo} with the base function being the default.
+generic in \code{zoo} with the stats function being the method for
+\code{"ts"} objects.
 }
 
 \value{

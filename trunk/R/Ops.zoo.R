@@ -7,26 +7,11 @@ Ops.zoo <- function (e1, e2)
         NextMethod(.Generic)
     }
     else {
-	vec <- function(x) {
-		dim(x) <- NULL
-		x
-	}
-        nc1 <- NCOL(e1)
-	cn1 <- colnames(e1)
-        nc2 <- NCOL(e2)
-	cn2 <- colnames(e2)
-	e12 <- merge(e1, e2, all = FALSE)
-        e1 <- if (length(dim(e1)) > 0) 
-            e12[, 1:nc1, drop = FALSE]
-        else vec(e12[, 1])
-	colnames(e1) <- cn1
-        e2 <- if (length(dim(e2)) > 0)
-            e12[, nc1 + (1:nc2), drop = FALSE]
-        else vec(e12[, nc1 + 1])
-	colnames(e2) <- cn2
+	merge(e1, e2, all = FALSE, retclass = NULL)
         NextMethod(.Generic)
     }
 }
+
 
 t.zoo <- function(x)
 	t(as.matrix.zoo(x))

@@ -9,7 +9,8 @@ versions of database "join" operations.
 }
 
 \usage{
-\method{merge}{zoo}(\dots, all = TRUE, fill = NA, suffixes = NULL)
+\method{merge}{zoo}(\dots, all = TRUE, fill = NA, suffixes = NULL,
+  retclass = c("zoo", "list"))
 }
 
 \arguments{
@@ -27,20 +28,32 @@ versions of database "join" operations.
   \item{suffixes}{character vector of the same length as the number of
     \code{"zoo"} objects that specifies the suffixes to be used for making
     the merged column names unique.}
+  \item{retclass}{character that specifies the class of the return result,
+    can be \code{"zoo"} (the default), \code{"zoo"} or \code{NULL}. For details
+    see below.}
 }
 
 \details{
 The \code{merge} method for \code{"zoo"} objects combines the columns
-of several objects either along the intersection of their dates (for
-\code{all = FALSE}, the default) or the union of the dates (for \code{all = TRUE}),
-filling up the created gaps with the \code{fill} pattern. The default
-\code{merge} method is synonymous to the \code{cbind} method. The \code{rbind}
-method combines the dates of the \code{"zoo"} objects (duplicate dates are
-not allowed) and combines the rows of the objects.
+of several objects either along the union of the dates (for \code{all = TRUE}, the default),
+or the intersection of their dates (for \code{all = FALSE})
+filling up the created gaps with the \code{fill} pattern.
+
+If \code{retclass} is \code{"zoo"} (the default) a single merged \code{"zoo"}
+object is returned. If it is set to \code{"list"} a list of \code{"zoo}
+objects is returned. If \code{retclass = NULL} then instead of returning a value it updates each
+argument (if it is a variable rather than an expression) in
+place so as to extend or reduce it to use the common index vector.
 
 The indexes of different
 \code{"zoo"} objects can be of different classes and are coerced to
 one class in the resulting object (with a warning).
+
+The default
+\code{merge} method is synonymous to the \code{cbind} method.
+The \code{rbind}
+method combines the dates of the \code{"zoo"} objects (duplicate dates are
+not allowed) and combines the rows of the objects.
 }
 
 \value{
@@ -60,10 +73,13 @@ y2 <- zoo(matrix(rnorm(10), ncol = 2), 3:7)
 ## using arguments `fill' and `suffixes'
 merge(y1, y2, all = FALSE)
 merge(y1, y2, all = FALSE, suffixes = c("a", "b"))
+merge(y1, y2, all = TRUE)
+merge(y1, y2, all = TRUE, fill = 0)
 
+## if different index classes are merged, as in
 merge(x, y1, y2, all = TRUE)
-merge(x, y1, y2, all = TRUE, fill = 0)
-
+## a warning is issued and the indexes are coerced
+## (not necessarily giving a satisfying result, as in this case)
 
 ## extend an irregular series to a regular one:
 # create a constant series
