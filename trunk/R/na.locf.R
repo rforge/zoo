@@ -13,15 +13,16 @@ na.locf.default <- function(object, na.rm = TRUE, ...) {
 	if (na.rm) na.omit(object) else object
 }
 
+## we only need this until 2.1.0 comes out
+## included for now
 na.contiguous <- function(object, ...)
-	UseMethod("na.contiguous")
+     UseMethod("na.contiguous")
 
-## The former (up to R 2.0.0) na.contiguous should become
-## na.contiguous.ts:
-na.contiguous.ts <- function(object, ...)
-	stats::na.contiguous(object, ...)
+na.contiguous.default <- function(object, ...)
+     stats::na.contiguous(object, ...)
 
-na.contiguous.default <- function(object, ...) 
+## does not work only for zoo objects
+na.contiguous.zoo <- function(object, ...) 
 {
     if (length(dim(object)) == 2) 
         good <- apply(!is.na(object), 1, all)

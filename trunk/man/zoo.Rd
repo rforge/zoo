@@ -14,8 +14,8 @@
 \alias{cummin.zoo}
 \alias{cummax.zoo}
 \alias{na.contiguous}
-\alias{na.contiguous.ts}
 \alias{na.contiguous.default}
+\alias{na.contiguous.zoo}
 \alias{order}
 \alias{order.default}
 \alias{match}
