@@ -1,6 +1,5 @@
 R/fBasics.R
 R/rollmean.R
 R/rapply.R
-R/as.Date.ts.R
 man/rollmean.Rd
 man/rapply.Rd
