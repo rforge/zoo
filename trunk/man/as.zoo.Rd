@@ -4,6 +4,9 @@
 \alias{as.zoo.ts}
 \alias{as.zoo.its}
 \alias{as.zoo.irts}
+\alias{as.zoo.zoo}
+\alias{as.ts.zoo}
+\alias{as.ts.zooreg}
 \alias{as.matrix.zoo}
 \alias{as.vector.zoo}
 \alias{as.data.frame.zoo}
@@ -16,35 +19,36 @@ Methods for coercing \code{"zoo"} objects to other classes and
 a generic function \code{as.zoo} for coercing objects to class \code{"zoo"}.
 }
 \usage{
-as.zoo(x, frequency, \dots)
-\method{as.zoo}{ts}(x, frequency, timeclass, \dots)
+as.zoo(x, \dots)
 }
 \arguments{
   \item{x}{an object,}
-  \item{frequency}{the resulting zoo object should use this frequency.
-     If omitted the frequency of the underlying object, if it has one
-     is used; otherwise, no frequency is used.}
-  \item{timeclass}{class of time or index of the zoo object.}
-  \item{\dots}{currently not used.}
+  \item{\dots}{further arguments passed to \code{\link{zoo}} when the return
+    object is created.}
 }
 
 \details{
 \code{as.zoo} currently has a default method and methods
-for \code{\link{ts}}, \code{\link[its]{its}} and \code{\link[tseries]{irts}} objects.
+for \code{\link{ts}}, \code{\link[its]{its}} and \code{\link[tseries]{irts}} objects
+(and \code{\link{zoo}} objects themselves).
 
 Methods for coercing objects of class \code{"zoo"} to other classes
-currently include: \code{\link{as.matrix}}, \code{\link{as.vector}},
+currently include: \code{\link{as.ts}}, \code{\link{as.matrix}}, \code{\link{as.vector}},
 \code{\link{as.data.frame}}, \code{\link{as.list}} (the latter also being available
 for \code{"ts"} objects). Furthermore the coercion function
 \code{as.its.zoo} is provided, but works only
 if the corresponding package is attached.
+
+In the conversion between \code{zoo} and \code{ts}, the \code{\link{zooreg}} class is
+always used.
 }
 
 \value{
 \code{as.zoo} returns a \code{\link{zoo}} object.
 }
 
-\seealso{\code{\link{zoo}}, \code{\link{ts}}, \code{\link[its]{its}}, \code{\link[tseries]{irts}}}
+\seealso{\code{\link{zoo}}, \code{\link{zooreg}}, \code{\link{ts}},
+  \code{\link[its]{its}}, \code{\link[tseries]{irts}}}
 
 \examples{
 ## coercion to zoo:

@@ -10,7 +10,7 @@ versions of database \emph{join} operations.
 
 \usage{
 \method{merge}{zoo}(\dots, all = TRUE, fill = NA, suffixes = NULL,
-  retclass = c("zoo", "list"))
+  retclass = c("zoo", "list", "data.frame"))
 }
 
 \arguments{

@@ -46,8 +46,8 @@ library(tseries)
 library(strucchange)
 library(quantreg)
 library(fBasics)
-online <- TRUE ## if set to FALSE the local copy of LU.rda
-               ## is used instead of get.hist.quote()
+online <- FALSE ## if set to FALSE the local copy of LU.rda
+                ## is used instead of get.hist.quote()
 @
 
 \section{Introduction} \label{sec:intro}
@@ -487,7 +487,7 @@ by precious observations, are removed in both functions by default.
 z1[sample(1:10, 3)] <- NA
 z1
 na.omit(z1)
-na.contiguous(z1)
+#FIXME#na.contiguous(z1)
 na.approx(z1)
 na.approx(z1, 1:NROW(z1))
 na.locf(z1)
@@ -634,66 +634,6 @@ z2td <- zoo(coredata(z2), timeDate(index(z2), FinCenter = "GMT"))
 z2td
 @
 
-\subsection[stats: (Dynamic) regression modelling]{\pkg{stats}: (Dynamic) regression modelling}
-\label{sec:stats}
-
-\code{zoo} provides a facility for extending regression functions such
-as \code{lm} to handle time series.  One simply encloses the \code{formula}
-argument in \code{I(...)} and ensures that all variables in
-the formula are of class \code{"zoo"} or all are of class \code{"ts"}.
-
-Basic regression functions, like \code{lm} or \code{glm}, in which regression
-relationships are specified via a \code{formula} only have limited
-support for time series regression. The reason is that \code{lm(formula, ...)}
-calls the generic function \code{model.frame(formula, ...)} to create a 
-a data frame with the variables required. This dispatches to \code{model.frame.formula}
-which does not deal specifically with (various types of) time series data.
-Therefore, it would be desirable to dispatch to a specialized \code{model.frame}
-method depending on the type of the dependent variable. As this is a non-standard
-dispatch, \pkg{zoo} provides the following mechanism: In the call to the regression 
-function, the \code{formula} is insulated by \code{I()}, e.g., as in
-\code{lm(I(formula), ...)}, leaving \code{formula} unaltered but returning an object
-of class \code{"AsIs"}. Then, \code{model.frame.AsIs} is called which examines the
-dependent variable of the \code{formula} and then dispatches to \code{model.frame.foo}
-if this is of class \code{"foo"}. In \pkg{zoo}, the methods \code{model.frame.zoo}
-and \code{model.frame.ts} are provided which are able to create model frames
-from formulas in which \emph{all} variables are of class \code{"zoo"} or \code{"ts"},
-respectively. The advantage of \code{model.frame.zoo} is that it aligns
-the variables along a common index, it allows the usage of \code{lag} and
-\code{diff} in the model specification and works with the \code{NA} handling methods
-described in Section~\ref{sec:NA}. Therefore, dynamic linear regression models
-can be fit easily using the standard \code{lm} function by just insulating
-\code{I(formula)} in the corresponding call\footnote{In addition to \code{lm}
-and \code{glm}, this approach works for many other regression functions including
-\code{randomForest} ensembles from \pkg{randomForest},
-\code{svm} support vector machines from \pkg{e1071},
-\code{lqs} resistant regression from \pkg{MASS},
-\code{nnet} neural networks from \pkg{nnet},
-\code{rq} quantile regression from \pkg{quantreg},
-and possibly many others.}.
-
-A simple example based on artificial data is given below: the lag of a dependent
-variable is explained by the first differences of a numeric regressor and an
-explanatory factor. Note, that the variables have different indexes. First, a linear
-regression model is fitted, then a quantile regression is carried out for the same
-equation.
-
-<<regression1>>=
-yz <- zoo(1:20)^2
-xz <- zoo(1:18)^2
-fz <- zoo(gl(4, 5)) # zoo factor object
-
-lm(I(lag(yz) ~ diff(xz) + fz))
-
-library(quantreg)
-rq(I(lag(yz) ~ diff(xz) + fz))
-@
-
-See the help page of \code{model.frame.zoo} for more examples
-and additional information. Furthermore, note that this feature is under 
-development and might subject to changes in future versions.
-
-
 
 \section{Summary and outlook} \label{sec:summary}
 
@@ -749,3 +689,66 @@ CRAN at \url{http://CRAN.R-project.org/}.
 \end{appendix}
 
 \end{document}
+
+
+\subsection[stats: (Dynamic) regression modelling]{\pkg{stats}: (Dynamic) regression modelling}
+\label{sec:stats}
+
+\code{zoo} provides a facility for extending regression functions such
+as \code{lm} to handle time series.  One simply encloses the \code{formula}
+argument in \code{I(...)} and ensures that all variables in
+the formula are of class \code{"zoo"} or all are of class \code{"ts"}.
+
+Basic regression functions, like \code{lm} or \code{glm}, in which regression
+relationships are specified via a \code{formula} only have limited
+support for time series regression. The reason is that \code{lm(formula, ...)}
+calls the generic function \code{model.frame(formula, ...)} to create a 
+a data frame with the variables required. This dispatches to \code{model.frame.formula}
+which does not deal specifically with (various types of) time series data.
+Therefore, it would be desirable to dispatch to a specialized \code{model.frame}
+method depending on the type of the dependent variable. As this is a non-standard
+dispatch, \pkg{zoo} provides the following mechanism: In the call to the regression 
+function, the \code{formula} is insulated by \code{I()}, e.g., as in
+\code{lm(I(formula), ...)}, leaving \code{formula} unaltered but returning an object
+of class \code{"AsIs"}. Then, \code{model.frame.AsIs} is called which examines the
+dependent variable of the \code{formula} and then dispatches to \code{model.frame.foo}
+if this is of class \code{"foo"}. In \pkg{zoo}, the methods \code{model.frame.zoo}
+and \code{model.frame.ts} are provided which are able to create model frames
+from formulas in which \emph{all} variables are of class \code{"zoo"} or \code{"ts"},
+respectively. The advantage of \code{model.frame.zoo} is that it aligns
+the variables along a common index, it allows the usage of \code{lag} and
+\code{diff} in the model specification and works with the \code{NA} handling methods
+described in Section~\ref{sec:NA}. Therefore, dynamic linear regression models
+can be fit easily using the standard \code{lm} function by just insulating
+\code{I(formula)} in the corresponding call\footnote{In addition to \code{lm}
+and \code{glm}, this approach works for many other regression functions including
+\code{randomForest} ensembles from \pkg{randomForest},
+\code{svm} support vector machines from \pkg{e1071},
+\code{lqs} resistant regression from \pkg{MASS},
+\code{nnet} neural networks from \pkg{nnet},
+\code{rq} quantile regression from \pkg{quantreg},
+and possibly many others.}.
+
+A simple example based on artificial data is given below: the lag of a dependent
+variable is explained by the first differences of a numeric regressor and an
+explanatory factor. Note, that the variables have different indexes. First, a linear
+regression model is fitted, then a quantile regression is carried out for the same
+equation.
+
+\begin{verbatim}
+yz <- zoo(1:20)^2
+xz <- zoo(1:18)^2
+fz <- zoo(gl(4, 5)) # zoo factor object
+
+lm(I(lag(yz) ~ diff(xz) + fz))
+
+library(quantreg)
+rq(I(lag(yz) ~ diff(xz) + fz))
+\end{verbatim}
+
+
+See the help page of \code{model.frame.zoo} for more examples
+and additional information. Furthermore, note that this feature is under 
+development and might subject to changes in future versions.
+
+

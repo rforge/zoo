@@ -6,7 +6,7 @@ coredata.default <- function(x, ...) x
 coredata.zoo <- function(x, ...)
 {
   attr(x, "class") <- attr(x, "oclass")
-  attr(x, "index") <- attr(x, "oclass") <- NULL
+  attr(x, "index") <- attr(x, "oclass") <- attr(x, "frequency") <- NULL
   return(x)
 }
 

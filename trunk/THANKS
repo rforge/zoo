@@ -1,6 +1,5 @@
 The authors would like to thank the following people:
 
-
   Whit Armstrong <Whit.Armstrong@tudor.com>
   - information on model.frame and ideas on merge.zoo performance
 
@@ -13,7 +12,3 @@ The authors would like to thank the following people:
 
   Jarek Tuszynski <Jaroslaw.W.Tuszynski@saic.com>
   - performance analysis of R algorithms for rolling analyses
-
-  R Core Team
-  - made as.ts and as.contiguous generic in core to facilitate their
-    use in zoo

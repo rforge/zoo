@@ -1,3 +1,6 @@
+#FIXME# still need class creator
+#FIXME# do some checking of underlying numeric scale
+#FIXME# dito for yearqtr
 
 as.yearmon <- function(x, ...) UseMethod("as.yearmon")
 as.yearmon.yearqtr <- function(x, ...) as.yearmon(as.Date(x))

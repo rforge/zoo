@@ -22,6 +22,7 @@
 
 \alias{index2char}
 \alias{index2char.default}
+\alias{index2char.numeric}
 
 \alias{frequency.zoo}
 \alias{as.zoo.zoo}
@@ -94,6 +95,8 @@ include: \code{print} (see above), \code{summary}, \code{str}, \code{head},
 \code{tail}, \code{[} (subsetting), \code{rbind}, \code{cbind}, \code{merge}
 (see \code{\link{merge.zoo}}), \code{aggregate} (see \code{\link{aggregate.zoo}}),
 \code{plot} and \code{lines} (see \code{\link{plot.zoo}}).
+
+#FIXME# mention index2char
 
 Additionally, \code{zoo} provides several generic functions and methods
 to work (a) on the data contained in a \code{"zoo"} object, (b) the

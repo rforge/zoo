@@ -13,6 +13,11 @@ index.zoo <- function(x, ...)
   attr(x, "index")
 }
 
+index.ts <- function(x, ...)
+{
+  as.numeric(time(x))
+}
+
 time.zoo <- function(x, ...)
 {
   index(x)

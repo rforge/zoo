@@ -1,82 +1,54 @@
-as.zoo <- function(x, frequency, ...)
+as.zoo <- function(x, ...)
 {
   UseMethod("as.zoo")
 }
 
-as.zoo.default <- function(x, frequency = NULL, ...)
+as.zoo.default <- function(x, ...)
 {
-  if(is.zoo(x)) x
-    else zoo(structure(x, dim = dim(x)), index(x), frequency = frequency)
+  zoo(structure(x, dim = dim(x)), index(x), ...)
 }
 
-as.zoo.factor <- function(x, frequency = NULL, ...) 
+as.zoo.factor <- function(x, ...) 
 {
-  L <- list(...)
-  stopifnot(length(L) < 2)
-  if (length(L))
-	zoo(x, list(...)[[1]], frequency = frequency)
-  else
-	zoo(x, frequency = frequency)
+  zoo(x, ...)
 }
 
-as.zoo.ts <- function(x, frequency = stats::frequency(x), timeclass, ... )
+as.zoo.ts <- function(x, ...)
 {
-  if (missing(timeclass)) {
-	timeclass <- if (frequency(x) == 12) "yearmon"
-		else if (frequency(x) == 4) "yearqtr"
-		else "numeric"
-  }
-  tt <- unclass(time(x))
-  tt <- eval(parse(text=paste("as", timeclass, sep = ".")))(tt)
-  zoo(coredata(x), tt, frequency = frequency)
+  xtsp <- tsp(x)
+  zooreg(coredata(x), start = xtsp[1], end = xtsp[2], frequency = xtsp[3])
 } 
 
 
-as.zoo.irts <- function(x, frequency = NULL, ...)
+as.zoo.irts <- function(x, ...)
 {
-  zoo(x$value, x$time)
+  zoo(x$value, x$time, ...)
 }
 
-as.zoo.its <- function(x, frequency = NULL, ...) 
+as.zoo.its <- function(x, ...) 
 {
 	index <- attr(x, "dates")
 	class(x) <- attr(x, "dates") <- NULL
-	zoo(x, index)
+	zoo(x, index, ...)
 }
 
-as.zoo.zoo <- function(x, frequency, ...)
-	if (missing(frequency)) x else {
-		attr(x, "frequency") <- frequency
-		x
-	}
-
-as.ts.zoo <- function(x, start = as.numeric(time(x[1])),
-   frequency = frequency(x), deltat, ts.eps = getOption("ts.eps"), ...) {
-	stopifnot(!is.null(frequency))
-	if (missing(deltat)) deltat <- 1/frequency else frequency <- 1/deltat
-	round. <- function(x) deltat * round(x/deltat)
-	tt <- round.(as.numeric(time(x)))
-	tt2 <- round.(seq(head(tt,1), tail(tt,1), deltat))
-	xx <- merge(zoo(coredata(x), tt), zoo(, tt2))
-	ts(coredata(xx), start = start, frequency = frequency)
+as.zoo.zoo <- function(x, ...) {
+    zoo(coredata(x), index(x), attr(x, "frequency"))
 }
 
 as.its.zoo <- function(x) {
 	stopifnot(require(its))
-	index <- attr(x, "index")
+	index <- index(x)
 	stopifnot(inherits(index, "POSIXct"))
-	attr(x, "index") <- NULL
-	its(unclass(x), index)
+	its(coredata(x), index)
 }
-
 
 as.vector.zoo <- function(x, mode = "any")
 	as.vector(as.matrix(x), mode = mode)
 
-as.matrix.zoo <- function (x) 
+as.matrix.zoo <- function(x) 
 {
-    y <- as.matrix(unclass(x))
-    attr(y, "index") <- NULL
+    y <- as.matrix(coredata(x))
     if (length(y) > 0) 
 	    colnames(y) <- if (length(colnames(x)) > 0) 
 		colnames(x)
@@ -91,7 +63,7 @@ as.matrix.zoo <- function (x)
 
 as.data.frame.zoo <- function(x, row.names = NULL, optional = FALSE)
 {
-	y <- as.data.frame(unclass(x))
+	y <- as.data.frame(coredata(x))
         if(NCOL(x) > 0) {
 		colnames(y) <- if (length(colnames(x)) > 0) 
 			colnames(x)
@@ -107,7 +79,7 @@ as.data.frame.zoo <- function(x, row.names = NULL, optional = FALSE)
 
 as.list.zoo <- function(x, ...) {
 	if (length(dim(x)) == 0) list(x)
-  		else lapply(as.data.frame(x), zoo, index(x), frequency(x))
+  		else lapply(as.data.frame(x), zoo, index(x),  attr(x, "frequency"))
 }
 
 as.list.ts <- function(x, ...) {
@@ -118,3 +90,24 @@ as.list.ts <- function(x, ...) {
 		list(x)
 }
 
+as.ts.zooreg <- function(x, ...)
+{
+  freq <- frequency(x)
+  deltat <- 1/freq
+  round. <- function(x) deltat * round(x/deltat)
+  tt <- round.(as.numeric(time(x)))
+  tt2 <- round.(seq(head(tt,1), tail(tt,1), deltat))
+  xx <- merge(zoo(coredata(x), tt), zoo(, tt2))
+  ts(coredata(xx), start = tt[1], frequency = freq)
+}
+
+as.ts.zoo <- function(x, ...)
+{
+  if(is.regular(x)) {
+    attr(x, "frequency") <- frequency(x)
+    return(as.ts.zooreg(x))
+  } else {
+    warning(paste(sQuote("x"), "does not have an underlying regularity"))
+    return(ts(coredata(x)))
+  }
+}
