@@ -1,3 +1,49 @@
+Changes in Version 0.9-0
+
+  o base functions order() and match() are made generic
+    functions in zoo now so that zoo() can handle 
+    arbitrary index/time classes when suitable methods
+    for the generic function c(), length(), order(),
+    match() and subsetting [, are supplied.
+
+  o improved printing of "zoo" objects and added
+    a summary() method.
+    
+  o extended coercion functionality to and from
+    "zoo" objects. "its" objects can be coerced to
+    "zoo" and vice versa. "zoo" objects can be 
+    coerced to vector, matrix or data.frame.
+    
+  o added functionality to extract/assign to
+    the value() of a "zoo" object.
+    
+  o added/improved functionality to extract/assign
+    to the window() of a "zoo" object.
+    
+  o added/improved functionality to extract/assign
+    to the index() or time() of a "zoo" object.
+    
+  o added lag(), diff(), start(), end(), head(),
+    tail() methods.
+
+  o improved plot.zoo() by more flexible expansion
+    of plotting parameters such as col, lty and pch.
+
+  o added a cbind() method for "zoo" objects (synonymous
+    with merge())
+  
+  o NA handling for "zoo" objects via na.omit() and
+    na.contiguous().
+
+  o LOCF() generic function with default and zoo method
+    which implements Last Observation Carried Forward.
+  
+  o added mathematical methods: group generic functions
+    for "zoo" objects, t(), cumsum(), cumprod(), cummin(),
+    and cummax().
+  
+
+
 Changes in Version 0.2-0
 
   o zoo() now has defaults for both arguments x and order.by,
@@ -15,3 +61,4 @@ Changes in Version 0.2-0
        by another value than NA.
        
   o improved documentation with extended examples
+
