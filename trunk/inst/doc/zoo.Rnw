@@ -115,7 +115,7 @@ Section~\ref{sec:summary} gives a few summarizing remarks.
 
 The simple idea for the creation of \code{"zoo"} objects is to have
 some vector or matrix of observations \code{x} which are totally ordered
-by some index vector. In time series applications this index is a measure of
+by some index vector. In time series applications, this index is a measure of
 time but every other numeric, character or even more abstract vector that
 provides a total ordering of the observations is also suitable. Objects
 of class \code{"zoo"} are created by the function
@@ -140,9 +140,10 @@ This is the case, e.g., for standard numeric and character vectors and for
 vectors of classes \code{"Date"}, \code{"POSIXct"} or \code{"times"}
 from package \pkg{chron}, but not for the class \code{"dateTime"} in \pkg{fBasics}.
 In the last case, the solution is to provide methods for the above mentioned
-functions so that indexing \code{"zoo"} objects with \code{"dateTime"} vectors works.
+functions so that indexing \code{"zoo"} objects with \code{"dateTime"} vectors works
+(see Section~\ref{sec:fBasics} for an example).
 To achieve this  independence of the index class, new generic functions for
-ordering (\code{ORDER()}) and value matching (\code{match()}) are introduced
+ordering (\code{ORDER()}) and value matching (\code{MATCH()}) are introduced
 as the corresponding base functions \code{order()} and \code{match()} are 
 non-generic. The default methods simply call the corresponding base functions, i.e.,
 no new method needs to be introduced for a particular index class if the 
@@ -178,7 +179,7 @@ colnames(Z.data) <- c("Aa", "Bb", "Cc")
 Z <- zoo(Z.data, Z.index)
 @
 Note that \code{zoo} provides \code{as.Date} methods to convert days 
-since January 1, 1970 to class Date, used in the above.
+since 1970-01-01 to class \code{"Date"}, used in the above.
 The argument to \code{as.Date} was used to generate random 
 dates for this illustration. In ``real world'' applications, the indexes
 are typically part of the raw data set read into \proglang{R} so the
@@ -244,9 +245,10 @@ line type. The \code{pch} argument is a named list that assigns to each series
 a different vector of plotting characters each of which is expanded to the 
 number of observations. Such a list does not necessarily have to include the names of all
 series, but can also specify a subset. For the remaining series the default parameter
-is then used which can again be changed: e.g., in the above example series \code{"Bb"} is
-plotted in red and all remaining series in blue. The results of the multiple panel plots
-are depicted in Figure~\ref{fig:plot13} and the single panel plot in \ref{fig:plot2}.
+is then used which can again be changed: e.g., in the above example the \code{col} argument
+is set to display the series \code{"Bb"} in red and all remaining series in blue.
+The results of the multiple panel plots are depicted in Figure~\ref{fig:plot13} and the
+single panel plot in \ref{fig:plot2}.
 
 \begin{figure}[tbh]
 \begin{center}
@@ -283,7 +285,9 @@ indexes may not overlap.
 rbind(z1[5:10], z1[2:3])
 @
 The \code{cbind} method by default combines the columns by the union of
-the indexes and fills the created gaps by \code{NA}s.
+the indexes and fills the created gaps by \code{NA}s.\footnote{Note,
+that \code{cbind} currently is inferior to \code{merge} regarding the
+column naming of the resulting object.}
 <<cbind>>=
 cbind(z1, z2)
 @
@@ -299,8 +303,9 @@ the naming of the
 columns can be modified and the return class of the result can
 be specified. In the case of merging of objects with 
 different index classes, \proglang{R} gives a warning and tries to
-coerce the indexes.  It is the responsibility of the user to ensure
-that the result is as intended.
+coerce the indexes. Merging objects with different index classes is
+generally discouraged---if it is used nevertheless, it is the
+responsibility of the user to ensure that the result is as intended.
 
 Another function which performs operations along a subset of indexes
 is \code{aggregate}, which is discussed in this section although
@@ -328,10 +333,11 @@ aggregate(Z, firstofmonth(Z.index), head, 1)
 To allow for standard mathematical operations among \code{"zoo"}
 objects, \pkg{zoo} extends group generic functions \code{Ops}.
 These perform the operations only for the intersection of the
-indexes of the objects. Hence, the summation of \code{z1} and
-\code{z2} yields
+indexes of the objects. As an example, the summation and logical
+comparison with $<$ of \code{z1} and \code{z2} yield
 <<Ops>>=
 z1 + z2
+z1 < z2
 @
 
 Additionally, methods for transposing \code{t} of \code{"zoo"}
@@ -354,7 +360,12 @@ index.
 
 The data stored in \code{"zoo"} objects can be extracted by
 \code{coredata} which strips off all \code{"zoo"}-specific attributes and 
-it can be replaced using \code{coredata<-}. Both are new generic functions
+it can be replaced using \code{coredata<-}. Both are new generic
+functions\footnote{The \code{coredata} functionality is similar in spirit to the \code{core}
+function in \pkg{its} and \code{value} in \pkg{tseries}. However, the 
+focus of those functions is somewhat narrower and we try to provide 
+more general purpose generic functions. See the respective manual
+page for more details.}
 with methods for \code{"zoo"} objects as illustrated in the following
 example.
 <<coredata>>=
@@ -367,10 +378,10 @@ The index associated with a \code{"zoo"} object can be extracted
 by \code{index} and modified by \code{index<-}. As the interpretation
 of the index as ``time'' in time series applications is natural,
 there are also synonymous methods \code{time} and \code{time<-}. 
-Hence, the following two commands return equivalent results
+Hence, the commands \code{index(z2)} and \code{time(z2)}
+return equivalent results.
 <<index>>=
 index(z2)
-time(z2)
 @
 The index scale of \code{z2} can be changed to that of \code{z1} by
 <<index2>>=
@@ -440,30 +451,39 @@ as.data.frame(Z)
 
 \subsection[NA handling]{\code{NA} handling}
 
-Three methods for dealing with \code{NA}s (missing observations) 
+Four methods for dealing with \code{NA}s (missing observations) 
 in the observations are applicable to \code{"zoo"} objects:
-\code{na.omit}, \code{na.contiguous}, \code{na.locf}.
+\code{na.omit}, \code{na.contiguous}, \code{na.approx} and \code{na.locf}.
 \code{na.omit}---or its default method to be more precise---returns a \code{"zoo"}
 object with incomplete observations removed. \code{na.contiguous}
 extracts the longest consecutive stretch of non-missing values.
-This function is made generic in \pkg{zoo} with a default method
-(also applicable to \code{"zoo"} objects) and the \pkg{stats} function
-being the \code{"ts"} method. Furthermore, a new generic function
-\code{na.locf} and corresponding default method is introduced in \pkg{zoo}
-which stands for \underline{l}ast \underline{o}bservation \underline{c}arried
+This function is currently made generic in \pkg{zoo}
+with a \code{"zoo"} method and the \pkg{stats} function
+as the default.\footnote{\code{na.contiguous}
+will be generic in base \proglang{R} from version 2.1.0 on.}
+Furthermore, new generic functions
+\code{na.approx} and \code{na.locf} and corresponding default methods are introduced in \pkg{zoo}.
+The former replaces \code{NA}s by linear interpolation (using the
+function \code{approx}) and the name of the latter
+stands for \underline{l}ast \underline{o}bservation \underline{c}arried
 \underline{f}orward. It replaces missing observations by the most recent
 non-\code{NA} prior to it. Leading \code{NA}s, which cannot be replaced
-by precious observations, are removed by default.
+by precious observations, are removed in both functions by default.
 
 <<na>>=
 z1[sample(1:10, 3)] <- NA
 z1
 na.omit(z1)
 na.contiguous(z1)
+na.approx(z1)
+na.approx(z1, index(z1))
 na.locf(z1)
 @
 
-
+As the above example illustrates, \code{na.approx} uses by default
+an equidistant spacing of the observations which can be changed,
+e.g., to the underlying time scale, by setting the second argument of
+\code{na.approx}.
 
 \section[Combining zoo with other packages]{Combining \pkg{zoo} with other packages}
 \label{sec:combining}
@@ -476,6 +496,7 @@ build. The latter is illustrated with a few brief examples involving the package
 \pkg{strucchange}, \pkg{tseries} and \pkg{fBasics} in this section.
 
 \subsection[stats: regression-style modelling with "zoo"]{\pkg{stats}: regression-style modelling with \code{zoo}}
+\label{sec:stats}
 
 \code{zoo} provides a general mechanism for interfacing with regression
 style functions.
@@ -526,6 +547,7 @@ See the help page for \code{model.frame.zoo} for more examples
 and additional information.
 
 \subsection[strucchange: Empirical fluctuation processes of class "zoo"]{\pkg{strucchange}: Empirical fluctuation processes of class \code{"zoo"}}
+\label{sec:strucchange}
 
 The package \pkg{strucchange} provides a collection of methods for testing,
 monitoring and dating structural changes, in particular in linear regression models.
@@ -572,6 +594,7 @@ plot(ocus)
 
 
 \subsection[tseries: historical financial data]{\pkg{tseries}: historical financial data}
+\label{sec:tseries}
 
 A typical application for irregular time series which became increasingly
 important over the last years in computational statistics and finance is
@@ -622,6 +645,7 @@ plot(diff(log(LU)))
 
 
 \subsection[fBasics: Indexes of class "timeDate"]{\pkg{fBasics}: Indexes of class \code{"timeDate"}}
+\label{sec:fBasics}
 
 Although the methods in \pkg{zoo} work out of the box for many index classes,
 it might be necessary for some index classes to provide \code{c}, \code{length},
@@ -633,7 +657,8 @@ But after the necessary methods have been defined
 <<fBasics1>>=
 length.timeDate <- function(x) prod(x@Dim)
 ORDER.timeDate <- function(x, ...) order(as.POSIXct(x), ...)
-MATCH.timeDate <- function(x, y, ...) match(as.POSIXct(x), as.POSIXct(y), ...)
+MATCH.timeDate <- function(x, table, nomatch = NA, ...)
+  match(as.POSIXct(x), as.POSIXct(table), nomatch = NA, ...)
 @
 the class \code{"timeDate"} can be used for indexing \code{"zoo"} objects.
 The following example illustrates how \code{z2} can be transformed
