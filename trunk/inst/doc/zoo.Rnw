@@ -17,7 +17,7 @@
 
 \Abstract{
   \pkg{zoo} is an \proglang{R} package providing an \proglang{S3}
-  class with methods for totally ordered observations, such as
+  class with methods for indexed totally ordered observations, such as
   irregular time series. Its key design goals are independence of a
   particular index/time/date class and consistency (to the extent
   possible) with base \proglang{R} and the \code{"ts"} class for
@@ -39,7 +39,7 @@ library(strucchange)
 \section{Introduction} \label{sec:intro}
 
 The \proglang{R} system for statistical computing
-\citep[\url{http://www.R-project.org/}]{Z:R:2004}
+\citep[\url{http://www.R-project.org/}]{zoo:R:2004}
 ships with a a class for regularly spaced time series,
 \code{"ts"} in package \pkg{stats}, but has no native class for
 irregularly spaced time series. With the increased interest in
@@ -47,9 +47,9 @@ computational finance with \proglang{R} over the last years
 several implementations of classes for irregular time series 
 emerged which are aimed particularly at finance applications.
 These include the \proglang{S3} classes \code{"timeSeries"}
-in package \pkg{fBasics} from the \pkg{Rmetrics} bundle (Wuertz, FIXME)
-and \code{"irts"} in package \pkg{tseries} (Trapletti and Hornik, FIXME)
-and the \proglang{S4} class \code{"its"} in package \pkg{its} (Heywood, FIXME).
+in package \pkg{fBasics} from the \pkg{Rmetrics} bundle \citep{zoo:fBasics:2004}
+and \code{"irts"} in package \pkg{tseries} \citep{zoo:tseries:2004}
+and the \proglang{S4} class \code{"its"} in package \pkg{its} \citep{zoo:its:2004}.
 With these packages available, why would anybody want yet another 
 package providing infrastructure for irregular time series?
 The above mentioned implementations have in common that they are restricted to a particular
@@ -59,7 +59,7 @@ available in base \proglang{R}. And this was the starting point for
 the \pkg{zoo} project: the first author of the present paper needed
 more general support for ordered observations, independent of a particular
 index class, for the package \pkg{strucchange}
-\citep{Z-papers:Zeileis+Leisch+Hornik:2002}. Hence the package was called
+\citep{zoo:Zeileis+Leisch+Hornik:2002}. Hence the package was called
 \pkg{zoo} which stands for \underline{Z}'s \underline{o}rdered \underline{o}bservations.
 Since the first release, a major part of the additions to \pkg{zoo}
 were provided by the second author of this paper, so that the name
@@ -459,6 +459,6 @@ plot(diff(log(LU)), col = list(High = 4, 2))
 \end{figure}
 
 
-\bibliography{Z,sc,Z-papers,Z-reports}
+\bibliography{zoo}
 
 \end{document}
