@@ -5,7 +5,9 @@
 \concept{dynamic regression}
 \title{Model Frame for zoo Series}
 \description{
-  \code{model.frame.zoo} is used to create model frames for zoo series.
+  \code{model.frame.AsIs} is used for dispatching \code{model.frame} to
+  \code{model.frame.zoo} or \code{model.frame.ts} which create model frames
+  from \code{"zoo"} and \code{"ts"} series respectively.
 }
 \usage{
 
@@ -21,19 +23,20 @@
   \item{formula}{a symbolic description of the model to be fit.
     The details of model specification are given below.}
 
-  \item{data}{in the case of \code{model.frame.zoo} this is an
-    optional list of \code{objects} or a single \code{zoo} object.}
+  \item{data}{optional object from which the data are taken.
+    In the case of \code{model.frame.zoo} this is either a
+    single \code{"zoo"} object or a data frame or list of \code{"zoo"}
+    objects.}
 
   \item{subset}{an optional vector specifying a subset of observations
     to be used in the fitting process.}
 
   \item{na.action}{a function which indicates what should happen
-    when the data contain \code{NA}s.  The default is set by
+    when the data contain \code{NA}s. The default is set by
     the \code{na.action} setting of \code{\link{options}}, and is
-    \code{\link{na.fail}} if that is unset.  The \dQuote{factory-fresh}
-    default is \code{\link{na.omit}}.  Other possible values include
-    \code{\link{na.approx}},
-    \code{\link{na.contiguous}} and \code{\link{na.locf}}. }
+    \code{\link{na.fail}} if that is unset. The \dQuote{factory-fresh}
+    default is \code{\link{na.omit}}. Other possible values include
+    \code{\link{na.approx}}, \code{\link{na.contiguous}} and \code{\link{na.locf}}. }
 
   \item{drop.unused.levels}{should factors have unused levels dropped?
     Defaults to \code{FALSE}.}
@@ -45,26 +48,26 @@
     regression fitting functions (see below).}
 }
 \details{
-  \code{lm(formula)} and certain other formula-based regression 
-  functions call generic function
-  \code{model.frame} to convert the formula and related data specification
-  to a data frame which forms the basic data used by the regression.
+  Regression functions, like \code{lm} say, typically specify the data
+  to be used based on a \code{formula} (and optional further arguments)
+  as in \code{lm(formula, \dots)}. The regression function then typically
+  calls the generic function \code{model.frame} to convert the formula  
+  (and related arguments) to a data frame which forms the basic data used
+  by the regression.
   In such a situation, the \code{formula} argument of the regression
   function is passed to \code{model.frame} so the class of the
-  \code{formula} argument to the regression function and, hence, 
-  \code{model.frame} determines which method of 
-  \code{model.frame} is ultimately used for data handling 
-  by the regression function.  
+  \code{formula} determines which method of \code{model.frame} is used for
+  data handling by the regression function.  
 
-  The class of the \code{formula} argument is often 
-  of class \code{formula}; however, the user can instruct \code{lm(formula)}
-  and certain other regression functions to use alternate data
-  handling methods by providing a \code{formula} argument with a different
-  class.  This is done by surrounding the \code{formula} argument 
-  of the regression function with an \code{I()} as shown in the examples.
-  The \code{I()} function simply passes its argument unchanged except for
-  setting the class to \code{AsIs}.  This causes \code{model.frame.AsIs}
-  to be dispatched and that method does no processing of its own other than
+  Typically (or rather: virtually always) the class of \code{formula} is
+  \code{"formula"} such that \code{model.frame.formula} is called. In time
+  series regression (and potentially in other situations as well), a more
+  specialized \code{model.frame} method should be called depending on the
+  type of the dependent variable. For this alternate dispatch, 
+  \code{model.frame.AsIs} is introduced: by insulating the \code{formula}
+  argument in \code{I(formula)} the class is changed to \code{"AsIs"}
+  (leaving \code{formula} unchanged) and thus \code{model.frame.AsIs}
+  is called. This does no processing of its own other than
   to examine the dependent variable of the formula and redispatch according
   to its class.
   Thus, if the dependent variable specified in \code{I(formula)} is of
@@ -73,21 +76,19 @@
 
   If the dependent variable in such a model is of class \code{"zoo"} then
   \code{model.frame.zoo} will be called. Its  key role is to inspect a formula
-  that contains only \code{zoo} objects as variables and transform
+  that may contain only \code{zoo} objects as variables and transform
   it to a model frame that can be used in various regression functions
-  appropriately aligning the various series. It also supports the use of
-  an optional list object of \code{zoo} objects, a single zoo object or
-  a data frame of zoo objects 
-  as the data argument to the regression function.
-  Similarly, a \code{model.frame.ts}
+  appropriately aligning the various series. If the \code{"zoo"} series
+  should be specified using the \code{data} argument, they can be 
+  a list object of \code{"zoo"} objects, a single zoo object, or
+  a data frame of \code{"zoo"} objects. Similarly, a \code{model.frame.ts}
   method is provided for \code{"ts"} objects. Note, that despite their names
   these methods do \emph{not} expect a normal \code{"zoo"} or \code{"ts"} object
-  as their respective first argument, but rather they expect a \code{formula}
-  whose class has been set, typically by \code{I()}
-  to \code{"zoo"} or \code{ts}.  Their behaviour is essentially the same 
-  as in the default \code{\link{model.frame}}
-  method, but they retain the index/time information. Furthermore, it
-  enables the user to use \code{\link{diff}} and \code{\link{lag}} in the
+  as their respective first argument but rather they expect a \code{formula}
+  (specifying \code{"zoo"} or \code{"ts"} series respectively).
+  Their behaviour is essentially the same as in the default \code{\link{model.frame}}
+  method, but they retain the index/time information. Furthermore, they
+  enable the user to use \code{\link{diff}} and \code{\link{lag}} in the
   model specification.
   
   As many regression functions in R use the same steps to extract the 
@@ -101,11 +102,14 @@
   \code{\link[stats]{glm}}, \code{\link[Design]{lrm}}, \code{\link[MASS]{lqs}},
   \code{\link[nnet]{nnet}}, \code{\link[e1071]{svm}}, \code{\link[quantreg]{rq}},
   \code{\link[randomForest]{randomForest}} and possibly many others.
+
+   IMPORTANT: Note, that this feature is under development and might
+   change in future versions.
 }
 
 \value{
   A \code{\link{data.frame}} containing the variables used in
-  \code{formula} plus those specified \code{\dots}.
+  \code{formula} (plus those specified in the remaining arguments).
 }
 \seealso{\code{\link{model.frame}}}
 

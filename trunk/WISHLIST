@@ -3,6 +3,8 @@ FEATURES
 
   o zoo()
     - support zoo data.frame objects
+    - fully support zoo factor objects [limited support already 
+      available]
  
     
   o merge()
@@ -24,6 +26,7 @@ FEATURES
         d(y) ~ l(y, 1)
       instead of
         diff(y) ~ lag(y, k = -1)
+      [maybe: define these in the zoo, but do not export?]
 
         
   o [.zoo [<-.zoo
@@ -32,14 +35,15 @@ FEATURES
 
   o misc functions
     - rapply: a function for applying functions to rolling windows
-      (prototype ready but not yet in release version)
+      [prototype ready but not yet in release version]
 
     - interface to additional statistical routines such as the ones
       referenced in:
       http://CRAN.R-project.org/doc/contrib/Ricci-refcard-ts.pdf
 
-    - irregular to regular conversion routines [Z: the following
-      functions would be nice as.ts.zoo() is.regular()]
+    - irregular to regular conversion routines [prototypes for     
+      functions functions like as.ts.zoo(), is.regular() are ready
+      but not yet in release version]
 
 
   o QA

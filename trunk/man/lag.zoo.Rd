@@ -13,7 +13,7 @@ Methods for computing lags and differences of \code{"zoo"} objects.
 
 \arguments{
   \item{x}{a \code{"zoo"} object.}
-  \item{k,lag}{the number of lags (in units of observations).
+  \item{k, lag}{the number of lags (in units of observations).
     Note the sign of \code{k} behaves as in \code{\link[stats]{lag}}.}
   \item{differences}{an integer indicating the order of the difference.}
   \item{arithmetic}{logical. Should arithmetic (or geometric) differences be computed?}

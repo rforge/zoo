@@ -42,22 +42,11 @@
 library(zoo)
 library(tseries)
 library(strucchange)
-online <- TRUE
+library(quantreg)
+library(fBasics)
+online <- TRUE ## if set to FALSE the local copy of LU.rda
+               ## is used instead of get.hist.quote()
 @
-
-%% TODO:
-%%
-%% the zoo package seems disarmingly simple so I think it might be a good
-%% idea to give some measure of size in the abstract and introduction such 
-%% as 50+ functions and methods since many might not realize that it has 
-%% that much functionality.
-%%
-%% I think we need both [ and also [<- and not sure if subsetting covers
-%% both or not.
-%% 
-%% simplify random indexes
-%%
-%% check cbind.zoo naming
 
 \section{Introduction} \label{sec:intro}
 
@@ -471,6 +460,7 @@ as.data.frame(Z)
 
 
 \subsection[NA handling]{\code{NA} handling}
+\label{sec:NA}
 
 Four methods for dealing with \code{NA}s (missing observations) 
 in the observations are applicable to \code{"zoo"} objects:
@@ -513,56 +503,9 @@ The main purpose of the package \pkg{zoo} is to provide basic infrastructure for
 working with indexed totally ordered observations that can be either employed by
 users directly or can be a basic ingredient on top of which other packages can
 build. The latter is illustrated with a few brief examples involving the packages
-\pkg{stats},
-\pkg{strucchange}, \pkg{tseries} and \pkg{fBasics} in this section.
+\pkg{strucchange}, \pkg{tseries}, \pkg{fBasics} and \pkg{stats} in this section.
 
-\subsection[stats: regression-style modelling with "zoo"]{\pkg{stats}: regression-style modelling with \code{zoo}}
-\label{sec:stats}
-
-\code{zoo} provides a general mechanism for interfacing with regression
-style functions.
-This mechanism can be used with linear modelling
-function \code{lm}, general linear modelling function \code{glm}
-and certain other regression-style functions found in various R packages.
-This works for regression functions whose code
-is sufficiently similar to the pattern established by \code{lm}
-and includes the \code{randomForest} ensemble approach
-from the \pkg{randomForest}
-package, the \code{svm} support vector machine function
-from the \pkg{e1071} package, the \code{lqs} resistant regression
-function from the
-\pkg{MASS} package, the \code{nnet} neural network function 
-from the \pkg{nnet} and \code{rq} quantile regression function
-from the \pkg{quantreg} package.  
-
-\code{zoo} allows one to 
-specify formulas to these functions in which \emph{all} variables
-in the formula are
-\code{zoo} objects.  For such formulas, \code{zoo} will align the 
-zoo objects, if necessary.  \code{lag}
-and \code{diff} can also be used in the formulas and zoo will
-perform appropriate alignment as well.
-
-In each case, the user simply places \code{I(...)} around the 
-entire
-formula to tell the system that the special processing 
-just described should be invoked.   For example,
-
-<<regression1>>=
-yz <- zoo(1:20)^2
-xz <- zoo(1:18)^2
-fz <- zoo(gl(4,5)) # zoo factor object
-
-lm(I(lag(yz) ~ diff(xz) + fz))
-
-library(quantreg)
-rq(I(lag(yz) ~ diff(xz) + fz))
-@
-
-See the help page for \code{model.frame.zoo} for more examples
-and additional information.
-
-\subsection[strucchange: Empirical fluctuation processes of class "zoo"]{\pkg{strucchange}: Empirical fluctuation processes of class \code{"zoo"}}
+\subsection[strucchange: Empirical fluctuation processes]{\pkg{strucchange}: Empirical fluctuation processes}
 \label{sec:strucchange}
 
 The package \pkg{strucchange} provides a collection of methods for testing,
@@ -613,7 +556,7 @@ plot(ocus)
 \end{figure}
 
 
-\subsection[tseries: historical financial data]{\pkg{tseries}: historical financial data}
+\subsection[tseries: Historical financial data]{\pkg{tseries}: Historical financial data}
 \label{sec:tseries}
 
 A typical application for irregular time series which became increasingly
@@ -688,6 +631,63 @@ library(fBasics)
 z2td <- zoo(coredata(z2), timeDate(index(z2), FinCenter = "GMT"))
 z2td
 @
+
+\subsection[stats: (Dynamic) regression modelling]{\pkg{stats}: (Dynamic) regression modelling}
+\label{sec:stats}
+
+Basic regression functions, like \code{lm} or \code{glm}, in which regression
+relationships are specified via a \code{formula} only have limited
+support for time series regression. The reason is that \code{lm(formula, ...)}
+calls the generic function \code{model.frame(formula, ...)} to create a 
+a data frame with the variables required. This dispatches to \code{model.frame.formula}
+which does not deal specifically with (various types of) time series data.
+Therefore, it would be desirable to dispatch to a specialized \code{model.frame}
+method depending on the type of the dependent variable. As this is a non-standard
+dispatch, \pkg{zoo} provides the following mechanism: In the call to the regression 
+function, the \code{formula} is insulated by \code{I()}, e.g., as in
+\code{lm(I(formula), ...)}, leaving \code{formula} unaltered but returning an object
+of class \code{"AsIs"}. Then, \code{model.frame.AsIs} is called which examines the
+dependent variable of the \code{formula} and then dispatches to \code{model.frame.foo}
+if this is of class \code{"foo"}. In \pkg{zoo}, the methods \code{model.frame.zoo}
+and \code{model.frame.ts} are provided which are able to create model frames
+from formulas in which \emph{all} variables are of class \code{"zoo"} or \code{"ts"},
+respectively. The advantage of \code{model.frame.zoo} is that it aligns
+the variables along a common index, it allows the usage of \code{lag} and
+\code{diff} in the model specification and works with the \code{NA} handling methods
+described in Section~\ref{sec:NA}. Therefore, dynamic linear regression models
+can be fit easily using the standard \code{lm} function and just insulating
+\code{I(formula)} in the corresponding call.
+\footnote{In addition to \code{lm} and \code{glm}, this approach works for
+many other regression functions including
+\code{randomForest} ensembles from \pkg{randomForest},
+\code{svm} support vector machines from \pkg{e1071},
+\code{lqs} resistant regression from \pkg{MASS},
+\code{nnet} neural networks from \pkg{nnet},
+\code{rq} quantile regression from \pkg{quantreg},
+and possibly many others.}
+
+A simple example based on artificial data is given below: the lag of a dependent
+variable is explained by the first differences of a numeric regressor and an
+explanatory factor. Note, that the variables have different indexes. First, a linear
+regression model is fitted, then a quantile regression is carried out for the same
+equation.
+
+<<regression1>>=
+yz <- zoo(1:20)^2
+xz <- zoo(1:18)^2
+fz <- zoo(gl(4, 5)) # zoo factor object
+
+lm(I(lag(yz) ~ diff(xz) + fz))
+
+library(quantreg)
+rq(I(lag(yz) ~ diff(xz) + fz))
+@
+
+See the help page of \code{model.frame.zoo} for more examples
+and additional information. Furthermore, note that this feature is under 
+development and might subject to changes in future versions.
+
+
 
 \section{Summary and outlook} \label{sec:summary}
 

@@ -49,10 +49,8 @@ Changes in Version 0.9-1
     and cummax().
 
   o added model.frame.AsIs and model.frame.zoo to support
-    regression based on zoo objects, in particular with lm().
-    Other regression methods which work on zoo objects using
-    this approach include lrm (Design), svm (e1071), lqs (MASS),
-    nnet (nnet), rq (quantreg), randomForest (randomForest). 
+    regression based on zoo objects, in particular with lm()
+    (but also many other regression functions).
 
   o Zero length vector zoo objects may have non-zero index vectors 
     intended to be used in merge to extend zoo objects. zoo

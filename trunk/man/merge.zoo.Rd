@@ -5,7 +5,7 @@
 \title{Merge Two or More zoo Objects}
 \description{
 Merge two zoo objects by common indexes (times), or do other
-versions of database "join" operations.
+versions of database \emph{join} operations.
 }
 
 \usage{
