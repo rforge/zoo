@@ -30,11 +30,7 @@ zoo(x, order.by = index(x))
 \method{print}{zoo}(x, style = <<see below>>, quote = FALSE, \dots) 
 }
 \arguments{
-  \item{x}{a numeric vector to 
-    create 1 dimensional numeric zoo object, a numeric matrix
-    to create a 2 dimensional numberic zoo object, a factor to
-    create a factor zoo object or omitted to create a zero dimensional
-    zoo object.}
+  \item{x}{a numeric vector, matrix or a factor.}
   \item{order.by}{a vector by which the observations in \code{x}
     are ordered.}
   \item{style}{a string specifying the printing style which can be
@@ -50,7 +46,8 @@ zoo(x, order.by = index(x))
 \code{zoo} provides infrastructure for ordered observations
 which are stored internally in a vector or matrix with an
 index attribute (with in principle arbitrary class, see below)
-which has to be of the same length as \code{NROW(x)}.
+which has to be of the same length as \code{NROW(x)}.  Partial
+support for \code{zoo} factors is also provided.
 
 \code{zoo} is particularly aimed at irregular time series of numeric
 vectors/matrices. \code{zoo}'s key design goals are independence of a particular
@@ -120,9 +117,9 @@ which extracts the longest consecutive stretch of non-missing values
 in a \code{"zoo"} object and \code{\link{na.approx}} which uses
 linear interpolation to fill in \code{NA} values. 
 
-Three methods are available for running computations: \code{\link{runmean}}
-calculates running means, \code{\link{runmax}} calculates running maxima
-and \code{\link{runmed}} calculates running medians.
+%% Three methods are available for running computations: \code{\link{runmean}}
+%% calculates running means, \code{\link{runmax}} calculates running maxima
+%% and \code{\link{runmed}} calculates running medians.
 }
 
 \value{

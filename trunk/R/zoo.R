@@ -1,6 +1,5 @@
 zoo <- function (x, order.by = index(x)) 
 {
-    if (missing(order.by)) order.by = index(x)
     index <- ORDER(order.by)
     order.by <- order.by[index]
     if (missing(x) || is.null(x)) 
@@ -10,10 +9,7 @@ zoo <- function (x, order.by = index(x))
     else if (is.matrix(x) || is.data.frame(x)) 
         x <- (x[rep(1:NROW(x), length.out = length(index)), , 
             drop = FALSE])[index, , drop = FALSE]
-    else if (is.data.frame(x)) 
-        x <- (x[rep(1:NROW(x), length.out = length(index)), , 
-            drop = FALSE])[index, , drop = FALSE]
-    else stop(paste(dQuote("x"), "has to be a vector or matrix"))
+    else stop(paste(dQuote("x"), ": attempt to define illegal zoo object"))
     attr(x, "index") <- order.by
     class(x) <- c("zoo", class(x))
     x
