@@ -63,7 +63,7 @@ rollmed.zoo <- function(x, k, na.pad = TRUE, ...) {
 	n <- NROW(x)
 	if (!na.pad) index.x <- index.x[k:n]
 	rollmed0 <- function(x, k, na.pad, ...) {
-		x <- stats::rollmed(x, k, ...)[-c(seq(m),seq(to=n,len=m))]
+		x <- stats::runmed(x, k, ...)[-c(seq(m),seq(to=n,len=m))]
 		if (na.pad) x <- c(rep(NA,k-1), x)
 		x
 	}
