@@ -28,6 +28,7 @@
   plotting, merging and binding, several mathematical operations,
   extracting and replacing data and index, coercion and \code{NA}
   handling.
+  %FIXME% also mention regular time series series
 }
 
 \begin{document}
@@ -52,7 +53,7 @@ online <- FALSE ## if set to FALSE the local copy of LU.rda
 \section{Introduction} \label{sec:intro}
 
 The \proglang{R} system for statistical computing
-\citep[\url{http://www.R-project.org/}]{zoo:R:2004}
+\citep[\url{http://www.R-project.org/}]{zoo:R:2005}
 ships with a a class for regularly spaced time series,
 \code{"ts"} in package \pkg{stats}, but has no native class for
 irregularly spaced time series. With the increased interest in
@@ -61,7 +62,7 @@ several implementations of classes for irregular time series
 emerged which are aimed particularly at finance applications.
 These include the \proglang{S3} classes \code{"timeSeries"}
 in package \pkg{fBasics} from the \pkg{Rmetrics} bundle \citep{zoo:fBasics:2004}
-and \code{"irts"} in package \pkg{tseries} \citep{zoo:tseries:2004}
+and \code{"irts"} in package \pkg{tseries} \citep{zoo:tseries:2005}
 and the \proglang{S4} class \code{"its"} in package \pkg{its} \citep{zoo:its:2004}.
 With these packages available, why would anybody want yet another 
 package providing infrastructure for irregular time series?
@@ -84,7 +85,7 @@ status, a second key design goal became more and more clear: to provide
 methods to standard generic functions for the \code{"zoo"} class that 
 are similar to those for the \code{"ts"} class (and base \proglang{R} in
 general) such that the usage of \pkg{zoo} is rather intuitive because
-few additional commands have to be learned.
+few additional commands have to be learned. %FIXME% also mention regular series
 This paper describes how these design goals are implemented in \pkg{zoo}.
 The resulting package provides the \code{"zoo"} class which offers an
 extensive (and still growing) set of standard and new methods for working
@@ -117,6 +118,7 @@ of class \code{"zoo"} are created by the function
 \begin{Scode}
 zoo(x, order.by)
 \end{Scode}
+%FIXME% mention frequency
 where \code{x} is the vector or matrix of observations\footnote{In principle,
 more general objects can be indexed, but currently \pkg{zoo} does not support this.
 Development plans are that \pkg{zoo} should eventually support indexed factors,
@@ -138,6 +140,7 @@ effort in the design was put into independence from a particular class for
 the index vector. In \pkg{zoo}, it is assumed that combination \code{c()},
 querying the \code{length()}, value matching \code{MATCH()}, subsetting \code{[,},
 and, of course, ordering \code{ORDER()} work when applied to the index. 
+%FIXME% also discuss \code{as.numeric()} and \code{as.character()}
 This is the case, e.g., for standard numeric and character vectors and for
 vectors of classes \code{"Date"}, \code{"POSIXct"} or \code{"times"}
 from package \pkg{chron}, but not for the class \code{"dateTime"} in \pkg{fBasics}.
@@ -151,7 +154,7 @@ non-generic. The default methods simply call the corresponding base functions, i
 no new method needs to be introduced for a particular index class if the 
 non-generic functions \code{order()} and \code{match()} work for this class.
 
-To illustrate the usage of \code{zoo}, we first load the package and set the
+To illustrate the usage of \code{zoo()}, we first load the package and set the
 random seed to make the examples in this paper exactly reproducible.
 
 <<zoo-prelim>>=
@@ -194,7 +197,7 @@ for more details.}
 Methods to several standard generic functions are available for
 \code{"zoo"} objects, such as \code{print}, \code{summary}, \code{str}, \code{head},
 \code{tail} and \code{[} (subsetting), a few of which are illustrated in
-the following. 
+the following. %FIXME% subsetting/indexing with index class
 
 There are three printing code styles for \code{"zoo"} objects: vectors are by default
 printed in \code{"horizontal"} style
@@ -219,6 +222,26 @@ summary(z1)
 summary(Z)
 @
 
+\subsection[The subclass "zooreg" for regular series]{The subclass \code{"zooreg"} for regular series}
+\label{sec:zooreg}
+
+Describe concepts of regularity: irregular, strictly regular, underlying regularity.
+
+
+\begin{Scode}
+zoo(x, order.by, frequency)
+zooreg(data, start, end, frequency, deltat, ts.eps, order.by)
+\end{Scode} 
+
+and methods to \code{frequency}, \code{deltat}, \code{cycle}.
+
+New generic function \code{is.regular(x, strict = FALSE)}.
+
+Briefly mention coercion to \code{"ts"}, this enables direct use of functions
+such as \code{acf}, \code{arima}, \code{stl} and so on as these methods coerce
+to \code{"ts"} first. The result has to be coerced back to \code{"zoo"} if appropriate.
+ 
+Probably also mention \code{yearmon} and \code{yearqtr} here... 
  
 \subsection{Plotting}
 \label{sec:plot}
@@ -280,6 +303,8 @@ single panel plot in \ref{fig:plot2}.
 
 \subsection{Merging and binding}
 \label{sec:merge}
+
+%FIXME% also comment on regular series
 
 As for many rectangular data formats in \proglang{R}, there are
 both methods for combining the rows and columns of \code{"zoo"}
@@ -448,6 +473,8 @@ diff(z1)
 \subsection[Coercion to and from "zoo"]{Coercion to and from \code{"zoo"}}
 \label{sec:as.zoo}
 
+%FIXME% include coercion to and from "ts"
+
 Coercion to and from \code{"zoo"} objects is available for objects of
 various classes, in particular \code{"ts"}, \code{"irts"} and \code{"its"}
 objects can be coerced to \code{"zoo"} using the  respective \code{as.zoo}
@@ -496,6 +523,12 @@ As the above example illustrates, \code{na.approx} uses by default
 the underlying time scale for interpolation. This can be changed, e.g.,
 to an equidistant spacing, by setting the second argument of
 \code{na.approx}.
+
+\subsection{Rolling functions}
+\label{sec:rolling}
+
+Describe \code{rapply} and the specialized functions \code{rollmean}, \code{rollmed}
+and \code{rollmax}.
 
 \section[Combining zoo with other packages]{Combining \pkg{zoo} with other packages}
 \label{sec:combining}
@@ -673,8 +706,7 @@ The results in this paper were obtained using \proglang{R}
 \pkg{zoo} \Sexpr{gsub("-", "--", packageDescription("zoo")$Version)},
 \pkg{strucchange} \Sexpr{gsub("-", "--", packageDescription("strucchange")$Version)},
 \pkg{fBasics} \Sexpr{gsub("-", "--", packageDescription("fBasics")$Version)},
-\pkg{tseries} \Sexpr{gsub("-", "--", packageDescription("tseries")$Version)},
-\pkg{randomForest} \Sexpr{gsub("-", "--", packageDescription("randomForest")$Version)} and
+\pkg{tseries} \Sexpr{gsub("-", "--", packageDescription("tseries")$Version)} and
 \pkg{DAAG} \Sexpr{gsub("-", "--", packageDescription("DAAG")$Version)}.
 \proglang{R} itself and all packages used are available from
 CRAN at \url{http://CRAN.R-project.org/}.

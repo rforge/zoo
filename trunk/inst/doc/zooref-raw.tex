@@ -8,13 +8,19 @@
   querying length \code{length()}, subsetting \code{[}, ordering
   \code{ORDER()} and value matching \code{MATCH()}.\\[0.5cm]
 
+%FIXME% also mention as.numeric and as.character
+
+%% \multicolumn{2}{l}{\textbf{Creation of regular series}} \\
+%% \code{zoo(x, order.by, frequency} & as above with freq\\
+%% \code{zooreg} & as before but with numeric index, same interface as ts() \\
+
 \multicolumn{2}{l}{\textbf{Standard methods}} \\
 \code{plot} & plotting \\
 \code{lines} & adding a \code{"zoo"} series to a plot \\
 \code{print} & printing \\
 \code{summary} & summarizing (column-wise) \\
 \code{str} & displaying structure of \code{"zoo"} objects \\
-\code{head, tail} & head and tail of \code{"zoo"} objects \\[0.5cm]
+\code{head}, \code{tail} & head and tail of \code{"zoo"} objects \\[0.5cm]
 
 \multicolumn{2}{l}{\textbf{Coercion}} \\
 \code{as.zoo} & coercion to \code{"zoo"} is available for objects
@@ -29,7 +35,7 @@
 \multicolumn{2}{l}{\textbf{Merging and binding}} \\
 \code{merge} & union, intersection, left join, right join along indexes\\
 \code{cbind} & column binding along the intersection of the index\\
-\code{rbind} & row binding (indexes may not overlap)\\
+\code{c}, \code{rbind} & combining/row binding (indexes may not overlap)\\
 \code{aggregate} & compute summary statistics along a coarser grid of indexes \\[0.5cm]
 
 \multicolumn{2}{l}{\textbf{Mathematical operations}} \\
@@ -55,9 +61,15 @@
 \code{na.locf} & impute \code{NA}s by carrying forward the last observation\\
 \code{na.approx} & impute \code{NA}s by interpolation
 
-%%\\[[0.5cm]]
-%%
-%% \multicolumn{2}{l}{\textbf{Rolling operations}} \\
-%% \code{runmean} & running mean, median and maxim are \code{runmean}, \code{runmed} and
-%%   \code{runmax}, respectively
+%% \multicolumn{2}{l}{\textbf{Methods for regular series}} \\
+%% \code{is.regular} & \\
+%% \code{frequency}, \code{deltat} & \\
+%% \code{cycle} & \\
+
+
+%% \multicolumn{2}{l}{\textbf{Rolling functions}} \\
+%% \code{rapply} & rolling functions \\
+%% \code{rollmean} & rolling mean, median and maxim are \code{rollmean}, \code{rollmed} and
+%%   \code{rollmax}, respectively
+
 \end{tabular}
