@@ -48,7 +48,7 @@ colnames(y) <- c("A", "B")
 # aggregate by month using first of month as times for coarser series
 # Uses fact that chron dates format, by default, to mm/dd/yy
 firstofmonth <- function(x) chron(sub("/../", "/01/", format(x)))
-y2 <- aggregate.zoo(y, firstofmonth(time(y)), tail, 1)
+y2 <- aggregate(y, firstofmonth(time(y)), tail, 1)
 
 # fill in missing months by merging with an empty series containing
 # a complete set of 1st of the months
@@ -65,7 +65,7 @@ x <- zoo(1:5, structure(c(15,20,80,100,110), class = "Date"))
 # aggregate by month using first of month as times for coarser series
 # Uses fact that format.Date defaults to yyyy-mm-dd
 firstofmonth <- function(x) as.Date(sub("..$", "01", format(x)))
-x2 <- aggregate.zoo(x, firstofmonth(time(x)), tail, 1)
+x2 <- aggregate(x, firstofmonth(time(x)), tail, 1)
 
 # fill in missing months by merging with an empty series containing
 # a complete set of 1st of the months

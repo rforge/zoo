@@ -30,6 +30,14 @@ versions of database "join" operations.
 }
 
 \details{
+The \code{merge} method for \code{"zoo"} objects combines the columns
+of several objects either along the intersection of their dates (for
+\code{all = FALSE}, the default) or the union of the dates (for \code{all = TRUE}),
+filling up the created gaps with the \code{fill} pattern. The default
+\code{merge} method is synonymous to the \code{cbind} method. The \code{rbind}
+method combines the dates of the \code{"zoo"} objects (duplicate dates are
+not allowed) and combines the rows of the objects.
+
 The indexes of different
 \code{"zoo"} objects can be of different classes and are coerced to
 one class in the resulting object (with a warning).

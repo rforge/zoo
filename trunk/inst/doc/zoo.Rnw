@@ -5,22 +5,25 @@
         Gabor Grothendieck}
 \Plainauthor{Achim Zeileis, Gabor Grothendieck}
 
-\title{\pkg{zoo}: An \proglang{S3} Class Providing Infrastructure for
-  Totally Ordered Observations}
-\Plaintitle{zoo: An S3 Class Providing Infrastructure for
-  Totally Ordered Observations}
-\Shorttitle{\pkg{zoo}: \proglang{S3} Infrastructure for Totally Ordered Observations}
+\title{\pkg{zoo}: An \proglang{S3} Class and Methods for
+  Indexed Totally Ordered Observations}
+\Plaintitle{zoo: An S3 Class and Methods for
+  Indexed Totally Ordered Observations}
+%% \Shorttitle{\pkg{zoo}: \proglang{S3} Infrastructure for Totally Ordered Observations}
 
 \Keywords{totally ordered observations, irregular time series,
   \proglang{S3}, \proglang{R}}
-\Plainkeywords{totally ordered observations, irregular time series,
-  S3, R}
+\Plainkeywords{totally ordered observations, irregular time series, S3, R}
 
 \Abstract{
-  \code{zoo} provides infrastructure for ordered observations
-  which are stored internally in a vector or matrix with an
-  index attribute (with in principle arbitrary class, see below)
-  which has to be of the same length as \code{NROW(x)}.
+  \pkg{zoo} is an \proglang{R} package providing an \proglang{S3}
+  class with methods for totally ordered observations, such as
+  irregular time series. Its key design goals are independence of a
+  particular index/time/date class and consistency (to the extent
+  possible) with base \proglang{R} and the \code{"ts"} class for
+  regular time series. This paper describes how these are achieved
+  within \pkg{zoo} and provides several illustrations 
+  of the available methods.
 }
 
 \begin{document}
@@ -33,67 +36,353 @@ library(strucchange)
 @
 
 
-\section{Introduction}
+\section{Introduction} \label{sec:intro}
 
-\pkg{zoo} \underline{Z}'s \underline{o}rdered \underline{o}bservations
+The \proglang{R} system for statistical computing
+\citep[\url{http://www.R-project.org/}]{Z:R:2004}
+ships with a a class for regularly spaced time series,
+\code{"ts"} in package \pkg{stats}, but has no native class for
+irregularly spaced time series. With the increased interest in
+computational finance with \proglang{R} over the last years
+several implementations of classes for irregular time series 
+emerged which are aimed particularly at finance applications.
+These include the \proglang{S3} classes \code{"timeSeries"}
+in package \pkg{fBasics} from the \pkg{Rmetrics} bundle (Wuertz, FIXME)
+and \code{"irts"} in package \pkg{tseries} (Trapletti and Hornik, FIXME)
+and the \proglang{S4} class \code{"its"} in package \pkg{its} (Heywood, FIXME).
+With these packages available, why would anybody want yet another 
+package providing infrastructure for irregular time series?
+The above mentioned implementations have in common that they are restricted to a particular
+class for the time scale: the former implementation comes with its own time class
+\code{"timeDate"} whereas the latter two use the \code{"POSIXct"} class
+available in base \proglang{R}. And this was the starting point for
+the \pkg{zoo} project: the first author of the present paper needed
+more general support for ordered observations, independent of a particular
+index class, for the package \pkg{strucchange}
+\citep{Z-papers:Zeileis+Leisch+Hornik:2002}. Hence the package was called
+\pkg{zoo} which stands for \underline{Z}'s \underline{o}rdered \underline{o}bservations.
+Since the first release, a major part of the additions to \pkg{zoo}
+were provided by the second author of this paper, so that the name
+of the package does not really reflect the authorship anymore.
+Nevertheless, independence of a particular index class remained one
+the most important design goal. While the package evolved to its current
+status, a second key design goal became more and more clear: to provide
+methods to standard generic functions for the \code{"zoo"} class that 
+are similar to those for the \code{"ts"} class (and base \proglang{R} in
+general) such that the usage of \pkg{zoo} is rather intuitive because
+no new set of commands has to be learned.
 
-\code{zoo} provides infrastructure for ordered observations
-which are stored internally in a vector or matrix with an
-index attribute (with in principle arbitrary class, see below)
-which has to be of the same length as \code{NROW(x)}.
+This paper...
 
-\code{zoo} is particularly aimed at irregular time series of numeric
-vectors/matrices. \code{zoo}'s key design goals are independence of a particular
-index/date/time class and consistency (to the extent possible)
-with ts and base R by providing methods to standard generics. Therefore,
-standard functions can be used to work with \code{"zoo"} objects and no
-new set of commands has to be employed.
 
-When creating a \code{"zoo"} object with the function \code{zoo},
-the vector of indexes \code{order.by} can be of (a single) arbitrary class
-(if \code{x} is shorter or longer than \code{order.by} it is
-expanded accordingly),
-but it is essential that \code{order(order.by)} works. For other
-functions it is assumed that \code{c()}, \code{length()},
-\code{match()} and subsetting \code{[,} work. If this is not the case
-for a particular index/date/time class, then methods for these 
-generic functions should be created. Note, that to achieve this
-the non-generic base functions \code{order} and \code{match}
-are made generics in \code{zoo} with the base functions being the
-default (see \code{order} and \code{match}).
 
-Methods to standard generics for \code{"zoo"} objects currently
-include: \code{print} (see above), \code{summary}, \code{str}, \code{head},
-\code{tail}, \code{[} (subsetting), \code{rbind}, \code{cbind}, \code{merge}
-(see \code{merge.zoo}), \code{aggregate} (see \code{aggregate.zoo}),
-\code{plot} and \code{lines} (see \code{plot.zoo}).
+\section[The class "zoo" and its methods]{The class \code{"zoo"} and its methods}
+\label{sec:zoo-class}
 
-Additionally, \code{zoo} provides several generic functions and methods
-to work (a) on the value or data contained in a \code{"zoo"} object, (b) the
-index (or time) attribute associated to it, and (c) on both data and
-index:
 
-(a) The data contained in \code{"zoo"} objects can be extracted by
-\code{value} (strips off all \code{"zoo"}-specific attributes) and modified
-using \code{value<-}. Both are new generic functions with methods for
-\code{"zoo"} objects, see \code{value}.
+\subsection[Creation of "zoo" objects]{Creation of \code{"zoo"} objects}
+\label{sec:zoo}
 
-(b) The index associated with a \code{"zoo"} object can be extracted
+The simple idea for the creation of \code{"zoo"} objects is to have
+some vector or matrix of observations \code{x} which are totally ordered
+by some index vector. In time series applications this index is measure of
+time but every other numeric, character or even more abstract vector that
+provides a total ordering of the observations is also suitable. Objects
+of class \code{"zoo"} are created by the function
+\begin{Scode}
+zoo(x, order.by)
+\end{Scode}
+where \code{x} is the vector or matrix of observations and \code{order.by}
+is the index by which the observations should be ordered. It has to be
+of the same length as \code{NROW(x)}, i.e., either the same length as \code{x}
+for vectors or the same number of rows for matrices. The \code{"zoo"} object
+created is essentially the vector/matrix as before but has an additional
+\code{"index"} attribute in which the index is stored. Both the value \code{x}
+and the index can, in principle, be of arbitrary classes. However, most of the
+following methods (plotting, aggregating, mathematical operations) for \code{"zoo"}
+objects are typically only useful for numeric values \code{x}. In contrast, special
+effort in the design was put into independence from a particular class for
+the index vector. In \pkg{zoo} it is assumed that combination \code{c()},
+querying the \code{length()}, value matching \code{match()}, subsetting \code{[,},
+and, of course, ordering \code{order()} work when applied to the index. 
+This is the case, e.g., for standard numeric and character vectors and for
+vectors of classes \code{"Date"}, \code{"POSIXct"} or \code{"times"}
+from package \pkg{chron}, but not for the
+class \code{"dateTime"} in \pkg{fBasics}. In the latter case, the solution
+is to provide methods for the above mentioned functions so that indexing
+\code{"zoo"} objects with \code{"dateTime"} vectors works. To achieve this 
+independence of the index class the non-generic functions \code{order} and
+\code{match} are made \proglang{S3} generics in \pkg{zoo} with their base
+definition as the default method.
+
+To illustrate the usage of \code{zoo}, we first load the package and set the
+random seed to make the examples in this paper exactly reproducible.
+
+<<zoo-prelim>>=
+library(zoo)
+set.seed(1071)
+@
+
+Then, we create two vectors \code{z1} and \code{z2} with \code{"POSIXct"} 
+indexes, one with random values
+<<zoo-vectors1>>=
+z1.index <- as.POSIXct(paste("2004-", rep(1:2, 5), "-", sample(1:28, 10), sep = ""))
+z1.value <- rnorm(10)
+z1 <- zoo(z1.value, z1.index)
+@
+and one with a sinus wave
+<<zoo-vectors2>>=
+z2.index <- as.POSIXct(paste("2004-", rep(1:2, 5), "-", sample(1:28, 10), sep = ""))
+z2.value <- sin(2*1:10/pi)
+z2 <- zoo(z2.value, z2.index)
+@
+Furthermore, we create a matrix \code{Z} with random values and a \code{"Date"}
+index
+<<zoo-matrix>>=
+Z.index <- structure(sample(12450:12500, 10), class = "Date")
+Z.value <- matrix(rnorm(30), ncol = 3)
+colnames(Z.value) <- c("Aa", "Bb", "Cc")
+Z <- zoo(Z.value, Z.index)
+@
+Note, that in the above examples the creation of indexes might seem a bit awkward
+at first sight, but this is only an artefact of the need for random generation
+of random dates for this illustration. In ``real world'' applications, the indexes
+are typically part of the raw data set read into \proglang{R}. See Section~\ref{sec:combining}
+for such examples.
+
+Methods to several standard generic functions are available for
+\code{"zoo"} objects, such as \code{print}, \code{summary}, \code{str}, \code{head},
+\code{tail} and \code{[} (subsetting), a few of which are illustrated in
+the following. 
+
+There are three printing code styles for \code{"zoo"} objects: vectors are default
+printed in \code{"horizontal"} style
+<<print1>>=
+z1
+z1[3:7]
+@
+and matrices in \code{"vertical"} style
+<<print2>>=
+Z
+Z[1:3, 2:3]
+@
+Additionally, there is a \code{"plain"} style which simply first prints the value 
+and then the index.
+
+Summaries and most other methods for \code{"zoo"} objects are carried out
+column wise, reflecting the rectangular structure indexed by rows. In addition,
+a summary of the index is provided.
+
+<<summary>>=
+summary(z1)
+summary(Z)
+@
+
+ 
+\subsection[Plotting "zoo" objects]{Plotting \code{"zoo"} objects}
+\label{sec:plot}
+
+The \code{plot} method for \code{"zoo"} objects, in particular for
+multivariate \code{"zoo"} series, is based on the corresponding
+method for multivariate regular time series (class \code{"mts"}
+which inherits from \code{"ts"}). By default it creates a panel
+for each series
+<<plot1,eval=FALSE>>=
+plot(Z)
+@
+but can also display all series in a single panel
+<<plot2,eval=FALSE>>=
+plot(Z, plot.type = "single", col = 2:4)
+@
+where in both cases additional graphical parameters like color \code{col},
+plotting character \code{pch} and line type \code{lty} can be
+expanded to the number of series. But the \code{plot} method for
+\code{"zoo"} objects offers some more flexibility in specification
+of graphical parameters as in
+<<plot3,eval=FALSE>>=
+plot(Z, type = "b", lty = 1:3, pch = list(Aa = 1:5, Bb = 2, Cc = 4), col = list(Bb = 2, 4))
+@
+The argument \code{lty} behaves as before and sets every series in another
+line type. The \code{pch} argument is a named list that assigns to each series
+a different vector of plotting characters each of which is expanded to the 
+number of observations. Such a list does not necessarily have to include the names of all
+series, but can also specify a subset. For the remaining series the default parameter
+is then used which can again be changed: e.g., in the above example series \code{"Bb"} is
+plotted in red and all remaining series in blue. The results of the multiple panel plots
+are depicted in Figure~\ref{fig:plot13} and the single panel plot in \ref{fig:plot2}.
+
+\begin{figure}[tbh]
+\begin{center}
+<<plot2-repeat,fig=TRUE,height=4,width=6,echo=FALSE>>=
+<<plot2>>
+@
+\caption{\label{fig:plot2} Example of a single panel plot}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[p]
+\begin{center}
+<<plot1-repeat,fig=TRUE,height=5,width=6,echo=FALSE>>=
+<<plot1>>
+@
+<<plot3-repeat,fig=TRUE,height=5,width=6,echo=FALSE>>=
+<<plot3>>
+@
+\caption{\label{fig:plot13} Examples of multiple panel plots}
+\end{center}
+\end{figure}
+
+
+\subsection[Combining "zoo" objects]{Combining \code{"zoo"} objects}
+\label{sec:merge}
+
+As for many rectangular data formats in \proglang{R}, there are
+both methods for combining the rows and columns of \code{"zoo"}
+objects respectively. For the \code{rbind} method the number of
+columns of the combined objects has to be identical and the
+indexes may not overlap.
+<<rbind>>=
+rbind(z1[5:10], z1[2:3])
+@
+The \code{cbind} method by default combines the columns by the union of
+the indexes and fills the created gaps by \code{NA}s.
+<<cbind>>=
+cbind(z1, z2)
+@
+In fact, the \code{cbind} method is synonymous to the \code{merge}
+method which also allows for combining the columns by the intersection
+of the indexes using the argument \code{all = FALSE}.
+<<merge>>=
+merge(z1, z2, all = FALSE)
+@
+Additionally, the filling pattern can be changed and the naming of the
+columns can be modified. In the case of merging of objects with 
+different index classes, \proglang{R} gives a warning and tries to
+coerce the indexes, but this is generally rather difficult
+
+
+Another function which performs operations along a subset of indexes
+is \code{aggregate}, which is therefore discussed in this section although
+it does not combine several objects. Using the \code{aggregate} method, \code{"zoo"} objects
+are split into subsets along a coarser index grid,
+summary statistics are computed for each and then the 
+reduced object is returned. In the following example,
+first a function is set up which returns for a given \code{"Date"}
+value the corresponding first of the month. This function is then
+used to compute the coarser grid for the \code{aggregate} call: in
+the first example the mean of the observations in the month
+is returned, in the second example the last observation.
+
+<<aggregate>>=
+firstofmonth <- function(x) as.Date(sub("..$", "01", format(x)))
+aggregate(Z, firstofmonth(Z.index), mean)
+aggregate(Z, firstofmonth(Z.index), tail, 1)
+@
+
+
+\subsection{Mathematical operations}
+\label{sec:Ops}
+
+To allow for standard mathematical operations among \code{"zoo"}
+objects, \pkg{zoo} extends group generic functions \code{Ops}.
+These perform the operations only for the intersection of the
+indexes of the objects. Hence, the summation of \code{z1} and
+\code{z2} yields
+<<Ops>>=
+z1 + z2
+@
+
+Additionally, methods for transposing \code{t} of \code{"zoo"}
+objects---which coerces to a matrix before, see below---and 
+computing cumulative quantities such as
+\code{cumsum}, \code{cumprod}, \code{cummin}, \code{cummax}
+which are all applied column wise.
+<<cumsum>>=
+cumsum(Z)
+@
+
+
+\subsection[Extracting/replacing the value und/or index of "zoo" objects]{%
+  Extracting/replacing the value und/or index of \code{"zoo"} objects}
+\label{sec:window}
+
+\pkg{zoo} provides several generic functions and methods
+to work on the value or data contained in a \code{"zoo"} object, the
+index (or time) attribute associated to it, and on both data and
+index.
+
+The value stored in \code{"zoo"} objects can be extracted by
+\code{value} which strips off all \code{"zoo"}-specific attributes and 
+it can be replaced using \code{value<-}. Both are new generic functions
+with methods for \code{"zoo"} objects as illustrated in the following
+example.
+<<value>>=
+value(z1)
+value(z1) <- 1:10
+z1
+@
+
+The index associated with a \code{"zoo"} object can be extracted
 by \code{index} and modified by \code{index<-}. As the interpretation
 of the index as ``time'' in time series applications is more natural,
-there are also synonymous methods \code{time} and \code{time<-}. The
-start and the end of the index/time vector can be queried by
-\code{start} and \code{end}. See \code{index}.
+there are also synonymous methods \code{time} and \code{time<-}. 
+Hence, the following two commands return equivalent results
+<<index>>=
+index(z2)
+time(z2)
+@
+The index scale of \code{z2} can be change to that of \code{z1} by
+<<index2>>=
+z2
+index(z2) <- index(z1)
+z2
+@
 
-(c) To work on both data and index/time, \code{zoo} provides methods
-\code{lag}, \code{diff} (see \code{lag.zoo}) and \code{window}, 
-\code{window<-} (see \code{window.zoo}).
+The start and the end of the index/time vector can be queried by
+\code{start} and \code{end}:
+<<startend>>=
+start(z1)
+end(z1)
+@
 
-In addition to standard group generic function (see \code{Ops}),
-the following mathematical operations are availabe as methods for
-\code{"zoo"} objects: transpose \code{t} which coerces to a matrix 
-first, and \code{cumsum}, \code{cumprod}, \code{cummin}, \code{cummax}
-which are applied column wise.
+
+To work on both value and index/time, \pkg{zoo} provides method
+a method to \code{window} and also adds a new generic 
+\code{window<-} with a method for \code{"zoo"} objects. In both
+cases the window is specified by
+\begin{Scode}
+window(x, index, start, end)
+\end{Scode}
+where \code{x} is the \code{"zoo"} object, \code{index} is a set
+of indexes to be selected (by default the full index of \code{x})
+and \code{start} and \code{end} can be used to restrict the 
+\code{index} set. Thus, the first command in the following example
+selects all observations starting from 2004--03--01 whereas the
+second selects only from the observations with the 5th to 8th index
+those up to 2004--03--01.
+<<window>>=
+window(Z, start = as.Date("2004-03-01"))
+window(Z, index = index(Z)[5:8], end = as.Date("2004-03-01"))
+@
+The same syntax can be used for the corresponding replacement function.
+<<window2>>=
+window(z1, end = as.POSIXct("2004-02-01")) <- 9:5
+z1
+@
+
+Two methods to standard generic functions in time series applications
+are \code{lag} and \code{diff} which are available with the same
+arguments as the \code{"ts"} methods---with the only exception that \code{diff}.
+<<lagdiff>>=
+lag(z1, k = -1)
+diff(z1)
+@
+
+
+
+\subsection[Coercion to and from "zoo"]{Coercion to and from \code{"zoo"}}
+\label{sec:as.zoo}
 
 Coercion to and from \code{"zoo"} objects is available for objects of
 various classes, in particular \code{"ts"}, \code{"irts"} and \code{"its"}
@@ -102,11 +391,15 @@ objects can be coerced to \code{"zoo"}, the reverse is available for
 Furthermore, \code{"zoo"} objects can be coerced to vectors, matrices and
 data frames (dropping the index/time attribute). See \code{as.zoo}.
 
+
+
+\subsection[NA handling]{\code{NA} handling}
+
 Two methods are available for \code{NA} handling in the data of 
 \code{"zoo"} objects: \code{na.omit} which returns a \code{"zoo"}
 object with incomplete observations removed and \code{na.contiguous}
 which extracts the longest consecutive stretch of non-missing values
-in a \code{"zoo"} object. Note, that the letter function is made a
+in a \code{"zoo"} object. Note, that the latter function is made a
 generic in \code{zoo} with the base function being the default.
 
 
@@ -142,9 +435,17 @@ z <- zoo(1, seq(4)[-2])
 z0 <- zoo(, 1:4)[,-1]
 @
 
+
+
+
+
+\section[Combining zoo with other packages]{Combining \pkg{zoo} with other packages}
+\label{sec:combining}
+
+
 \begin{figure}
 \begin{center}
-<<tseries,fig=TRUE,height=8,width=6>>=
+<<tseries,fig=TRUE,height=8,width=6,eval=FALSE>>=
 lu <- get.hist.quote(instrument = "LU",  start = "2001-01-01", origin = "1970-01-01")
 
 LU <- zoo(value(lu), structure(time(lu)*86400, class = c("POSIXt", "POSIXct")))
@@ -157,5 +458,8 @@ plot(diff(log(LU)), col = list(High = 4, 2))
 @
 \end{center}
 \end{figure}
+
+
+\bibliography{Z,sc,Z-papers,Z-reports}
 
 \end{document}

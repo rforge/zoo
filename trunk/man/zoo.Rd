@@ -114,7 +114,7 @@ Two methods are available for \code{NA} handling in the data of
 \code{"zoo"} objects: \code{\link{na.omit}} which returns a \code{"zoo"}
 object with incomplete observations removed and \code{\link{na.contiguous}}
 which extracts the longest consecutive stretch of non-missing values
-in a \code{"zoo"} object. Note, that the letter function is made a
+in a \code{"zoo"} object. Note, that the latter function is made a
 generic in \code{zoo} with the base function being the default.
 }
 
