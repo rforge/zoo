@@ -58,6 +58,19 @@ merge(y2, y0)
 }
 
 
+## aggregate a daily time series to a quarterly series
+# create zoo series
+tt <- as.Date("2000-1-1") + 0:300
+z.day <- zoo(0:300, tt)
+
+# function which returns corresponding first of quarter
+first.of.quarter <- function(tt) with(as.POSIXlt(tt), 
+  as.Date(paste(1900+year, 3*(mon\%/\%3) + 1, 1, sep = "-")))
+
+# aggregate z over quarters
+z.qtr <- aggregate(z.day, first.of.quarter(tt), mean)
+
+
 ## create regular series using Date class
 # test data
 x <- zoo(1:5, structure(c(15,20,80,100,110), class = "Date"))
@@ -72,7 +85,6 @@ x2 <- aggregate(x, firstofmonth(time(x)), tail, 1)
 xrt2 <- range(time(x2))
 x0 <- zoo( , seq(from = xrt2[1], to = xrt2[2], by = "month"))[,-1]
 merge(x2, x0)
-
 
 }
 \keyword{ts}

@@ -305,6 +305,7 @@ value the corresponding first of the month. This function is then
 used to compute the coarser grid for the \code{aggregate} call: in
 the first example the mean of the observations in the month
 is returned, in the second example the last observation.
+%%FIXME: maybe also firstofquarter, see man pages
 
 <<aggregate>>=
 firstofmonth <- function(x) as.Date(sub("..$", "01", format(x)))
@@ -420,8 +421,8 @@ various classes, in particular \code{"ts"}, \code{"irts"} and \code{"its"}
 objects can be coerced to \code{"zoo"} using the  respective \code{as.zoo}
 method. The reverse coercion is available for \code{"its"} and for \code{"irts"}
 (the latter in package \code{tseries}).
-Furthermore, \code{"zoo"} objects can be coerced to vectors, matrices and
-data frames (dropping the index/time attribute). A simple example is
+Furthermore, \code{"zoo"} objects can be coerced to vectors, matrices, lists and
+data frames (the latter dropping the index/time attribute). A simple example is
 <<coercion>>=
 as.data.frame(Z)
 @

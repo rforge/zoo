@@ -1,6 +1,5 @@
 \name{window.zoo}
 \alias{window.zoo}
-\alias{window<-}
 \alias{window<-.zoo}
 \title{Extract/Replacing the Time Windows of Objects}
 \description{
@@ -10,9 +9,6 @@ of (zoo) objects and replacing it.
 
 \usage{
 \method{window}{zoo}(x, index = index.zoo(x), start = NULL, end = NULL, \dots)
-
-window(x, \dots) <- value
-
 \method{window}{zoo}(x, index = index.zoo(x), start = NULL, end = NULL, \dots) <- value
 }
 

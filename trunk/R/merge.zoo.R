@@ -109,8 +109,10 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
         if (length(a) == 0) 
             return(matrix(nr = length(indexes), nc = 0))
         z <- matrix(fill, length(indexes), NCOL(a))
-        z[match0(index(a), indexes), ] <- a[match0(indexes, index(a)), 
-            , drop = FALSE]
+        z[match0(index(a), indexes), ] <- if (length(dim(a)) == 0)
+		a[match0(indexes, index(a))]                      
+	else                                                      
+		a[match0(indexes, index(a)),,drop = FALSE]        
  	if (!ret.zoo) return(z)
 	if (length(dim(a)) == 0) {
 		zoo(z[,1,drop=TRUE], indexes)

@@ -7,10 +7,10 @@ Generic function for replacing each \code{NA} with the most recent
 non-\code{NA} prior to it.
 }
 \usage{
-na.locf(x, na.rm = TRUE, \dots)
+na.locf(object, na.rm = TRUE, \dots)
 }
 \arguments{
-  \item{x}{an object.}
+  \item{object}{an object.}
   \item{na.rm}{logical. Should leading \code{NA}s be removed?}
   \item{\dots}{currently not used.}
 }

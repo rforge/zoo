@@ -21,11 +21,6 @@ window.zoo <- function(x, index = index.zoo(x), start = NULL, end = NULL, ...)
   }
 }
 
-"window<-" <- function(x, ..., value) 
-{
-	UseMethod("window<-")
-}
-
 "window<-.zoo" <- function(x, index = index.zoo(x), start = NULL, end = NULL, ..., value)
 {
 	ix <- index.zoo(x)

@@ -1,6 +1,8 @@
 \name{dynlm}
 \alias{dynlm}
 \alias{dynlm.model.frame}
+\alias{model.frame.zoo}
+\alias{model.frame.AsIs}
 \concept{dynamic regression}
 \title{Fitting Dynamic Linear Regression Models}
 \description{

@@ -69,3 +69,8 @@ as.data.frame.zoo <- function(x, row.names = NULL, optional = FALSE)
 	return(y)
 }
 
+as.list.zoo <- function(x, ...) {
+	if (length(dim(x)) == 0) list(x)
+  		else lapply(as.data.frame(x), zoo, index(x))
+}
+
