@@ -18,6 +18,8 @@ FEATURES
       that would have been created without the scalar. [GG: Not sure we
       really need this but I put it down so I would not forget.]
 
+    - names not processed correctly when retclass = "list"
+
   o dynlm()
     - support a data= argument
     
@@ -47,7 +49,7 @@ FEATURES
     - irregular to regular conversion routines [Z: the following
       functions would be nice as.ts.zoo() is.regular()]
 
-    - interpolation
+    - interpolation / na.approx
 
 
   o QA
@@ -75,6 +77,8 @@ INTERFACES
   o move as.its.zoo over to its
 
   o provide fBasics interface routine to the Rmetrics projects
+
+  o model.frame.ts ?
 
 
 
