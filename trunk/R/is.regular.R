@@ -1,6 +1,6 @@
 is.regular <- function(x)
 {
-  delta <- try(as.numeric(diff(index(x))))
+  delta <- try(diff(as.numeric(index(x))))
   if(class(delta) == "try-error") FALSE
     else identical(all.equal(delta, rep.int(delta[1], length(delta))), TRUE)
 }
