@@ -36,6 +36,6 @@ na.locf(cz)
 
 z.ok <- merge(lag.az = lag(az), bz = na.locf(bz), diff.cz = diff(na.locf(cz)))
 z.ok
-lm(lag.az ~., na.omit(z.ok))
+# lm(I(lag.az ~ bz + diff.cz), na.omit(z.ok))
 }
 \keyword{ts}

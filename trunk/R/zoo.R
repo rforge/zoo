@@ -1,53 +1,54 @@
-zoo <- function(x = NA, order.by = index(x))
+
+zoo <- function (x, order.by = index(x)) 
 {
-  index <- order(order.by)
-  order.by <- order.by[index]
-
-  if(is.vector(x))
-    x <- rep(x, length.out = length(index))[index]
-  else if(is.matrix(x))
-    x <- (x[rep(1:NROW(x), length.out = length(index)), , drop = FALSE])[index, , drop = FALSE]
-  else if(is.data.frame(x))
-    x <- (x[rep(1:NROW(x), length.out = length(index)), , drop = FALSE])[index, , drop = FALSE]  
-  else
-    stop(paste(dQuote("x"), "has to be a vector or matrix"))
-
-  attr(x, "index") <- order.by
-  class(x) <- "zoo"
-  return(x)
+    if (missing(order.by)) order.by = index(x)
+    index <- order(order.by)
+    order.by <- order.by[index]
+    if (missing(x) || is.null(x)) 
+        x <- numeric()
+    else if (is.vector(x) || is.factor(x)) 
+        x <- rep(x, length.out = length(index))[index]
+    else if (is.matrix(x) || is.data.frame(x)) 
+        x <- (x[rep(1:NROW(x), length.out = length(index)), , 
+            drop = FALSE])[index, , drop = FALSE]
+    else if (is.data.frame(x)) 
+        x <- (x[rep(1:NROW(x), length.out = length(index)), , 
+            drop = FALSE])[index, , drop = FALSE]
+    else stop(paste(dQuote("x"), "has to be a vector or matrix"))
+    attr(x, "index") <- order.by
+    class(x) <- c("zoo", class(x))
+    x
 }
 
-print.zoo <- function(x, 
-	style = ifelse(length(dim(x)) == 0, "horizontal", "vertical"), 
-	quote = FALSE, ...) 
+print.zoo <-
+function (x, style = ifelse(length(dim(x)) == 0, "horizontal", 
+    "vertical"), quote = FALSE, ...) 
 {
-	style <- match.arg(style, c("horizontal", "vertical", "plain"))
-	if (length(dim(x)) > 0 && style == "horizontal") style <- "plain"
-	if (style == "vertical") {
-		y <- format(eval(as.matrix(x), parent.frame(n = 3)))
-		if (length(colnames(x)) < 1) {
-			colnames(y) <- rep("", NCOL(x))
-## cannot recover deparse(substitute(x))
-##			lab <- deparse(substitute(x))
-##			print(lab)
-##			colnames(y) <- if (NCOL(x) == 1) lab
-##			  else paste(lab, 1:NCOL(x), sep=".")
-		}
-		rownames(y) <- as.character(index(x))
-		print(y, quote = quote, ...)
-	} else if (style == "horizontal") {
-		y <- as.vector(x)
-		names(y) <- as.character(index(x))
-		print(y, quote = quote, ...)
-	} else {
-		x.index <- index(x)
-		attr(x,"index") <- NULL
-		cat("Value:\n")
-		print(unclass(x))
-		cat("\nIndex:\n")
-		print(x.index)
-	}
-	invisible(x)
+    style <- match.arg(style, c("horizontal", "vertical", "plain"))
+    if (is.null(dim(x)) || (length(dim(x)) > 0 && style == "horizontal"))
+	style <- "plain"
+    if (style == "vertical") {
+        y <- format(eval(as.matrix(x), parent.frame(n = 3)))
+        if (length(colnames(x)) < 1) {
+            colnames(y) <- rep("", NCOL(x))
+        }
+        rownames(y) <- as.character(index(x))
+        print(y, quote = quote, ...)
+    }
+    else if (style == "horizontal") {
+        y <- as.vector(x)
+        names(y) <- as.character(index(x))
+        print(y, quote = quote, ...)
+    }
+    else {
+        x.index <- index(x)
+        attr(x, "index") <- NULL
+        cat("Value:\n")
+        print(unclass(x))
+        cat("\nIndex:\n")
+        print(x.index)
+    }
+    invisible(x)
 }
 
 summary.zoo <- function(object, ...) 
@@ -118,3 +119,8 @@ match <- function(x, y, ...)
 match.default <- function(x, y, ...)
 	base::match(x, y, ...)
 
+as.Date.numeric <- function(x, ...)
+	structure(floor(x + .001), class = "Date")
+
+as.Date.integer <- function(x, ...)
+	structure(x, class = "Date")

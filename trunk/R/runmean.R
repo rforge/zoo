@@ -5,6 +5,7 @@
 #Z# be generics with something like the run*0() functions as the default.
 
 runmean <- function(x, k, na.pad = TRUE) { 
+	stopifnot(k <= NROW(x))
 	index.x <- index(x)
 	if (!na.pad) index.x <- index.x[-seq(k-1)]
 	runmean0 <- function(x, k, na.rm) {
@@ -25,6 +26,7 @@ runmean <- function(x, k, na.pad = TRUE) {
 }
 
 runmax <- function(x, k, na.pad = TRUE) { 
+	stopifnot(k <= NROW(x))
 	index.x <- index(x)
 	if (!na.pad) index.x <- index.x[-seq(k-1)]
 	runmax0 <- function(x, k, na.pad) {
@@ -48,17 +50,18 @@ runmax <- function(x, k, na.pad = TRUE) {
 }
 
 runmed <- function(x, k, na.pad = TRUE, ...) { 
-	stopifnot(all(!is.na(x)))
+	stopifnot(all(!is.na(x)), k <= NROW(x), k %% 2 == 1)
 	# todo:
 	# rather than abort we should do a simple loop to get the medians
 	# for those columns with NAs.
 	index.x <- index(x)
-	if (!na.pad) index.x <- index.x[-seq(k-1)]
 	m <- k %/% 2
 	n <- NROW(x)
+	if (!na.pad) index.x <- index.x[k:n]
 	runmed0 <- function(x, k, na.pad, ...) {
 		x <- stats::runmed(x, k, ...)[-c(seq(m),seq(to=n,len=m))]
 		if (na.pad) x <- c(rep(NA,k-1), x)
+		x
 	}
 	if (length(dim(x)) == 0)
 		return(zoo(runmed0(x, k, na.pad = na.pad, ...), index.x))

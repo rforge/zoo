@@ -7,6 +7,16 @@ as.zoo.default <- function(x, ...)
 {
   zoo(structure(x, dim = dim(x)), index(x))
 }
+
+as.zoo.factor <- function(x, ...) 
+{
+  L <- list(...)
+  stopifnot(length(L) < 2)
+  if (length(L))
+	zoo(x, list(...)[[1]])
+  else
+	zoo(x)
+}
   
 as.zoo.ts <- function(x, ...)
 {
@@ -39,18 +49,20 @@ as.its.zoo <- function(x) {
 as.vector.zoo <- function(x, mode = "any")
 	as.vector(as.matrix(x), mode = mode)
 
-as.matrix.zoo <- function(x) 
+as.matrix.zoo <- function (x) 
 {
-	y <- as.matrix(unclass(x))
-	attr(y, "index") <- NULL
-	colnames(y) <- if (length(colnames(x)) > 0) 
+    y <- as.matrix(unclass(x))
+    attr(y, "index") <- NULL
+    if (length(y) > 0) 
+	    colnames(y) <- if (length(colnames(x)) > 0) 
 		colnames(x)
-	else {
+	    else {
 		lab <- deparse(substitute(x))
-		if (NCOL(x) == 1) lab
-		  else paste(lab, 1:NCOL(x), sep=".")
-	}
-	return(y)
+		if (NCOL(x) == 1) 
+		    lab
+		else paste(lab, 1:NCOL(x), sep = ".")
+	    }
+    return(y)
 }
 
 as.data.frame.zoo <- function(x, row.names = NULL, optional = FALSE)

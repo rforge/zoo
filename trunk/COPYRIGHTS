@@ -5,10 +5,6 @@ This bulk of this code is
 
   Copyright (C) 2004 Achim Zeileis, Gabor Grothendieck
 
-except R/dynlm.R which is
-
-  Copyright (C) 2004 Achim Zeileis, Gabor Grothendieck, Whit Armstrong
-
 and R/runmean.R which is
 
   Copyright (C) 2004 Achim Zeileis, Gabor Grothendieck, Jarek Tuszynski

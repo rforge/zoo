@@ -42,16 +42,16 @@ See also the examples.
 \seealso{\code{\link{zoo}}, \code{\link{plot.ts}}}
 
 \examples{
-x.date <- as.POSIXct(paste("2003-02-", c(1, 3, 7, 9, 14), sep = ""))
+x.Date <- as.Date(paste(2003, 02, c(1, 3, 7, 9, 14), sep = "-"))
 
 ## univariate plotting
-x <- zoo(rnorm(5), x.date)
-x2 <- zoo(rnorm(5, sd = 0.2), x.date)
+x <- zoo(rnorm(5), x.Date)
+x2 <- zoo(rnorm(5, sd = 0.2), x.Date)
 plot(x)
 lines(x2, col = 2)
 
 ## multivariate plotting
-z <- cbind(x, x2, zoo(rnorm(5, sd = 0.5), x.date))
+z <- cbind(x, x2, zoo(rnorm(5, sd = 0.5), x.Date))
 colnames(z) <- LETTERS[1:3]
 plot(z, plot.type = "single", col = list(B = 2))
 plot(z, type = "b", pch = 1:3, col = 1:3)

@@ -35,11 +35,18 @@ A \code{"zoo"} object with the running mean/max/median.
 \seealso{\code{\link{zoo}}}
 
 \examples{
-x.date <- as.POSIXct(paste("2003-", rep(1:4, 4:1), "-", sample(1:28, 10, replace = TRUE), sep = ""))
-x <- zoo(rnorm(12), x.date)
+x.Date <- as.Date(paste("2004", rep(1:4, 4:1), sample(1:28, 10), sep = "-"))
+x <- zoo(rnorm(12), x.Date)
 
-runmean(x, 5)
-runmax(x, 5)
-runmed(x, 5)
+runmean(x, 3)
+runmax(x, 3)
+runmed(x, 3)
+
+xm <- zoo(matrix(1:12, 4, 3), x.Date[1:4])
+runmean(xm, 3)
+runmax(xm, 3)
+runmed(xm, 3)
+
 }
 \keyword{ts}
+

@@ -84,8 +84,8 @@ merge(x, y1, y2, all = TRUE)
 ## extend an irregular series to a regular one:
 # create a constant series
 z <- zoo(1, seq(4)[-2])
-# create a series with zero columns
-z0 <- zoo(, 1:4)[,-1]
+# create a 0 dimensional zoo series
+z0 <- zoo(, 1:4)
 # do the extension
 merge(z, z0)
 # same but with zero fill

@@ -29,10 +29,10 @@ An object of class \code{"zoo"}.
 \examples{
 ## averaging over values in a month:
 # long series
-x.date <- as.POSIXct(paste("2003-", rep(1:4, 4:1), "-", sample(1:28, 10, replace = TRUE), sep = ""))
+x.date <- as.Date(paste(2004, rep(1:4, 4:1), sample(1:28, 10), sep = "-"))
 x <- zoo(rnorm(12), x.date)
 # coarser dates
-x.date2 <- as.POSIXct(paste("2003-", rep(1:4, 4:1), "-1", sep = ""))
+x.date2 <- as.Date(paste(2004, rep(1:4, 4:1), 1, sep = "-"))
 x2 <- aggregate(x, x.date2, mean)
 # compare time series
 plot(x)
@@ -53,7 +53,7 @@ y2 <- aggregate(y, firstofmonth(time(y)), tail, 1)
 # fill in missing months by merging with an empty series containing
 # a complete set of 1st of the months
 yrt2 <- range(time(y2))
-y0 <- zoo(,seq(from = yrt2[1], to = yrt2[2], by = "month"))[,-1]
+y0 <- zoo(,seq(from = yrt2[1], to = yrt2[2], by = "month"))
 merge(y2, y0)
 }
 
@@ -83,7 +83,7 @@ x2 <- aggregate(x, firstofmonth(time(x)), tail, 1)
 # fill in missing months by merging with an empty series containing
 # a complete set of 1st of the months
 xrt2 <- range(time(x2))
-x0 <- zoo( , seq(from = xrt2[1], to = xrt2[2], by = "month"))[,-1]
+x0 <- zoo( , seq(from = xrt2[1], to = xrt2[2], by = "month"))
 merge(x2, x0)
 
 }

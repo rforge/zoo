@@ -31,13 +31,13 @@ object (and hence return a \code{"zoo"} object) or replacing it.
 \seealso{\code{\link{zoo}}}
 
 \examples{
-x.date <- as.POSIXct(paste("2003-", rep(1:4, 4:1), "-", sample(1:28, 10, replace = TRUE), sep = ""))
-x <- zoo(matrix(rnorm(20), ncol = 2), x.date)
+# x.date <- as.POSIXct(paste("2003-", rep(1:4, 4:1), "-", sample(1:28, 10, replace = TRUE), sep = ""))
+# x <- zoo(matrix(rnorm(20), ncol = 2), x.date)
 
-window(x, start = as.POSIXct("2003-02-01"), end = as.POSIXct("2003-03-01"))
-window(x, index = x.date[1:6], start = as.POSIXct("2003-02-01"))
-window(x, index = x.date[c(4, 8, 10)])
-window(x, index = x.date[c(4, 8, 10)]) <- matrix(1:6, ncol = 2)
-x
+# window(x, start = as.POSIXct("2003-02-01"), end = as.POSIXct("2003-03-01"))
+# window(x, index = x.date[1:6], start = as.POSIXct("2003-02-01"))
+# window(x, index = x.date[c(4, 8, 10)])
+# window(x, index = x.date[c(4, 8, 10)]) <- matrix(1:6, ncol = 2)
+# x
 }
 \keyword{ts}

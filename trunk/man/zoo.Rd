@@ -1,6 +1,9 @@
 \name{zoo}
 \alias{zoo}
 \alias{print.zoo}
+\alias{as.Date.integer}
+\alias{as.Date.numeric}
+\alias{as.zoo.factor}
 \alias{summary.zoo}
 \alias{str.zoo}
 \alias{is.zoo}
@@ -27,11 +30,15 @@ totally ordered observations which includes irregular
 time series.
 }
 \usage{
-zoo(x = NA, order.by = index(x))
+zoo(x, order.by = index(x))
 \method{print}{zoo}(x, style = <<see below>>, quote = FALSE, \dots) 
 }
 \arguments{
-  \item{x}{a vector or matrix.}
+  \item{x}{a numeric vector to 
+    create 1 dimensional numeric zoo object, a numeric matrix
+    to create a 2 dimensional numberic zoo object, a factor to
+    create a factor zoo object or omitted to create a zero dimensional
+    zoo object.}
   \item{order.by}{a vector by which the observations in \code{x}
     are ordered.}
   \item{style}{a string specifying the printing style which can be
@@ -109,14 +116,17 @@ objects can be coerced to \code{"zoo"}, the reverse is available for
 Furthermore, \code{"zoo"} objects can be coerced to vectors, matrices and
 data frames (dropping the index/time attribute). See \code{\link{as.zoo}}.
 
-Three methods are available for \code{NA} handling in the data of 
+Four methods are available for \code{NA} handling in the data of 
 \code{"zoo"} objects: \code{\link{na.omit}} which returns a \code{"zoo"}
 object with incomplete observations removed, \code{\link{na.locf}} which
-replaces \code{NA}s by the last previous non-\code{NA} and \code{\link{na.contiguous}}
+replaces \code{NA}s by the last previous non-\code{NA}, \code{\link{na.contiguous}}
 which extracts the longest consecutive stretch of non-missing values
-in a \code{"zoo"} object. Note, that the latter function is made a
-generic in \code{zoo} with the stats function being the method for
-\code{"ts"} objects.
+in a \code{"zoo"} object and \code{\link{na.approx}} which uses
+linear interpolation to fill in \code{NA} values. 
+
+Three methods are available for running computations: \code{\link{runmean}}
+calculates running means, \code{\link{runmax}} calculates running maxima
+and \code{\link{runmed}} calculates running medians.
 }
 
 \value{
@@ -128,31 +138,36 @@ dimension (\code{NROW(x)}) by which \code{x} is ordered.
 
 \examples{
 ## simple creation and plotting
-x.date <- as.POSIXct(paste("2003-02-", c(1, 3, 7, 9, 14), sep = ""))
-x <- zoo(rnorm(5), x.date)
+x.Date <- as.Date("2003-02-01") + c(1, 3, 7, 9, 14) - 1
+x <- zoo(rnorm(5), x.Date)
 plot(x)
 time(x)
 
 ## subsetting
 x[1:3]
 
-## different classes of indexes/times can be used, e.g. Date
-x.Date <- as.Date(paste("2003-02-", c(1, 3, 7, 9, 14), sep = ""))
-x <- zoo(rnorm(5), x.Date)
+## different classes of indexes/times can be used, e.g. numeric vector
+x <- zoo(rnorm(5), c(1, 3, 7, 9, 14))
 plot(x)
 ## or POSIXct
 y.POSIXct <- ISOdatetime(2003, 02, c(1, 3, 7, 9, 14), 0, 0, 0)
 y <- zoo(rnorm(5), y.POSIXct)
 plot(y)
-## or numeric
-z <- zoo(rnorm(5), runif(5))
-plot(z)
 
-
-# create a constant series
+## create a constant series
 z <- zoo(1, seq(4)[-2])
 
-# create a series with zero columns
-z0 <- zoo(, 1:4)[,-1]
+## create a 0 dimensional zoo series
+z0 <- zoo(, 1:4)
+
+## create a 2 dimensional zoo series
+z2 <- zoo(matrix(1:12, 4, 3), as.Date("2003-01-01") + 0:3)
+
+## create a factor zoo object
+fz <- zoo(gl(2,5), as.Date("2004-01-01") + 0:9)
+
+## create a zoo series with 0 columns
+z20 <- zoo(matrix(nrow = 4, ncol = 0), 1:4)
 }
 \keyword{ts}
+

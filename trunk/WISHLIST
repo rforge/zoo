@@ -2,8 +2,6 @@ FEATURES
 ********
 
   o zoo()
-    - support zoo factor objects
-
     - support zoo data.frame objects
 
     
@@ -21,14 +19,14 @@ FEATURES
     - names not processed correctly when retclass = "list"
 
 
-  o dynlm()
-    - support a data= argument
-    
+  o formulas
     - allow for a simplified model language like
         d(y) ~ l(y, 1)
       instead of
         diff(y) ~ lag(y, k = -1)
 
+  
+  o dynlm
     - when dynlm() grows we should probably start a 
       package dynlm which depends on zoo
       
@@ -47,8 +45,6 @@ FEATURES
 
     - irregular to regular conversion routines [Z: the following
       functions would be nice as.ts.zoo() is.regular()]
-
-    - interpolation / na.approx
 
 
   o QA
