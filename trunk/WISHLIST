@@ -20,6 +20,7 @@ FEATURES
 
     - names not processed correctly when retclass = "list"
 
+
   o dynlm()
     - support a data= argument
     
@@ -37,14 +38,12 @@ FEATURES
 
 
   o misc functions
-    - data= argument in dynlm
-
     - get runmed working with NAs, add runmax, consolidate and
       generalize runmean, runmax, runmed and runmad
 
     - interface to additional statistical routines such as the ones
       referenced in:
-      http://cran.r-project.org/doc/contrib/Ricci-refcard-ts.pdf
+      http://CRAN.R-project.org/doc/contrib/Ricci-refcard-ts.pdf
 
     - irregular to regular conversion routines [Z: the following
       functions would be nice as.ts.zoo() is.regular()]
@@ -74,7 +73,8 @@ INTERFACES
     that could be used in place of order and match. Is a
     smaller set of primitives possible?
 
-  o move as.its.zoo over to its
+  o move as.its.zoo over to its [Z: Whit will do this as the new
+    maintainer of its]
 
   o provide fBasics interface routine to the Rmetrics projects
 
@@ -95,7 +95,7 @@ DOCUMENTATION & COMMUNICATION
   o FAQ
   
   o pdf one page reference card which lists all functions
-    available [Z: closes thing available is currently
+    available [Z: closest thing available is currently
     ?zoo]
 
   o what facilities does the R project provide to subprojects for 
