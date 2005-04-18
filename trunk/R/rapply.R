@@ -1,7 +1,9 @@
-rapply <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE, ...)
+rapply <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE,
+  align = c("center", "left", "right"), ...)
     UseMethod("rapply")
 
-rapply.zoo <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE, ...) {
+rapply.zoo <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE,
+  align = c("center", "left", "right"), ...) {
     itt <- 0
     embedi <- function(n,k,by=1,ascending=FALSE) {
     # n = no of time points, k = number of columns
@@ -17,16 +19,24 @@ rapply.zoo <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = T
 
     if (by.column && by == 1 && ascending && is.null(list(...))) 
 	switch(deparse(substitute(FUN)),
-		mean = return(rollmean(data, width, na.pad = na.pad)),
-		max = return(rollmax(data, width, na.pad = na.pad)),
-		median = return(rollmed(data, width, na.pad = na.pad)))
+		mean = return(rollmean(data, width, na.pad = na.pad, align = align)),
+		max = return(rollmax(data, width, na.pad = na.pad, align = align)),
+		median = return(rollmed(data, width, na.pad = na.pad, align = align)))
 
     ## evaluate FUN only on coredata(data)
     cdata <- coredata(data)
     nr <- NROW(cdata)
     width <- as.integer(width)[1]
     stopifnot( width > 0, width <= nr )
-    tt <- index(data)[seq(width, nr, by)]
+    
+    ## process alignment
+    align <- match.arg(align)
+    n1 <- switch(align,    
+      "left" = { width - 1},
+      "center" = { floor(width/2) },
+      "right" = { 0 })    
+    tt <- index(data)[seq((width-n1), (nr-n1), by)]
+
     res <- if (is.null(dim(cdata)))
 	   zoo(apply( embedi(nr, width, by, ascending), 1, 
                 function(st) FUN(cdata[st], ...)), tt, 

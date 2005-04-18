@@ -2,10 +2,10 @@
 # https://www.stat.math.ethz.ch/pipermail/r-help/2004-October/057363.html
 # ToDo: runmad, currently rapply() can be used
 
-rollmean <- function(x, k, na.pad = FALSE, ...)
+rollmean <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
   UseMethod("rollmean")
 
-rollmean.default <- function(x, k, na.pad = FALSE, ...)
+rollmean.default <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
 {
   x <- unclass(x)
   n <- length(x) 
@@ -13,30 +13,42 @@ rollmean.default <- function(x, k, na.pad = FALSE, ...)
   y[1] <- sum(x[1:k])		 # find the first
   # apply precomputed differencest sum
   rval <- cumsum(y)/k
-  if (na.pad) rval <- c(rep(NA, k-1), rval)
+  if (na.pad) {
+    rval <- switch(match.arg(align),
+      "left" = { c(rval, rep(NA, k-1)) },
+      "center" = { c(rep(NA, floor((k-1)/2)), rval, rep(NA, ceiling((k-1)/2))) },
+      "right" = { c(rep(NA, k-1), rval) })
+  }
   return(rval)
 }
 
-rollmean.zoo <- function(x, k, na.pad = FALSE, ...)
+rollmean.zoo <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
 { 
   stopifnot(k <= NROW(x))
   index.x <- index(x)
-  if(!na.pad) index.x <- index.x[-seq(k-1)]
+  if(!na.pad) {
+    n <- length(index.x)
+    ix <- switch(match.arg(align),
+      "left" = { 1:(n-k+1) },
+      "center" = { floor((1+k)/2):ceiling(n-k/2) },
+      "right" = { k:n })
+    index.x <- index.x[ix]
+  }
   if(length(dim(x)) == 0) 
-    return(zoo(rollmean.default(coredata(x), k, na.pad), index.x, attr(x, "frequency")))
+    return(zoo(rollmean.default(coredata(x), k, na.pad, align), index.x, attr(x, "frequency")))
   else
-    return(zoo(apply(coredata(x), 2, rollmean.default, k=k, na.pad=na.pad), index.x,
-	attr(x, "frequency")))
+    return(zoo(apply(coredata(x), 2, rollmean.default, k=k, na.pad=na.pad, align=align),
+        index.x, attr(x, "frequency")))
 }
 
-rollmean.ts <- function(x, k, na.pad = FALSE, ...)
-  as.ts(rollmean(as.zoo(x), k = k, na.pad = na.pad, ...))
+rollmean.ts <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
+  as.ts(rollmean(as.zoo(x), k = k, na.pad = na.pad, align = align, ...))
 
 
-rollmax <- function(x, k, na.pad = FALSE, ...)
+rollmax <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
   UseMethod("rollmax")
 
-rollmax.default <- function(x, k, na.pad = FALSE, ...)
+rollmax.default <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
 {
   n <- length(x) 
   rval <- rep(0, n) 
@@ -48,32 +60,44 @@ rollmax.default <- function(x, k, na.pad = FALSE, ...)
       max(rval[i-1], x[i]); # max of window = rval[i-1] 
   a <- x[i-k+1] # point that will be removed from window
   }
-  if (na.pad) rval[seq(k-1)] <- NA
-    else rval <- rval[-seq(k-1)]
+  rval <- rval[-seq(k-1)]
+  if (na.pad) {
+    rval <- switch(match.arg(align),
+      "left" = { c(rval, rep(NA, k-1)) },
+      "center" = { c(rep(NA, floor((k-1)/2)), rval, rep(NA, ceiling((k-1)/2))) },
+      "right" = { c(rep(NA, k-1), rval) })
+  }
   return(rval)
 } 
 
-rollmax.zoo <- function(x, k, na.pad = FALSE, ...)
+rollmax.zoo <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
 { 
   stopifnot(k <= NROW(x))
   index.x <- index(x)
-  if (!na.pad) index.x <- index.x[-seq(k-1)]
+  if(!na.pad) {
+    n <- length(index.x)
+    ix <- switch(match.arg(align),
+      "left" = { 1:(n-k+1) },
+      "center" = { floor((1+k)/2):ceiling(n-k/2) },
+      "right" = { k:n })
+    index.x <- index.x[ix]
+  }
   if (length(dim(x)) == 0) 
-    return(zoo(rollmax.default(coredata(x), k, na.pad), index.x, attr(x, "frequency")))
+    return(zoo(rollmax.default(coredata(x), k, na.pad, align), index.x, attr(x, "frequency")))
   else
-    return(zoo(apply(coredata(x), 2, rollmax.default, k=k, na.pad = na.pad), index.x,
+    return(zoo(apply(coredata(x), 2, rollmax.default, k=k, na.pad = na.pad, align=align), index.x,
        attr(x, "frequency")))
 }
 
-rollmax.ts <- function(x, k, na.pad = FALSE, ...)
-  as.ts(rollmax(as.zoo(x), k = k, na.pad = na.pad, ...))
+rollmax.ts <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
+  as.ts(rollmax(as.zoo(x), k = k, na.pad = na.pad, align = align, ...))
 
 
 
-rollmed <- function(x, k, na.pad = FALSE, ...)
+rollmed <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
   UseMethod("rollmed")
 
-rollmed.default <- function(x, k, na.pad = FALSE, ...)
+rollmed.default <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
 {
   ## interfaces runmed from `stats'
   stopifnot(k <= length(x), k %% 2 == 1)
@@ -82,11 +106,16 @@ rollmed.default <- function(x, k, na.pad = FALSE, ...)
   rval <- runmed(x, k, ...)
   attr(rval, "k") <- NULL
   rval <- rval[-c(1:m, (n-m+1):n)]
-  if(na.pad) rval <- c(rep(NA, 2*m), rval)
+  if (na.pad) {
+    rval <- switch(match.arg(align),
+      "left" = { c(rval, rep(NA, k-1)) },
+      "center" = { c(rep(NA, floor((k-1)/2)), rval, rep(NA, ceiling((k-1)/2))) },
+      "right" = { c(rep(NA, k-1), rval) })
+  }
   return(rval)
 }
 
-rollmed.zoo <- function(x, k, na.pad = FALSE, ...) { 
+rollmed.zoo <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...) { 
   stopifnot(all(!is.na(x)), k <= NROW(x), k %% 2 == 1)
   # todo:
   # rather than abort we should do a simple loop to get the medians
@@ -94,11 +123,26 @@ rollmed.zoo <- function(x, k, na.pad = FALSE, ...) {
   index.x <- index(x)
   m <- k %/% 2
   n <- NROW(x)
-  if (!na.pad) index.x <- index.x[k:n]
+  align <- match.arg(align)
+  
+  if(!na.pad) {
+    n <- length(index.x)
+    ix <- switch(align,
+      "left" = { 1:(n-k+1) },
+      "center" = { floor((1+k)/2):ceiling(n-k/2) },
+      "right" = { k:n })
+    index.x <- index.x[ix]
+  }
+  
   rollmed0 <- function(x, k, na.pad, ...) {
     x <- stats::runmed(x, k, ...)[-c(seq(m),seq(to=n,len=m))]
-    if (na.pad) x <- c(rep(NA,k-1), x)
-    x
+    if (na.pad) {
+      x <- switch(align,
+        "left" = { c(x, rep(NA, k-1)) },
+        "center" = { c(rep(NA, floor((k-1)/2)), x, rep(NA, ceiling((k-1)/2))) },
+        "right" = { c(rep(NA, k-1), x) })
+    }
+    return(x)
   }
   if (length(dim(x)) == 0)
     return(zoo(rollmed0(coredata(x), k, na.pad = na.pad, ...), index.x,
@@ -108,6 +152,5 @@ rollmed.zoo <- function(x, k, na.pad = FALSE, ...) {
       index.x, attr(x, "frequency")))
 }
 
-rollmed.ts <- function(x, k, na.pad = FALSE, ...)
-  as.ts(rollmed(as.zoo(x), k = k, na.pad = na.pad, ...))
-
+rollmed.ts <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
+  as.ts(rollmed(as.zoo(x), k = k, na.pad = na.pad, align = align, ...))

@@ -16,14 +16,16 @@
 Generic functions for computing rolling means, maximums and medians of ordered observations.
 }
 \usage{
-rollmean(x, k, na.pad = FALSE, \dots)
-rollmax(x, k, na.pad = FALSE, \dots)
-rollmed(x, k, na.pad = FALSE, \dots)
+rollmean(x, k, na.pad = FALSE, align = c("center", "left", "right"), \dots)
+rollmax(x, k, na.pad = FALSE, align = c("center", "left", "right"), \dots)
+rollmed(x, k, na.pad = FALSE, align = c("center", "left", "right"), \dots)
 }
 \arguments{
   \item{x}{an object (representing a series of observations).}
   \item{k}{integer width of the rolling window. Must be odd for \code{rollmed}.}  
   \item{na.pad}{logical. Should \code{NA} padding be added at beginning?}
+  \item{align}{character specifying whether result should be left- or
+    right-aligned or centered (default).}
   \item{\dots}{Further arguments passed to methods.}
 }
 
