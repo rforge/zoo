@@ -64,7 +64,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     if(!is.zoo(args[[1]])) args[[1]] <- as.zoo(args[[1]])
     for(i in seq(along = args))
         if (is.plain(args[[i]]))  
-            args[[i]] <- zoo(args[[i]], time(args[[1]]), attr(args[[1]], "frequency"))
+            args[[i]] <- zoo(args[[i]], index(args[[1]]), attr(args[[1]], "frequency"))
 	else if (!is.zoo(args[[i]]))
             args[[i]] <- as.zoo(args[[i]])
 

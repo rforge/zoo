@@ -15,7 +15,8 @@ index.zoo <- function(x, ...)
 
 index.ts <- function(x, ...)
 {
-  as.numeric(time(x))
+  xtsp <- tsp(x)
+  seq(xtsp[1], xtsp[2], by = 1/xtsp[3])
 }
 
 time.zoo <- function(x, ...)
