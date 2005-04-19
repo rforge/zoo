@@ -21,7 +21,7 @@ rapply.zoo <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = T
 	switch(deparse(substitute(FUN)),
 		mean = return(rollmean(data, width, na.pad = na.pad, align = align)),
 		max = return(rollmax(data, width, na.pad = na.pad, align = align)),
-		median = return(rollmed(data, width, na.pad = na.pad, align = align)))
+		median = return(rollmedian(data, width, na.pad = na.pad, align = align)))
 
     ## evaluate FUN only on coredata(data)
     cdata <- coredata(data)

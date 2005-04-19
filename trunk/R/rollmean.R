@@ -1,6 +1,6 @@
-# rollmean, rollmax, rollmed (, runmad) based on code posted by Jarek Tuszynski at
+# rollmean, rollmax, rollmedian (, rollmad) based on code posted by Jarek Tuszynski at
 # https://www.stat.math.ethz.ch/pipermail/r-help/2004-October/057363.html
-# ToDo: runmad, currently rapply() can be used
+# ToDo: rollmad, currently rapply() can be used
 
 rollmean <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
   UseMethod("rollmean")
@@ -94,10 +94,10 @@ rollmax.ts <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"
 
 
 
-rollmed <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
-  UseMethod("rollmed")
+rollmedian <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
+  UseMethod("rollmedian")
 
-rollmed.default <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
+rollmedian.default <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
 {
   ## interfaces runmed from `stats'
   stopifnot(k <= length(x), k %% 2 == 1)
@@ -115,7 +115,7 @@ rollmed.default <- function(x, k, na.pad = FALSE, align = c("center", "left", "r
   return(rval)
 }
 
-rollmed.zoo <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...) { 
+rollmedian.zoo <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...) { 
   stopifnot(all(!is.na(x)), k <= NROW(x), k %% 2 == 1)
   # todo:
   # rather than abort we should do a simple loop to get the medians
@@ -134,8 +134,8 @@ rollmed.zoo <- function(x, k, na.pad = FALSE, align = c("center", "left", "right
     index.x <- index.x[ix]
   }
   
-  rollmed0 <- function(x, k, na.pad, ...) {
-    x <- stats::runmed(x, k, ...)[-c(seq(m),seq(to=n,len=m))]
+  rollmedian0 <- function(x, k, na.pad, ...) {
+    x <- runmed(x, k, ...)[-c(seq(m),seq(to=n,len=m))]
     if (na.pad) {
       x <- switch(align,
         "left" = { c(x, rep(NA, k-1)) },
@@ -145,12 +145,12 @@ rollmed.zoo <- function(x, k, na.pad = FALSE, align = c("center", "left", "right
     return(x)
   }
   if (length(dim(x)) == 0)
-    return(zoo(rollmed0(coredata(x), k, na.pad = na.pad, ...), index.x,
+    return(zoo(rollmedian0(coredata(x), k, na.pad = na.pad, ...), index.x,
       attr(x, "frequency")))
   else
-    return(zoo(apply(coredata(x), 2, rollmed0, k = k, na.pad = na.pad, ...), 
+    return(zoo(apply(coredata(x), 2, rollmedian0, k = k, na.pad = na.pad, ...), 
       index.x, attr(x, "frequency")))
 }
 
-rollmed.ts <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
-  as.ts(rollmed(as.zoo(x), k = k, na.pad = na.pad, align = align, ...))
+rollmedian.ts <- function(x, k, na.pad = FALSE, align = c("center", "left", "right"), ...)
+  as.ts(rollmedian(as.zoo(x), k = k, na.pad = na.pad, align = align, ...))

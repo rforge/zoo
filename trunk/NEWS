@@ -21,7 +21,7 @@ Changes in Version 0.9-9
     (and not only observation numbers). The [[.zoo method is only for
     indexing with the index class.
 
-  o rapply, rollmean, rollmax, rollmed to perform rolling analyses
+  o rapply, rollmean, rollmax, rollmedian to perform rolling analyses
 
   o extended functionality to plot.zoo type argument
 

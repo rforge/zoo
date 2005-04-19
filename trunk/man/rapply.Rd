@@ -33,7 +33,7 @@ rapply(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FA
   \code{mean}, \code{max} or \code{median} and \code{by.column} is 
   \code{TRUE} and there are no extra arguments
   then special purpose code is used to enhance performance.
-  See \code{\link{rollmean}}, \code{\link{rollmax}} and \code{\link{rollmed}}
+  See \code{\link{rollmean}}, \code{\link{rollmax}} and \code{\link{rollmedian}}
   for more details.
   
   Currently, there are methods for \code{"zoo"} and \code{"ts"} series.
@@ -42,7 +42,7 @@ rapply(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FA
   A object of the same class as \code{data} with the results of the rolling function.
 }
 
-\seealso{\code{\link{rollmean}}, \code{\link{rollmax}}, \code{\link{rollmed}}}
+\seealso{\code{\link{rollmean}}}
 
 \examples{
 z <- zoo(11:15, as.Date(31:35)) 
