@@ -25,6 +25,10 @@ zooreg <- function(data, start = 1, end = numeric(), frequency = 1,
 
         ## check whether lengths of data and index match
 	order.by <- seq(start, end, by = deltat)
+	if(all.equal(identical(start*frequency, round(start*frequency)), TRUE)) {
+	  order.by <- floor(frequency*order.by + .0001)/frequency
+        }
+	
 	nobs <- length(order.by)
         ## nobs <- floor((end - start) * frequency + 1.01)
         if (nobs != ndata) {
