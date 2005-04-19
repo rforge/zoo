@@ -165,10 +165,12 @@ which extracts the longest consecutive stretch of non-missing values
 in a \code{"zoo"} object and \code{\link{na.approx}} which uses
 linear interpolation to fill in \code{NA} values. 
 
-%% FIXME briefly indicate rapply and rollfoo and link
-%% Three methods are available for running computations: \code{\link{runmean}}
-%% calculates running means, \code{\link{runmax}} calculates running maxima
-%% and \code{\link{runmed}} calculates running medians.
+A typical task to be performed on ordered observations is to evaluate some
+function, e.g., computing the mean, in a window of observations that is moved
+over the full sample period. The generic function \code{\link{rapply}}
+provides this functionality for arbitrary functions and more efficient versions
+\code{\link{rollmean}}, \code{\link{rollmax}}, \code{\link{rollmedian}} are
+available for the mean, maximum and median respectively.
 }
 
 \value{

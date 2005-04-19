@@ -42,7 +42,7 @@ time.zoo <- function(x, ...)
 	return(x)
 }
 
-"index<-.zooreg" <- function(x, value) 
+"time<-.zooreg" <- "index<-.zooreg" <- function(x, value) 
 {
 	if(length(index(x)) != length(value)) 
 	  stop("length of index vectors does not match")

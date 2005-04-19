@@ -12,6 +12,7 @@
 \alias{as.zoo.zooreg}
 \alias{as.zooreg.zoo}
 \alias{index<-.zooreg}
+\alias{time<-.zooreg}
 
 \title{Regular zoo Series}
 

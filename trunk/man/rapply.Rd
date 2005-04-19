@@ -7,7 +7,8 @@
   A generic function for applying a function to rolling margins of an array.
 }
 \usage{
-rapply(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE, \dots)
+rapply(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE,
+ na.pad = FALSE, align = c("center", "left", "right"), \dots)
 }
 \arguments{
   \item{data}{the data to be used (representing a series of observations).}

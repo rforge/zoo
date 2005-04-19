@@ -27,7 +27,7 @@
   of the available methods for \code{"zoo"} objects which include
   plotting, merging and binding, several mathematical operations,
   extracting and replacing data and index, coercion and \code{NA}
-  handling. A sub-class \code{"zooreg"} embeds regular time series
+  handling. A subclass \code{"zooreg"} embeds regular time series
   into the \code{"zoo"} framework and thus bridges the gap between
   regular and irregular time series classes in \proglang{R}.
 }
@@ -48,6 +48,7 @@ library(strucchange)
 library(fBasics)
 online <- FALSE ## if set to FALSE the local copy of LU.rda
                 ## is used instead of get.hist.quote()
+options(prompt = "R> ")
 @
 
 \section{Introduction} \label{sec:intro}
@@ -349,7 +350,8 @@ Of course, inferring the underlying regularity is not always reliable and it is 
 to store a regular series as a \code{"zooreg"} object if it is intended to be a regular series.
 
 If a weakly regular series is coerced to \code{"ts"} the missing observations are filled
-with \code{NA}s. For strictly regular series with numeric index, the class can be switched
+with \code{NA}s (see also Section~\ref{sec:NA}).
+For strictly regular series with numeric index, the class can be switched
 between \code{"zoo"} and \code{"ts"} without loss of information.
 
 <<zooreg5>>=
@@ -423,8 +425,6 @@ single panel plot in \ref{fig:plot2}.
 \subsection{Merging and binding}
 \label{sec:merge}
 
-%FIXME% also comment on regular series
-
 As for many rectangular data formats in \proglang{R}, there are
 both methods for combining the rows and columns of \code{"zoo"}
 objects respectively. For the \code{rbind} method the number of
@@ -457,6 +457,20 @@ different index classes, \proglang{R} gives a warning and tries to
 coerce the indexes. Merging objects with different index classes is
 generally discouraged---if it is used nevertheless, it is the
 responsibility of the user to ensure that the result is as intended.
+If at least one of the merged/binded objects was a \code{"zooreg"} 
+object, then the corresponding method tries to return a \code{"zooreg"}
+object. This is done by assessing whether there is a common maximal 
+frequency and by checking whether the resulting index is still
+(weakly) regular.
+
+If non-\code{"zoo"} objects are included in merging,
+then \code{merge} gives plain vectors/factors/matrices the index of the
+first argument (if it is of the same length). Scalars are always added for
+the full index without missing values.
+
+<<merge2>>=
+merge(z1, pi, 1:10, all = FALSE)
+@
 
 Another function which performs operations along a subset of indexes
 is \code{aggregate}, which is discussed in this section although
@@ -469,7 +483,6 @@ value the corresponding first of the month. This function is then
 used to compute the coarser grid for the \code{aggregate} call: in
 the first example the mean of the observations in the month
 is returned, in the second example the first observation.
-%%FIXME: maybe also firstofquarter, see man pages
 
 <<aggregate>>=
 firstofmonth <- function(x) as.Date(sub("..$", "01", format(x)))
@@ -593,13 +606,16 @@ diff(z1)
 \subsection[Coercion to and from "zoo"]{Coercion to and from \code{"zoo"}}
 \label{sec:as.zoo}
 
-%FIXME% include coercion to and from "ts"
-
 Coercion to and from \code{"zoo"} objects is available for objects of
 various classes, in particular \code{"ts"}, \code{"irts"} and \code{"its"}
-objects can be coerced to \code{"zoo"} using the  respective \code{as.zoo}
-method. The reverse coercion is available for \code{"its"} and for \code{"irts"}
-(the latter in package \code{tseries}).
+objects can be coerced to \code{"zoo"} and back if the index is of the appropriate
+class.\footnote{Coercion from \code{"zoo"} to \code{"irts"} is contained in the
+\pkg{tseries} package.}
+
+Coercion between \code{"zooreg"} and \code{"zoo"} is also available and is essentially
+dropping or trying to add a \code{"frequency"} attribute.
+
+
 Furthermore, \code{"zoo"} objects can be coerced to vectors, matrices, lists and
 data frames (the latter dropping the index/time attribute). A simple example is
 <<coercion>>=
@@ -616,10 +632,6 @@ in the observations are applicable to \code{"zoo"} objects:
 \code{na.omit}---or its default method to be more precise---returns a \code{"zoo"}
 object with incomplete observations removed. \code{na.contiguous}
 extracts the longest consecutive stretch of non-missing values.
-This function is currently made generic in \pkg{zoo}
-with a \code{"zoo"} method and the \pkg{stats} function
-as the default.\footnote{\code{na.contiguous}
-will be generic in base \proglang{R} from version 2.1.0 on.}
 Furthermore, new generic functions
 \code{na.approx} and \code{na.locf} and corresponding default methods are introduced in \pkg{zoo}.
 The former replaces \code{NA}s by linear interpolation (using the
@@ -647,9 +659,39 @@ to an equidistant spacing, by setting the second argument of
 \subsection{Rolling functions}
 \label{sec:rolling}
 
-%FIXME%
-Describe \code{rapply} and the specialized functions \code{rollmean}, \code{rollmed}
-and \code{rollmax}.
+A typical task to be performed on ordered observations is to evaluate some
+function, e.g., computing the mean, in a window of observations that is moved
+over the full sample period. The resulting statistics are usually synonymously referred to
+as rolling/running/moving statistics. In \pkg{zoo}, the generic function \code{rapply} 
+is provided along with a \code{"zoo"} and a \code{"ts"} method. The most important arguments
+are
+
+\begin{Scode}
+rapply(data, width, FUN)
+\end{Scode}
+
+where the function \code{FUN} is applied to a rolling window of size \code{width}
+of the observations \code{data}. The function \code{rapply} currently only evaluates
+the function for windows of full size \code{width}, hence the result has \code{width - 1}
+fewer observations than the original series. But it can be determined whether the `lost'
+observations should be padded with \code{NA}s and whether the result should be left-
+or right-aligned or centered (default) with respect to the original index.
+
+<<rapply>>=
+rapply(Z, 5, sd)
+rapply(Z, 5, sd, na.pad = TRUE, align = "left")
+@
+
+To improve the performance of \code{rapply(x, k, }\textit{foo}\code{)} for some frequently
+used functions \textit{foo}, more efficient implementations \code{roll}\textit{foo}\code{(x, k)}
+are available (and also called by \code{rapply}). 
+Currently, these are the generic functions \code{rollmean}, \code{rollmedian}
+and \code{rollmax} which have methods for \code{"zoo"} and \code{"ts"} series and a 
+default method for plain vectors.
+
+<<rollmean>>=
+rollmean(z2, 5, na.pad = TRUE)
+@
 
 
 \section[Combining zoo with other packages]{Combining \pkg{zoo} with other packages}
@@ -679,7 +721,7 @@ available on CRAN is described in the following. We assess the constancy of the
 electrical resistance over the apparent juice content of kiwi fruits.\footnote{A different
 approach would be to test whether the slope of a regression of electrical resistance
 on juice content changes with increasing juice content, i.e., to test for
-instabilities in \code{ohms ~ juice} instead of \code{ohms ~ 1}. Both lead to 
+instabilities in \code{ohms \~ juice} instead of \code{ohms \~ 1}. Both lead to 
 similar results.} The data
 set \code{fruitohms} is contained in the \pkg{DAAG} package \citep{zoo:DAAG:2004}.
 The fitted \code{ocus} object contains the OLS-based CUSUM process for the mean
@@ -791,12 +833,72 @@ z2td
 \subsection[The classes "yearmon" and "yearqtr": Roll your own index]{The classes \code{"yearmon"} and \code{"yearqtr"}: Roll your own index}
 \label{sec:yearmon}
 
-%FIXME% explain \code{yearmon}
+One of the strengths of the \pkg{zoo} package is its independence of the
+index class, such that the index can be easily customized. The previous section
+already explained how an existing class (\code{"timeDate"}) can be used as
+the index if the necessary methods are created. This section has a similar
+but slightly different focus: it describes how new index classes can be created
+addressing a certain type of indexes. These classes are \code{"yearmon"} and
+\code{"yearqtr"} (already contained in \pkg{zoo}) which provide indexes for
+monthly and quarterly data respectively.
+As the code is virtually identical for both classes, except that one has the 
+frequency 12 and the other 4, we will only discuss \code{"yearmon"} explicitly.
+
+Of course, monthly data can simply be stored using a numeric index just
+as the class \code{"ts"} does. The problem is that this does not have the meta-information
+attached that this is really specifying monthly data which is in \code{"yearmon"}
+simply added by a class attribute. Hence, the class creator is simply defined as
+
+<<yearmon1,eval=FALSE>>=
+yearmon <- function(x) structure(floor(12*x + .0001)/12, class = "yearmon")
+@  
+
+which is very similar to the \code{as.yearmon} coercion functions provided.
+
+As \code{"yearmon"} data is now explicitly declared to describe monthly data,
+this can be exploited for coercion to other time classes such as \code{"Date"},
+\code{"POSIXct"} or \code{"POSIXlt"} which by default associate the first day
+within a month with a \code{"yearmon"} observation. Adding a \code{format}
+and \code{as.character} method produces human readable character representations
+of \code{"yearmon"} data and completes the methods needed for conveniently 
+working with monthly data in \pkg{zoo}. Note, that all of these methods are 
+very simple and rather obvious (as can be seen in the \pkg{zoo} sources), but prove
+very helpful in the following examples.
+
+First, we transform the index of the regular series \code{zr2} created in Section~\ref{sec:zooreg}
+to \code{"yearmon"} to improve printing.
+
+<<yearmon2>>=
+index(zr2) <- yearmon(index(zr2))
+zr2
+@
+
+The index can easily be transformed to \code{"Date"}, the default being the first day
+of the month but which can also be changed to the last day of the month.
+
+<<yearmon3>>=
+as.Date(index(zr2))
+as.Date(index(zr2), frac = 1)
+@
+
+Furthermore, \code{"yearmon"} indexes can easily be coerced to \code{"POSIXct"} such
+that the series could be exported as a \code{"its"} or \code{"irts"} series.
+
+<<yearmon4>>=
+index(zr2) <- as.POSIXct(index(zr2))
+as.irts(zr2)
+@
+
+Again, this functionality makes switching between different time scales or index 
+representations particularly easy and \pkg{zoo} provides the user with the flexibility
+to adjust a certain index to his/her problem of interest.
+
+
 
 \section{Summary and outlook} \label{sec:summary}
 
 The package \pkg{zoo} provides an \proglang{S3} class and methods
-for indexed totally ordered observations, such as irregular time series.
+for indexed totally ordered observations, such as both regular and irregular time series.
 Its key design goals are independence of a particular index class 
 and compatibility with standard generics similar to the behaviour of 
 the corresponding \code{"ts"} methods. This paper describes how
@@ -807,13 +909,15 @@ and index, coercion and \code{NA} handling.
 
 An indexed object of class \code{"zoo"} can be thought of as data plus index
 where the data are essentially vectors or matrices and the index can be
-a vector of (in principle) arbitrary class. Therefore, objects of classes
+a vector of (in principle) arbitrary class. For (weakly) regular \code{"zooreg"}
+series, a \code{"frequency"} attribute is stored in addition. Therefore, objects of classes
 \code{"ts"}, \code{"its"}, \code{"irts"} and \code{"timeSeries"} can easily
 be transformed into \code{"zoo"} objects---the reverse transformation is also possible 
 provided that the index fulfills the restrictions of the respective class.
 Hence, the \code{"zoo"} class can also be used as the basis for other
 classes of indexed and objects and more specific functionality can be built on
-top of it.
+top of it. Furthremore, it bridges the gap between irregular and regular series,
+facilitating operations such as \code{NA} handling compared to \code{"ts"}.
 
 Whereas a lot of effort was put into achieving independence of a particular
 index class, the types of data that can be indexed with \code{"zoo"} are currently
@@ -839,6 +943,8 @@ CRAN at \url{http://CRAN.R-project.org/}.
 
 
 \bibliography{zoo}
+
+\newpage
 
 \begin{appendix}
 \section{Reference card}

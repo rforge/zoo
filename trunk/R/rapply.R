@@ -51,7 +51,9 @@ rapply.zoo <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = T
 	   zoo(apply( embedi(nr, width, by, ascending), 1, 
                 function(st) FUN(cdata[st,], ...)), tt, 
 			if (by ==1) attr(data, "frequency"))
-    if (na.pad) merge(res, zoo(,index(data), attr(data, "frequency"))) else res
+    res <- if (na.pad) merge(res, zoo(,index(data), attr(data, "frequency"))) else res
+    if(by.column && !is.null(dim(cdata))) colnames(res) <- colnames(cdata)
+    return(res)
 } 
 
 rapply.ts <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE, ...)
