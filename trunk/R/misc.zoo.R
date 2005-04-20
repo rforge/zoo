@@ -57,51 +57,53 @@ as.tsformula.formula <- function(x)
 # NB. An alternate internal representation might have been months since Epoch.
 ###########################################################
 
-as.zoo.ts <- function(x, 
-   timeclass = if (frequency(x) == 12) "yearmon" else "numeric", ...)
-{
-  tt <- unclass(time(x))
-  tt <- eval(parse(text=paste("as", timeclass, sep = ".")))(tt)
-  zoo(coredata(x), tt)
-} 
+#Z# this was moved to other files and probably can be eliminated
+#Z# 
+#Z# as.zoo.ts <- function(x, 
+#Z#    timeclass = if (frequency(x) == 12) "yearmon" else "numeric", ...)
+#Z# {
+#Z#   tt <- unclass(time(x))
+#Z#   tt <- eval(parse(text=paste("as", timeclass, sep = ".")))(tt)
+#Z#   zoo(coredata(x), tt)
+#Z# } 
 
-as.yearmon <- function(x) UseMethod("as.yearmon")
-as.yearmon.numeric <- function(x, unit = "year") switch(unit,
-	year = structure(x, class = "yearmon"),
-	month = structure(x/12, class = "yearmon"))
-as.yearmon.integer <- function(x, unit = "year") switch(unit,
-	year = structure(x, class = "yearmon"),
-	month = structure(x/12, class = "yearmon"))
-as.yearmon.default <- function(x) 
-  structure( with(as.POSIXlt(x,tz="GMT"), 1900+year+mon/12), 
-	class = "yearmon")
-as.Date.yearmon <- function(x, ...) {
-	x <- unclass(x)
-	year <- floor(x + .001)
-	month <- floor(12 * (x - year) + 1 + .5 + .001)
-	as.Date(paste(year, month, 1, sep = "-"))
-}
-format.yearmon <- function (x, format = "%b %Y", ...) 
-{
-    xx <- format(as.Date(x), format = format, ...)
-    names(xx) <- names(x)
-    xx
-}
-as.character.yearmon <- function(x) format(x)
-print.yearmon <- function(x, ...) { 
-	print(format(x), ...)
-	invisible(x) 
-}
-"[.yearmon" <- function (x, ..., drop = TRUE) 
-{
-    cl <- oldClass(x)
-    class(x) <- NULL
-    val <- NextMethod("[")
-    class(val) <- cl
-    val
-}
-axis.yearmon <- function (side, x, at, format, ...) 
-	axis.Date(side, as.Date(x), at, format, ...)
+#Z# as.yearmon <- function(x) UseMethod("as.yearmon")
+#Z# as.yearmon.numeric <- function(x, unit = "year") switch(unit,
+#Z# 	year = structure(x, class = "yearmon"),
+#Z# 	month = structure(x/12, class = "yearmon"))
+#Z# as.yearmon.integer <- function(x, unit = "year") switch(unit,
+#Z# 	year = structure(x, class = "yearmon"),
+#Z# 	month = structure(x/12, class = "yearmon"))
+#Z# as.yearmon.default <- function(x) 
+#Z#   structure( with(as.POSIXlt(x,tz="GMT"), 1900+year+mon/12), 
+#Z# 	class = "yearmon")
+#Z# as.Date.yearmon <- function(x, ...) {
+#Z# 	x <- unclass(x)
+#Z# 	year <- floor(x + .001)
+#Z# 	month <- floor(12 * (x - year) + 1 + .5 + .001)
+#Z# 	as.Date(paste(year, month, 1, sep = "-"))
+#Z# }
+#Z# format.yearmon <- function (x, format = "%b %Y", ...) 
+#Z# {
+#Z#     xx <- format(as.Date(x), format = format, ...)
+#Z#     names(xx) <- names(x)
+#Z#     xx
+#Z# }
+#Z# as.character.yearmon <- function(x) format(x)
+#Z# print.yearmon <- function(x, ...) { 
+#Z# 	print(format(x), ...)
+#Z# 	invisible(x) 
+#Z# }
+#Z# "[.yearmon" <- function (x, ..., drop = TRUE) 
+#Z# {
+#Z#     cl <- oldClass(x)
+#Z#     class(x) <- NULL
+#Z#     val <- NextMethod("[")
+#Z#     class(val) <- cl
+#Z#     val
+#Z# }
+#Z# axis.yearmon <- function (side, x, at, format, ...) 
+#Z# 	axis.Date(side, as.Date(x), at, format, ...)
 
 
 ###########################################################
@@ -196,8 +198,10 @@ function (formula, data = NULL, subset = NULL, na.action = na.omit,
 # since this file is intended to be sourced on top of zoo we just
 # assign model.frame.zoo and model.frame.ts to the new names but they
 # should actually be replaced in the final code
-model.frame.zooformula <- model.frame.zoo
-model.frame.tsformula <- model.frame.ts
+
+#Z# these are not present in zoo anymore
+#Z# model.frame.zooformula <- model.frame.zoo
+#Z# model.frame.tsformula <- model.frame.ts
 
 # example
 # x <- y <- zoo(1:10)^4

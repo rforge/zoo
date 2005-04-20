@@ -7,13 +7,13 @@
   following genric functions are assumed to work: combining \code{c()},
   querying length \code{length()}, subsetting \code{[}, ordering
   \code{ORDER()} and value matching \code{MATCH()}. For pretty
-  printing a \code{as.character} and/or \code{index2char} method
+  printing an \code{as.character} and/or \code{index2char} method
   might be helpful.\\[0.5cm]
 
 \multicolumn{2}{l}{\textbf{Creation of regular series}} \\
 \code{zoo(x, order.by, freq)} & works as above but creates a \code{"zooreg"}
-  object which inherits from \code{"zoo"} if the \code{freq} complies
-  with the index \code{order.by}. A \code{as.numeric} method has to be
+  object which inherits from \code{"zoo"} if the frequency \code{freq} complies
+  with the index \code{order.by}. An \code{as.numeric} method has to be
   available for the index class.\\
 \code{zooreg(x, start, end, freq)} & creates a \code{"zooreg"} series
   with a numeric index as above and has (almost) the same interface as

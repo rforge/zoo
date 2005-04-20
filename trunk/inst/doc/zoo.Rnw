@@ -13,8 +13,9 @@
   Indexed Totally Ordered Observations}
 
 \Keywords{totally ordered observations, irregular time series,
-  \proglang{S3}, \proglang{R}}
-\Plainkeywords{totally ordered observations, irregular time series, S3, R}
+  regular time series, \proglang{S3}, \proglang{R}}
+\Plainkeywords{totally ordered observations, irregular time series,
+  regular time series, S3, R}
 
 \Abstract{
   \pkg{zoo} is an \proglang{R} package providing an \proglang{S3}
@@ -36,7 +37,7 @@
 
 \SweaveOpts{engine=R,eps=FALSE}
 %\VignetteIndexEntry{zoo: An S3 Class and Methods for Indexed Totally Ordered Observations}
-%\VignetteDepends{zoo,tseries,fBasics,strucchange,DAAG}
+%\VignetteDepends{zoo,tseries,fCalendar,strucchange,DAAG}
 %\VignetteKeywords{totally ordered observations, irregular time series, S3, R}
 %\VignettePackage{zoo}
 
@@ -45,7 +46,7 @@
 library(zoo)
 library(tseries)
 library(strucchange)
-library(fBasics)
+library(fCalendar)
 online <- FALSE ## if set to FALSE the local copy of LU.rda
                 ## is used instead of get.hist.quote()
 options(prompt = "R> ")
@@ -62,7 +63,7 @@ computational finance with \proglang{R} over the last years
 several implementations of classes for irregular time series 
 emerged which are aimed particularly at finance applications.
 These include the \proglang{S3} classes \code{"timeSeries"}
-in package \pkg{fBasics} from the \pkg{Rmetrics} bundle \citep{zoo:fBasics:2004}
+in package \pkg{fCalendar} from the \pkg{Rmetrics} bundle \citep{zoo:fCalendar:2004}
 and \code{"irts"} in package \pkg{tseries} \citep{zoo:tseries:2005}
 and the \proglang{S4} class \code{"its"} in package \pkg{its} \citep{zoo:its:2004}.
 With these packages available, why would anybody want yet another 
@@ -85,14 +86,14 @@ the most important design goal. While the package evolved to its current
 status, a second key design goal became more and more clear: to provide
 methods to standard generic functions for the \code{"zoo"} class that 
 are similar to those for the \code{"ts"} class (and base \proglang{R} in
-general) such that the usage of \pkg{zoo} is rather intuitive because
+general) such that the usage of \pkg{zoo} is very intuitive because
 few additional commands have to be learned. 
 This paper describes how these design goals are implemented in \pkg{zoo}.
 The resulting package provides the \code{"zoo"} class which offers an
 extensive (and still growing) set of standard and new methods for working
-on indexed observations and `talks' to the classes \code{"ts"}, \code{"its"},
-\code{"irts"} and \code{"timeSeries"}. In particular, it bridges the gap
-between regular and irregular time series by providing coercion with (almost)
+with indexed observations and `talks' to the classes \code{"ts"}, \code{"its"},
+\code{"irts"} and \code{"timeSeries"}. It also bridges the gap
+between regular and irregular time series by providing coercion with (virtually)
 no loss of information between \code{"ts"} and \code{"zoo"}.
 
 The remainder of the paper is organized as follows:
@@ -117,7 +118,7 @@ regular \code{"zoo"} series, i.e., series which have an index with a specified
 frequency, is discussed. The methods illustrated in the remainder of the
 section are mostly the same for both \code{"zoo"} and \code{"zooreg"} objects
 and hence do not have to be discussed separately. The few differences in merging and
-binding are briefly highlighted in the corresponding subsection.
+binding are briefly highlighted in Section~\ref{sec:merge}.
 
 
 \subsection[Creation of "zoo" objects]{Creation of \code{"zoo"} objects}
@@ -154,20 +155,20 @@ effort in the design was put into independence from a particular class for
 the index vector. In \pkg{zoo}, it is assumed that combination \code{c()},
 querying the \code{length()}, value matching \code{MATCH()}, subsetting \code{[,},
 and, of course, ordering \code{ORDER()} work when applied to the index. 
-In addition, a \code{as.character()} method might improve printed output\footnote{If
-a \code{as.character()} method is already defined, but gives not the desired
-output for printing, then a \code{index2char()} method can be defined. This is a
-generic convenience function used for creating character representation of the
+In addition, an \code{as.character()} method might improve printed output\footnote{If
+an \code{as.character()} method is already defined, but gives not the desired
+output for printing, then an \code{index2char()} method can be defined. This is a
+generic convenience function used for creating character representations of the
 index vector and it defaults to using \code{as.character()}.}
 and \code{as.numeric()} could be used for computing distances between indexes, e.g.,
 in interpolation. Both methods are not necessary for working with \code{"zoo"} 
 objects but could be used if available.
 All these methods are available, e.g., for standard numeric and character vectors and for
 vectors of classes \code{"Date"}, \code{"POSIXct"} or \code{"times"}
-from package \pkg{chron}, but not for the class \code{"dateTime"} in \pkg{fBasics}.
+from package \pkg{chron}, but not for the class \code{"dateTime"} in \pkg{fCalendar}.
 In the last case, the solution is to provide methods for the above mentioned
 functions so that indexing \code{"zoo"} objects with \code{"dateTime"} vectors works
-(see Section~\ref{sec:fBasics} for an example).
+(see Section~\ref{sec:fCalendar} for an example).
 To achieve this  independence of the index class, new generic functions for
 ordering (\code{ORDER()}) and value matching (\code{MATCH()}) are introduced
 as the corresponding base functions \code{order()} and \code{match()} are 
@@ -206,7 +207,7 @@ Z <- zoo(Z.data, Z.index)
 @
 In the examples above, the generation of indexes looks a bit awkward
 due to the fact the indexes need to be randomly generated (and there 
-are no special functions for random indexes because these is rarely 
+are no special functions for random indexes because these are rarely 
 needed in practice). In ``real world'' applications, the indexes
 are typically part of the raw data set read into \proglang{R} so the
 code would be even simpler. See Section~\ref{sec:combining}
@@ -238,16 +239,16 @@ Above, we have illustrated that \code{"zoo"} series can be indexed like vectors
 or matrices respectively, i.e., with integers correponding to their observation
 number (and column number). But for indexed observations, one would obviously also
 like to be able to index with the index class. This is also available in \code{[}
-which only uses vector/matrix-type subsetting if the index is of class
+which only uses vector/matrix-type subsetting if its first argument is of class
 \code{"numeric"}, \code{"integer"} or \code{"logical"}.
 
 <<subset>>=
 z1[ISOdatetime(2004, 1, c(14, 25), 0, 0, 0)]
 @
 
-To subset with a numeric index, the index has to be either insulated in \code{I()}
+If the index class happens to be \code{"numeric"}, the index has to be either insulated in \code{I()}
 like \code{z[I(i)]} or the subsetting function \code{[[} can be used \code{z[[i]]}
-which always subsets with the index class.
+which always subsets based on the index class.
 
 Summaries and most other methods for \code{"zoo"} objects are carried out
 column wise, reflecting the rectangular structure. In addition,
@@ -290,7 +291,7 @@ zooreg(data, start, end, frequency, deltat, ts.eps, order.by)
 
 If \code{zoo()} is called as in the previous section but with an additional
 \code{frequency} argument, it is checked whether \code{frequency} complies
-with the index \code{order.by} and if it does an object of class \code{"zooreg"}
+with the index \code{order.by}: if it does an object of class \code{"zooreg"}
 inheriting from \code{"zoo"} is returned. The command \code{zooreg()} takes mostly
 the same arguments as \code{ts()} and the whole function is in fact almost identical
 to \code{ts()}.\footnote{Only if \code{order.by}
@@ -300,7 +301,7 @@ the latter will only create numeric indexes whereas the former only requires tha
 the index can be coerced to a numeric vector (for checking its regularity).\footnote{An
 application of non-numeric indexes for regular series are the classes \code{"yearmon"}
 and \code{"yearqtr"} which are designed for monthly and quarterly series respectively
-and are discussed in Section~\ref{sec:combining}.}
+and are discussed in Section~\ref{sec:yearmon}.}
 
 The following calls yield equivalent series
 
@@ -355,8 +356,8 @@ For strictly regular series with numeric index, the class can be switched
 between \code{"zoo"} and \code{"ts"} without loss of information.
 
 <<zooreg5>>=
-as.ts.zoo(zr1) #FIXME#
-identical(zr2, as.zoo(as.ts.zoo(zr2)))
+as.ts(zr1)
+identical(zr2, as.zoo(as.ts(zr2)))
 @
 
 This enables direct use of functions such as \code{acf}, \code{arima}, \code{stl} etc. on \code{"zooreg"}
@@ -381,13 +382,36 @@ but can also display all series in a single panel
 <<plot2,eval=FALSE>>=
 plot(Z, plot.type = "single", col = 2:4)
 @
+
+\begin{figure}[b!]
+\begin{center}
+<<plot2-repeat,fig=TRUE,height=4,width=6,echo=FALSE>>=
+<<plot2>>
+@
+\caption{\label{fig:plot2} Example of a single panel plot}
+\end{center}
+\end{figure}
+
+\begin{figure}[p]
+\begin{center}
+<<plot1-repeat,fig=TRUE,height=5,width=6,echo=FALSE>>=
+<<plot1>>
+@
+<<plot3,fig=TRUE,height=5,width=6,echo=FALSE>>=
+plot(Z, type = "b", lty = 1:3, pch = list(Aa = 1:5, Bb = 2, Cc = 4), col = list(Bb = 2, 4))
+@
+\caption{\label{fig:plot13} Examples of multiple panel plots}
+\end{center}
+\end{figure}
+
+
 In both cases additional graphical parameters like color \code{col},
 plotting character \code{pch} and line type \code{lty} can be
 expanded to the number of series. But the \code{plot} method for
 \code{"zoo"} objects offers some more flexibility in specification
 of graphical parameters as in
-<<plot3,eval=FALSE>>=
-plot(Z, type = "b", lty = 1:3, pch = list(Aa = 1:5, Bb = 2, Cc = 4), col = list(Bb = 2, 4))
+<<plot3-repeat,eval=FALSE>>=
+<<plot3>>
 @
 The argument \code{lty} behaves as before and sets every series in another
 line type. The \code{pch} argument is a named list that assigns to each series
@@ -398,28 +422,6 @@ is then used which can again be changed: e.g., in the above example the \code{co
 is set to display the series \code{"Bb"} in red and all remaining series in blue.
 The results of the multiple panel plots are depicted in Figure~\ref{fig:plot13} and the
 single panel plot in \ref{fig:plot2}.
-
-\begin{figure}[tbh]
-\begin{center}
-<<plot2-repeat,fig=TRUE,height=4,width=6,echo=FALSE>>=
-<<plot2>>
-@
-\caption{\label{fig:plot2} Example of a single panel plot}
-\end{center}
-\end{figure}
-
-
-\begin{figure}[p]
-\begin{center}
-<<plot1-repeat,fig=TRUE,height=5,width=6,echo=FALSE>>=
-<<plot1>>
-@
-<<plot3-repeat,fig=TRUE,height=5,width=6,echo=FALSE>>=
-<<plot3>>
-@
-\caption{\label{fig:plot13} Examples of multiple panel plots}
-\end{center}
-\end{figure}
 
 
 \subsection{Merging and binding}
@@ -433,6 +435,8 @@ indexes may not overlap.
 <<rbind>>=
 rbind(z1[5:10], z1[2:3])
 @
+The \code{c} method simply calls \code{rbind} and hence behaves in the same way.
+
 The \code{cbind} method by default combines the columns by the union of
 the indexes and fills the created gaps by \code{NA}s.
 <<cbind>>=
@@ -458,7 +462,7 @@ coerce the indexes. Merging objects with different index classes is
 generally discouraged---if it is used nevertheless, it is the
 responsibility of the user to ensure that the result is as intended.
 If at least one of the merged/binded objects was a \code{"zooreg"} 
-object, then the corresponding method tries to return a \code{"zooreg"}
+object, then \code{merge} tries to return a \code{"zooreg"}
 object. This is done by assessing whether there is a common maximal 
 frequency and by checking whether the resulting index is still
 (weakly) regular.
@@ -469,7 +473,7 @@ first argument (if it is of the same length). Scalars are always added for
 the full index without missing values.
 
 <<merge2>>=
-merge(z1, pi, 1:10, all = FALSE)
+merge(z1, pi, 1:10)
 @
 
 Another function which performs operations along a subset of indexes
@@ -505,7 +509,7 @@ z1 < z2
 @
 
 Additionally, methods for transposing \code{t} of \code{"zoo"}
-objects---which coerces to a matrix before, see below---and 
+objects---which coerces to a matrix before---and 
 computing cumulative quantities such as
 \code{cumsum}, \code{cumprod}, \code{cummin}, \code{cummax}
 which are all applied column wise.
@@ -601,7 +605,8 @@ merge(z1, lag(z1, k = 1))
 diff(z1)
 @
 
-
+%Z% currently needed
+\newpage
 
 \subsection[Coercion to and from "zoo"]{Coercion to and from \code{"zoo"}}
 \label{sec:as.zoo}
@@ -613,7 +618,7 @@ class.\footnote{Coercion from \code{"zoo"} to \code{"irts"} is contained in the
 \pkg{tseries} package.}
 
 Coercion between \code{"zooreg"} and \code{"zoo"} is also available and is essentially
-dropping or trying to add a \code{"frequency"} attribute.
+dropping the \code{"frequency"} attribute or trying to add one, respectively.
 
 
 Furthermore, \code{"zoo"} objects can be coerced to vectors, matrices, lists and
@@ -639,13 +644,13 @@ function \code{approx}) and the name of the latter
 stands for \underline{l}ast \underline{o}bservation \underline{c}arried
 \underline{f}orward. It replaces missing observations by the most recent
 non-\code{NA} prior to it. Leading \code{NA}s, which cannot be replaced
-by precious observations, are removed in both functions by default.
+by previous observations, are removed in both functions by default.
 
 <<na>>=
 z1[sample(1:10, 3)] <- NA
 z1
 na.omit(z1)
-na.contiguous.zoo(z1) #FIXME#
+na.contiguous(z1)
 na.approx(z1)
 na.approx(z1, 1:NROW(z1))
 na.locf(z1)
@@ -701,7 +706,9 @@ The main purpose of the package \pkg{zoo} is to provide basic infrastructure for
 working with indexed totally ordered observations that can be either employed by
 users directly or can be a basic ingredient on top of which other packages can
 build. The latter is illustrated with a few brief examples involving the packages
-\pkg{strucchange}, \pkg{tseries}, \pkg{fBasics} and \pkg{stats} in this section.
+\pkg{strucchange}, \pkg{tseries} and \pkg{fCalendar} in this section. Finally, the 
+classes \code{"yearmon"} and \code{"yearqtr"} (provided in \pkg{zoo})
+are used for illustrating how \pkg{zoo} can be extended by creating a new index class.
 
 \subsection[strucchange: Empirical fluctuation processes]{\pkg{strucchange}: Empirical fluctuation processes}
 \label{sec:strucchange}
@@ -716,12 +723,12 @@ observations is required. This was the motivation for starting the \pkg{zoo}
 project.
 
 A simple example for the need of \code{"zoo"} objects in \pkg{strucchange}
-which is not (easily) be implemented by other irregular time series classes
-available on CRAN is described in the following. We assess the constancy of the
+which can not be (easily) implemented by other irregular time series classes
+available in \proglang{R} is described in the following. We assess the constancy of the
 electrical resistance over the apparent juice content of kiwi fruits.\footnote{A different
 approach would be to test whether the slope of a regression of electrical resistance
 on juice content changes with increasing juice content, i.e., to test for
-instabilities in \code{ohms \~ juice} instead of \code{ohms \~ 1}. Both lead to 
+instabilities in \code{ohms \~{} juice} instead of \code{ohms \~{} 1}. Both lead to 
 similar results.} The data
 set \code{fruitohms} is contained in the \pkg{DAAG} package \citep{zoo:DAAG:2004}.
 The fitted \code{ocus} object contains the OLS-based CUSUM process for the mean
@@ -735,16 +742,7 @@ data(fruitohms)
 ocus <- gefp(ohms ~ 1, order.by = ~ juice, data = fruitohms)
 @
 
-This OLS-based CUSUM process can be visualized using the \code{plot} method
-for \code{"gefp"} objects which builds on the \code{"zoo"} method and yields in
-this case the plot in Figure~\ref{fig:strucchange} showing the process which
-crosses its 5\% critical value and 
-thus signals a significant decrease in the mean electrical resistance over the
-juice content. for more information on the package \pkg{strucchange} and the 
-function \code{gefp} see \cite{zoo:Zeileis+Leisch+Hornik:2002} and 
-\cite{zoo:Zeileis:2004}.
-
-\begin{figure}
+\begin{figure}[h!]
 \begin{center}
 <<strucchange2,fig=TRUE,height=4,width=6>>=
 plot(ocus)
@@ -752,6 +750,15 @@ plot(ocus)
 \caption{\label{fig:strucchange} Empirical M-fluctuation process for \code{fruitohms} data}
 \end{center}
 \end{figure}
+
+This OLS-based CUSUM process can be visualized using the \code{plot} method
+for \code{"gefp"} objects which builds on the \code{"zoo"} method and yields in
+this case the plot in Figure~\ref{fig:strucchange} showing the process which
+crosses its 5\% critical value and 
+thus signals a significant decrease in the mean electrical resistance over the
+juice content. For more information on the package \pkg{strucchange} and the 
+function \code{gefp} see \cite{zoo:Zeileis+Leisch+Hornik:2002} and 
+\cite{zoo:Zeileis:2004}.
 
 
 \subsection[tseries: Historical financial data]{\pkg{tseries}: Historical financial data}
@@ -763,7 +770,8 @@ daily (or higher frequent) financial data. The package \pkg{tseries} provides
 the function \code{get.hist.quote} for obtaining historical financial data
 by querying Yahoo! Finance at \url{http://finance.yahoo.com/},
 an online portal quoting data provided by Reuters. The following code
-queries the quotes of Lucent Technologies starting from 2001-01-01:
+queries the quotes of Lucent Technologies starting from 2001-01-01
+until 2004-09-30:
 
 <<tseries1,eval=FALSE>>=
 library(tseries)
@@ -795,7 +803,7 @@ index(LU) <- as.Date(index(LU))
 LU <- na.omit(LU)
 @
 
-\begin{figure}
+\begin{figure}[h!]
 \begin{center}
 <<tseries3,fig=TRUE,height=8,width=6>>=
 plot(diff(log(LU)))
@@ -805,17 +813,17 @@ plot(diff(log(LU)))
 \end{figure}
 
 
-\subsection[fBasics: Indexes of class "timeDate"]{\pkg{fBasics}: Indexes of class \code{"timeDate"}}
-\label{sec:fBasics}
+\subsection[fCalendar: Indexes of class "timeDate"]{\pkg{fCalendar}: Indexes of class \code{"timeDate"}}
+\label{sec:fCalendar}
 
 Although the methods in \pkg{zoo} work out of the box for many index classes,
 it might be necessary for some index classes to provide \code{c}, \code{length},
 \code{ORDER} and \code{MATCH} methods such that the methods in \pkg{zoo} 
 work properly. An example for such an index class which requires a bit more
-attention is \code{"timeDate"} from the \pkg{fBasics} package.
+attention is \code{"timeDate"} from the \pkg{fCalendar} package.
 
 But after the necessary methods have been defined
-<<fBasics1>>=
+<<fCalendar1>>=
 length.timeDate <- function(x) prod(x@Dim)
 ORDER.timeDate <- function(x, ...) order(as.POSIXct(x), ...)
 MATCH.timeDate <- function(x, table, nomatch = NA, ...)
@@ -824,8 +832,8 @@ MATCH.timeDate <- function(x, table, nomatch = NA, ...)
 the class \code{"timeDate"} can be used for indexing \code{"zoo"} objects.
 The following example illustrates how \code{z2} can be transformed
 to use the \code{"timeDate"} class.
-<<fBasics2>>=
-library(fBasics)
+<<fCalendar2>>=
+library(fCalendar)
 z2td <- zoo(coredata(z2), timeDate(index(z2), FinCenter = "GMT"))
 z2td
 @
@@ -841,17 +849,17 @@ but slightly different focus: it describes how new index classes can be created
 addressing a certain type of indexes. These classes are \code{"yearmon"} and
 \code{"yearqtr"} (already contained in \pkg{zoo}) which provide indexes for
 monthly and quarterly data respectively.
-As the code is virtually identical for both classes, except that one has the 
-frequency 12 and the other 4, we will only discuss \code{"yearmon"} explicitly.
+As the code is virtually identical for both classes---except that one has the 
+frequency 12 and the other 4---we will only discuss \code{"yearmon"} explicitly.
 
 Of course, monthly data can simply be stored using a numeric index just
 as the class \code{"ts"} does. The problem is that this does not have the meta-information
 attached that this is really specifying monthly data which is in \code{"yearmon"}
 simply added by a class attribute. Hence, the class creator is simply defined as
 
-<<yearmon1,eval=FALSE>>=
+\begin{Scode}
 yearmon <- function(x) structure(floor(12*x + .0001)/12, class = "yearmon")
-@  
+\end{Scode}
 
 which is very similar to the \code{as.yearmon} coercion functions provided.
 
@@ -865,7 +873,7 @@ working with monthly data in \pkg{zoo}. Note, that all of these methods are
 very simple and rather obvious (as can be seen in the \pkg{zoo} sources), but prove
 very helpful in the following examples.
 
-First, we transform the index of the regular series \code{zr2} created in Section~\ref{sec:zooreg}
+First, we transform the index of the regular series \code{zr2}
 to \code{"yearmon"} to improve printing.
 
 <<yearmon2>>=
@@ -915,7 +923,7 @@ series, a \code{"frequency"} attribute is stored in addition. Therefore, objects
 be transformed into \code{"zoo"} objects---the reverse transformation is also possible 
 provided that the index fulfills the restrictions of the respective class.
 Hence, the \code{"zoo"} class can also be used as the basis for other
-classes of indexed and objects and more specific functionality can be built on
+classes of indexed observations and more specific functionality can be built on
 top of it. Furthremore, it bridges the gap between irregular and regular series,
 facilitating operations such as \code{NA} handling compared to \code{"ts"}.
 
@@ -935,7 +943,7 @@ The results in this paper were obtained using \proglang{R}
 \Sexpr{paste(R.Version()[6:7], collapse = ".")} with the packages
 \pkg{zoo} \Sexpr{gsub("-", "--", packageDescription("zoo")$Version)},
 \pkg{strucchange} \Sexpr{gsub("-", "--", packageDescription("strucchange")$Version)},
-\pkg{fBasics} \Sexpr{gsub("-", "--", packageDescription("fBasics")$Version)},
+\pkg{fCalendar} \Sexpr{gsub("-", "--", packageDescription("fCalendar")$Version)},
 \pkg{tseries} \Sexpr{gsub("-", "--", packageDescription("tseries")$Version)} and
 \pkg{DAAG} \Sexpr{gsub("-", "--", packageDescription("DAAG")$Version)}.
 \proglang{R} itself and all packages used are available from

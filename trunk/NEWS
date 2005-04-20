@@ -28,7 +28,7 @@ Changes in Version 0.9-9
   o when plot.zoo used with one series list(...) can be omitted from 
     various plotting parameter arguments
 
-  o print.zoo fix for R 2.1.0
+  o print.zoo documentation fix for R 2.1.0
 
   o yearmon and yearqtr datetime classes
 
