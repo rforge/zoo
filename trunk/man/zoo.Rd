@@ -7,8 +7,6 @@
 \alias{str.zoo}
 \alias{is.zoo}
 \alias{[.zoo}
-\alias{[[.zoo}
-\alias{[[<-.zoo}
 \alias{head.zoo}
 \alias{tail.zoo}
 \alias{Ops.zoo}
@@ -104,7 +102,7 @@ respective help page and \code{\link{is.regular}} for further details.
 
 Methods to standard generics for \code{"zoo"} objects currently
 include: \code{print} (see above), \code{summary}, \code{str}, \code{head},
-\code{tail}, \code{[} and \code{[[} (subsetting), \code{rbind}, \code{cbind}, \code{merge}
+\code{tail}, \code{[} (subsetting), \code{rbind}, \code{cbind}, \code{merge}
 (see \code{\link{merge.zoo}}), \code{aggregate} (see \code{\link{aggregate.zoo}}),
 \code{plot} and \code{lines} (see \code{\link{plot.zoo}}).
 
@@ -120,8 +118,7 @@ indexes of type \code{"numeric"}, \code{"integer"} or \code{"logical"}. But
 additionally, it can be used to index with observations from the index class of
 the series. If the index class of the series is one of the three classes above,
 the corresponding index has to be encapsulated in \code{I()} to enforce usage of
-the index class (see examples). The subsetting method \code{[[} always expects
-observations from the index class for indexing.
+the index class (see examples).
 
 Additionally, \code{zoo} provides several generic functions and methods
 to work (a) on the data contained in a \code{"zoo"} object, (b) the
@@ -191,7 +188,6 @@ time(x)
 x[c(2, 4)]
 ## subsetting with index class
 x[as.Date("2003-02-01") + c(2, 8)]
-x[[as.Date("2003-02-01") + c(2, 8)]]
 
 ## different classes of indexes/times can be used, e.g. numeric vector
 x <- zoo(rnorm(5), c(1, 3, 7, 9, 14))
@@ -199,8 +195,6 @@ x <- zoo(rnorm(5), c(1, 3, 7, 9, 14))
 x[c(2, 4)]
 ## subsetting with index class can be enforced by I()
 x[I(c(3, 9))]
-## or by using [[
-x[[c(3, 9)]]
 
 ## visualization
 plot(x)

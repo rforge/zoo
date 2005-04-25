@@ -5,7 +5,7 @@ rapply <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE,
 rapply.zoo <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE,
   align = c("center", "left", "right"), ...) {
     itt <- 0
-    embedi <- function(n,k,by=1,ascending=FALSE) {
+    embedi <- function(n, k, by = 1, ascending = FALSE) {
     # n = no of time points, k = number of columns
     # by = increment. normally =1 but if =b calc every b-th point 
     # ascending If TRUE, points passed in ascending order else descending.

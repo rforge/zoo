@@ -1,21 +1,10 @@
-#Z# changes in yearmon: it seemed a bit unclear to me
-#Z# whether yearmon should be an extension of the "Date"
-#Z# class or an extension of "numeric" vectors. From the docs
-#Z# it seemed to be clearly the latter. Hence, my modifications
-#Z# are such that
-#Z# - underlying scale is always numeric (not Date)
-#Z# - scale is always forced to be floor(12*x + .0001)/12
-#Z# - I think the unit argument shouldn't be supported, it's equally 
-#Z#   simple to do as.numeric(x/12) and as.numeric(x, unit = "month")
-#Z# - the default Date is the first of the month
-
 ## class creation
 yearmon <- function(x) structure(floor(12*x + .0001)/12, class = "yearmon")
 
 ## coercion to yearmon: always go via numeric
 as.yearmon <- function(x, ...) UseMethod("as.yearmon")
 as.yearmon.default <- function(x, ...) as.yearmon(as.numeric(x))
-as.yearmon.numeric <- function(x, ...) structure(floor(12*x + .0001)/12, class = "yearmon")
+as.yearmon.numeric <- function(x, ...) structure(floor(12*x + .001)/12, class = "yearmon")
 as.yearmon.integer <- function(x, ...) structure(x, class = "yearmon")
 
 ## coercion from yearmon
@@ -35,7 +24,7 @@ as.character.yearmon <- function(x) format.yearmon(x)
 
 ## other methods for class yearmon
 c.yearmon <- function(...)
-    structure(do.call("c", lapply(list(...), as.numeric)), class = "yearmon")
+    as.yearmon(do.call("c", lapply(list(...), as.numeric)))
 
 format.yearmon <- function (x, format = "%b %Y", ...) 
 {
@@ -61,20 +50,8 @@ print.yearmon <- function(x, ...) {
 axis.yearmon <- function (side, x, at, format, ...) 
     axis.Date(side, as.Date(x), at, format, ...)
 
-## previous version: 
-##
-## as.yearmon.yearqtr <- function(x, ...) as.yearmon(as.Date(x))
-## as.yearmon.numeric <- function(x, unit = "year", ...) switch(unit,
-##	year = structure(x, class = "yearmon"),
-##	month = structure(x/12, class = "yearmon"))
-## as.yearmon.integer <- function(x, unit = "year", ...) switch(unit,
-##	year = structure(x, class = "yearmon"),
-##	month = structure(x/12, class = "yearmon"))
-## as.yearmon.default <- function(x, ...) 
-##  as.yearmon(as.Date(x))
-## as.yearmon.yearmon <- function(x, ...) x
-##
-## MATCH.yearmon <- function(x, table, nomatch = NA, ...)
-## 	match(as.Date(x), as.Date(table), nomatch = nomatch, ...)
+MATCH.yearmon <- function(x, table, nomatch = NA, ...)
+    match(floor(12*x + .001), floor(12*table + .001), nomatch = nomatch, ...)
 
-
+Ops.yearmon <- function(e1, e2)
+    as.yearmon(NextMethod(.Generic))

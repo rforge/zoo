@@ -13,6 +13,7 @@
 \alias{as.zooreg.zoo}
 \alias{index<-.zooreg}
 \alias{time<-.zooreg}
+\alias{lag.zooreg}
 
 \title{Regular zoo Series}
 
@@ -33,7 +34,7 @@ zooreg(data, start = 1, end = numeric(), frequency = 1,
     a vector of two integers, which specify a natural time unit
     and a (1-based) number of samples into the time unit.}
   \item{end}{the time of the last observation, specified in the same way
-    as 'start'.}
+    as \code{start}.}
   \item{frequency}{the number of observations per unit of time.}
   \item{deltat}{the fraction of the sampling period between successive
     observations; e.g., 1/12 for monthly data.  Only one of
@@ -47,6 +48,18 @@ zooreg(data, start = 1, end = numeric(), frequency = 1,
 }
 
 \details{
+Strictly regular series are those whose time points are equally spaced.
+Weakly regular series are strictly regular time series in which some
+of the points may have been removed but still have the original
+underlying frequency associated with them.
+\code{"zooreg"} is a subclass of \code{"zoo"} that is used to represent both weakly
+and strictly regular series. Internally, it is the same as \code{"zoo"} except 
+it also has a \code{"frequency"} attribute. Its index class is more restricted 
+than \code{"zoo"}. The index: 1. must be numeric or a class which can be coerced
+via \code{as.numeric} (such as \code{\link{yearmon}}, \code{\link{yearqtr}},
+\code{\link{Date}}, \code{\link{POSIXct}} etc.). 2. when converted to numeric
+and multiplied by the frequency it must be (equivalent to) an integer.
+
 \code{zooreg} is the \code{zoo} analogue to \code{\link{ts}}. The arguments
 are almost identical, only in the case where \code{order.by} is specified,
 \code{\link{zoo}} is called with \code{zoo(data, order.by, frequency)}. It
@@ -97,6 +110,11 @@ zoo(1:10, seq(1959.25, 1961.5, by = 0.25), frequency = 4)
 z <- zoo(1:10, yearqtr(seq(1959.25, 1961.5, by = 0.25)), frequency = 4)
 z
 z[-(3:4)]
+
+## create a regular series with a "Date" index
+zooreg(1:5, start = Sys.Date())
+## or with "yearmon" index
+zooreg(1:5, end = yearmon(2000))
 
 ## standard methods available for regular series
 frequency(z)

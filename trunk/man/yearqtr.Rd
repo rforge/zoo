@@ -14,6 +14,8 @@
 \alias{print.yearqtr}
 \alias{[.yearqtr}
 \alias{axis.yearqtr}
+\alias{MATCH.yearqtr}
+\alias{Ops.yearqtr}
 
 \title{An Index Class for Quaterly Data}
 \description{

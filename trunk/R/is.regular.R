@@ -42,6 +42,25 @@ frequency.zoo <- function(x, ...)
   return(freq)
 }
 
+"frequency<-" <- function(x, value)
+  UseMethod("frequency<-")
+  
+"frequency<-.zoo" <- function(x, value) {
+  ix <- try(as.numeric(index(x)))
+  freqOK <- if(class(ix) == "try-error") FALSE
+    else identical(all.equal(ix*value, round(ix*value)), TRUE)
+  stopifnot(freqOK)
+  attr(x, "frequency") <- value
+  class(x) <- c("zooreg", "zoo")
+  return(x)
+}
+
+"frequency<-.zooreg" <- function(x, value) {
+  stopifnot(identical(all.equal(as.numeric(index(x)) * value, round(as.numeric(index(x))*value)), TRUE))
+  attr(x, "frequency") <- value
+  return(x)
+}
+
 deltat.zoo <- function(x, ...)
 {
   rval <- frequency.zoo(x, ...)

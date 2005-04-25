@@ -1,6 +1,5 @@
 \name{index}
 \alias{index}
-\alias{index}
 \alias{index.default}
 \alias{index.zoo}
 \alias{index.ts}

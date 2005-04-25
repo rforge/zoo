@@ -247,8 +247,7 @@ z1[ISOdatetime(2004, 1, c(14, 25), 0, 0, 0)]
 @
 
 If the index class happens to be \code{"numeric"}, the index has to be either insulated in \code{I()}
-like \code{z[I(i)]} or the subsetting function \code{[[} can be used \code{z[[i]]}
-which always subsets based on the index class.
+like \code{z[I(i)]} or the  \code{window()} method can be used (see Section~\ref{sec:window}).
 
 Summaries and most other methods for \code{"zoo"} objects are carried out
 column wise, reflecting the rectangular structure. In addition,
@@ -293,12 +292,13 @@ If \code{zoo()} is called as in the previous section but with an additional
 \code{frequency} argument, it is checked whether \code{frequency} complies
 with the index \code{order.by}: if it does an object of class \code{"zooreg"}
 inheriting from \code{"zoo"} is returned. The command \code{zooreg()} takes mostly
-the same arguments as \code{ts()} and the whole function is in fact almost identical
-to \code{ts()}.\footnote{Only if \code{order.by}
+the same arguments as \code{ts()}.\footnote{Only if \code{order.by}
 is specified in the \code{zooreg()} call, then \code{zoo(x, order.by, frequency)}
-is called.} The main difference between \code{zoo()} and \code{zooreg()} is that
-the latter will only create numeric indexes whereas the former only requires that
-the index can be coerced to a numeric vector (for checking its regularity).\footnote{An
+is called.} 
+In both cases, the index class is more restricted than in the plain \code{"zoo"}
+case. The index must be of a class which can be coerced to \code{"numeric"} 
+(for checking its regularity) and when converted to numeric and multiplied by the
+frequency it must be (equivalent to) an integer.\footnote{An
 application of non-numeric indexes for regular series are the classes \code{"yearmon"}
 and \code{"yearqtr"} which are designed for monthly and quarterly series respectively
 and are discussed in Section~\ref{sec:yearmon}.}
@@ -327,6 +327,14 @@ frequency(zr1)
 
 This facilitates \code{NA} handling significantly compared to \code{"ts"} and makes
 \code{"zooreg"} a much more attractive data type, e.g., for time series regression.
+
+\code{zooreg()} can also deal with non-numeric indexes provided that adding \code{"numeric"}
+observations to the index class preserves the class and does not coerce to \code{"numeric"}.
+
+<<zooreg1b>>=
+zooreg(1:5, start = as.Date("2005-01-01"))
+@
+
 
 To check whether a certain series is (strictly) regular, the new generic function
 \code{is.regular(x, strict = FALSE)} can be used:
@@ -868,10 +876,10 @@ this can be exploited for coercion to other time classes such as \code{"Date"},
 \code{"POSIXct"} or \code{"POSIXlt"} which by default associate the first day
 within a month with a \code{"yearmon"} observation. Adding a \code{format}
 and \code{as.character} method produces human readable character representations
-of \code{"yearmon"} data and completes the methods needed for conveniently 
-working with monthly data in \pkg{zoo}. Note, that all of these methods are 
-very simple and rather obvious (as can be seen in the \pkg{zoo} sources), but prove
-very helpful in the following examples.
+of \code{"yearmon"} data and \code{Ops} and \code{MATCH} methods complete the
+methods needed for conveniently  working with monthly data in \pkg{zoo}. Note,
+that all of these methods are  very simple and rather obvious (as can be seen in
+the \pkg{zoo} sources), but prove very helpful in the following examples.
 
 First, we transform the index of the regular series \code{zr2}
 to \code{"yearmon"} to improve printing.

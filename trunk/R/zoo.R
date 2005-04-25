@@ -121,28 +121,6 @@ str.zoo <- function(object, ...)
   return(rval)
 }
 
-"[[.zoo" <- function(x, index, drop = TRUE, ...)
-{
-  if(!is.zoo(x)) stop("method is only for zoo objects")
-  x.index <- index.zoo(x)
-  if(missing(index)) index <- x.index
-  wi <- which(x.index %in% index)
-  return(x[wi,,drop=drop])
-}
-
-"[[<-.zoo" <- function(x, index, drop = TRUE, ..., value)
-{
-  if(!is.zoo(x)) stop("method is only for zoo objects")
-  x.index <- index.zoo(x)
-  if(missing(index)) index <- x.index
-  wi <- which(x.index %in% index)
-
-  if (length(dim(x)) == 0) x[wi] <- value
-    else x[wi,,drop=drop] <- value
-
-  return(x)
-}
-
 head.zoo <- function(x, n = 6, ...) {
 	if (length(dim(x)) == 0)
 		x[seq(length = min(n, length(x)))]

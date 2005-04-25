@@ -1,7 +1,5 @@
-#Z# for comments see yearmonth.R
-
 ## class creation
-yearqtr <- function(x) structure(floor(4*x + .0001)/4, class = "yearqtr")
+yearqtr <- function(x) structure(floor(4*x + .001)/4, class = "yearqtr")
 
 ## coercion to yearqtr: always go via numeric
 as.yearqtr <- function(x, ...) UseMethod("as.yearqtr")
@@ -26,7 +24,7 @@ as.character.yearqtr <- function(x) format.yearqtr(x)
 
 ## other methods for class yearqtr
 c.yearqtr <- function(...)
-    structure(do.call("c", lapply(list(...), as.numeric)), class = "yearqtr")
+    as.yearqtr(do.call("c", lapply(list(...), as.numeric)))
 
 format.yearqtr <- function(x, ...) 
 {
@@ -55,20 +53,8 @@ print.yearqtr <- function(x, ...) {
 axis.yearqtr <- function (side, x, at, format, ...) 
     axis.Date(side, as.Date(x), at, format, ...)
 
+MATCH.yearqtr <- function(x, table, nomatch = NA, ...)
+    match(floor(4*x + .001), floor(4*table + .001), nomatch = nomatch, ...)
 
-
-## previous version: 
-##
-## as.yearqtr.yearmon <- function(x, ...) as.yearqtr(as.Date(x))
-## as.yearqtr.numeric <- function(x, unit = "year", ...) switch(unit,
-## 	year = structure(floor(4*x+.0001) / 4, class = "yearqtr"),
-## 	quarter = structure((x+.0001)%/%4, class = "yearqtr"))
-## as.yearqtr.integer <- function(x, unit = "year", ...) switch(unit,
-## 	year = structure(x, class = "yearqtr"),
-## 	month = structure(x/4, class = "yearqtr"))
-## as.yearqtr.default <- function(x, ...) 
-##   as.yearqtr(as.Date(x))
-## as.yearqtr.yearqtr <- function(x, ...) x
-##
-## MATCH.yearqtr <- function(x, table, nomatch = NA, ...)
-##	match(as.Date(x), as.Date(table), nomatch = nomatch, ...)
+Ops.yearqtr <- function(e1, e2)
+    as.yearqtr(NextMethod(.Generic))
