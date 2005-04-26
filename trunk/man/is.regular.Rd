@@ -4,6 +4,9 @@
 \alias{is.regular.ts}
 \alias{is.regular.zooreg}
 \alias{is.regular.default}
+\alias{frequency<-}
+\alias{frequency<-.zoo}
+\alias{frequency<-.zooreg}
 
 \title{Check Regularity of a Series}
 
