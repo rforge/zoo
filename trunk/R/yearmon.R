@@ -6,6 +6,11 @@ as.yearmon <- function(x, ...) UseMethod("as.yearmon")
 as.yearmon.default <- function(x, ...) as.yearmon(as.numeric(x))
 as.yearmon.numeric <- function(x, ...) structure(floor(12*x + .001)/12, class = "yearmon")
 as.yearmon.integer <- function(x, ...) structure(x, class = "yearmon")
+as.yearmon.dates <- 
+as.yearmon.Date <- 
+as.yearmon.POSIXt <- function(x) 
+  structure(with(as.POSIXlt(x,tz="GMT"), 1900+year+mon/12), class = "yearmon")
+
 
 ## coercion from yearmon
 # returned Date is the fraction of the way through the period given by frac

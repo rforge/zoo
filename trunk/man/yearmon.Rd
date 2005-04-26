@@ -4,6 +4,9 @@
 \alias{as.yearmon.default} 
 \alias{as.yearmon.numeric}
 \alias{as.yearmon.integer}
+\alias{as.yearmon.dates}
+\alias{as.yearmon.Date}
+\alias{as.yearmon.POSIXt}
 \alias{as.Date.yearmon}
 \alias{as.POSIXct.yearmon}
 \alias{as.POSIXlt.yearmon}

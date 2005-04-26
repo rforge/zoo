@@ -4,6 +4,9 @@
 \alias{as.yearqtr.default} 
 \alias{as.yearqtr.numeric}
 \alias{as.yearqtr.integer}
+\alias{as.yearqtr.dates}
+\alias{as.yearqtr.Date}
+\alias{as.yearqtr.POSIXt}
 \alias{as.Date.yearqtr}
 \alias{as.POSIXct.yearqtr}
 \alias{as.POSIXlt.yearqtr}
