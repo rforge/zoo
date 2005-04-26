@@ -297,8 +297,9 @@ is specified in the \code{zooreg()} call, then \code{zoo(x, order.by, frequency)
 is called.} 
 In both cases, the index class is more restricted than in the plain \code{"zoo"}
 case. The index must be of a class which can be coerced to \code{"numeric"} 
-(for checking its regularity) and when converted to numeric and multiplied by the
-frequency it must be (equivalent to) an integer. Furthermore, adding/substracting
+(for checking its regularity) and when converted to numeric 
+the index must be expressable as multiples of 1/frequency. 
+Furthermore, adding/substracting
 a numeric to/from an observation of the index class, should return the correct value
 of the index class again, i.e., group generic functions \code{Ops} should be defined.\footnote{An
 application of non-numeric indexes for regular series are the classes \code{"yearmon"}
