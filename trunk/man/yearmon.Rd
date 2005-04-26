@@ -28,7 +28,7 @@
 yearmon(x)
 }
 \arguments{
-  \item{x}{numeric (interpreted as being \sQuote{in years}).}
+  \item{x}{numeric (interpreted as being \dQuote{in years}).}
 }
 \details{
   The yearmon class is used to represent monthly data. Internally it holds

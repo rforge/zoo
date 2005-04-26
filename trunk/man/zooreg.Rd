@@ -58,7 +58,10 @@ it also has a \code{"frequency"} attribute. Its index class is more restricted
 than \code{"zoo"}. The index: 1. must be numeric or a class which can be coerced
 via \code{as.numeric} (such as \code{\link{yearmon}}, \code{\link{yearqtr}},
 \code{\link{Date}}, \code{\link{POSIXct}} etc.). 2. when converted to numeric
-and multiplied by the frequency it must be (equivalent to) an integer.
+and multiplied by the frequency it must be (equivalent to) an integer. 3.
+group generic functions \code{\link{Ops}} should be defined, i.e.,
+adding/substracting a numeric to/from the index class should produce the correct
+value of the index class again.
 
 \code{zooreg} is the \code{zoo} analogue to \code{\link{ts}}. The arguments
 are almost identical, only in the case where \code{order.by} is specified,

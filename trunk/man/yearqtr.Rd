@@ -28,7 +28,7 @@
 yearqtr(x)
 }
 \arguments{
-  \item{x}{numeric (interpreted as being \sQuote{in years}).}
+  \item{x}{numeric (interpreted as being \dQuote{in years}).}
 }
 \details{
   The yearqtr class is used to represent quaterly data. Internally it holds

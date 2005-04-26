@@ -106,7 +106,7 @@ include: \code{print} (see above), \code{summary}, \code{str}, \code{head},
 (see \code{\link{merge.zoo}}), \code{aggregate} (see \code{\link{aggregate.zoo}}),
 \code{plot} and \code{lines} (see \code{\link{plot.zoo}}).
 
-To \sQuote{prettify} printed output of \code{"zoo"} series the generic 
+To \dQuote{prettify} printed output of \code{"zoo"} series the generic 
 function \code{index2char} is used for turning index values into character
 values. It defaults to using \code{as.character} but can be customized
 if a different printed display should be used (although this should not
@@ -132,7 +132,7 @@ using \code{coredata<-}. Both are new generic functions with methods for
 
 (b) The index associated with a \code{"zoo"} object can be extracted
 by \code{index} and modified by \code{index<-}. As the interpretation
-of the index as ``time'' in time series applications is more natural,
+of the index as \dQuote{time} in time series applications is more natural,
 there are also synonymous methods \code{time} and \code{time<-}. The
 start and the end of the index/time vector can be queried by
 \code{start} and \code{end}. See \code{\link{index}}.
