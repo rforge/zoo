@@ -8,8 +8,7 @@ as.yearmon.numeric <- function(x, ...) structure(floor(12*x + .001)/12, class = 
 as.yearmon.integer <- function(x, ...) structure(x, class = "yearmon")
 as.yearmon.dates <- 
 as.yearmon.Date <- 
-as.yearmon.POSIXt <- function(x) 
-  structure(with(as.POSIXlt(x,tz="GMT"), 1900+year+mon/12), class = "yearmon")
+as.yearmon.POSIXt <- function(x, ...) as.yearmon(with(as.POSIXlt(x, tz="GMT"), 1900 + year + mon/12))
 
 
 ## coercion from yearmon
@@ -56,7 +55,12 @@ axis.yearmon <- function (side, x, at, format, ...)
     axis.Date(side, as.Date(x), at, format, ...)
 
 MATCH.yearmon <- function(x, table, nomatch = NA, ...)
-    match(floor(12*x + .001), floor(12*table + .001), nomatch = nomatch, ...)
+    match(floor(12*as.numeric(x) + .001), floor(12*as.numeric(table) + .001), nomatch = nomatch, ...)
 
-Ops.yearmon <- function(e1, e2)
-    as.yearmon(NextMethod(.Generic))
+Ops.yearmon <- function(e1, e2) {
+    e1 <- as.numeric(e1)
+    e2 <- as.numeric(e2)
+    rval <- NextMethod(.Generic)
+    if(is.numeric(rval)) rval <- as.yearmon(rval)
+    return(rval)
+}

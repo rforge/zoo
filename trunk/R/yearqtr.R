@@ -8,7 +8,7 @@ as.yearqtr.numeric <- function(x, ...) structure(floor(4*x + .0001)/4, class = "
 as.yearqtr.integer <- function(x, ...) structure(x, class = "yearqtr")
 as.yearqtr.dates <-
 as.yearqtr.Date <- 
-as.yearqtr.POSIXt <- function(x, ...) as.yearqtr(as.yearmon(x))
+as.yearqtr.POSIXt <- function(x, ...) as.yearqtr(with(as.POSIXlt(x, tz="GMT"), 1900 + year + mon/4))
 
 ## coercion from yearqtr
 # returned Date is the fraction of the way through the period given by frac
@@ -57,7 +57,12 @@ axis.yearqtr <- function (side, x, at, format, ...)
     axis.Date(side, as.Date(x), at, format, ...)
 
 MATCH.yearqtr <- function(x, table, nomatch = NA, ...)
-    match(floor(4*x + .001), floor(4*table + .001), nomatch = nomatch, ...)
+    match(floor(4*as.character(x) + .001), floor(4*as.character(table) + .001), nomatch = nomatch, ...)
 
-Ops.yearqtr <- function(e1, e2)
-    as.yearqtr(NextMethod(.Generic))
+Ops.yearmon <- function(e1, e2) {
+    e1 <- as.numeric(e1)
+    e2 <- as.numeric(e2)
+    rval <- NextMethod(.Generic)
+    if(is.numeric(rval)) rval <- as.yearqtr(rval)
+    return(rval)
+}

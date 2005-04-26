@@ -212,7 +212,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     # apply f to each arg, put result of doing this on all args in list rval
     # and then cbind that list together to produce the required matrix
     rval <- lapply(args, f, ret.zoo = retclass %in% c("list", "data.frame"))
-    for(i in which(scalars)) rval[[i]] <- rval[[i]][] <- rval[[i]][1]
+    for(i in which(scalars)) rval[[i]] <- rval[[i]][] <- zoo(coredata(rval[[i]])[1], index(rval[[1]]), freq)
     names(rval) <- suffixes
     if (retclass == "list") { 
 	return(rval)
