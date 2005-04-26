@@ -8,7 +8,7 @@ as.yearqtr.numeric <- function(x, ...) structure(floor(4*x + .0001)/4, class = "
 as.yearqtr.integer <- function(x, ...) structure(x, class = "yearqtr")
 as.yearqtr.dates <-
 as.yearqtr.Date <- 
-as.yearqtr.POSIXt <- function(x, ...) as.yearqtr(with(as.POSIXlt(x, tz="GMT"), 1900 + year + mon/4))
+as.yearqtr.POSIXt <- function(x, ...) as.yearqtr(as.yearmon(x))
 
 ## coercion from yearqtr
 # returned Date is the fraction of the way through the period given by frac
