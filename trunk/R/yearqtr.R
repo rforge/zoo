@@ -57,7 +57,7 @@ axis.yearqtr <- function (side, x, at, format, ...)
     axis.Date(side, as.Date(x), at, format, ...)
 
 MATCH.yearqtr <- function(x, table, nomatch = NA, ...)
-    match(floor(4*as.character(x) + .001), floor(4*as.character(table) + .001), nomatch = nomatch, ...)
+    match(floor(4*as.numeric(x) + .001), floor(4*as.numeric(table) + .001), nomatch = nomatch, ...)
 
 Ops.yearqtr <- function(e1, e2) {
     e1 <- as.numeric(e1)

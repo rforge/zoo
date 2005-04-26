@@ -59,7 +59,7 @@ zooreg <- function(data, start = 1, end = numeric(), frequency = 1,
 	  else if(is.factor(data)) data <- factor(rep(as.character(data), length.out = nobs), labels = levels(data))
 	  else if(is.matrix(data) || is.data.frame(data)) data <- data[rep(1:ndata, length.out = nobs), , drop = FALSE]
         }
-
+ 
         attr(data, "oclass") <- attr(data, "class")
         attr(data, "index") <- order.by
         attr(data, "frequency") <- frequency
