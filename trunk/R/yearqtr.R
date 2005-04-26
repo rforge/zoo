@@ -59,7 +59,7 @@ axis.yearqtr <- function (side, x, at, format, ...)
 MATCH.yearqtr <- function(x, table, nomatch = NA, ...)
     match(floor(4*as.character(x) + .001), floor(4*as.character(table) + .001), nomatch = nomatch, ...)
 
-Ops.yearmon <- function(e1, e2) {
+Ops.yearqtr <- function(e1, e2) {
     e1 <- as.numeric(e1)
     e2 <- as.numeric(e2)
     rval <- NextMethod(.Generic)
