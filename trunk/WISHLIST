@@ -1,8 +1,6 @@
 FEATURES
 ********
 
-  o figure out why NEWS does not get into built version
-
   o speedup for indexing strictly regular series. Test w is.regular first.
 	set.seed(1)
 
@@ -41,22 +39,19 @@ FEATURES
     - regression test suite
     - additional use and testing
 
-  o rapply
-    - position argument with values left, center, right
-
 
 
 INTERFACES
 **********
 
-  o provide fBasics interface routine to the Rmetrics projects
+  o provide fCalendar interface routine to the Rmetrics projects
 
 
 
 DOCUMENTATION & COMMUNICATION
 *****************************
 
-  o JSS paper, R news article based on the vignette
+  o R news article based on the vignette
 
   o some data to include with zoo
 
