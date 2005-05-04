@@ -1,6 +1,12 @@
 FEATURES
 ********
 
+  o na.contiguous for data frames of zoo objects
+       dd.m <- merge(a = zoo(c(1,NA,3)), b = 11:13, retclass = "data.frame")
+       na.contiguous(dd.m) # error
+
+  o allow log to be specified per plot in plot.zoo
+
   o speedup for indexing strictly regular series. Test w is.regular first.
 	set.seed(1)
 
