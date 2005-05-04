@@ -1,3 +1,9 @@
+Recent Changes
+
+  o na.locf.data.frame, na.locf.list
+
+  o na.contiguous.data.frame, na.contiguous.list
+
 Changes in Version 0.9-9
 
   o regular "zoo" series: objects of class "zooreg" (inheriting from "zoo")

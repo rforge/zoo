@@ -16,6 +16,8 @@
 \alias{cummin.zoo}
 \alias{cummax.zoo}
 \alias{na.contiguous}
+\alias{na.contiguous.data.frame}
+\alias{na.contiguous.list}
 \alias{na.contiguous.default}
 \alias{na.contiguous.zoo}
 
