@@ -219,6 +219,12 @@ fz <- zoo(gl(2,5), as.Date("2004-01-01") + 0:9)
 
 ## create a zoo series with 0 columns
 z20 <- zoo(matrix(nrow = 4, ncol = 0), 1:4)
+
+## arithmetic on zoo ojbects intersects them first
+x1 <- zoo(1:5, 1:5)
+x2 <- zoo(2:6, 2:6)
+10 * x1 + x2
+
 }
 \keyword{ts}
 
