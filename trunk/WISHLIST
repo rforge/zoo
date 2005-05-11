@@ -1,6 +1,9 @@
 FEATURES
 ********
 
+  o pair notation, e.g. c(1985,2), currently only works in zooreg but
+    in no other zoo function/method.  Resolve this.
+
   o allow log to be specified per plot in plot.zoo
 
   o speedup for indexing strictly regular series. Test with is.regular first.
