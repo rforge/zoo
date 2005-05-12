@@ -1,6 +1,8 @@
 FEATURES
 ********
 
+  o allow lag(z, k) to take a vector k. (Look at naming of columns...)
+
   o pair notation, e.g. c(1985,2), currently only works in zooreg but
     in no other zoo function/method.  Resolve this.
 
