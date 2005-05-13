@@ -1,6 +1,10 @@
 FEATURES
 ********
 
+  o frequency is always dropped by aggregate:
+      try1<-zooreg(0,start=c(1985,1),end=c(1985,4),freq=12)
+      aggregate(try1,as.yearqtr(time(try1)),mean)
+
   o allow lag(z, k) to take a vector k. (Look at naming of columns...)
 
   o pair notation, e.g. c(1985,2), currently only works in zooreg but
