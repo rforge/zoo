@@ -18,9 +18,13 @@
   regular time series, S3, R}
 
 \Abstract{
+  A previous version to this introduction to the \proglang{R} package \pkg{zoo}
+  has been published as \cite{zoo:Zeileis+Grothendieck:2005} in the
+  \emph{Journal of Statistical Software}.
+
   \pkg{zoo} is an \proglang{R} package providing an \proglang{S3}
   class with methods for indexed totally ordered observations, such as
-  irregular time series. Its key design goals are independence of a
+  discrete irregular time series. Its key design goals are independence of a
   particular index/time/date class and consistency with base
   \proglang{R} and the \code{"ts"} class for
   regular time series. This paper describes how these are achieved
@@ -76,7 +80,7 @@ And this was the starting point for the \pkg{zoo} project: the first author
 of the present paper needed
 more general support for ordered observations, independent of a particular
 index class, for the package \pkg{strucchange}
-\citep{zoo:Zeileis+Leisch+Hornik:2002}. Hence the package was called
+\citep{zoo:Zeileis+Leisch+Hornik:2002}. Hence, the package was called
 \pkg{zoo} which stands for \underline{Z}'s \underline{o}rdered \underline{o}bservations.
 Since the first release, a major part of the additions to \pkg{zoo}
 were provided by the second author of this paper, so that the name
@@ -95,6 +99,10 @@ with indexed observations and `talks' to the classes \code{"ts"}, \code{"its"},
 \code{"irts"} and \code{"timeSeries"}. It also bridges the gap
 between regular and irregular time series by providing coercion with (virtually)
 no loss of information between \code{"ts"} and \code{"zoo"}.
+With these tools \pkg{zoo} provides the basic infrastructure for
+working with indexed totally ordered observations and the package can be either employed by
+users directly or can be a basic ingredient on top of which other more specialized
+applications can be built.
 
 The remainder of the paper is organized as follows:
 Section~\ref{sec:zoo-class} explains how \code{"zoo"} objects are created
@@ -935,7 +943,7 @@ be transformed into \code{"zoo"} objects---the reverse transformation is also po
 provided that the index fulfills the restrictions of the respective class.
 Hence, the \code{"zoo"} class can also be used as the basis for other
 classes of indexed observations and more specific functionality can be built on
-top of it. Furthremore, it bridges the gap between irregular and regular series,
+top of it. Furthermore, it bridges the gap between irregular and regular series,
 facilitating operations such as \code{NA} handling compared to \code{"ts"}.
 
 Whereas a lot of effort was put into achieving independence of a particular

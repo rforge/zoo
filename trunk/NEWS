@@ -1,8 +1,20 @@
-Recent Changes
+Changes in Version 1.0-0
 
-  o na.locf.data.frame, na.locf.list
+  o This release accompanies the publication in the Journal of Statistical
+    Software ("zoo: S3 Infrastructure for Regular and Irregular Time Series",
+    JSS, 14(6), 1-28) that essentially corresponds to the vignette contained
+    in the package. Please use this paper to cite zoo in publications.
 
-  o na.contiguous.data.frame, na.contiguous.list
+  o aggregate.zoo allows a function as the argument for computing
+    the aggregation groups. The return value is coerced to "zooreg"
+    if it is.regular.
+
+  o extended NA handling for lists and data.frames: na.locf.data.frame,
+    na.locf.list, na.contiguous.data.frame, na.contiguous.list
+    
+  o pair notation, e.g. c(1985,2), for "zooreg" series is now also
+    allowed in window.zoo and window<-.zoo.
+
 
 Changes in Version 0.9-9
 
