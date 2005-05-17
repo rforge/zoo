@@ -47,14 +47,13 @@ tt <- as.Date("2000-1-1") + 0:300
 z.day <- zoo(0:300, tt)
 
 # function which returns corresponding first "Date" of quarter
-first.of.quarter <- function(tt) with(as.POSIXlt(tt), 
-  as.Date(paste(1900+year, 3*(mon\%/\%3) + 1, 1, sep = "-")))
+first.of.quarter <- function(tt) as.Date(as.yearqtr(tt))
 
 # average z over quarters
-# 1. via "Date" index (not regular)
-# 2. via "yearqtr" index (regular)
-z.qtr1 <- aggregate(z.day, first.of.quarter, mean)
-z.qtr2 <- aggregate(z.day, as.yearqtr, mean)
+# 1. via "yearqtr" index (regular)
+# 2. via "Date" index (not regular)
+z.qtr1 <- aggregate(z.day, as.yearqtr, mean)
+z.qtr2 <- aggregate(z.day, first.of.quarter, mean)
 
 
 ## aggregate on month and extend to monthly time series
