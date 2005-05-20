@@ -93,7 +93,7 @@ lag.zooreg <- function(x, k = 1, ...)
 diff.zoo <- function(x, lag = 1, differences = 1, arithmetic = TRUE, ...)
 {
     stopifnot(lag >= 1, differences >= 1)
-    if (!arithmetic) x <- log.zoo(x)
+    if (!arithmetic) x <- log(x)
     for(i in 1:differences) {
 	x <- x - lag(x, k = -lag)
     }
