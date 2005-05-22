@@ -1,6 +1,21 @@
 FEATURES
 ********
 
+  o bug in rapply when by.column = FALSE:
+
+	> my.zoo <- zooreg(matrix(1:8,4), start = 2000.5, freq = 4)
+	> my.zoo
+		   
+	2000(3) 1 5
+	2000(4) 2 6
+	2001(1) 3 7
+	2001(2) 4 8
+	> rapply(my.zoo, 3, colSums, by.column = FALSE)
+		     
+	2000(4)  6  9
+	2001(1) 18 21
+
+
   o incorporate runmean in package caMassClass
  
   o allow lag(z, k) to take a vector k. (Look at naming of columns...)
