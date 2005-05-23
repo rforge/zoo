@@ -15,6 +15,9 @@ Changes in Version 1.0-0
   o pair notation, e.g. c(1985,2), for "zooreg" series is now also
     allowed in window.zoo and window<-.zoo.
 
+  o fixed bug in rapply: result was transposed when by.column = FALSE and
+    a non-scalar function FUN wa used.
+
 
 Changes in Version 0.9-9
 
