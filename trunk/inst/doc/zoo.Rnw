@@ -627,9 +627,6 @@ merge(z1, lag(z1, k = 1))
 diff(z1)
 @
 
-%Z% currently needed
-\newpage
-
 \subsection[Coercion to and from "zoo"]{Coercion to and from \code{"zoo"}}
 \label{sec:as.zoo}
 
@@ -931,7 +928,7 @@ Again, this functionality makes switching between different time scales or index
 representations particularly easy and \pkg{zoo} provides the user with the flexibility
 to adjust a certain index to his/her problem of interest.
 
-
+\newpage
 
 \section{Summary and outlook} \label{sec:summary}
 
