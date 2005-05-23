@@ -886,8 +886,9 @@ yearmon <- function(x) structure(floor(12*x + .0001)/12, class = "yearmon")
 which is very similar to the \code{as.yearmon} coercion functions provided.
 
 As \code{"yearmon"} data is now explicitly declared to describe monthly data,
-this can be exploited for coercion to other time classes such as \code{"Date"},
-\code{"POSIXct"} or \code{"POSIXlt"} which by default associate the first day
+this can be exploited for coercion to other time classes: either to coarser time scales
+such as \code{"yearqtr"} or to finer time scales such as
+\code{"Date"}, \code{"POSIXct"} or \code{"POSIXlt"} which by default associate the first day
 within a month with a \code{"yearmon"} observation. Adding a \code{format}
 and \code{as.character} method produces human readable character representations
 of \code{"yearmon"} data and \code{Ops} and \code{MATCH} methods complete the
@@ -895,28 +896,35 @@ methods needed for conveniently  working with monthly data in \pkg{zoo}. Note,
 that all of these methods are  very simple and rather obvious (as can be seen in
 the \pkg{zoo} sources), but prove very helpful in the following examples.
 
-First, we transform the index of the regular series \code{zr2}
-to \code{"yearmon"} to improve printing.
+First, we create a regular series \code{zr3} with \code{"yearmon"} index which
+leads to improved printing compared to the regular series \code{zr1} and \code{zr2}
+from Section~\ref{sec:zooreg}.
+
+<<yearmon1>>=
+zr3 <- zooreg(rnorm(9), start = yearmon(2000), frequency = 12)
+zr3
+@
+
+This could be aggregated to quarterly data via
 
 <<yearmon2>>=
-index(zr2) <- yearmon(index(zr2))
-zr2
+aggregate(zr3, as.yearqtr, mean)
 @
 
 The index can easily be transformed to \code{"Date"}, the default being the first day
 of the month but which can also be changed to the last day of the month.
 
 <<yearmon3>>=
-as.Date(index(zr2))
-as.Date(index(zr2), frac = 1)
+as.Date(index(zr3))
+as.Date(index(zr3), frac = 1)
 @
 
 Furthermore, \code{"yearmon"} indexes can easily be coerced to \code{"POSIXct"} such
 that the series could be exported as a \code{"its"} or \code{"irts"} series.
 
 <<yearmon4>>=
-index(zr2) <- as.POSIXct(index(zr2))
-as.irts(zr2)
+index(zr3) <- as.POSIXct(index(zr3))
+as.irts(zr3)
 @
 
 Again, this functionality makes switching between different time scales or index 
