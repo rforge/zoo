@@ -1,12 +1,7 @@
 FEATURES
 ********
 
-  o plot(merge(x1, x2)) can generate NAs in x1 or x2 which results in
-    line breaks in the plot.  Even plot(x) may result in an empty plot
-    if there are no adjacent non-NAs.  Need some way of distinguishing
-    between structurally and non-structurally missing items.  Perhaps
-    just an argument that can be set to ignore NAs connecting 
-    successive non-NAs.
+  o allow plot and split.screen to be used together
 
   o incorporate runmean in package caMassClass
  
