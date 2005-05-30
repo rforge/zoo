@@ -15,7 +15,7 @@ zoo <- function (x, order.by = index(x), frequency = NULL)
 
     if(!is.null(frequency)) {
         d <- try(diff(as.numeric(order.by)))
-	ok <- if(class(d) == "try-error") FALSE
+	ok <- if(class(d) == "try-error" || length(d) < 1) FALSE
 	else {	    
             deltat <- min(d)
 	    dd <- d/deltat
