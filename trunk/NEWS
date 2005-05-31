@@ -1,3 +1,8 @@
+Changes in Version 1.0-1
+
+  o plot.zoo now has screens=, widths= and heights= arguments for controlling
+    which series are plotted in which graphs and widths and heights of graphs
+
 Changes in Version 1.0-0
 
   o This release accompanies the publication in the Journal of Statistical

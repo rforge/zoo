@@ -6,25 +6,31 @@
 Plotting method for objects of class \code{"zoo"}.
 }
 \usage{
-\method{plot}{zoo}(x, plot.type = c("multiple", "single"),
+\method{plot}{zoo}(x, screens = 1, plot.type = c("multiple", "single"),
   panel = lines, xlab = "Index", ylab = NULL, main = NULL,
-  ylim = NULL, oma = c(6, 0, 5, 0), col = 1, lty = 1,
-  pch = 1, type = "l", nc, \dots)
+  ylim = NULL, oma = c(6, 0, 5, 0), mar = c(0, 5.1, 0, 2.1), 
+  col = 1, lty = 1, pch = 1, type = "l", nc, widths = 1, heights = 1, \dots)
 \method{lines}{zoo}(x, type = "l", \dots)
 }
 \arguments{
   \item{x}{an object of class \code{"zoo"}.}
+  \item{screens}{factor (or coerced to factor) whose levels specify which
+      graph each series is to be plotted in.  \code{screens=c(1,2,1)}
+      would plot series 1, 2 and 3 in graphs 1, 2 and 1.}
   \item{plot.type}{for multivariate zoo objects, "multiple" plots the
      series on multiple plots and "single" superimposes them on a single
      plot}
   \item{panel}{a \code{function(x, y, col, lty, \dots)}  which gives the
      action to be carried out in each panel of the display for
     \code{plot.type = "multiple"}.}
-  \item{xlab, ylab, main, ylim, oma}{graphical arguments, see \code{\link{par}}.}
+  \item{xlab, ylab, main, ylim, oma, mar}{graphical arguments, 
+     see \code{\link{par}}.}
   \item{col, lty, pch, type}{graphical arguments that can be vectors or 
     (named) lists. See the details for more information.}
   \item{nc}{the number of columns to use when \code{plot.type = "multiple"}.
     Defaults to \code{1} for up to \code{4} series, otherwise to \code{2}.}
+  \item{widths, heights}{widths and heights for individual graphs, see
+    \code{\link{layout}}.}
   \item{\dots}{additional graphical arguments.}
 }
 
