@@ -43,6 +43,9 @@ vectors of the same length as the number of series plotted or
 are recycled if shorter. They can also be (partially) named list, e.g.,
 \code{list(A = c(1,2), c(3,4))} in which \code{c(3, 4)} is the
 default value and \code{c(1, 2)} the value only  for series \code{A}.
+The \code{screens} argument can be specified in a similar way.
+If \code{plot.type} and \code{screens} conflict then multiple plots
+will be assumed.
 Also see the examples.
 }
 
@@ -63,6 +66,7 @@ colnames(z) <- LETTERS[1:3]
 plot(z, plot.type = "single", col = list(B = 2))
 plot(z, type = "b", pch = 1:3, col = 1:3)
 plot(z, type = "b", pch = list(A = 1:5, B = 3), col = list(C = 4, 2))
+plot(z, type = "b", screen = c(1,2,1), col = 1:3)
 
 ## plot one zoo series against the other.  This does NOT dispatch plot.zoo.
 plot(coredata(merge(x, x2)))

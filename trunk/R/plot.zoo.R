@@ -53,9 +53,9 @@ plot.zoo <- function(x, screens = 1,
 	ngraph <- nser
     }
     if(is.null(main)) main <- deparse(substitute(x))
-    if(is.null(ylab)) ylab <- colnames(x)
-    if(is.null(ylab)) ylab <- paste("Series", 1:nser)
-    ylab <- rep(ylab, length.out = nser)
+    if(is.null(ylab)) ylab <- colnames(x)[!duplicated(screens)]
+    if(is.null(ylab)) ylab <- paste("Series", which(!duplicated(screens)))
+    ylab <- rep(ylab, length.out = ngraph)
     lty <- rep(lty, length.out = nser)
     col <- parm(cn, col, NROW(x), nser, 1)
     pch <- parm(cn, pch, NROW(x), nser, par("pch"))
@@ -68,7 +68,7 @@ plot.zoo <- function(x, screens = 1,
     nr <- ceiling(ngraph / nc)
     layout(matrix(seq(nr*nc), nr), widths = widths, heights = heights)
     par(mar = mar, oma = oma)
-    ranges <- by(1:ncol(x), screens, function(idx) range(x[,idx]))
+    ranges <- by(1:ncol(x), screens, function(idx) range(x[,idx], na.rm = TRUE))
     for(j in seq(along = levels(screens))) {
       range. <- rep(ranges[[j]], length.out = length(time(x)))
       if(j%%nr==0 || j == length(levels(screens))) {
