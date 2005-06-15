@@ -61,8 +61,8 @@ plot.zoo <- function(x, screens = 1,
     pch <- parm(cn, pch, NROW(x), nser, par("pch"))
     type <- parm(cn, type, NROW(x), nser, "l")
     if (!is.null(ylim)) {
-        if (is.list(ylim)) ylim <- lapply(ylim, range)
-	else ylim <- list(range(ylim))
+        if (is.list(ylim)) ylim <- lapply(ylim, range, na.rm = TRUE)
+	else ylim <- list(range(ylim, na.rm = TRUE))
 	ylim <- lapply(parm(cn, ylim, 2, nser, NULL), function(x) 
 		if (is.null(x) || length(na.omit(x)) ==0) NULL 
 		else range(x, na.rm = TRUE))
