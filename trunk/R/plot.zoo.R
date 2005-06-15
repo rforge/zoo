@@ -60,7 +60,10 @@ plot.zoo <- function(x, screens = 1,
     col <- parm(cn, col, NROW(x), nser, 1)
     pch <- parm(cn, pch, NROW(x), nser, par("pch"))
     type <- parm(cn, type, NROW(x), nser, "l")
-
+    if (!is.null(ylim)) {
+        if (!is.list(ylim)) ylim <- list(ylim)
+	ylim <- lapply(parm(cn, ylim, NROW(x), nser, NULL), "[", 1:2)
+    }
     panel <- match.fun(panel)
     if(missing(nc)) nc <- if(ngraph >  4) 2 else 1
     oldpar <- par(no.readonly = TRUE)
@@ -68,7 +71,11 @@ plot.zoo <- function(x, screens = 1,
     nr <- ceiling(ngraph / nc)
     layout(matrix(seq(nr*nc), nr), widths = widths, heights = heights)
     par(mar = mar, oma = oma)
-    ranges <- by(1:ncol(x), screens, function(idx) range(x[,idx], na.rm = TRUE))
+    ranges <- if (is.null(ylim))
+	by(1:ncol(x), screens, function(idx) range(x[,idx], na.rm = TRUE))
+        else by(1:ncol(x), screens, function(idx) 
+		if (is.null(ylim[[idx]])) range(x[,idx], na.rm = TRUE)
+		else ylim[[idx]])
     for(j in seq(along = levels(screens))) {
       range. <- rep(ranges[[j]], length.out = length(time(x)))
       if(j%%nr==0 || j == length(levels(screens))) {
