@@ -1,3 +1,8 @@
+
+Changes in Version 1.0-2
+
+  o fixed and enhanced plot.zoo ylim= argument.
+
 Changes in Version 1.0-1
 
   o plot.zoo now has screens=, widths= and heights= arguments for controlling

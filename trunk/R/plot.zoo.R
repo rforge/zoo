@@ -61,8 +61,11 @@ plot.zoo <- function(x, screens = 1,
     pch <- parm(cn, pch, NROW(x), nser, par("pch"))
     type <- parm(cn, type, NROW(x), nser, "l")
     if (!is.null(ylim)) {
-        if (!is.list(ylim)) ylim <- list(ylim)
-	ylim <- lapply(parm(cn, ylim, NROW(x), nser, NULL), "[", 1:2)
+        if (is.list(ylim)) ylim <- lapply(ylim, range)
+	else ylim <- list(range(ylim))
+	ylim <- lapply(parm(cn, ylim, 2, nser, NULL), function(x) 
+		if (is.null(x) || length(na.omit(x)) ==0) NULL 
+		else range(x, na.rm = TRUE))
     }
     panel <- match.fun(panel)
     if(missing(nc)) nc <- if(ngraph >  4) 2 else 1
@@ -100,6 +103,7 @@ plot.zoo <- function(x, screens = 1,
     if(is.null(ylab)) ylab <- deparse(substitute(x))
     if(is.null(main)) main <- ""
     if(is.null(ylim)) ylim <- range(x, na.rm = TRUE)
+	else ylim <- range(c(ylim, recursive = TRUE), na.rm = TRUE)
 
     lty <- rep(lty, length.out = nser)
     col <- parm(cn, col, NROW(x), nser, 1)
@@ -128,3 +132,4 @@ lines.zoo <- function(x, type = "l", ...)
   if(NCOL(x) == 1) lines(index(x), x, type = type, ...)
     else stop("Can't plot lines for multivariate zoo object")
 }
+

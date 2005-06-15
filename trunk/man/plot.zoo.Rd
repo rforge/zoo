@@ -23,7 +23,11 @@ Plotting method for objects of class \code{"zoo"}.
   \item{panel}{a \code{function(x, y, col, lty, \dots)}  which gives the
      action to be carried out in each panel of the display for
     \code{plot.type = "multiple"}.}
-  \item{xlab, ylab, main, ylim, oma, mar}{graphical arguments, 
+  \item{ylim}{if \code{plot.type = "multiple"} then it can be a list of
+     y axis limits.  If not a list each graph has the same limits.
+     If any list element is not a pair then its range is used instead. If 
+     \code{plot.type = "single"} then it is as in \code{plot}.}
+  \item{xlab, ylab, main, oma, mar}{graphical arguments, 
      see \code{\link{par}}.}
   \item{col, lty, pch, type}{graphical arguments that can be vectors or 
     (named) lists. See the details for more information.}
