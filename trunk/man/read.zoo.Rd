@@ -25,11 +25,11 @@ to read data from a text file and turn it into a \code{"zoo"} series
 immediately. \code{read.zoo} reads the data file via \code{read.table(file, \dots)}.
 The first column of the resulting data is interpreted to be the index, the
 remaining columns the corresponding data. To assign the appropriate class
-\code{FUN} can be specified and is applied to the first column. By default,
-\code{read.zoo} uses \code{as.Date(as.character(x), format = format)} if \code{format} is 
-specified and \code{as.POSIXct(as.character(x), tz = tz)} if \code{format}
-is specified; otherwise it tries to guess between \code{"numeric"}, \code{"Date"}
-and \code{"POSIXct"}.
+to the index, \code{FUN} can be specified and is applied to the first column.
+By default, \code{read.zoo} uses \code{as.Date(as.character(x), format = format)} if \code{format} is 
+specified and \code{as.POSIXct(as.character(x), tz = tz)} if \code{tz}
+is specified; otherwise it tries to guess between \code{"numeric"},
+\code{"Date"} and \code{"POSIXct"}.
 
 If the resulting series has an underlying regularity, it is coerced to 
 a \code{"zooreg"} series.
