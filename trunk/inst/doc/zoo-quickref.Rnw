@@ -51,7 +51,7 @@ Therefore, the data in \code{demo1.txt} where each row looks like
    23 Feb 2005|43.72
 \end{verbatim}
 can be read in via
-<<>>=
+<<read.zoo>>=
 inrusd <- read.zoo("demo1.txt", sep = "|", format="%d %b %Y")
 @
 By specifying the \code{format} argument, the first column is transformed
@@ -63,7 +63,7 @@ The data in \code{demo2.txt} look like
 \end{verbatim}
 and need a bit more attention because the first column is
 useless.
-<<>>=
+<<read.table>>=
 tmp <- read.table("demo2.txt", sep = ",")
 z <- zoo(tmp[, 3:4], as.Date(as.character(tmp[, 2]), format="%d %b %Y"))
 colnames(z) <- c("Nifty", "Junior")
@@ -73,11 +73,11 @@ colnames(z) <- c("Nifty", "Junior")
 
 To query all dates corresponding to a series
 \code{index(z)} or equivalently 
-<<>>=
+<<extract dates>>=
 time(z)
 @
 can be used. The first and last date ar obtained by
-<<>>=
+<<start and end>>=
 start(z)
 end(inrusd)
 @
@@ -86,7 +86,7 @@ end(inrusd)
 
 To strip off the dates and just return a plain vector/matrix
 \code{coredata} can be used
-<<>>=
+<<convert to plain matrix>>=
 plain <- coredata(z)
 str(plain)
 @
@@ -95,12 +95,12 @@ str(plain)
 
 Unions and intersections of series can be computed by \code{merge}. The
 intersection are those days where everything is observed
-<<>>=
+<<intersection>>=
 m <- merge(inrusd, z, all = FALSE)
 @
 whereas the union uses all dates and fills the gaps (by default)
 with \code{NA}s
-<<>>=
+<<union>>=
 m <- merge(inrusd, z)
 @
 
@@ -109,7 +109,7 @@ call, but may lead to inferior naming in some situations
 hence \code{merge} is preferred
 
 To combine a series with its lag, use
-<<>>=
+<<merge with lag>>=
 merge(inrusd, lag(inrusd, -1))
 @
 
@@ -117,22 +117,22 @@ merge(inrusd, lag(inrusd, -1))
 
 By default, the \code{plot} method generates a graph for each
 series in \code{m}
-<<fig=TRUE,height=8,width=6>>=
+<<plotting1,fig=TRUE,height=8,width=6>>=
 plot(m)
 @
 but several series can also be plotted in a single window.
-<<fig=TRUE,height=4,width=6>>=
+<<plotting2,fig=TRUE,height=4,width=6>>=
 plot(m[, 2:3], plot.type = "single", col = c("red", "blue"), lwd = 2)
 @
 
 \subsubsection{Select (a few) observations}
 
 Selections can be made for a range of dates of interest
-<<>>=
+<<select range of dates>>=
 window(z, start = as.Date("2005-02-15"), end = as.Date("2005-02-28"))
 @
 and also just for a single date
-<<>>=
+<<select one date>>=
 m[as.Date("2005-03-10")]
 @
 
@@ -140,11 +140,11 @@ m[as.Date("2005-03-10")]
 
 Various methods for dealing with \code{NA}s are available,
 e.g., linear interpolation
-<<>>=
+<<impute NAs by interpolation>>=
 interpolated <- na.approx(m)
 @
 or `last observation carried forward'.
-<<>>=
+<<impute NAs by LOCF>>=
 m <- na.locf(m)
 m
 @
@@ -153,30 +153,30 @@ m
 
 To compute log-difference returns in \%, the following
 convenience function is defined
-<<>>=
+<<compute returns>>=
 prices2returns <- function(x) 100*diff(log(x))
 @
 which can be used to convert all columns (of prices) into returns.
-<<>>=
+<<column-wise returns>>=
 r <- prices2returns(m)
 @
 
 A 10-day rolling window standard deviations (for all columns) can
 be computed by
-<<>>=
+<<rolling standard deviations>>=
 rapply(r, width = 10, FUN = sd)
 @
 
 To go from a daily series to the series of just the last-traded-day of each month
 \code{aggregate} can be used
-<<>>=
+<<last day of month>>=
 prices2returns(aggregate(m, as.yearmon, tail, 1))
 @
 
 Analogously, the series can be aggregated to the last-traded-day of each week
 employing a convenience function \code{nextfri} that computes for each \code{"Date"}
 the next friday.
-<<>>=
+<<last day of week>>=
 nextfri <- function(x) 7 * ceiling(as.numeric(x - 1)/7) + as.Date(1)
 prices2returns(aggregate(na.locf(m), nextfri, tail, 1))
 @
@@ -185,7 +185,7 @@ prices2returns(aggregate(na.locf(m), nextfri, tail, 1))
 
 When connected to the internet, Yahoo! Finance can be easily queried using
 the \code{get.hist.quote} function in
-<<>>=
+<<tseries>>=
 library(tseries)
 @
 
