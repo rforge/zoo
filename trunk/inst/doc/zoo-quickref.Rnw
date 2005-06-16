@@ -1,0 +1,214 @@
+\documentclass{Z}
+\DeclareGraphicsExtensions{.pdf,.eps}
+
+%% need no \usepackage{Sweave}
+
+\author{Ajay Shah\\Ministry of Finance, New Delhi \And
+        Achim Zeileis\\Wirtschaftsuniversit\"at Wien \And
+        Gabor Grothendieck\\GKX Associates Inc.}
+\Plainauthor{Ajay Shah, Achim Zeileis, Gabor Grothendieck}
+
+\title{\pkg{zoo} Quick Reference}
+\Plaintitle{zoo Quick Reference}
+
+\Keywords{irregular time series, daily data, weekly data, returns}
+
+\Abstract{
+  This vignette gives a brief overview of the functionality contained
+  in \pkg{zoo} including several nifty code snippets when dealing
+  with (daily) financial data. For a more complete overview of the
+  package's functionality and extensibility see 
+  \cite{zoo:Zeileis+Grothendieck:2005} and the manual pages.  
+}
+
+\begin{document}
+
+\SweaveOpts{engine=R,eps=FALSE}
+%\VignetteIndexEntry{zoo Quick Reference}
+%\VignetteDepends{zoo,tseries}
+%\VignetteKeywords{irregular time series, daily data, weekly data, returns}
+%\VignettePackage{zoo}
+
+
+<<preliminaries,echo=FALSE,results=hide>>=
+library(zoo)
+library(tseries)
+online <- TRUE  ## if set to FALSE the local copy of <FIXME>
+                ## is used instead of get.hist.quote()
+options(prompt = "R> ")
+@
+
+\subsubsection{Read a series from a text file}
+
+To read in data in a text file, \code{read.table()} and friends can 
+be used as usually and \code{zoo()} has to be called subsequently.
+The convenience function \code{read.zoo} is a simple wrapper to these
+functions that assumes the index is in the first column of the file
+and the remaining columns are data.
+
+Therefore, the data in \code{demo1.txt} where each row looks like
+\begin{verbatim}
+   23 Feb 2005|43.72
+\end{verbatim}
+can be read in via
+<<>>=
+inrusd <- read.zoo("demo1.txt", sep = "|", format="%d %b %Y")
+@
+By specifying the \code{format} argument, the first column is transformed
+to an index of class \code{"Date"}.
+
+The data in \code{demo2.txt} look like
+\begin{verbatim}
+   Daily,24 Feb 2005,2055.30,4337.00
+\end{verbatim}
+and need a bit more attention because the first column is
+useless.
+<<>>=
+tmp <- read.table("demo2.txt", sep = ",")
+z <- zoo(tmp[, 3:4], as.Date(as.character(tmp[, 2]), format="%d %b %Y"))
+colnames(z) <- c("Nifty", "Junior")
+@
+
+\subsubsection{Query dates}
+
+To query all dates corresponding to a series
+\code{index(z)} or equivalently 
+<<>>=
+time(z)
+@
+can be used. The first and last date ar obtained by
+<<>>=
+start(z)
+end(inrusd)
+@
+
+\subsubsection{Convert back into a plain matrix}
+
+To strip off the dates and just return a plain vector/matrix
+\code{coredata} can be used
+<<>>=
+plain <- coredata(z)
+str(plain)
+@
+
+\subsubsection{Union and intersection}
+
+Unions and intersections of series can be computed by \code{merge}. The
+intersection are those days where everything is observed
+<<>>=
+m <- merge(inrusd, z, all = FALSE)
+@
+whereas the union uses all dates and fills the gaps (by default)
+with \code{NA}s
+<<>>=
+m <- merge(inrusd, z)
+@
+
+\code{cbind(inrusd, z)} is almost equivalent to the \code{merge}
+call, but may lead to inferior naming in some situations 
+hence \code{merge} is preferred
+
+To combine a series with its lag, use
+<<>>=
+merge(inrusd, lag(inrusd, -1))
+@
+
+\subsubsection{Visualization}
+
+By default, the \code{plot} method generates a graph for each
+series in \code{m}
+<<fig=TRUE,height=8,width=6>>=
+plot(m)
+@
+but several series can also be plotted in a single window.
+<<fig=TRUE,height=4,width=6>>=
+plot(m[, 2:3], plot.type = "single", col = c("red", "blue"), lwd = 2)
+@
+
+\subsubsection{Select (a few) observations}
+
+Selections can be made for a range of dates of interest
+<<>>=
+window(z, start = as.Date("2005-02-15"), end = as.Date("2005-02-28"))
+@
+and also just for a single date
+<<>>=
+m[as.Date("2005-03-10")]
+@
+
+\subsubsection{Handle missing data}
+
+Various methods for dealing with \code{NA}s are available,
+e.g., linear interpolation
+<<>>=
+interpolated <- na.approx(m)
+@
+or `last observation carried forward'.
+<<>>=
+m <- na.locf(m)
+m
+@
+
+\subsubsection{Prices and returns}
+
+To compute log-difference returns in \%, the following
+convenience function is defined
+<<>>=
+prices2returns <- function(x) 100*diff(log(x))
+@
+which can be used to convert all columns (of prices) into returns.
+<<>>=
+r <- prices2returns(m)
+@
+
+A 10-day rolling window standard deviations (for all columns) can
+be computed by
+<<>>=
+rapply(r, width = 10, FUN = sd)
+@
+
+To go from a daily series to the series of just the last-traded-day of each month
+\code{aggregate} can be used
+<<>>=
+prices2returns(aggregate(m, as.yearmon, tail, 1))
+@
+
+Analogously, the series can be aggregated to the last-traded-day of each week
+employing a convenience function \code{nextfri} that computes for each \code{"Date"}
+the next friday.
+<<>>=
+nextfri <- function(x) 7 * ceiling(as.numeric(x - 1)/7) + as.Date(1)
+prices2returns(aggregate(na.locf(m), nextfri, tail, 1))
+@
+
+\subsubsection{Query Yahoo! Finance}
+
+When connected to the internet, Yahoo! Finance can be easily queried using
+the \code{get.hist.quote} function in
+<<>>=
+library(tseries)
+@
+
+\bibliography{zoo}
+
+\end{document}
+
+## TASK Get daily Nifty from yahoo finance
+x <- get.hist.quote(instrument = "^NSEI", start = "2004-05-10", end = "2004-05-20", 
+                    origin = "1970-01-01") #Z# or as.Date(0)
+x <- na.omit(as.zoo(x))
+index(x) <- as.Date(index(x))
+
+## TASK Take weekly data from yahoo finance
+x <- get.hist.quote(instrument = "^NSEI", start = "2004-05-10", end = "2004-05-20", 
+                    origin = "1970-01-01", compression = "w")
+x <- na.omit(as.zoo(x))
+index(x) <- as.Date(index(x))
+
+## TASK Monthly returns for Geojit Financial for calendar 2004 --
+x <- get.hist.quote(instrument = "532285.BO",start="2004-01-01",end = "2004-12-31",
+                    origin = "1970-01-01", compression = "w", quote = "Adj") #Z# compression correct?
+x <- na.omit(as.zoo(x))
+index(x) <- as.Date(index(x))
+r <- prices2returns(x[,1])               # r is still a zoo object.
+
