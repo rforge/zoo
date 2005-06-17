@@ -38,6 +38,14 @@ online <- TRUE  ## if set to FALSE the local copy of <FIXME>
 options(prompt = "R> ")
 @
 
+\subsubsection{Introduction}
+
+This document provides a cookbook of common idioms often used in the 
+\code{zoo} package.  
+Additional information on the commands discussed and on other
+commands, not discussed, can be found in the vignette, reference
+card and help pages.
+
 \subsubsection{Read a series from a text file}
 
 To read in data in a text file, \code{read.table()} and associated
