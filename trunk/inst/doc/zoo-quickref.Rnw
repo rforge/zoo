@@ -40,13 +40,14 @@ options(prompt = "R> ")
 
 \subsubsection{Read a series from a text file}
 
-To read in data in a text file, \code{read.table()} and friends can 
-be used as usually and \code{zoo()} has to be called subsequently.
+To read in data in a text file, \code{read.table()} and associated
+functions can 
+be used as usual with \code{zoo()} being called subsequently.
 The convenience function \code{read.zoo} is a simple wrapper to these
 functions that assumes the index is in the first column of the file
 and the remaining columns are data.
 
-Therefore, the data in \code{demo1.txt} where each row looks like
+Data in \code{demo1.txt}, where each row looks like
 \begin{verbatim}
    23 Feb 2005|43.72
 \end{verbatim}
@@ -54,15 +55,15 @@ can be read in via
 <<read.zoo>>=
 inrusd <- read.zoo("demo1.txt", sep = "|", format="%d %b %Y")
 @
-By specifying the \code{format} argument, the first column is transformed
+The \code{format} argument causes the first column to be transformed
 to an index of class \code{"Date"}.
 
 The data in \code{demo2.txt} look like
 \begin{verbatim}
    Daily,24 Feb 2005,2055.30,4337.00
 \end{verbatim}
-and need a bit more attention because the first column is
-useless.
+and requires more attention because of the format of
+the first column.
 <<read.table>>=
 tmp <- read.table("demo2.txt", sep = ",")
 z <- zoo(tmp[, 3:4], as.Date(as.character(tmp[, 2]), format="%d %b %Y"))
@@ -71,12 +72,12 @@ colnames(z) <- c("Nifty", "Junior")
 
 \subsubsection{Query dates}
 
-To query all dates corresponding to a series
+To return all dates corresponding to a series
 \code{index(z)} or equivalently 
 <<extract dates>>=
 time(z)
 @
-can be used. The first and last date ar obtained by
+can be used. The first and last date can be obtained by
 <<start and end>>=
 start(z)
 end(inrusd)
@@ -94,12 +95,13 @@ str(plain)
 \subsubsection{Union and intersection}
 
 Unions and intersections of series can be computed by \code{merge}. The
-intersection are those days where everything is observed
+intersection are those days where both series have time points:
 <<intersection>>=
 m <- merge(inrusd, z, all = FALSE)
 @
-whereas the union uses all dates and fills the gaps (by default)
-with \code{NA}s
+whereas the union uses all dates and fills the gaps where one
+series has a time point but the other does not 
+with \code{NA}s (by default):
 <<union>>=
 m <- merge(inrusd, z)
 @
@@ -138,16 +140,17 @@ m[as.Date("2005-03-10")]
 
 \subsubsection{Handle missing data}
 
-Various methods for dealing with \code{NA}s are available,
-e.g., linear interpolation
+Various methods for dealing with \code{NA}s are available, including
+linear interpolation
 <<impute NAs by interpolation>>=
 interpolated <- na.approx(m)
 @
-or `last observation carried forward'.
+`last observation carried forward',
 <<impute NAs by LOCF>>=
 m <- na.locf(m)
 m
 @
+and others.
 
 \subsubsection{Prices and returns}
 
@@ -195,19 +198,19 @@ library(tseries)
 
 ## TASK Get daily Nifty from yahoo finance
 x <- get.hist.quote(instrument = "^NSEI", start = "2004-05-10", end = "2004-05-20", 
-                    origin = "1970-01-01") #Z# or as.Date(0)
+                    origin = as.Date(0)) # or "1970-01-01"
 x <- na.omit(as.zoo(x))
 index(x) <- as.Date(index(x))
 
 ## TASK Take weekly data from yahoo finance
 x <- get.hist.quote(instrument = "^NSEI", start = "2004-05-10", end = "2004-05-20", 
-                    origin = "1970-01-01", compression = "w")
+                    origin = as.Date(0), compression = "w")
 x <- na.omit(as.zoo(x))
 index(x) <- as.Date(index(x))
 
 ## TASK Monthly returns for Geojit Financial for calendar 2004 --
 x <- get.hist.quote(instrument = "532285.BO",start="2004-01-01",end = "2004-12-31",
-                    origin = "1970-01-01", compression = "w", quote = "Adj") #Z# compression correct?
+                    origin = as.Date(0), compression = "w", quote = "Adj")
 x <- na.omit(as.zoo(x))
 index(x) <- as.Date(index(x))
 r <- prices2returns(x[,1])               # r is still a zoo object.
