@@ -1,12 +1,8 @@
 FEATURES
 ********
 
-  o allow plot and split.screen to be used together
-
   o incorporate runmean in package caMassClass
  
-  o allow lag(z, k) to take a vector k. (Look at naming of columns...)
-
   o allow log to be specified per plot in plot.zoo
   
   o performance enhancement when using arithmetic on zoo objects. Check
