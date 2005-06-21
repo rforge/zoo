@@ -1,5 +1,6 @@
 \documentclass{Z}
 \DeclareGraphicsExtensions{.pdf,.eps}
+\newcommand{\mysection}[1]{\subsubsection[#1]{\textbf{#1}}}
 
 %% need no \usepackage{Sweave}
 
@@ -14,11 +15,12 @@
 \Keywords{irregular time series, daily data, weekly data, returns}
 
 \Abstract{
-  This vignette gives a brief overview of the functionality contained
+  This vignette gives a brief overview of (some of) the functionality contained
   in \pkg{zoo} including several nifty code snippets when dealing
   with (daily) financial data. For a more complete overview of the
   package's functionality and extensibility see 
-  \cite{zoo:Zeileis+Grothendieck:2005} and the manual pages.  
+  \cite{zoo:Zeileis+Grothendieck:2005} (contained as vignette ``zoo'' in the
+  package), the manual pages and the reference card.  
 }
 
 \begin{document}
@@ -30,23 +32,15 @@
 %\VignettePackage{zoo}
 
 
-<<preliminaries,echo=FALSE,results=hide>>=
+<<preliminaries, echo=FALSE, results=hide>>=
 library(zoo)
 library(tseries)
-online <- TRUE  ## if set to FALSE the local copy of <FIXME>
+online <- FALSE ## if set to FALSE the local copy of
                 ## is used instead of get.hist.quote()
 options(prompt = "R> ")
 @
 
-\subsubsection{Introduction}
-
-This document provides a cookbook of common idioms often used in the 
-\code{zoo} package.  
-Additional information on the commands discussed and on other
-commands, not discussed, can be found in the vignette, reference
-card and help pages.
-
-\subsubsection{Read a series from a text file}
+\mysection{Read a series from a text file}
 
 To read in data in a text file, \code{read.table()} and associated
 functions can 
@@ -78,7 +72,7 @@ z <- zoo(tmp[, 3:4], as.Date(as.character(tmp[, 2]), format="%d %b %Y"))
 colnames(z) <- c("Nifty", "Junior")
 @
 
-\subsubsection{Query dates}
+\mysection{Query dates}
 
 To return all dates corresponding to a series
 \code{index(z)} or equivalently 
@@ -91,7 +85,7 @@ start(z)
 end(inrusd)
 @
 
-\subsubsection{Convert back into a plain matrix}
+\mysection{Convert back into a plain matrix}
 
 To strip off the dates and just return a plain vector/matrix
 \code{coredata} can be used
@@ -100,7 +94,7 @@ plain <- coredata(z)
 str(plain)
 @
 
-\subsubsection{Union and intersection}
+\mysection{Union and intersection}
 
 Unions and intersections of series can be computed by \code{merge}. The
 intersection are those days where both series have time points:
@@ -123,19 +117,26 @@ To combine a series with its lag, use
 merge(inrusd, lag(inrusd, -1))
 @
 
-\subsubsection{Visualization}
+\mysection{Visualization}
 
 By default, the \code{plot} method generates a graph for each
 series in \code{m}
+\begin{center}
+\setkeys{Gin}{width=0.7\textwidth}
 <<plotting1,fig=TRUE,height=8,width=6>>=
 plot(m)
 @
+\end{center}
+
 but several series can also be plotted in a single window.
+\begin{center}
+\setkeys{Gin}{width=0.7\textwidth}
 <<plotting2,fig=TRUE,height=4,width=6>>=
 plot(m[, 2:3], plot.type = "single", col = c("red", "blue"), lwd = 2)
 @
+\end{center}
 
-\subsubsection{Select (a few) observations}
+\mysection{Select (a few) observations}
 
 Selections can be made for a range of dates of interest
 <<select range of dates>>=
@@ -146,7 +147,7 @@ and also just for a single date
 m[as.Date("2005-03-10")]
 @
 
-\subsubsection{Handle missing data}
+\mysection{Handle missing data}
 
 Various methods for dealing with \code{NA}s are available, including
 linear interpolation
@@ -160,7 +161,7 @@ m
 @
 and others.
 
-\subsubsection{Prices and returns}
+\mysection{Prices and returns}
 
 To compute log-difference returns in \%, the following
 convenience function is defined
@@ -192,7 +193,7 @@ nextfri <- function(x) 7 * ceiling(as.numeric(x - 1)/7) + as.Date(1)
 prices2returns(aggregate(na.locf(m), nextfri, tail, 1))
 @
 
-\subsubsection{Query Yahoo! Finance}
+\mysection{Query Yahoo! Finance}
 
 When connected to the internet, Yahoo! Finance can be easily queried using
 the \code{get.hist.quote} function in
@@ -200,26 +201,68 @@ the \code{get.hist.quote} function in
 library(tseries)
 @
 
+<<data handling if offline, echo=FALSE, results=hide>>=
+if(online) {
+  sunw <- get.hist.quote(instrument = "SUNW", start = "2004-01-01", end = "2004-12-31", origin = "1970-01-01")
+  sunw <- na.omit(as.zoo(sunw))
+  attr(sunw, "na.action") <- NULL
+  time(sunw) <- as.Date(time(sunw))
+
+  sunw2 <- get.hist.quote(instrument = "SUNW", start = "2004-01-01", end = "2004-12-31",
+    origin = as.Date(0), compression = "m", quote = "Close")
+  sunw2 <- na.omit(as.zoo(sunw2[, 1]))
+  attr(sunw2, "na.action") <- NULL
+  time(sunw2) <- as.Date(time(sunw2))
+} else {
+  load("sunw.rda")
+}
+@
+
+As, currently, \code{get.hist.quote} only returns \verb/"ts"/ series filled with
+\code{NA}s, some effort has to be taken to transform the result to a \verb/"zoo"/
+series (which will be available directly in future versions of \code{get.hist.quote}.
+
+A daily series can be obtained by:
+<<get.hist.quote daily series, eval=FALSE>>=
+sunw <- get.hist.quote(instrument = "SUNW", start = "2004-01-01", end = "2004-12-31", origin = "1970-01-01")
+@
+which can subsequently be transformed easily to a \verb/"zoo"/ series with \verb/"Date"/
+dates:
+<<transform to zoo with Date index, eval=FALSE>>=
+sunw <- na.omit(as.zoo(sunw))
+attr(sunw, "na.action") <- NULL
+time(sunw) <- as.Date(time(sunw))
+@
+For making the coercion to \verb/"Date"/ so simple, the \code{origin} argument above
+has to be set to the origin of the \verb/"Date"/ class, either by \verb/origin = "1970-01-01"/
+or by \verb/origin = as.Date(0)/.
+
+A monthly series can be obtained and transformed by
+<<get.hist.quote monthly series, eval=FALSE>>=
+sunw2 <- get.hist.quote(instrument = "SUNW", start = "2004-01-01", end = "2004-12-31",
+  origin = as.Date(0), compression = "m", quote = "Close")
+sunw2 <- na.omit(as.zoo(sunw2[, 1]))
+attr(sunw2, "na.action") <- NULL
+time(sunw2) <- as.Date(time(sunw2))
+@
+
+Here, \verb/"yearmon"/ dates might be even more useful:
+<<change index to yearmon>>=
+time(sunw2) <- as.yearmon(time(sunw2))
+@
+
+The same series can equivalently be computed from the daily series via
+<<compute same series via aggregate>>=
+sunw3 <- aggregate(sunw[, "Close"], as.yearmon, tail, 1)
+@
+
+The corresponding returns can be computed via
+<<compute returns>>=
+r <- prices2returns(sunw3)
+@
+where \code{r} is still a \verb/"zoo"/ series.
+
 \bibliography{zoo}
 
 \end{document}
-
-## TASK Get daily Nifty from yahoo finance
-x <- get.hist.quote(instrument = "^NSEI", start = "2004-05-10", end = "2004-05-20", 
-                    origin = as.Date(0)) # or "1970-01-01"
-x <- na.omit(as.zoo(x))
-index(x) <- as.Date(index(x))
-
-## TASK Take weekly data from yahoo finance
-x <- get.hist.quote(instrument = "^NSEI", start = "2004-05-10", end = "2004-05-20", 
-                    origin = as.Date(0), compression = "w")
-x <- na.omit(as.zoo(x))
-index(x) <- as.Date(index(x))
-
-## TASK Monthly returns for Geojit Financial for calendar 2004 --
-x <- get.hist.quote(instrument = "532285.BO",start="2004-01-01",end = "2004-12-31",
-                    origin = as.Date(0), compression = "w", quote = "Adj")
-x <- na.omit(as.zoo(x))
-index(x) <- as.Date(index(x))
-r <- prices2returns(x[,1])               # r is still a zoo object.
 
