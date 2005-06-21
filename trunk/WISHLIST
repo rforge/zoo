@@ -1,6 +1,12 @@
 FEATURES
 ********
 
+  o allow plot.zoo to accept a list of zoo objects -- this would
+    be particularly useful in the case of line plots of multiple series
+    with different time bases since NAs are introduced by merging 
+    and they can cause the drawn lines to be undesirably broken.
+    (Current workaround is to use na.approx.)
+
   o incorporate runmean in package caMassClass
  
   o allow log to be specified per plot in plot.zoo

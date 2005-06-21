@@ -41,7 +41,7 @@ plot.zoo <- function(x, screens = 1,
   nser <- NCOL(x)
   x.index <- index(x)
   if(is.ts(x.index)) x.index <- as.vector(x.index)
-  cn <- if (is.null(colnames(x))) paste("V", seq(NCOL(x)), sep = "")
+  cn <- if (is.null(colnames(x))) paste("V", seq(length = nser), sep = "")
 	else colnames(x)
 
   screens <- parm(cn, screens, NROW(x), nser, 1)

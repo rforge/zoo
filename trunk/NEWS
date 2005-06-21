@@ -10,6 +10,8 @@ Changes in Version 1.0-1
     which series are plotted in which graphs and widths and heights of graphs.
     The ylim= argument has been enhanced.
 
+  o argument k= can be vector in lag.zoo (suggested by Roger Koenker)
+
 Changes in Version 1.0-0
 
   o This release accompanies the publication in the Journal of Statistical
