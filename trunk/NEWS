@@ -12,6 +12,8 @@ Changes in Version 1.0-1
 
   o argument k= can be vector in lag.zoo (suggested by Roger Koenker)
 
+  o na.locf.default bug fixed
+
 Changes in Version 1.0-0
 
   o This release accompanies the publication in the Journal of Statistical
