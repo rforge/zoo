@@ -617,7 +617,8 @@ are \code{lag} and \code{diff}. These are available with the same
 arguments as the \code{"ts"} methods.\footnote{\code{diff} also
 has an additional argument that also allows for geometric and
 not only allows arithmetic differences. Furthermore, note the sign
-of the lag in \code{lag}: by default it is positive and shifts the 
+of the lag in \code{lag} which behaves like the \code{"ts"} method, i.e.,
+by default it is positive and shifts the 
 observations \emph{forward}, to obtain the more standard \emph{backward}
 shift the lag has to be negative.}
 
