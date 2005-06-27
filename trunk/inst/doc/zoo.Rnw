@@ -504,7 +504,7 @@ reduced object is returned. In the following example,
 first a function is set up which returns for a given \code{"Date"}
 value the corresponding first of the month. This function is then
 used to compute the coarser grid for the \code{aggregate} call: in
-the first example, the grouping is computed explicitely by \verb/firstofmonth(Z.index)/
+the first example, the grouping is computed explicitely by \verb/firstofmonth(index(Z))/
 and the mean of the observations in the month
 is returned---in the second example, only the function that computes 
 the grouping (when applied to \verb/index(Z)/) is supplied and
@@ -512,8 +512,8 @@ the first observation is used for aggregation.
 
 <<aggregate>>=
 firstofmonth <- function(x) as.Date(sub("..$", "01", format(x)))
-aggregate(Z, firstofmonth(Z.index), mean)
-aggregate(Z, firstofmonth(Z.index), head, 1)
+aggregate(Z, firstofmonth(index(Z)), mean)
+aggregate(Z, firstofmonth, head, 1)
 @
 
 
