@@ -60,7 +60,7 @@ options(prompt = "R> ")
 
 The \proglang{R} system for statistical computing
 \citep[\url{http://www.R-project.org/}]{zoo:R:2005}
-ships with a a class for regularly spaced time series,
+ships with a class for regularly spaced time series,
 \code{"ts"} in package \pkg{stats}, but has no native class for
 irregularly spaced time series. With the increased interest in
 computational finance with \proglang{R} over the last years
@@ -440,7 +440,7 @@ series, but can also specify a subset. For the remaining series the default para
 is then used which can again be changed: e.g., in the above example the \code{col} argument
 is set to display the series \code{"Bb"} in red and all remaining series in blue.
 The results of the multiple panel plots are depicted in Figure~\ref{fig:plot13} and the
-single panel plot in \ref{fig:plot2}.
+single panel plot in Figure~\ref{fig:plot2}.
 
 
 \subsection{Merging and binding}
@@ -565,7 +565,7 @@ z1
 @
 
 The index associated with a \code{"zoo"} object can be extracted
-by \code{index} and modified by \code{index<-}. As the interpretation
+by \code{index} and modified by \mbox{\code{index<-}.} As the interpretation
 of the index as ``time'' in time series applications is natural,
 there are also synonymous methods \code{time} and \code{time<-}. 
 Hence, the commands \code{index(z2)} and \code{time(z2)}
@@ -737,7 +737,7 @@ The package \pkg{strucchange} provides a collection of methods for testing,
 monitoring and dating structural changes, in particular in linear regression models.
 Tests for structural change assess whether the parameters of a model remain
 constant over an ordering with respect to a specified variable, usually time.
-To adequatly store and visualize empirical fluctuation processes which 
+To adequately store and visualize empirical fluctuation processes which 
 capture instabilities over this ordering, a data type for indexed ordered
 observations is required. This was the motivation for starting the \pkg{zoo}
 project.
@@ -786,7 +786,7 @@ function \code{gefp} see \cite{zoo:Zeileis+Leisch+Hornik:2002} and
 
 A typical application for irregular time series which became increasingly
 important over the last years in computational statistics and finance is
-daily (or higher frequent) financial data. The package \pkg{tseries} provides
+daily (or higher frequency) financial data. The package \pkg{tseries} provides
 the function \code{get.hist.quote} for obtaining historical financial data
 by querying Yahoo! Finance at \url{http://finance.yahoo.com/},
 an online portal quoting data provided by Reuters. The following code
