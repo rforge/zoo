@@ -35,7 +35,7 @@
 <<preliminaries, echo=FALSE, results=hide>>=
 library("zoo")
 library("tseries")
-online <- TRUE  ## if set to FALSE the local copy of
+online <- FALSE ## if set to FALSE the local copy of
                 ## is used instead of get.hist.quote()
 options(prompt = "R> ")
 @
