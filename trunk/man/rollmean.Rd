@@ -37,15 +37,12 @@ optimized for speed.
 Currently, there are methods for \code{"zoo"} and \code{"ts"} series and
 default methods (intended for vectors). The default method of \code{rollmedian}
 is an interface to \code{\link{runmed}}.
+The default method of \code{rollmean} does not handle inputs that contain
+\code{NA}s. In such cases, use \code{\link{rapply}} instead.
 }
 
 \value{
 An object of the same class as \code{x} with the rolling mean/max/median.
-}
-
-\note{
-\code{"rollmean"} does not handle inputs that contains \code{"NA"}. Use
-\code{"rapply"} instead, in that case.
 }
 
 \seealso{\code{\link{rapply}}, \code{\link{zoo}}}

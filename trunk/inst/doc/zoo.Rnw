@@ -4,7 +4,7 @@
 %% need no \usepackage{Sweave}
 
 \author{Achim Zeileis\\Wirtschaftsuniversit\"at Wien \And
-        Gabor Grothendieck}
+        Gabor Grothendieck\\GKX Associates Inc.}
 \Plainauthor{Achim Zeileis, Gabor Grothendieck}
 
 \title{\pkg{zoo}: An \proglang{S3} Class and Methods for
@@ -47,10 +47,10 @@
 
 
 <<preliminaries,echo=FALSE,results=hide>>=
-library(zoo)
-library(tseries)
-library(strucchange)
-library(fCalendar)
+library("zoo")
+library("tseries")
+library("strucchange")
+library("fCalendar")
 online <- FALSE ## if set to FALSE the local copy of LU.rda
                 ## is used instead of get.hist.quote()
 options(prompt = "R> ")
@@ -188,7 +188,7 @@ To illustrate the usage of \code{zoo()}, we first load the package and set the
 random seed to make the examples in this paper exactly reproducible.
 
 <<zoo-prelim>>=
-library(zoo)
+library("zoo")
 set.seed(1071)
 @
 
@@ -756,9 +756,9 @@ of the electrical resistance (variable \code{ohms}) indexed by the juice
 content (variable \code{juice}).
 
 <<strucchange1>>=
-library(strucchange)
-library(DAAG)
-data(fruitohms)
+library("strucchange")
+library("DAAG")
+data("fruitohms")
 ocus <- gefp(ohms ~ 1, order.by = ~ juice, data = fruitohms)
 @
 
@@ -784,6 +784,11 @@ function \code{gefp} see \cite{zoo:Zeileis+Leisch+Hornik:2002} and
 \subsection[tseries: Historical financial data]{\pkg{tseries}: Historical financial data}
 \label{sec:tseries}
 
+\emph{This section war written when \pkg{tseries} did not yet support \code{"zoo"}
+series directly. For historical reasons and completeness, the example is still
+included but for practical purposes it is not relevant anymore because,
+from version 0.9-30 on, \code{get.hist.quote} returns a \code{"zoo"} series by default.}
+
 A typical application for irregular time series which became increasingly
 important over the last years in computational statistics and finance is
 daily (or higher frequency) financial data. The package \pkg{tseries} provides
@@ -794,15 +799,15 @@ queries the quotes of Lucent Technologies starting from 2001-01-01
 until 2004-09-30:
 
 <<tseries1,eval=FALSE>>=
-library(tseries)
+library("tseries")
 LU <- get.hist.quote(instrument = "LU", start = "2001-01-01",
-  end = "2004-09-30", origin = "1970-01-01")
+  end = "2004-09-30", origin = "1970-01-01", retclass = "ts")
 @
 
 <<tseries1a,echo=FALSE>>=
 if(online) {
   LU <- get.hist.quote("LU", start = "2001-01-01",
-  end = "2004-09-30", origin = "1970-01-01")
+  end = "2004-09-30", origin = "1970-01-01", retclass = "ts")
   save(LU, file = "LU.rda", compress = TRUE)
 } else {
   load("LU.rda")
@@ -853,7 +858,7 @@ the class \code{"timeDate"} can be used for indexing \code{"zoo"} objects.
 The following example illustrates how \code{z2} can be transformed
 to use the \code{"timeDate"} class.
 <<fCalendar2>>=
-library(fCalendar)
+library("fCalendar")
 z2td <- zoo(coredata(z2), timeDate(index(z2), FinCenter = "GMT"))
 z2td
 @
@@ -1041,7 +1046,7 @@ fz <- zoo(gl(4, 5))
 
 lm(I(lag(yz) ~ diff(xz) + fz))
 
-library(quantreg)
+library("quantreg")
 rq(I(lag(yz) ~ diff(xz) + fz))
 \end{verbatim}
 
