@@ -43,6 +43,11 @@ is an interface to \code{\link{runmed}}.
 An object of the same class as \code{x} with the rolling mean/max/median.
 }
 
+\note{
+\code{"rollmean"} does not handle inputs that contains \code{"NA"}. Use
+\code{"rapply"} instead, in that case.
+}
+
 \seealso{\code{\link{rapply}}, \code{\link{zoo}}}
 
 \examples{
