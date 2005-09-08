@@ -59,7 +59,7 @@ lag.zoo <- function(x, k = 1, ...)
 {
    if (length(k) > 1) {
 	if (is.null(names(k))) names(k) <- paste("lag", k, sep = "")
-	return(do.call("merge.zoo", lapply(k, lag2.zoo, x = x, ...)))
+	return(do.call("merge.zoo", lapply(k, lag.zoo, x = x, ...)))
    }
    nr <- NROW(x)
    if (k != round(k)) {
