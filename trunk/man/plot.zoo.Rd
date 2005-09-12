@@ -1,5 +1,6 @@
 \name{plot.zoo}
 \alias{plot.zoo}
+\alias{barplot}
 \alias{lines.zoo}
 \title{Plotting zoo Objects}
 \description{

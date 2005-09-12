@@ -105,7 +105,7 @@ respective help page and \code{\link{is.regular}} for further details.
 Methods to standard generics for \code{"zoo"} objects currently
 include: \code{print} (see above), \code{summary}, \code{str}, \code{head},
 \code{tail}, \code{[} (subsetting), \code{rbind}, \code{cbind}, \code{merge}
-(see \code{\link{merge.zoo}}), \code{aggregate} (see \code{\link{aggregate.zoo}}),
+(see \code{\link{merge.zoo}}), \code{aggregate} (see \code{\link{aggregate.zoo}}), \code{barplot},
 \code{plot} and \code{lines} (see \code{\link{plot.zoo}}).
 
 To \dQuote{prettify} printed output of \code{"zoo"} series the generic 
