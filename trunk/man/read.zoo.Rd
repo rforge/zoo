@@ -42,7 +42,6 @@ An object of class \code{"zoo"} (or \code{"zooreg"}).
 \seealso{\code{\link{zoo}}}
 
 \examples{
-## not run
 \dontrun{
 ## turn *numeric* first column into yearmon index
 z <- read.zoo("foo.csv", sep = ",", FUN = as.yearmon)
