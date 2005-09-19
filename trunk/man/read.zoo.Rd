@@ -44,11 +44,11 @@ An object of class \code{"zoo"} (or \code{"zooreg"}).
 \examples{
 ## not run
 \dontrun{
-## turn (numeric) first column into yearmon index
+## turn *numeric* first column into yearmon index
 z <- read.zoo("foo.csv", sep = ",", FUN = as.yearmon)
 
-## turn (character) first column into Date index
-z <- read.zoo("foo.tab", format = "%m/%d/%Y")
+## turn *character* first column into Date index
+z <- read.zoo("foo.tab", format = "\%m/\%d/\%Y")
 }
 }
 \keyword{ts}
