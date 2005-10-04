@@ -33,7 +33,7 @@ frequency.zoo <- function(x, ...)
   if(!is.null(freq) || length(index(x)) < 2) return(freq)
 
   d <- try(diff(as.numeric(index(x))))
-  reg <- if(class(d) == "try-error") FALSE
+  reg <- if(class(d) == "try-error" || any(is.na(d))) FALSE
     else identical(all.equal(d/min(d), round(d/min(d))), TRUE)
   if(!reg) return(NULL)
 
