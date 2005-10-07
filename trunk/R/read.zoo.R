@@ -21,8 +21,8 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL, ...)
               else function(x) as.Date(as.character(x), format = format)
   toPOSIXct <- function(x) as.POSIXct(as.character(x), tz = tz)
   toDefault <- function(x) {
-    rval <- try(toDate(x))
-    if(class(rval) == "try-error") rval <- try(toPOSIXct(x))
+    rval <- try(toDate(x), silent = TRUE)
+    if(class(rval) == "try-error") rval <- try(toPOSIXct(x), silent = TRUE)
     if(class(rval) == "try-error") rval <- rep(NA, length(x))
     return(rval)
   }
