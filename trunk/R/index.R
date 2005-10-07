@@ -50,7 +50,7 @@ time.zoo <- function(x, ...)
         ## check whether new index still conforms with
 	## frequency, if not: drop frequency
         d <- try(diff(as.numeric(value)), silent = TRUE)
-	ok <- if(class(d) == "try-error" || length(d) < 1) FALSE
+	ok <- if(class(d) == "try-error" || length(d) < 1 || any(is.na(d))) FALSE
 	else {	    
             deltat <- min(d)
 	    dd <- d/deltat

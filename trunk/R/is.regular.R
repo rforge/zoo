@@ -5,7 +5,7 @@ is.regular <- function(x, strict = FALSE) {
 is.regular.zoo <- function(x, strict = FALSE)
 {
   delta <- try(diff(as.numeric(index(x))), silent = TRUE)
-  if(class(delta) == "try-error") FALSE
+  if(class(delta) == "try-error" || any(is.na(delta))) FALSE
   else if(length(delta) < 1) FALSE
   else if(strict) identical(all.equal(delta, rep.int(delta[1], length(delta))), TRUE)
   else identical(all.equal(delta/min(delta), round(delta/min(delta))), TRUE)
