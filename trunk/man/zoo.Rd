@@ -225,6 +225,11 @@ x1 <- zoo(1:5, 1:5)
 x2 <- zoo(2:6, 2:6)
 10 * x1 + x2
 
+# ifelse does not work with zoo but this works
+# to create a zoo object which equals x1 at
+# time i if x1[i] > x1[i-1] and 0 otherwise
+(diff(x1) > 0) * x1
+
 }
 \keyword{ts}
 
