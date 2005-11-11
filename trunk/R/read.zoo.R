@@ -9,11 +9,14 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL, ...)
   rval <- read.table(file, ...)
 
   ## extract index
-  if(NCOL(rval) < 1) stop("data file must specify at least two columns")
+  if(NCOL(rval) < 1) stop("data file must specify at least one column")
   
   ## extract index, retain rest of the data
-  ix <- rval[,1]
-  rval <- rval[,-1]
+  if (NCOL(rval) == 1) ix <- seq(length = NROW(rval))
+  else {
+              ix <- rval[,1]
+              rval <- rval[,-1]
+  }
   if(is.data.frame(rval)) rval <- as.matrix(rval)
     
   ## index transformation functions
