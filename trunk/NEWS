@@ -4,6 +4,11 @@ Changes in Version FIXME
 
   o fixed frequency.zoo() which returned NA instead of NULL
     for indexes of class "character"
+
+  o added an example to zoo-quickref for querying daily
+    exchange rates from oanda.com via get.hist.quote().
+    This contains a worked example how to omit weekends
+    from daily series.
     
 
 Changes in Version 1.0-2
