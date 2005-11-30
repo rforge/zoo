@@ -31,7 +31,7 @@
 # 
 
 # source() this file 
-require(zoo)
+# require(zoo)
 
 ###########################################################
 # zooformula

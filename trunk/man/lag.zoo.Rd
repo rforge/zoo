@@ -17,7 +17,8 @@ Methods for computing lags and differences of \code{"zoo"} objects.
     Note the sign of \code{k} behaves as in \code{\link[stats]{lag}}.}
   \item{differences}{an integer indicating the order of the difference.}
   \item{arithmetic}{logical. Should arithmetic (or geometric) differences be computed?}
-  \item{na.pad}{logical. If TRUE it adds any times that would not otherwise have been in the result with a value of NA.  If FALSE those times are dropped.}
+  \item{na.pad}{logical. If \code{TRUE} it adds any times that would not otherwise have been in
+    the result with a value of \code{NA}.  If \code{FALSE} those times are dropped.}
   \item{\dots}{currently not used.}
 }
 

@@ -1,4 +1,4 @@
-Changes in Version FIXME
+Changes in Version 1.0-3
 
   o added a barplot.zoo() method
 
@@ -10,6 +10,7 @@ Changes in Version FIXME
     This contains a worked example how to omit weekends
     from daily series.
     
+  o added an na.pad argument to diff.zoo() method
 
 Changes in Version 1.0-2
 
