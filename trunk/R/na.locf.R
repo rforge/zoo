@@ -30,6 +30,42 @@ na.locf.data.frame <- function(object, na.rm = TRUE, ...) {
 na.locf.list <- function(object, na.rm = TRUE, ...)
 	lapply(object, na.locf, na.rm = na.rm, ...)
 
+na.nocb <- function(object, na.rm = TRUE, ...)
+	UseMethod("na.nocb")
+
+# still needs to be fixed up
+na.nocb.default <- function(object, na.rm = TRUE, ...) {
+	na.nocb.0 <- function(x) {
+	      L <- !is.na(x)
+              # other than changing locf to nocb everywhere the
+              # insertion of revs into the next line is the only
+              # difference between na.locf and na.nocb
+	      idx <- rev(c(NA,rev(which(L)))[cumsum(rev(L))+1])
+	      # na.index(x,i) returns x[i] except if i[j] is NA then
+	      # x[i[j]] is NA too
+	      na.index <- function(x, i) {
+		L <- !is.na(i)
+		x[!L] <- NA
+		x[L] <- x[i[L]]
+	  	x
+	      }
+	      na.index(x, idx)
+	}
+	object[] <- if (length(dim(object)) == 0)
+		na.nocb.0(object)
+	else
+		apply(object, length(dim(object)), na.nocb.0)
+	if (na.rm) na.omit(object) else object
+}
+
+na.nocb.data.frame <- function(object, na.rm = TRUE, ...) {
+	object <- na.nocb.list(object, na.rm = na.rm, ...)
+	if (na.rm) na.omit(object) else object
+}
+
+na.nocb.list <- function(object, na.rm = TRUE, ...)
+	lapply(object, na.nocb, na.rm = na.rm, ...)
+
 na.contiguous.data.frame <-
 na.contiguous.zoo <- function(object, ...) 
 {
