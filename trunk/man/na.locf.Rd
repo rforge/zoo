@@ -23,7 +23,7 @@ na.nocb(object, na.rm = TRUE, \dots)
 }
 
 \value{
-In the case of \code(na.locf},
+In the case of \code{na.locf},
 an object in which each \code{NA} in the input object is replaced
 by the most recent non-\code{NA} prior to it.  If there are no earlier non-\code{NA}s then 
 the \code{NA} is omitted (if \code{na.rm = TRUE}) or it is not replaced (if \code{na.rm = FALSE}).  
