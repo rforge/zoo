@@ -3,17 +3,20 @@
 \alias{na.locf.data.frame}
 \alias{na.locf.list}
 \alias{na.locf.default}
-\title{Last Observation Carried Forward / Next Observation Carried Backward}
+\title{Last Observation Carried Forward}
 \description{
 Generic function for replacing each \code{NA} with the most recent
 non-\code{NA} prior to it.
 }
 \usage{
 na.locf(object, na.rm = TRUE, \dots)
+\method{na.locf}{default}(object, na.rm = TRUE, rev = FALSE, \dots)
 }
 \arguments{
   \item{object}{an object.}
   \item{na.rm}{logical. Should leading \code{NA}s be removed?}
+  \item{rev}{logical. Should the observations be reversed before applying LOCF?
+    This corresponds to NOCB (next observation carried backward).}
   \item{\dots}{further arguments passed to methods.}
 }
 
@@ -21,10 +24,6 @@ na.locf(object, na.rm = TRUE, \dots)
 An object in which each \code{NA} in the input object is replaced
 by the most recent non-\code{NA} prior to it.  If there are no earlier non-\code{NA}s then 
 the \code{NA} is omitted (if \code{na.rm = TRUE}) or it is not replaced (if \code{na.rm = FALSE}).  
-A hidden \code{rev} argument passed to \code{na.locf.default} is available
-that is normally \code{FALSE} but can be set to \code{TRUE} to cause
-the next observation to be carried backwards rather than the last
-observation being carried forwards.
 }
 
 \seealso{\code{\link{zoo}}}
