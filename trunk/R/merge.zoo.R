@@ -134,6 +134,9 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     if (is.null(indexunion)) indexunion <- do.call("c", indexlist)[0]
     indexes <- sort.unique(c(indexunion, indexintersect))
 
+    ## indexes <-  if (is.null(indexunion)) indexintersect
+    ##   else sort.unique(c(indexunion, indexintersect))
+
     ## check whether resulting objects still got the same frequency
     freq <- c(frequency(zoo(,indexes)), freq)
     freq <- if((length(freq) == 2) && identical(all.equal(max(freq)/freq, round(max(freq)/freq)), TRUE))
