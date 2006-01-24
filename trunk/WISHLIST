@@ -18,6 +18,10 @@ FEATURES
     and they can cause the drawn lines to be undesirably broken.
     (Current workaround is to use na.approx.)
 
+  o more graphical facilities, e.g., a pairs function, make
+    plot.zoo(x, y) work with multivariate series (plotting every
+    combination of plot(x[,i], y[,j]))
+
   o incorporate runmean in package caMassClass
  
   o allow log to be specified per plot in plot.zoo
