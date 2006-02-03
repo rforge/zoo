@@ -2,7 +2,7 @@ Changes in Version 1.0-5
 
   o added a `y' argument to plot.zoo() that allows to
     generate scatter plots of univariate "zoo" series
-    (just as plot.ts(x, y = NULL, ...))
+    (just as plot.ts(x, y = NULL, ...) does)
     
   o fixed the usage of %in% in the window() methods,
     now call MATCH() (rather than match()) directly.
