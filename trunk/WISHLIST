@@ -1,6 +1,9 @@
 FEATURES
 ********
 
+  o register S3 methods and use namespaces so that this works:
+     f <- local(function(x) zoo::index(x), baseenv())
+
   o make "zoo" enforce the index entries to be unique (which is 
     assumed in a few functions such as merge.zoo).
 
