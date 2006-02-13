@@ -20,6 +20,7 @@
 \alias{na.contiguous.list}
 \alias{na.contiguous.default}
 \alias{na.contiguous.zoo}
+\alias{scale.zoo}
 
 \alias{index2char}
 \alias{index2char.default}
