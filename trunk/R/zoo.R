@@ -143,7 +143,7 @@ range.zoo <- function(..., na.rm = FALSE)
 
 scale.zoo <- function (x, center = TRUE, scale = TRUE) {
 	x[] <- xs <- scale(coredata(x), center = center, scale = scale)
-	attributes(x) <- union(c(x), attributes(xs))
+	attributes(x) <- c(attributes(x), attributes(xs))
 	x
 }
 
