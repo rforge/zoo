@@ -1,3 +1,15 @@
+Changes in Version 1.x-y
+
+  o ?zoo now explicitely points out that the index of 
+    zoo objects should have unique observations (aka 
+    time stamps).
+    
+  o The summary() was fixed to work also with duplicated
+    indexes.
+    
+  o scale() method added.
+  
+
 Changes in Version 1.0-5
 
   o added a `y' argument to plot.zoo() that allows to
