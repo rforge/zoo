@@ -8,6 +8,10 @@ Changes in Version 1.x-y
     indexes.
     
   o scale() method added.
+
+  o lines(x, y, ...) now supported
+
+  o points added
   
 
 Changes in Version 1.0-5
