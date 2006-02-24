@@ -12,7 +12,8 @@ Plotting method for objects of class \code{"zoo"}.
   xlim = NULL, ylim = NULL, xy.labels = FALSE, xy.lines = NULL,
   oma = c(6, 0, 5, 0), mar = c(0, 5.1, 0, 2.1), 
   col = 1, lty = 1, pch = 1, type = "l", nc, widths = 1, heights = 1, \dots)
-\method{lines}{zoo}(x, type = "l", \dots)
+\method{lines}{zoo}(x, y = NULL, type = "l", \dots)
+\method{points}{zoo}(x, y = NULL, type = "p", \dots)
 }
 \arguments{
   \item{x}{an object of class \code{"zoo"}.}
