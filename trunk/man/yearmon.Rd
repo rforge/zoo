@@ -20,6 +20,7 @@
 \alias{axis.yearmon}
 \alias{MATCH.yearmon}
 \alias{Ops.yearmon}
+\alias{-.yearmon}
 
 \title{An Index Class for Monthly Data}
 \description{

@@ -67,3 +67,20 @@ Ops.yearqtr <- function(e1, e2) {
     if(is.numeric(rval)) rval <- as.yearqtr(rval)
     return(rval)
 }
+
+
+"-.yearqtr" <- function (e1, e2) 
+{
+    if (!inherits(e1, "yearqtr")) 
+        stop("Can only subtract from yearqtr objects")
+    if (nargs() == 1) 
+	return(- as.numeric(e1))
+    if (inherits(e2, "yearqtr")) 
+        return(as.numeric(e1) - as.numeric(e2))
+    if (!is.null(attr(e2, "class"))) 
+      stop("can only subtract yearqtr objects and numbers from yearqtr objects")
+    structure(unclass(as.yearqtr(e1)) - e2, class = "yearqtr")
+}
+
+
+
