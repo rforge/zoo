@@ -21,6 +21,7 @@
 \alias{MATCH.yearqtr}
 \alias{Ops.yearqtr}
 \alias{-.yearqtr}
+\alias{axis.yearqtr}
 
 \title{An Index Class for Quaterly Data}
 \description{

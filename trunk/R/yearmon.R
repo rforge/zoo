@@ -80,5 +80,4 @@ Ops.yearmon <- function(e1, e2) {
 }
 
 
-
-
+axis.yearmon <- function(side, x, ...) axis.Date(side, as.Date(x), ...)
