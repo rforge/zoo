@@ -85,3 +85,6 @@ Ops.yearqtr <- function(e1, e2) {
 
 axis.yearqtr <- function(side, x, ...) axis.Date(side, as.Date(x), ...)
 
+Axis.yearqtr <- function(x=NULL, at=NULL, ..., side, labels=NULL)
+	Axis(x=as.Date(x), at=at, ..., side=side, labels=labels)
+
