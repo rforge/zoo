@@ -81,7 +81,7 @@ lines(x2, col = 2)
 z <- cbind(x, x2, zoo(rnorm(5, sd = 0.5), x.Date))
 colnames(z) <- LETTERS[1:3]
 plot(z, plot.type = "single", col = list(B = 2))
-plot(z, type = "b", pch = 1:3, col = 1:3)
+plot(z, type = "b", pch = 1:3, col = 1:3, ylab = list(expression(mu), "b", "c"))
 plot(z, type = "b", pch = list(A = 1:5, B = 3), col = list(C = 4, 2))
 plot(z, type = "b", screen = c(1,2,1), col = 1:3)
 
