@@ -2,6 +2,7 @@
 \alias{plot.zoo}
 \alias{barplot.zoo}
 \alias{lines.zoo}
+\alias{points.zoo}
 \title{Plotting zoo Objects}
 \description{
 Plotting method for objects of class \code{"zoo"}.
