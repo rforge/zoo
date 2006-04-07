@@ -18,7 +18,8 @@ Changes in Version 1.x-y
   o axis.yearmon and axis.yearqtr added.
 
   o Axis.yearmon and Axis.yearqtr added.
-  
+
+  o na.trim added.
 
 Changes in Version 1.0-5
 
