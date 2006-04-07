@@ -50,6 +50,7 @@ as.matrix.zoo <- function(x)
 		    lab
 		else paste(lab, 1:NCOL(x), sep = ".")
 	    }
+    if(is.null(row.names(y))) row.names(y) <- index2char(index(x), frequency = attr(x, "frequency"))
     return(y)
 }
 
