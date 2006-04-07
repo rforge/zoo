@@ -1,4 +1,4 @@
-Changes in Version 1.x-y
+Changes in Version 1.0-6
 
   o ?zoo now explicitely points out that the index of 
     zoo objects should have unique observations (aka 
@@ -19,7 +19,7 @@ Changes in Version 1.x-y
 
   o Axis.yearmon and Axis.yearqtr added.
 
-  o na.trim added.
+  o na.trim generic and default method added.
 
 Changes in Version 1.0-5
 

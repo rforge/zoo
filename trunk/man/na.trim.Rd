@@ -1,7 +1,7 @@
 \name{na.trim}
 \alias{na.trim}
 \alias{na.trim.default}
-\title{Last Observation Carried Forward}
+\title{Trim Leading/Trailing Missing Observations}
 \description{
 Generic function for removing leading and trailing \code{NA}s.
 }
@@ -11,7 +11,7 @@ na.trim(object, \dots)
 }
 \arguments{
   \item{object}{an object.}
-  \item{sides}{specified whether \code{NA}s are to be removed from
+  \item{sides}{character specifying whether \code{NA}s are to be removed from
 both sides, just from the left side or just from the right side.}
   \item{\dots}{further arguments passed to methods.}
 }
@@ -21,7 +21,7 @@ An object in which leading and/or trailing
 \code{NA}s have been removed.
 }
 
-\seealso{\code{\link{zoo}}}
+\seealso{\code{\link{na.omit}}, \code{\link{zoo}}}
 
 \examples{
 # examples of na.trim
