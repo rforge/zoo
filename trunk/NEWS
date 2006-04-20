@@ -1,6 +1,6 @@
 Changes in Version 1.0-6
 
-  o ?zoo now explicitely points out that the index of 
+  o ?zoo now explicitly points out that the index of 
     zoo objects should have unique observations (aka 
     time stamps).
     
