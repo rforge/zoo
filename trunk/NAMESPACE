@@ -37,6 +37,8 @@ export(
   "na.approx.default",
   "na.locf",
   "na.locf.default",
+  "na.spline",
+  "na.spline.default",
   "na.trim",
   "na.trim.default",
 
