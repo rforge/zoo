@@ -7,6 +7,7 @@ export(
   "as.zooreg",
   "as.zooreg.default",
   "cbind.zoo",
+  "rbind.zoo",
   "is.zoo",
   "merge.zoo",
   "plot.zoo",
@@ -90,7 +91,6 @@ export(
   S3method("print", "zoo")
   S3method("range", "zoo")
   S3method("rapply", "zoo")
-  S3method("rbind", "zoo")
   S3method("rollmax", "zoo")
   S3method("rollmean", "zoo")
   S3method("rollmedian", "zoo")
