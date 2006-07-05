@@ -1,6 +1,8 @@
 FEATURES
 ********
 
+  o bugs: rollmax, rollmedian give Error for k=1.
+
   o zoo methods for dbReadTable and dbWriteTable to facilitate
     using zoo objects with DBI
 
