@@ -1,3 +1,35 @@
+
+  parm <- function(nams, x, n, m, def, recycle = sum(unnamed) > 0) {
+  # if nams are the names of our variables and x is a parameter
+  # specification such as list(a = c(1,2), c(3,4)) then 
+  # create a new list which uses the named variables from x
+  # and assigns the unnamed in order.  For the remaining variables
+  # assign them the default value if recycle = FALSE or recycle the
+  # unnamed variables if recycle = TRUE.  The default value for
+  # recycle is TRUE if there is at least one unnamed variable
+  # in x and is false if there are only named variables in x.
+  # n is the length of the series and m is the total number of series
+  # It only needs to know whether m is 1 or greater than m.
+  # def is the default value used when recycle = FALSE
+  # recycle = TRUE means recycle unspecified values
+  # recycle = FALSE means replace values for unspecified series with def
+  #   Within series recycling is done even if recycle=FALSE.
+	stopifnot(all(names(x) %in% c("", nams)))
+	if (!is.list(x)) x <- if (m == 1) list(x) else as.list(x)
+	y <- vector(mode = "list", length = length(nams))
+	names(y) <- nams
+	in.x <- nams %in% names(x)
+	unnamed <- if (is.null(names(x))) rep(TRUE, length(x)) else names(x) == ""
+	if (!recycle) y[] <- def
+	y[in.x] <- x[nams[in.x]]
+	if (recycle) {
+		stopifnot(sum(unnamed) > 0)
+		y[!in.x] <- x[unnamed]
+	} else {
+		y[which(!in.x)[seq(len=sum(unnamed))]] <- x[unnamed]
+	}
+	lapply(y, function(y) if (length(y)==1) y else rep(y, length.out = n))
+  }
 plot.zoo <- function(x, y = NULL, screens = 1,
   plot.type = c("multiple", "single"), panel = lines, 
   xlab = "Index", ylab = NULL, main = NULL, xlim = NULL, ylim = NULL,
@@ -31,33 +63,6 @@ plot.zoo <- function(x, y = NULL, screens = 1,
   }
   ## Else : no y, only x
 
-  parm <- function(nams, x, n, m, def, recycle = sum(unnamed) > 0) {
-  # if nams are the names of our variables and x is a parameter
-  # specification such as list(a = c(1,2), c(3,4)) then 
-  # create a new list which uses the named variables from x
-  # and assigns the unnamed in order.  For the remaining variables
-  # assign them the default value if recycle = FALSE or recycle the
-  # unnamed variables if recycle = TRUE.  The default value for
-  # recycle is TRUE if there is at least one unnamed variable
-  # in x and is false if there are only named variables in x.
-  # n is the length of the series and m is the total number of series
-  # It only needs to know whether m is 1 or greater than m.
-	stopifnot(all(names(x) %in% c("", nams)))
-	if (!is.list(x)) x <- if (nser == 1) list(x) else as.list(x)
-	y <- vector(mode = "list", length = length(nams))
-	names(y) <- nams
-	in.x <- nams %in% names(x)
-	unnamed <- if (is.null(names(x))) rep(TRUE, length(x)) else names(x) == ""
-	if (!recycle) y[] <- def
-	y[in.x] <- x[nams[in.x]]
-	if (recycle) {
-		stopifnot(sum(unnamed) > 0)
-		y[!in.x] <- x[unnamed]
-	} else {
-		y[which(!in.x)[seq(len=sum(unnamed))]] <- x[unnamed]
-	}
-	lapply(y, function(y) if (length(y)==1) y else rep(y, length.out = n))
-  }
   recycle <- function(a, len, nser)
      rep(lapply(as.list(a), rep, length.out = len), length.out = nser)
   plot.type <- match.arg(plot.type)

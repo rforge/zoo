@@ -1,3 +1,10 @@
+Changes in Version 1.1-2
+
+  o removed parm from plot.zoo and made it independent of plot.zoo so it 
+    can be shared with xyplot.zoo
+
+  o added xyplot.zoo, xyplot.ts, xyplot.its (last one requires its package)
+
 Changes in Version 1.1-1
 
   o added na.spline() generic and default method for replacing
