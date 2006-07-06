@@ -30,6 +30,7 @@
 	}
 	lapply(y, function(y) if (length(y)==1) y else rep(y, length.out = n))
   }
+
 plot.zoo <- function(x, y = NULL, screens = 1,
   plot.type = c("multiple", "single"), panel = lines, 
   xlab = "Index", ylab = NULL, main = NULL, xlim = NULL, ylim = NULL,
