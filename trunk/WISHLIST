@@ -1,6 +1,9 @@
 FEATURES
 ********
 
+  o design: re-think shared design of parameter and panel
+    functions for plotting.
+
   o bugs: rollmax, rollmedian give Error for k=1.
 
   o zoo methods for dbReadTable and dbWriteTable to facilitate
