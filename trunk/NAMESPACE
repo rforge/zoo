@@ -11,6 +11,11 @@ export(
   "is.zoo",
   "merge.zoo",
   "plot.zoo",
+  "parm",
+  "xyplot.zoo",
+  "xyplot.ts",
+  "xyplot.its",
+  "plotpanel",
   "read.zoo",
 
 ## new time series functionality
@@ -87,6 +92,7 @@ export(
   S3method("lag", "zoo")
   S3method("lines", "zoo")
   S3method("na.contiguous", "zoo")
+  S3method("plot", "zoo")
   S3method("points", "zoo")
   S3method("print", "zoo")
   S3method("range", "zoo")
@@ -104,6 +110,9 @@ export(
   S3method("time<-", "zoo")
   S3method("window", "zoo")
   S3method("window<-", "zoo")
+  S3method("xyplot", "zoo")
+  S3method("xyplot", "ts")
+  S3method("xyplot", "its")
 
 ## methods for class zooreg
   S3method("as.ts", "zooreg")

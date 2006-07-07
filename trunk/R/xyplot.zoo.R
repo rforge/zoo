@@ -2,9 +2,9 @@
 library(lattice)
 library(zoo)
 
-# mypanel is an internal function used by xyplot.zoo
+# plotpanel is an internal function used by xyplot.zoo
 # Thanks to Deepayan Sarkar for fixing my original function.
-mypanel <-
+plotpanel <-
    function(x, y, subscripts, groups,
             col = 1,
             type = "p",
@@ -55,7 +55,7 @@ xyplot.zoo <- function(x, data, screens = seq(length = NCOL(x)),
 	   screens <- rep(screens, length = NCOL(x))
 	   fac <- factor(rep(screens, each = NROW(x)))
 	   fo <- if (NCOL(x) == 1) x ~ tt else x ~ tt | fac
-	   xyplot(fo, panel = mypanel, groups = factor(col(x)),  type = type,
+	   xyplot(fo, panel = plotpanel, groups = factor(col(x)),  type = type,
               scales = scales, layout = layout, xlab = xlab, ylab = ylab, 
 	      col = col, lty = lty, lwd = lwd, ...)
 }
