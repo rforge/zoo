@@ -33,7 +33,7 @@ plotpanel <-
 xyplot.its <-
 xyplot.ts <-
 xyplot.zoo <- function(x, data, screens = seq(length = NCOL(x)), 
-	scales = list(y = list(relation = "free")), 
+	default.scales = list(y = list(relation = "free")), 
 	layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL,
 	main = deparse(substitute(x)), lty = 1, lwd = 1, pch = 1, type = "l", 
 	col = 1, 
@@ -56,8 +56,9 @@ xyplot.zoo <- function(x, data, screens = seq(length = NCOL(x)),
 	   fac <- factor(rep(screens, each = NROW(x)))
 	   fo <- if (NCOL(x) == 1) x ~ tt else x ~ tt | fac
 	   xyplot(fo, panel = plotpanel, groups = factor(col(x)),  type = type,
-              scales = scales, layout = layout, xlab = xlab, ylab = ylab, 
-	      col = col, lty = lty, lwd = lwd, ...)
+              default.scales = default.scales, layout = layout, xlab = xlab, 
+		ylab = ylab, pch = pch, col = col, lty = lty, lwd = lwd, ...)
+
 }
 
 

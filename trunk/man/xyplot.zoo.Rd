@@ -27,9 +27,11 @@ classes.
     any columns not named are assigned to the panel referenced by that
     unamed component.  If \code{screens} is omitted then each column is 
     plotted in a separate panel. 
-  \item{scales}{ The default is set so that all series have the same
+  \item{default.scales}{ The default is set so that all series have the same
     \code{X} axis but free \code{Y} axis.  See \code{xyplot} in the
-    \code{Lattice} package for more information on \code{scales}.
+    \code{Lattice} package for more information on \code{scales}.  Normally
+    the user should not modify this argument.  Use the \code{lattice}
+    \code{scales} argument instead. }.
   \item{layout}{ See \code{layout} in the
     \code{Lattice} package for more information on \code{layout}.
       For example, c(1,3) means one column of 3 panels and 
