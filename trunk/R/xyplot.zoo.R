@@ -36,7 +36,7 @@ xyplot.zoo <- function(x, data, screens = seq(length = NCOL(x)),
 	default.scales = list(y = list(relation = "free")), 
 	layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL,
 	main = deparse(substitute(x)), lty = 1, lwd = 1, pch = 1, type = "l", 
-	col = 1, 
+	col = 1, hdg = FALSE,
 	...) {
 	   x <- as.zoo(x)
 	   cn <- if (is.null(colnames(x))) 
@@ -49,15 +49,29 @@ xyplot.zoo <- function(x, data, screens = seq(length = NCOL(x)),
            pch <- parm(cn, pch, NROW(x), NCOL(x), 20)
            type <- parm(cn, type, NROW(x), NCOL(x), "l")
            col <- parm(cn, col, NROW(x), NCOL(x), 1)
-
 	   tt <- rep(time(x), NCOL(x))
 	   x <- coredata(x)
 	   screens <- rep(screens, length = NCOL(x))
 	   fac <- factor(rep(screens, each = NROW(x)))
 	   fo <- if (NCOL(x) == 1) x ~ tt else x ~ tt | fac
-	   xyplot(fo, panel = plotpanel, groups = factor(col(x)),  type = type,
-              default.scales = default.scales, layout = layout, xlab = xlab, 
-		ylab = ylab, pch = pch, col = col, lty = lty, lwd = lwd, ...)
+	   if (!identical(hdg, FALSE)) hdg <- 
+		strip.custom(factor.levels = rep(hdg, length(unique(screens))))
+	   if (is.null(ylab) || length(ylab) == 1) {
+		   xyplot(fo, panel = plotpanel, groups = factor(col(x)),  
+			type = type, default.scales = default.scales, 
+			layout = layout, xlab = xlab, ylab = ylab, pch = pch, 
+			col = col, lty = lty, lwd = lwd, strip = hdg, ...)
+	   } else {
+		   ylab <- rep(ylab, length = length(unique(screens)))
+		   xyplot(fo, panel = plotpanel, groups = factor(col(x)),  
+			type = type, default.scales = default.scales, 
+			layout = layout, xlab = xlab, ylab = "", pch = pch, 
+			col = col, lty = lty, lwd = lwd, 
+			outer = TRUE,
+			strip.left = strip.custom(horizontal = FALSE, 
+				factor.levels = ylab), 
+			strip = hdg, ...)
+	   }
 
 }
 

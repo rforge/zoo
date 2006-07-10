@@ -8,9 +8,25 @@
 classes.
 }
 \usage{
-\method{xyplot}{zoo}(x, data, screens = seq(length = NCOL(x)), scales = list(y = list(relation = "free")), layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, ...)
-\method{xyplot}{ts}(x, data, screens = seq(length = NCOL(x)), scales = list(y = list(relation = "free")), layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, ...)
-\method{xyplot}{its}(x, data, screens = seq(length = NCOL(x)), scales = list(y = list(relation = "free")), layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, ...)
+
+\method{xyplot}{zoo}(x, data, screens = seq(length = NCOL(x)), 
+    default.scales = list(y = list(relation = "free")), 
+    layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, 
+    main = deparse(substitute(x)), lty = 1, lwd = 1, pch = 1, 
+    type = "l", col = 1, hdg = FALSE, ...) 
+
+\method{xyplot}{ts}(x, data, screens = seq(length = NCOL(x)), 
+    default.scales = list(y = list(relation = "free")), 
+    layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, 
+    main = deparse(substitute(x)), lty = 1, lwd = 1, pch = 1, 
+    type = "l", col = 1, hdg = FALSE, ...) 
+
+\method{xyplot}{its}(x, data, screens = seq(length = NCOL(x)), 
+    default.scales = list(y = list(relation = "free")), 
+    layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, 
+    main = deparse(substitute(x)), lty = 1, lwd = 1, pch = 1, 
+    type = "l", col = 1, hdg = FALSE, ...) 
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -37,7 +53,26 @@ classes.
       For example, c(1,3) means one column of 3 panels and 
       c(3,1) means 3 columns of 1 panel each.
   \item{xlab}{ Character string used as the X axis label. }
-  \item{ylab}{ Character string used as the Y axis label. }
+  \item{ylab}{ Character string used as the Y axis label.  If there
+     are multiple panels it may be a character vector the same length
+     as the number of panels. }
+  \item{main}{ See \code{main} in \code{Lattice} package for more information.}
+  \item{lty}{ See \code{lty} in \code{Lattice} package for more information.
+     May be a vector the same length as the number of series or may be
+     named in which case the series column names will be matched to the
+     names here.  If one element is unnamed it will be used as the default.}
+  \item{lwd}{ See \code{lwd} in \code{Lattice} package for more information.
+     Processing is as described above for \code{lty}.}
+  \item{pch}{ See \code{pch} in \code{Lattice} package for more information.
+     Processing is as described above for \code{lty} except that a list
+     is also allowed in which case each element may be a scalar or a 
+     vector with one element per point in the corresonding column.}
+  \item{type}{ See \code{type} in \code{Lattice} package for more information.
+     Processing is as described above for \code{lty}.}
+  \item{col}{ See \code{col} in \code{Lattice} package for more information.
+     Processing is as described above for \code{pch}.}
+  \item{hdg}{ Headings used for panels.  This is a character vector the same
+     length as the number of panels.}
   \item{\dots}{ Other arguments as in \code{lattice} \code{xyplot}. }
 }
 \details{
@@ -55,6 +90,9 @@ z <- zoo(matrix(1:24, 8), as.Date("2000-01-01") + 0:7)
 
 # Plot one panel per series.
 print(xyplot(z))
+
+# same but make first (i.e. bottom) panel twice as large as others
+print(xyplot(z), heights = list(c(2,1,1), units = "null"))
 
 # Plot all in one panel.
 print(xyplot(z, screens = 1))
