@@ -7,6 +7,8 @@ Changes in Version 1.1-2
 
   o fixed bug in logical subscripting
 
+  o fixed bug in subscripting for drop = TRUE and length of result is 1
+
 Changes in Version 1.1-1
 
   o added na.spline() generic and default method for replacing

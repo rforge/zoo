@@ -109,11 +109,11 @@ str.zoo <- function(object, ...)
     i <- which(MATCH(x.index, i, nomatch = 0) > 0)
   
   if(length(dim(rval)) == 2) {
-	if (length(i) == 1) drop <- FALSE
-        if(missing(j)) 
-		rval <- zoo(rval[i, , drop = drop, ...], x.index[i])
-	  else
-		rval <- zoo(rval[i, j, drop = drop, ...], x.index[i])
+	drop. <- if (length(i) == 1) FALSE else drop
+        rval <- if (missing(j)) rval[i, , drop = drop., ...]
+		else rval[i, j, drop = drop., ...]
+	if (drop && length(rval) == 1) rval <- c(rval)
+	rval <- zoo(rval, x.index[i])
   } else
 	rval <- zoo(rval[i], x.index[i])
 
