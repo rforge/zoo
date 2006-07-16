@@ -101,9 +101,11 @@ str.zoo <- function(object, ...)
 
   ## also support that i can be index:
   ## if i is not numeric/integer/logical, it is interpreted to be the index
-  if(!(all(class(i) == "numeric") ||
-       all(class(i) == "integer") ||
-       all(class(i) == "logical")))
+  if (all(class(i) == "logical"))
+    i <- which(i)
+  else if (inherits(i, "zoo") && all(class(coredata(i)) == "logical")) {
+    i <- which(coredata(i))
+  } else if(!((all(class(i) == "numeric") || all(class(i) == "integer")))) 
     i <- which(MATCH(x.index, i, nomatch = 0) > 0)
   
   if(length(dim(rval)) == 2) {

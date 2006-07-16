@@ -5,6 +5,8 @@ Changes in Version 1.1-2
 
   o added xyplot.zoo, xyplot.ts, xyplot.its (last one requires its package)
 
+  o fixed bug in logical subscripting
+
 Changes in Version 1.1-1
 
   o added na.spline() generic and default method for replacing
