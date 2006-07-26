@@ -13,19 +13,19 @@ classes.
     default.scales = list(y = list(relation = "free")), 
     layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, 
     main = deparse(substitute(x)), lty = 1, lwd = 1, pch = 1, 
-    type = "l", col = 1, hdg = FALSE, ...) 
+    type = "l", col = 1, hdg = NULL, ...) 
 
 \method{xyplot}{ts}(x, data, screens = seq(length = NCOL(x)), 
     default.scales = list(y = list(relation = "free")), 
     layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, 
     main = deparse(substitute(x)), lty = 1, lwd = 1, pch = 1, 
-    type = "l", col = 1, hdg = FALSE, ...) 
+    type = "l", col = 1, hdg = NULL, ...) 
 
 \method{xyplot}{its}(x, data, screens = seq(length = NCOL(x)), 
     default.scales = list(y = list(relation = "free")), 
     layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, 
     main = deparse(substitute(x)), lty = 1, lwd = 1, pch = 1, 
-    type = "l", col = 1, hdg = FALSE, ...) 
+    type = "l", col = 1, hdg = NULL, ...) 
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -72,7 +72,8 @@ classes.
   \item{col}{ See \code{col} in \code{Lattice} package for more information.
      Processing is as described above for \code{pch}.}
   \item{hdg}{ Headings used for panels.  This is a character vector the same
-     length as the number of panels.}
+     length as the number of panels.  Default is to use column names for
+     headers.  \code{FALSE} can be used to omit headings.}
   \item{\dots}{ Other arguments as in \code{lattice} \code{xyplot}. }
 }
 \details{
@@ -87,6 +88,7 @@ classes.
 
 library(lattice)
 
+z <- zoo(cbind(a = 1:5, b = 11:15, c = 21:25))
 
 # Plot one panel per series.
 print(xyplot(z))

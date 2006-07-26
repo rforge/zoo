@@ -32,10 +32,11 @@ xyplot.zoo <- function(x, data, screens = seq(length = NCOL(x)),
 	default.scales = list(y = list(relation = "free")), 
 	layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL,
 	main = deparse(substitute(x)), lty = 1, lwd = 1, pch = 1, type = "l", 
-	col = 1, hdg = FALSE,
+	col = 1, hdg = NULL,
 	...) {
 	   stopifnot(require("lattice")) ## FIXME
 	   x <- as.zoo(x)
+	   if (length(dim(x)) == 0) x <- zoo(matrix(coredata(x),,1), time(x))
 	   cn <- if (is.null(colnames(x))) 
                     paste("V", seq(length = NCOL(x)), sep = "")
 	          else colnames(x)
@@ -51,6 +52,7 @@ xyplot.zoo <- function(x, data, screens = seq(length = NCOL(x)),
 	   screens <- rep(screens, length = NCOL(x))
 	   fac <- factor(rep(screens, each = NROW(x)))
 	   fo <- if (NCOL(x) == 1) x ~ tt else x ~ tt | fac
+	   if (is.null(hdg)) hdg <- cn[!duplicated(screens)]
 	   if (!identical(hdg, FALSE)) hdg <- 
 		strip.custom(factor.levels = rep(hdg, length(unique(screens))))
 	   if (is.null(ylab) || length(ylab) == 1) {
