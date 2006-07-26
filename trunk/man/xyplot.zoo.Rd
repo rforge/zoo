@@ -2,6 +2,7 @@
 \alias{xyplot.zoo}
 \alias{xyplot.ts}
 \alias{xyplot.its}
+\alias{plotpanel}
 \title{ Plot zoo Series with Lattice }
 \description{
 \code{xyplot} method for \code{zoo} class. Also \code{ts} and \code{its} 
@@ -51,7 +52,7 @@ classes.
   \item{layout}{ See \code{layout} in the
     \code{Lattice} package for more information on \code{layout}.
       For example, c(1,3) means one column of 3 panels and 
-      c(3,1) means 3 columns of 1 panel each.
+      c(3,1) means 3 columns of 1 panel each.}
   \item{xlab}{ Character string used as the X axis label. }
   \item{ylab}{ Character string used as the Y axis label.  If there
      are multiple panels it may be a character vector the same length
