@@ -103,7 +103,7 @@ print(xyplot(z, screens = 1))
 # Use colors 1, 2 and 3 for the three series (1=black, 2=red, 3=green)
 # Make 2nd (upper) panel 3x the height of the 1st (lower) panel
 p <- xyplot(z, screens = c(1,1,2), type = c("p", "l", "o"), col = 1:3)
-print(p, panel.height = list(x = c(1, 3), units = "null"))
+print(p, panel.height = list(y = c(1, 3), units = "null"))
 
 }
 \keyword{ts}
