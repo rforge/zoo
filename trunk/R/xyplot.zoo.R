@@ -1,7 +1,3 @@
-
-library(lattice)
-library(zoo)
-
 # plotpanel is an internal function used by xyplot.zoo
 # Thanks to Deepayan Sarkar for fixing my original function.
 plotpanel <-
@@ -38,6 +34,7 @@ xyplot.zoo <- function(x, data, screens = seq(length = NCOL(x)),
 	main = deparse(substitute(x)), lty = 1, lwd = 1, pch = 1, type = "l", 
 	col = 1, hdg = FALSE,
 	...) {
+	   stopifnot(require("lattice")) ## FIXME
 	   x <- as.zoo(x)
 	   cn <- if (is.null(colnames(x))) 
                     paste("V", seq(length = NCOL(x)), sep = "")

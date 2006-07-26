@@ -1,8 +1,8 @@
-rapply <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE,
-  align = c("center", "left", "right"), ...)
-    UseMethod("rapply")
+rollapply <- rapply <- function(data, width, FUN, by = 1, ascending = TRUE,
+  by.column = TRUE, na.pad = FALSE, align = c("center", "left", "right"), ...)
+    UseMethod("rollapply")
 
-rapply.zoo <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE,
+rollapply.zoo <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE,
   align = c("center", "left", "right"), ...) {
     itt <- 0
     embedi <- function(n, k, by = 1, ascending = FALSE) {
@@ -57,6 +57,6 @@ rapply.zoo <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = T
     return(res)
 } 
 
-rapply.ts <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE, ...)
-  as.ts(rapply(as.zoo(data), width = width, FUN = FUN, by = by, ascending = ascending,
+rollapply.ts <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE, ...)
+  as.ts(rollapply(as.zoo(data), width = width, FUN = FUN, by = by, ascending = ascending,
                by.column = by.column, na.pad = na.pad, ...))

@@ -176,7 +176,7 @@ linear interpolation to fill in \code{NA} values.
 
 A typical task to be performed on ordered observations is to evaluate some
 function, e.g., computing the mean, in a window of observations that is moved
-over the full sample period. The generic function \code{\link{rapply}}
+over the full sample period. The generic function \code{\link{rollapply}}
 provides this functionality for arbitrary functions and more efficient versions
 \code{\link{rollmean}}, \code{\link{rollmax}}, \code{\link{rollmedian}} are
 available for the mean, maximum and median respectively.

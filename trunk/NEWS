@@ -1,13 +1,20 @@
 Changes in Version 1.1-2
 
-  o removed parm from plot.zoo and made it independent of plot.zoo so it 
-    can be shared with xyplot.zoo
+  o rapply() was re-named to rollapply() because from R 2.4.0 on,
+    base R provides a function rapply() for recursive (not rolling)
+    application of functions, which was already described in the Green
+    Book. zoo::rapply() still exists for backward compatibility, however,
+    it now dispatches to rollapply() methods.
 
-  o added xyplot.zoo, xyplot.ts, xyplot.its (last one requires its package)
+  o removed parm() from plot.zoo() and made it independent of plot.zoo() so it 
+    can be shared with xyplot.zoo() FIXME
+
+  o added xyplot.zoo(), xyplot.ts(), xyplot.its() (last one requires its package)
 
   o fixed bug in logical subscripting
 
   o fixed bug in subscripting for drop = TRUE and length of result is 1
+
 
 Changes in Version 1.1-1
 
