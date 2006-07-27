@@ -36,7 +36,7 @@ xyplot.zoo <- function(x, data, screens = seq(length = NCOL(x)),
 	...) {
 	   stopifnot(require("lattice")) ## FIXME
 	   x <- as.zoo(x)
-	   if (length(dim(x)) == 0) x <- zoo(matrix(coredata(x),,1), time(x))
+	   if (length(dim(x)) < 2) x <- zoo(matrix(coredata(x),,1), time(x))
 	   cn <- if (is.null(colnames(x))) 
                     paste("V", seq(length = NCOL(x)), sep = "")
 	          else colnames(x)
