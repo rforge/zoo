@@ -31,9 +31,7 @@ xyplot.ts <-
 xyplot.zoo <- function(x, data, screens = seq(length = NCOL(x)), 
 	default.scales = list(y = list(relation = "free")), 
 	layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL,
-	main = deparse(substitute(x)), lty = 1, lwd = 1, pch = 1, type = "l", 
-	col = 1, hdg = NULL,
-	...) {
+	lty = 1, lwd = 1, pch = 1, type = "l", col = 1, hdg = NULL, ...) {
 	   stopifnot(require("lattice")) ## FIXME
 	   x <- as.zoo(x)
 	   if (length(dim(x)) < 2) x <- zoo(matrix(coredata(x),,1), time(x))
@@ -62,20 +60,28 @@ xyplot.zoo <- function(x, data, screens = seq(length = NCOL(x)),
 		   xyplot(fo, panel = plotpanel, groups = factor(col(x)),  
 			type = type, default.scales = default.scales, 
 			layout = layout, xlab = xlab, ylab = ylab, pch = pch, 
-			col = col, lty = lty, lwd = lwd, strip = hdg, 
-			main = main, ...)
+			col = col, lty = lty, lwd = lwd, strip = hdg, ...)
 	   } else {
 		   ylab <- rep(ylab, length = length(unique(screens)))
 		   xyplot(fo, panel = plotpanel, groups = factor(col(x)),  
 			type = type, default.scales = default.scales, 
 			layout = layout, xlab = xlab, ylab = "", pch = pch, 
-			col = col, lty = lty, lwd = lwd, 
-			outer = TRUE,
+			col = col, lty = lty, lwd = lwd, outer = TRUE,
 			strip.left = strip.custom(horizontal = FALSE, 
 				factor.levels = ylab), 
-			strip = hdg, main = main, ...)
+			strip = hdg, ...)
 	   }
 
 }
 
-
+panel.lines.zoo <- function(x, ...) panel.lines(time(x), coredata(x), ...)
+panel.points.zoo <- function(x, ...) panel.lines(time(x), coredata(x), ...)
+panel.segments.zoo <- function(x0, x1, ...) 
+	panel.segments(time(x0), coredata(x0), time(x1), coredata(x1), ...)
+panel.text.zoo <- function(x, ...) panel.text(time(x), coredata(x), ...)
+panel.rect.zoo <- function(x0, x1, ...)
+	panel.rect(time(x0), coredata(x0), time(x1), coredata(x1), ...)
+panel.arrows.zoo <- function(x0, x1, ...)
+	panel.rect(time(x0), coredata(x0), time(x1), coredata(x1), ...)
+panel.polygon.zoo <- function(x, ...)
+	panel.polygon(time(x), coredata(x), ...)

@@ -13,25 +13,33 @@ classes.
 \method{xyplot}{zoo}(x, data, screens = seq(length = NCOL(x)), 
     default.scales = list(y = list(relation = "free")), 
     layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, 
-    main = deparse(substitute(x)), lty = 1, lwd = 1, pch = 1, 
+    lty = 1, lwd = 1, pch = 1, 
     type = "l", col = 1, hdg = NULL, ...) 
 
 \method{xyplot}{ts}(x, data, screens = seq(length = NCOL(x)), 
     default.scales = list(y = list(relation = "free")), 
     layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, 
-    main = deparse(substitute(x)), lty = 1, lwd = 1, pch = 1, 
+    lty = 1, lwd = 1, pch = 1, 
     type = "l", col = 1, hdg = NULL, ...) 
 
 \method{xyplot}{its}(x, data, screens = seq(length = NCOL(x)), 
     default.scales = list(y = list(relation = "free")), 
     layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, 
-    main = deparse(substitute(x)), lty = 1, lwd = 1, pch = 1, 
+    lty = 1, lwd = 1, pch = 1, 
     type = "l", col = 1, hdg = NULL, ...) 
+
+panel.lines.zoo(x, ...)
+panel.points.zoo(x, ...)
+panel.segments.zoo(x0, x1, ...) 
+panel.text.zoo(x, ...)
+panel.rect.zoo(x0, x1, ...)
+panel.arrows.zoo(x0, x1, ...)
+panel.polygon.zoo(x, ...)
 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{ Time series of class \code{zoo}, \code{ts} or \code{its}. }
+  \item{x, x0, x1}{ Time series of class \code{zoo}, \code{ts} or \code{its}. }
   \item{data}{ Currently not used. }
   \item{screens}{ If \code{n} panels are desired then this is an unamed
     vector with one component per column of \code{x} each of which is 
@@ -57,7 +65,6 @@ classes.
   \item{ylab}{ Character string used as the Y axis label.  If there
      are multiple panels it may be a character vector the same length
      as the number of panels. }
-  \item{main}{ See \code{main} in \code{Lattice} package for more information.}
   \item{lty}{ See \code{lty} in \code{Lattice} package for more information.
      May be a vector the same length as the number of series or may be
      named in which case the series column names will be matched to the
@@ -75,7 +82,7 @@ classes.
   \item{hdg}{ Headings used for panels.  This is a character vector the same
      length as the number of panels.  Default is to use column names for
      headers.  \code{FALSE} can be used to omit headings.}
-  \item{\dots}{ Other arguments as in \code{lattice} \code{xyplot}. }
+  \item{\dots}{ Other arguments as in \code{lattice}. }
 }
 \details{
   Plots a \code{zoo}, \code{ts} or \code{its} object using 
@@ -98,7 +105,11 @@ print(xyplot(z))
 # overplot a blue running mean on the panel of b
 trellis.focus("panel", 1, 2, highlight = FALSE)
 z.mean <- rollmean(z, 3)
-print(panel.lines(time(z.mean), z.mean[,2], col = "blue"))
+
+# uncomment next line and remove line after that when
+# lattice makes panel.lines generic
+# print(panel.lines(time(z.mean), z.mean[,2], col = "blue"))
+print(panel.lines.zoo(z.mean[,2], col = "blue"))
 trellis.unfocus()
 
 # same but make first (i.e. bottom) panel twice as large as others
