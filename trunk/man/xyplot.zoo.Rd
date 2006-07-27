@@ -89,10 +89,17 @@ classes.
 
 library(lattice)
 
-z <- zoo(cbind(a = 1:5, b = 11:15, c = 21:25))
-
+set.seed(1)
+z <- zoo(cbind(a = 1:5, b = 11:15, c = 21:25) + rnorm(5))
+ 
 # Plot one panel per series.
 print(xyplot(z))
+
+# overplot a blue running mean on the panel of b
+trellis.focus("panel", 1, 2, highlight = FALSE)
+z.mean <- rollmean(z, 3)
+print(panel.lines(time(z.mean), z.mean[,2], col = "blue"))
+trellis.unfocus()
 
 # same but make first (i.e. bottom) panel twice as large as others
 print(xyplot(z), heights = list(c(2,1,1), units = "null"))
