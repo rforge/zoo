@@ -74,14 +74,56 @@ xyplot.zoo <- function(x, data, screens = seq(length = NCOL(x)),
 
 }
 
-panel.lines.zoo <- function(x, ...) panel.lines(time(x), coredata(x), ...)
-panel.points.zoo <- function(x, ...) panel.lines(time(x), coredata(x), ...)
-panel.segments.zoo <- function(x0, x1, ...) 
+panel.lines.ts <- 
+panel.lines.its <-
+panel.lines.zoo <- function(x, ...) {
+	x <- as.zoo(x)
+	panel.lines(time(x), coredata(x), ...)
+}
+
+panel.points.ts <- 
+panel.points.its <-
+panel.points.zoo <- function(x, ...) {
+	x <- as.zoo(x)
+	panel.lines(time(x), coredata(x), ...)
+}
+
+panel.segments.ts <- 
+panel.segments.its <-
+panel.segments.zoo <- function(x0, x1, ...) {
+	x0 <- as.zoo(x0)
+	x1 <- as.zoo(x1)
 	panel.segments(time(x0), coredata(x0), time(x1), coredata(x1), ...)
-panel.text.zoo <- function(x, ...) panel.text(time(x), coredata(x), ...)
-panel.rect.zoo <- function(x0, x1, ...)
+}
+
+panel.text.ts <- 
+panel.text.its <-
+panel.text.zoo <- function(x, ...) {
+	x0 <- as.zoo(x0)
+	x1 <- as.zoo(x1)
+	panel.text(time(x), coredata(x), ...)
+}
+
+panel.rect.ts <- 
+panel.rect.its <-
+panel.rect.zoo <- function(x0, x1, ...) {
+	x0 <- as.zoo(x0)
+	x1 <- as.zoo(x1)
 	panel.rect(time(x0), coredata(x0), time(x1), coredata(x1), ...)
-panel.arrows.zoo <- function(x0, x1, ...)
+}
+
+panel.arrows.ts <- 
+panel.arrows.its <-
+panel.arrows.zoo <- function(x0, x1, ...) {
+	x0 <- as.zoo(x0)
+	x1 <- as.zoo(x1)
 	panel.rect(time(x0), coredata(x0), time(x1), coredata(x1), ...)
+}
+
+panel.polygon.ts <- 
+panel.polygon.its <-
 panel.polygon.zoo <- function(x, ...)
+	x <- as.zoo(x)
 	panel.polygon(time(x), coredata(x), ...)
+}
+

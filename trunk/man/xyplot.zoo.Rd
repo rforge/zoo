@@ -2,6 +2,27 @@
 \alias{xyplot.zoo}
 \alias{xyplot.ts}
 \alias{xyplot.its}
+\alias{panel.lines.zoo}
+\alias{panel.lines.ts}
+\alias{panel.lines.its}
+\alias{panel.points.zoo}
+\alias{panel.points.ts}
+\alias{panel.points.its}
+\alias{panel.segments.zoo}
+\alias{panel.segments.ts}
+\alias{panel.segments.its}
+\alias{panel.text.zoo}
+\alias{panel.text.ts}
+\alias{panel.text.its}
+\alias{panel.rect.zoo}
+\alias{panel.rect.ts}
+\alias{panel.rect.its}
+\alias{panel.arrows.zoo}
+\alias{panel.arrows.ts}
+\alias{panel.arrows.its}
+\alias{panel.polygon.zoo}
+\alias{panel.polygon.ts}
+\alias{panel.polygon.its}
 \alias{plotpanel}
 \title{ Plot zoo Series with Lattice }
 \description{
@@ -29,12 +50,32 @@ classes.
     type = "l", col = 1, hdg = NULL, ...) 
 
 panel.lines.zoo(x, ...)
+panel.lines.ts(x, ...)
+panel.lines.its(x, ...)
+
 panel.points.zoo(x, ...)
+panel.points.ts(x, ...)
+panel.points.its(x, ...)
+
 panel.segments.zoo(x0, x1, ...) 
+panel.segments.ts(x0, x1, ...) 
+panel.segments.its(x0, x1, ...) 
+
 panel.text.zoo(x, ...)
+panel.text.ts(x, ...)
+panel.text.its(x, ...)
+
 panel.rect.zoo(x0, x1, ...)
+panel.rect.ts(x0, x1, ...)
+panel.rect.its(x0, x1, ...)
+
 panel.arrows.zoo(x0, x1, ...)
+panel.arrows.ts(x0, x1, ...)
+panel.arrows.its(x0, x1, ...)
+
 panel.polygon.zoo(x, ...)
+panel.polygon.ts(x, ...)
+panel.polygon.its(x, ...)
 
 }
 %- maybe also 'usage' for other objects documented here.
