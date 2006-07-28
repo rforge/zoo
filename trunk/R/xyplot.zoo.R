@@ -85,7 +85,7 @@ panel.points.ts <-
 panel.points.its <-
 panel.points.zoo <- function(x, ...) {
 	x <- as.zoo(x)
-	panel.lines(time(x), coredata(x), ...)
+	panel.points(time(x), coredata(x), ...)
 }
 
 panel.segments.ts <- 
