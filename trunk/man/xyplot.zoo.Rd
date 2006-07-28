@@ -144,17 +144,21 @@ z <- zoo(cbind(a = 1:5, b = 11:15, c = 21:25) + rnorm(5))
 print(xyplot(z))
 
 # overplot a blue running mean on the panel of b
+# as well as a grid
 trellis.focus("panel", 1, 2, highlight = FALSE)
 z.mean <- rollmean(z, 3)
-
 # uncomment next line and remove line after that when
 # lattice makes panel.lines generic
 # print(panel.lines(time(z.mean), z.mean[,2], col = "blue"))
 print(panel.lines.zoo(z.mean[,2], col = "blue"))
+print(panel.grid(h = 10, v = 10, col = "grey", lty = 3))
 trellis.unfocus()
 
 # same but make first (i.e. bottom) panel twice as large as others
 print(xyplot(z), heights = list(c(2,1,1), units = "null"))
+# add a grid - this method does not confine grid to frames
+# To do that see prior example.
+panel.grid()
 
 # Plot all in one panel.
 print(xyplot(z, screens = 1))
