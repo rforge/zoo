@@ -122,7 +122,7 @@ panel.arrows.zoo <- function(x0, x1, ...) {
 
 panel.polygon.ts <- 
 panel.polygon.its <-
-panel.polygon.zoo <- function(x, ...)
+panel.polygon.zoo <- function(x, ...) {
 	x <- as.zoo(x)
 	panel.polygon(time(x), coredata(x), ...)
 }
