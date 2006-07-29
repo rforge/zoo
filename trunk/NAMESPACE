@@ -57,6 +57,30 @@ export(
   "as.yearqtr",
   "as.yearqtr.default",
 
+# *** temporary -- change these to S3Method when lattice creates generics
+  "panel.lines.ts",
+  "panel.lines.its",
+  "panel.lines.zoo",
+  "panel.points.ts",
+  "panel.points.its",
+  "panel.points.zoo",
+  "panel.segments.ts",
+  "panel.segments.its",
+  "panel.segments.zoo",
+  "panel.text.ts",
+  "panel.text.its",
+  "panel.text.zoo",
+  "panel.rect.ts",
+  "panel.rect.its",
+  "panel.rect.zoo",
+  "panel.arrows.ts",
+  "panel.arrows.its",
+  "panel.arrows.zoo",
+
+  "panel.polygon.ts",
+  "panel.polygon.its",
+  "panel.polygon.zoo",
+
 ## auxiliary generics
   "MATCH",
   "MATCH.default",
