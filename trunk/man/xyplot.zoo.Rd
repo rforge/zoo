@@ -143,8 +143,8 @@ z <- zoo(cbind(a = 1:5, b = 11:15, c = 21:25) + rnorm(5))
 # Plot one panel per series.
 print(xyplot(z))
 
-# overplot a blue running mean on the panel of b
-# as well as a grid
+# plot a blue running mean on the panel of b.
+# Also add a grid.
 trellis.focus("panel", 1, 2, highlight = FALSE)
 z.mean <- rollmean(z, 3)
 # uncomment next line and remove line after that when
@@ -152,6 +152,13 @@ z.mean <- rollmean(z, 3)
 # print(panel.lines(time(z.mean), z.mean[,2], col = "blue"))
 print(panel.lines.zoo(z.mean[,2], col = "blue"))
 print(panel.grid(h = 10, v = 10, col = "grey", lty = 3))
+trellis.unfocus()
+
+# plot a light grey rectangle "behind" panel b
+trellis.focus("panel", 1, 2)
+grid.rect(x = 2, w = 1, default.units = "native", 
+	gp = gpar(fill = "light grey"))
+do.call("plotpanel", trellis.panelArgs())
 trellis.unfocus()
 
 # same but make first (i.e. bottom) panel twice as large as others
