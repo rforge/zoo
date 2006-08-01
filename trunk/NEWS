@@ -9,12 +9,17 @@ Changes in Version 1.1-2
   o removed parm() from plot.zoo() and made it independent of plot.zoo() so it 
     can be shared with xyplot.zoo() FIXME
 
-  o added xyplot.zoo(), xyplot.ts(), xyplot.its() (last one requires its package)
+  o added xyplot.zoo(), xyplot.ts(), xyplot.its().  xyplot.its needs 'its'
+    package.
 
-  o fixed bug in logical subscripting
+  o subscripting by a zoo object whose data is logical is not defined
 
   o fixed bug in subscripting for drop = TRUE and length of result is 1
 
+  o fixed bug in na.trim(x, "right")
+
+  o all= argument of merge.zoo is coerced to logical so one can do this:
+    merge(zoo(2:4, 2:4), zoo(1:3), all = 0:1)
 
 Changes in Version 1.1-1
 
