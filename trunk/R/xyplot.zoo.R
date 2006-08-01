@@ -99,8 +99,7 @@ panel.segments.zoo <- function(x0, x1, ...) {
 panel.text.ts <- 
 panel.text.its <-
 panel.text.zoo <- function(x, ...) {
-	x0 <- as.zoo(x0)
-	x1 <- as.zoo(x1)
+	x <- as.zoo(x)
 	panel.text(time(x), coredata(x), ...)
 }
 
