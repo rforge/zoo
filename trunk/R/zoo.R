@@ -104,7 +104,7 @@ str.zoo <- function(object, ...)
   if (all(class(i) == "logical"))
     i <- which(i)
   else if (inherits(i, "zoo") && all(class(coredata(i)) == "logical")) {
-    i <- which(coredata(i))
+    i <- which(coredata(merge(zoo(,time(x)), i)))
   } else if(!((all(class(i) == "numeric") || all(class(i) == "integer")))) 
     i <- which(MATCH(x.index, i, nomatch = 0) > 0)
   

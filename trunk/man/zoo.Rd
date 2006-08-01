@@ -130,7 +130,8 @@ indexes of type \code{"numeric"}, \code{"integer"} or \code{"logical"}. But
 additionally, it can be used to index with observations from the index class of
 the series. If the index class of the series is one of the three classes above,
 the corresponding index has to be encapsulated in \code{I()} to enforce usage of
-the index class (see examples).
+the index class (see examples).   Subscripting by a zoo object whose
+data contains logical values is undefined.
 
 Additionally, \code{zoo} provides several generic functions and methods
 to work (a) on the data contained in a \code{"zoo"} object, (b) the
