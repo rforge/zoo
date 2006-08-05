@@ -136,6 +136,7 @@ panel.polygon.its(x, ...)
 \examples{
 
 library(lattice)
+library(grid)
 
 set.seed(1)
 z <- zoo(cbind(a = 1:5, b = 11:15, c = 21:25) + rnorm(5))
@@ -177,6 +178,23 @@ print(xyplot(z, screens = 1))
 # Make 2nd (upper) panel 3x the height of the 1st (lower) panel
 p <- xyplot(z, screens = c(1,1,2), type = c("p", "l", "o"), col = 1:3)
 print(p, panel.height = list(y = c(1, 3), units = "null"))
+
+# Example of using a custom axis
+# Months are labelled with smaller ticks for weeks and even smaller
+# ticks for days.
+Days <- seq(from = as.Date("2006-1-1"), to = as.Date("2006-8-8"), by = "day")
+z <- zoo(seq(length(Days))^2, Days)
+Months <- seq(min(Days), max(Days), "month")
+Weeks <- seq(min(Days), max(Days), "week")
+xyplot(z, scales = list(x = list(at = Months)))
+trellis.focus("panel", 1, 1, clip.off = TRUE)
+panel.axis("bottom", check.overlap = TRUE, outside = TRUE, labels = FALSE, 
+   tck = .7, at = as.numeric(Weeks))
+panel.axis("bottom", check.overlap = TRUE, outside = TRUE, labels = FALSE, 
+   tck = .4, at = as.numeric(tt))
+trellis.unfocus()
+
+
 
 }
 \keyword{ts}
