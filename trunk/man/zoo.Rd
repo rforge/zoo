@@ -260,6 +260,14 @@ plot(z3)
 lines(aggregate(z3, index(z3), mean), col = 2)
 ## or by using the last observation
 lines(aggregate(z3, index(z3), tail, 1), col = 4)
+
+## x1[x1 > 3] is not officially supported since
+## x1 > 3 is of class "zoo", not "logical".
+## Use one of these instead:
+x1[which(x1 > 3)]
+x1[coredata(x1 > 3)]
+x1[as.logical(x1 > 3)]
+subset(x1, x1 > 3)
 }
 \keyword{ts}
 
