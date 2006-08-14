@@ -33,110 +33,67 @@ classes.
 
 \method{xyplot}{zoo}(x, data, screens = seq(length = NCOL(x)), 
     default.scales = list(y = list(relation = "free")), 
-    layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, 
+    layout = NULL, xlab = "Index", ylab = NULL, 
     lty = 1, lwd = 1, pch = 1, 
-    type = "l", col = 1, hdg = NULL, ...) 
-
-\method{xyplot}{ts}(x, data, screens = seq(length = NCOL(x)), 
-    default.scales = list(y = list(relation = "free")), 
-    layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, 
-    lty = 1, lwd = 1, pch = 1, 
-    type = "l", col = 1, hdg = NULL, ...) 
-
-\method{xyplot}{its}(x, data, screens = seq(length = NCOL(x)), 
-    default.scales = list(y = list(relation = "free")), 
-    layout = c(1, nlevels(fac)), xlab = "Index", ylab = NULL, 
-    lty = 1, lwd = 1, pch = 1, 
-    type = "l", col = 1, hdg = NULL, ...) 
+    type = "l", col = 1, hdg = TRUE, ...) 
 
 panel.lines.zoo(x, ...)
-panel.lines.ts(x, ...)
-panel.lines.its(x, ...)
-
 panel.points.zoo(x, ...)
-panel.points.ts(x, ...)
-panel.points.its(x, ...)
-
 panel.segments.zoo(x0, x1, ...) 
-panel.segments.ts(x0, x1, ...) 
-panel.segments.its(x0, x1, ...) 
-
 panel.text.zoo(x, ...)
-panel.text.ts(x, ...)
-panel.text.its(x, ...)
-
 panel.rect.zoo(x0, x1, ...)
-panel.rect.ts(x0, x1, ...)
-panel.rect.its(x0, x1, ...)
-
 panel.arrows.zoo(x0, x1, ...)
-panel.arrows.ts(x0, x1, ...)
-panel.arrows.its(x0, x1, ...)
-
 panel.polygon.zoo(x, ...)
-panel.polygon.ts(x, ...)
-panel.polygon.its(x, ...)
 
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x, x0, x1}{ Time series of class \code{zoo}, \code{ts} or \code{its}. }
-  \item{data}{ Currently not used. }
-  \item{screens}{ If \code{n} panels are desired then this is an unamed
-    vector with one component per column of \code{x} each of which is 
-    \code{1} to \code{n} showing which panel the corresponding column of 
-    \code{x} should be plotted.   If fewer components are specified than 
-    columns then it is extended via recylcing.  For example, 
-    \code{screens=1} would plot all series in a single panel.}
-    Alternately it can be a named vector with the names corresponding
-    to column names of \code{x}.  If there is one unnamed component then
-    any columns not named are assigned to the panel referenced by that
-    unamed component.  If \code{screens} is omitted then each column is 
-    plotted in a separate panel. 
-  \item{default.scales}{ The default is set so that all series have the same
-    \code{X} axis but free \code{Y} axis.  See \code{xyplot} in the
-    \code{Lattice} package for more information on \code{scales}.  Normally
-    the user should not modify this argument.  Use the \code{lattice}
-    \code{scales} argument instead. }.
-  \item{layout}{ See \code{layout} in the
-    \code{Lattice} package for more information on \code{layout}.
-      For example, c(1,3) means one column of 3 panels and 
-      c(3,1) means 3 columns of 1 panel each.}
-  \item{xlab}{ Character string used as the X axis label. }
-  \item{ylab}{ Character string used as the Y axis label.  If there
-     are multiple panels it may be a character vector the same length
-     as the number of panels. }
-  \item{lty}{ See \code{lty} in \code{Lattice} package for more information.
-     May be a vector the same length as the number of series or may be
-     named in which case the series column names will be matched to the
-     names here.  If one element is unnamed it will be used as the default.}
-  \item{lwd}{ See \code{lwd} in \code{Lattice} package for more information.
-     Processing is as described above for \code{lty}.}
-  \item{pch}{ See \code{pch} in \code{Lattice} package for more information.
-     Processing is as described above for \code{lty} except that a list
-     is also allowed in which case each element may be a scalar or a 
-     vector with one element per point in the corresonding column.}
-  \item{type}{ See \code{type} in \code{Lattice} package for more information.
-     Processing is as described above for \code{lty}.}
-  \item{col}{ See \code{col} in \code{Lattice} package for more information.
-     Processing is as described above for \code{pch}.}
-  \item{hdg}{ Headings used for panels.  This is a character vector the same
-     length as the number of panels.  Default is to use column names for
-     headers.  \code{FALSE} can be used to omit headings.}
-  \item{\dots}{ Other arguments as in \code{lattice}. }
+  \item{x, x0, x1}{time series object of class \code{"zoo"}, \code{"ts"} or \code{"its"}. }
+  \item{data}{currently not used.}
+  \item{screens}{factor (or coerced to factor) whose levels specify which
+    graph each series is to be plotted in.  \code{screens = c(1, 2, 1)}
+    would plot series 1, 2 and 3 in graphs 1, 2 and 1.}
+  \item{default.scales}{\code{scales} specification. The default is set so that all
+    series have the \code{"same"} X axis but \code{"free"} Y axis. 
+    See \code{\link[lattice]{xyplot}} in the \pkg{lattice} package for more
+    information on \code{scales}.  Normally the user should not modify this argument.
+    Use the \pkg{lattice} \code{scales} argument instead.}
+  \item{layout}{numeric vector of length 2 specifying number of columns
+    and rows in the plot, see \code{\link[lattice]{xyplot}} for more details.
+    The default is to fill columns with up to 5 rows.}
+  \item{xlab}{character string used as the X axis label.}
+  \item{ylab}{character string used as the Y axis label. If there
+    are multiple panels it may be a character vector the same length
+    as the number of panels.}
+  \item{lty, lwd, pch, type, col}{graphical arguments passed to \code{\link[lattice]{xyplot}}.
+    These arguments can also be vectors or (named) lists, see details
+    for more information.}
+  \item{hdg}{character or logical specifying headings used for panels. 
+     If character, should be a vector the same length as the number of panels.
+     If \code{TRUE}, column names for headers.
+     If \code{FALSE}, no headings are produced.}
+  \item{\dots}{additional arguments passed to \code{\link[lattice]{xyplot}}. }
 }
 \details{
-  Plots a \code{zoo}, \code{ts} or \code{its} object using 
-  the \code{Lattice} package \code{xyplot} routine.
+  Plots a \code{"zoo"}, \code{"ts"} or \code{"its"} object using
+  \code{\link[lattice]{xyplot}} from \pkg{lattice}. Series of other classes
+  are coerced to \code{"zoo"} first.
+  
+  The handling of several graphical parameters is more
+  flexible for multivariate series. These parameters can be
+  vectors of the same length as the number of series plotted or
+  are recycled if shorter. They can also be (partially) named list, e.g.,
+  \code{list(A = c(1,2), c(3,4))} in which \code{c(3, 4)} is the
+  default value and \code{c(1, 2)} the value only  for series \code{A}.
+  The \code{screens} argument can be specified in a similar way.
 }
 \value{
-  Invisibly returns a \code{trellis} class object.  Printing this
+  Invisibly returns a \code{trellis} class object. Printing this
   object using \code{print} will display it.
 }
 \examples{
 
-library(lattice)
-library(grid)
+library("lattice")
+library("grid")
 
 set.seed(1)
 z <- zoo(cbind(a = 1:5, b = 11:15, c = 21:25) + rnorm(5))
@@ -184,17 +141,14 @@ print(p, panel.height = list(y = c(1, 3), units = "null"))
 # ticks for days.
 Days <- seq(from = as.Date("2006-1-1"), to = as.Date("2006-8-8"), by = "day")
 z <- zoo(seq(length(Days))^2, Days)
-Months <- Days[format(Days, "%d") == "01"]
-Weeks <- Days[format(Days, "%w") == "0"]
+Months <- Days[format(Days, "%d") == "01"] ## need to escape %?
+Weeks <- Days[format(Days, "%w") == "0"]   ## need to escape %?
 xyplot(z, scales = list(x = list(at = Months)))
 trellis.focus("panel", 1, 1, clip.off = TRUE)
 panel.axis("bottom", check.overlap = TRUE, outside = TRUE, labels = FALSE, 
    tck = .7, at = as.numeric(Weeks))
 panel.axis("bottom", check.overlap = TRUE, outside = TRUE, labels = FALSE, 
-   tck = .4, at = as.numeric(tt))
+   tck = .4, at = as.numeric(tt)) ##FIXME: tt undefined
 trellis.unfocus()
-
-
-
 }
 \keyword{ts}

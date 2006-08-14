@@ -7,7 +7,8 @@ zoo <- function (x, order.by = index(x), frequency = NULL)
     else if (is.vector(x)) 
         x <- rep(x, length.out = length(index))[index]
     else if (is.factor(x))         
-        x <- factor(rep(as.character(x), length.out = length(index))[index], labels = levels(x))
+        x <- factor(rep(as.character(x), length.out = length(index))[index],
+	  levels = levels(x), ordered = is.ordered(x))
     else if (is.matrix(x) || is.data.frame(x)) 
         x <- (x[rep(1:NROW(x), length.out = length(index)), , 
             drop = FALSE])[index, , drop = FALSE]

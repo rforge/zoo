@@ -14,8 +14,8 @@ export(
   "is.zoo",
   "merge.zoo",
   "plot.zoo",
-  "parm",      ## FIXME
-  "plotpanel", ## FIXME
+  "parm",      ## FIXME: rename                (see R/plot.zoo.R for details)
+  "plotpanel", ## FIXME: rename, do not export (see R/xyplot.zoo.R for details)
   "read.zoo",
 
 ## new time series functionality

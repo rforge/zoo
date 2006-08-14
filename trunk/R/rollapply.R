@@ -1,6 +1,13 @@
-rollapply <- rapply <- function(data, width, FUN, by = 1, ascending = TRUE,
+rollapply <- function(data, width, FUN, by = 1, ascending = TRUE,
   by.column = TRUE, na.pad = FALSE, align = c("center", "left", "right"), ...)
     UseMethod("rollapply")
+
+rapply <- function(data, width, FUN, by = 1, ascending = TRUE,
+  by.column = TRUE, na.pad = FALSE, align = c("center", "left", "right"), ...)
+{
+    .Deprecated("rollapply")
+    UseMethod("rollapply")
+}
 
 rollapply.zoo <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE,
   align = c("center", "left", "right"), ...) {

@@ -1,5 +1,6 @@
 \name{rollapply}
 \alias{rapply}
+\alias{rapply-deprecated}
 \alias{rollapply}
 \alias{rollapply.zoo}
 \alias{rollapply.ts}
