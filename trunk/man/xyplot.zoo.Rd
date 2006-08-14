@@ -141,8 +141,8 @@ print(p, panel.height = list(y = c(1, 3), units = "null"))
 # ticks for days.
 Days <- seq(from = as.Date("2006-1-1"), to = as.Date("2006-8-8"), by = "day")
 z <- zoo(seq(length(Days))^2, Days)
-Months <- Days[format(Days, "%d") == "01"] ## need to escape %?
-Weeks <- Days[format(Days, "%w") == "0"]   ## need to escape %?
+Months <- Days[format(Days, "%d") == "01"] ##FIXME: need to escape %?
+Weeks <- Days[format(Days, "%w") == "0"]   ##FIXME: need to escape %?
 xyplot(z, scales = list(x = list(at = Months)))
 trellis.focus("panel", 1, 1, clip.off = TRUE)
 panel.axis("bottom", check.overlap = TRUE, outside = TRUE, labels = FALSE, 

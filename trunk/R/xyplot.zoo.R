@@ -49,8 +49,8 @@ xyplot.zoo <- function(x, data,
   }
   fo <- if(NCOL(x) == 1) x ~ tt else x ~ tt | fac
   if(isTRUE(hdg)) {
-       isnotdup <- !duplicated(screens)
-       hdg <- cn[isnotdup][order(screens[isnotdup])]
+    isnotdup <- !duplicated(screens)
+    hdg <- cn[isnotdup][order(screens[isnotdup])]
   }
   if(!identical(hdg, FALSE)) hdg <- 
        strip.custom(factor.levels = rep(hdg, length(unique(screens))))
