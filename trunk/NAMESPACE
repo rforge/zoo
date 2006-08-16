@@ -12,10 +12,11 @@ export(
   "cbind.zoo",
   "rbind.zoo",
   "is.zoo",
+  "make.par.list",
   "merge.zoo",
   "plot.zoo",
-  "parm",      ## FIXME: rename                (see R/plot.zoo.R for details)
-  "plotpanel", ## FIXME: rename, do not export (see R/xyplot.zoo.R for details)
+  "panel.plot.default", 
+  "panel.plot.custom",
   "read.zoo",
 
 ## new time series functionality

@@ -23,7 +23,8 @@
 \alias{panel.polygon.zoo}
 \alias{panel.polygon.ts}
 \alias{panel.polygon.its}
-\alias{plotpanel}
+\alias{panel.plot.default}
+\alias{panel.plot.custom}
 \title{ Plot zoo Series with Lattice }
 \description{
 \code{xyplot} method for \code{zoo} class. Also \code{ts} and \code{its} 
@@ -35,7 +36,14 @@ classes.
     default.scales = list(y = list(relation = "free")), 
     layout = NULL, xlab = "Index", ylab = NULL, 
     lty = 1, lwd = 1, pch = 1, 
-    type = "l", col = 1, hdg = TRUE, ...) 
+    type = "l", col = 1, strip = TRUE, 
+    panel = panel.plot.default, ...) 
+
+panel.plot.default(x, y, subscripts, groups, 
+    panel = panel.xyplot, col = 1, 
+    type = "p", pch = 20, lty = 1, lwd = 1, ...) 
+
+panel.plot.custom(...) 
 
 panel.lines.zoo(x, ...)
 panel.points.zoo(x, ...)
@@ -47,7 +55,12 @@ panel.polygon.zoo(x, ...)
 
 }
 \arguments{
-  \item{x, x0, x1}{time series object of class \code{"zoo"}, \code{"ts"} or \code{"its"}. }
+  \item{x, x0, x1}{time series object of class \code{"zoo"}, \code{"ts"} or 
+  \code{"its"}.  For \code{panel.plot.default} is represents a numeric
+  vector.}
+  \item{y}{Numeric vector or matrix.}
+  \item{subscripts, groups, panel}{See description of \code{panel} argument
+   in \code{\link[lattice]{xyplot}}.}
   \item{data}{currently not used.}
   \item{screens}{factor (or coerced to factor) whose levels specify which
     graph each series is to be plotted in.  \code{screens = c(1, 2, 1)}
@@ -67,14 +80,17 @@ panel.polygon.zoo(x, ...)
   \item{lty, lwd, pch, type, col}{graphical arguments passed to \code{\link[lattice]{xyplot}}.
     These arguments can also be vectors or (named) lists, see details
     for more information.}
-  \item{hdg}{character or logical specifying headings used for panels. 
-     If character, should be a vector the same length as the number of panels.
-     If \code{TRUE}, column names for headers.
-     If \code{FALSE}, no headings are produced.}
+  \item{strip}{logical, character or function specifying headings used for 
+     panels.  If character, should be a vector the same length as the 
+     number of panels.  If \code{TRUE} column names are used for headers.
+     If \code{FALSE}, no headings are produced.  See 
+     \code{\link[lattice]{xyplot}} for the case in 
+     which \code{strip} is a function.}
   \item{\dots}{additional arguments passed to \code{\link[lattice]{xyplot}}. }
 }
 \details{
-  Plots a \code{"zoo"}, \code{"ts"} or \code{"its"} object using
+  \code{xyplot.zoo} plots 
+  a \code{"zoo"}, \code{"ts"} or \code{"its"} object using
   \code{\link[lattice]{xyplot}} from \pkg{lattice}. Series of other classes
   are coerced to \code{"zoo"} first.
   
@@ -85,6 +101,14 @@ panel.polygon.zoo(x, ...)
   \code{list(A = c(1,2), c(3,4))} in which \code{c(3, 4)} is the
   default value and \code{c(1, 2)} the value only  for series \code{A}.
   The \code{screens} argument can be specified in a similar way.
+
+  \code{plot.panel.default} is the default panel function.  
+  \code{plot.panel.custom} facilitates the development of 
+  custom panels.   Usually it has one argument \code{"panel"}
+  which specifies the custom panel.  That panel typically calls
+  \code{plot.panel.default} and uses the \code{panel.number}
+  argument to take additional special action for particular panels.  
+  See the examples.
 }
 \value{
   Invisibly returns a \code{trellis} class object. Printing this
@@ -98,11 +122,13 @@ library("grid")
 set.seed(1)
 z <- zoo(cbind(a = 1:5, b = 11:15, c = 21:25) + rnorm(5))
  
-# Plot one panel per series.
-print(xyplot(z))
 
 # plot a blue running mean on the panel of b.
 # Also add a grid.
+# We show two ways to do it. 
+
+# Number 1.  Using trellis.focus.
+print(xyplot(z))
 trellis.focus("panel", 1, 2, highlight = FALSE)
 z.mean <- rollmean(z, 3)
 # uncomment next line and remove line after that when
@@ -112,11 +138,22 @@ print(panel.lines.zoo(z.mean[,2], col = "blue"))
 print(panel.grid(h = 10, v = 10, col = "grey", lty = 3))
 trellis.unfocus()
 
+# Number 2. Using a custom panel routine.
+p <- function(x, y, groups = NULL, ..., panel.number) {
+	panel.xyplot(x, y, groups = groups, ..., panel.number)
+	if (panel.number == 2) {
+		panel.lines.zoo(rollmean(zoo(y, x), 3), col = "blue")
+		panel.grid(h = 10, v = 10, col = "grey", lty = 3)
+	}
+}
+print(xyplot(z, panel = panel.plot.custom(panel = p)))
+
+
 # plot a light grey rectangle "behind" panel b
 trellis.focus("panel", 1, 2)
 grid.rect(x = 2, w = 1, default.units = "native", 
 	gp = gpar(fill = "light grey"))
-do.call("plotpanel", trellis.panelArgs())
+do.call("panel.plot.default", trellis.panelArgs())
 trellis.unfocus()
 
 # same but make first (i.e. bottom) panel twice as large as others

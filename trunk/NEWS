@@ -9,10 +9,13 @@ Changes in Version 1.2-0
   o added xyplot.zoo(), xyplot.ts(), xyplot.its(). xyplot.its needs 'its'
     package.
 
-  o removed parm() from plot.zoo() and made it independent of plot.zoo() so it 
-    can be shared with xyplot.zoo() FIXME: rename parm(), see R/plot.zoo() for details
+  o renamed parm() to make.par.list() and removed it from plot.zoo so
+    it can be shared by xyplot.zoo and future plotting routines.
+    See ?make.par.list .
 
   o subscripting by a "zoo" object whose data is logical is now defined
+    ??? z <- zoo(1:10); z[z > 3] works but not assignment such as:
+    z[z > 3] <- 2 * z[z > 3]
   
   o fixed a bug in zoo() when ordered factors are supplied ("ordered"
     class was dropped)

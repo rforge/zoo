@@ -1,4 +1,4 @@
-parm <- function(nams, x, n, m, def, recycle = sum(unnamed) > 0) {
+make.par.list <- function(nams, x, n, m, def, recycle = sum(unnamed) > 0) {
 ##FIXME: needs to be renamed: parlist() maybe, or procpar()?
 ##FIXME: should defaults for n, m, def be available?
 
@@ -76,7 +76,7 @@ plot.zoo <- function(x, y = NULL, screens = 1,
   cn <- if (is.null(colnames(x))) paste("V", seq(length = nser), sep = "")
 	  else colnames(x)
 
-  screens <- parm(cn, screens, NROW(x), nser, 1)
+  screens <- make.par.list(cn, screens, NROW(x), nser, 1)
   screens <- as.factor(unlist(screens))[drop = TRUE]
   ngraph <- length(levels(screens))
   if(nser > 1 && (plot.type == "multiple" || ngraph > 1)) {
@@ -90,13 +90,13 @@ plot.zoo <- function(x, y = NULL, screens = 1,
     if(is.null(ylab)) ylab <- paste("Series", which(!duplicated(screens)))
     ylab <- rep(ylab, length.out = ngraph)
     lty <- rep(lty, length.out = nser)
-    col <- parm(cn, col, NROW(x), nser, 1)
-    pch <- parm(cn, pch, NROW(x), nser, par("pch"))
-    type <- parm(cn, type, NROW(x), nser, "l")
+    col <- make.par.list(cn, col, NROW(x), nser, 1)
+    pch <- make.par.list(cn, pch, NROW(x), nser, par("pch"))
+    type <- make.par.list(cn, type, NROW(x), nser, "l")
     if (!is.null(ylim)) {
         if (is.list(ylim)) ylim <- lapply(ylim, range, na.rm = TRUE)
 	else ylim <- list(range(ylim, na.rm = TRUE))
-	ylim <- lapply(parm(cn, ylim, 2, nser, NULL), function(x) 
+	ylim <- lapply(make.par.list(cn, ylim, 2, nser, NULL), function(x) 
 		if (is.null(x) || length(na.omit(x)) ==0) NULL 
 		else range(x, na.rm = TRUE))
     }
@@ -138,9 +138,9 @@ plot.zoo <- function(x, y = NULL, screens = 1,
 	else ylim <- range(c(ylim, recursive = TRUE), na.rm = TRUE)
 
     lty <- rep(lty, length.out = nser)
-    col <- parm(cn, col, NROW(x), nser, 1)
-    pch <- parm(cn, pch, NROW(x), nser, par("pch"))
-    type <- parm(cn, type, NROW(x), nser, "l")
+    col <- make.par.list(cn, col, NROW(x), nser, 1)
+    pch <- make.par.list(cn, pch, NROW(x), nser, par("pch"))
+    type <- make.par.list(cn, type, NROW(x), nser, "l")
    
     dummy <- rep(range(x, na.rm = TRUE), 
 	length.out = length(index(x)))

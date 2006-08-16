@@ -1,7 +1,6 @@
-plotpanel <- function(x, y, subscripts, groups,
+
+panel.plot.default <- function(x, y, subscripts, groups, panel = panel.xyplot,
   col = 1, type = "p", pch = 20, lty = 1, lwd = 1, ...)
-##FIXME: rename, maybe panel.plot() or panel.timeseries()?
-##FIXME: probably not export in NAMESPACE (until needed by someone)
 {
   col <- rep(as.list(col), length = nlevels(groups))
   type <- rep(as.list(type), length = nlevels(groups))
@@ -11,10 +10,18 @@ plotpanel <- function(x, y, subscripts, groups,
 
   for(g in 1:nlevels(groups)) {
     idx <- g == groups[subscripts]
-    if (any(idx)) panel.xyplot(x[idx], y[idx],
+    if (any(idx)) panel(x[idx], y[idx], ...,
       col = col[[g]], type = type[[g]], pch = pch[[g]],
-      lty = lty[[g]], lwd = lwd[[g]], ...)
+      lty = lty[[g]], lwd = lwd[[g]])
   }
+}
+
+panel.plot.custom <- function(...) {
+	args <- list(...)
+	function(...) {
+		dots <- list(...)
+		do.call("panel.plot.default", lattice:::updateList(dots, args))
+	}
 }
 
 xyplot.its <-
@@ -23,21 +30,20 @@ xyplot.zoo <- function(x, data,
   screens = seq(length = NCOL(x)),
   default.scales = list(y = list(relation = "free")),  ##FIXME: omit as exported argument?
   layout = NULL, xlab = "Index", ylab = NULL,
-  lty = 1, lwd = 1, pch = 1, type = "l", col = 1, hdg = TRUE, ...)
+  lty = 1, lwd = 1, pch = 1, type = "l", col = 1, strip = TRUE,
+  panel = panel.plot.default, ...)
 {
-  stopifnot(require("lattice")) ##FIXME: Is this needed? If lattice is not attached, it is
-                                ##FIXME: not possible to detach to xyplot.zoo() anyway.
   x <- as.zoo(x)
   if (length(dim(x)) < 2) x <- zoo(matrix(coredata(x),,1), time(x))
   cn <- if (is.null(colnames(x))) paste("V", seq(length = NCOL(x)), sep = "")
           else colnames(x)
-  screens <- parm(cn, screens, NROW(x), NCOL(x), 1)
+  screens <- make.par.list(cn, screens, NROW(x), NCOL(x), 1)
   screens <- as.factor(unlist(screens))[drop = TRUE]
-  lty <- parm(cn, lty, NROW(x), NCOL(x), 1)
-  lwd <- parm(cn, lwd, NROW(x), NCOL(x), 1)
-  pch <- parm(cn, pch, NROW(x), NCOL(x), 20)
-  type <- parm(cn, type, NROW(x), NCOL(x), "l")
-  col <- parm(cn, col, NROW(x), NCOL(x), 1)
+  lty <- make.par.list(cn, lty, NROW(x), NCOL(x), 1)
+  lwd <- make.par.list(cn, lwd, NROW(x), NCOL(x), 1)
+  pch <- make.par.list(cn, pch, NROW(x), NCOL(x), 20)
+  type <- make.par.list(cn, type, NROW(x), NCOL(x), "l")
+  col <- make.par.list(cn, col, NROW(x), NCOL(x), 1)
   tt <- rep(time(x), NCOL(x))
   x <- coredata(x)
   screens <- rep(screens, length = NCOL(x))
@@ -48,25 +54,25 @@ xyplot.zoo <- function(x, data,
     layout <- c(nc, nr)
   }
   fo <- if(NCOL(x) == 1) x ~ tt else x ~ tt | fac
-  if(isTRUE(hdg)) {
+  if (isTRUE(strip)) {
     isnotdup <- !duplicated(screens)
-    hdg <- cn[isnotdup][order(screens[isnotdup])]
+    strip <- cn[isnotdup][order(screens[isnotdup])]
   }
-  if(!identical(hdg, FALSE)) hdg <- 
-       strip.custom(factor.levels = rep(hdg, length(unique(screens))))
+  if (is.character(strip))
+    strip <- strip.custom(factor.levels = rep(strip, length(unique(screens))))
   if(is.null(ylab) || length(ylab) == 1) {
-    xyplot(fo, panel = plotpanel, groups = factor(col(x)),  
+    xyplot(fo, panel = panel, groups = factor(col(x)),  
            type = type, default.scales = default.scales, 
            layout = layout, xlab = xlab, ylab = ylab, pch = pch, 
-           col = col, lty = lty, lwd = lwd, strip = hdg, ...)
+           col = col, lty = lty, lwd = lwd, strip = strip, ...)
   } else {
     ylab <- rep(ylab, length = length(unique(screens)))
-    xyplot(fo, panel = plotpanel, groups = factor(col(x)),  
+    xyplot(fo, panel = panel, groups = factor(col(x)),  
   	   type = type, default.scales = default.scales, 
   	   layout = layout, xlab = xlab, ylab = "", pch = pch, 
   	   col = col, lty = lty, lwd = lwd, outer = TRUE,
   	   strip.left = strip.custom(horizontal = FALSE, 
-  	   factor.levels = ylab), strip = hdg, ...)
+  	   factor.levels = ylab), strip = TRUE, ...)
   }
 }
 
