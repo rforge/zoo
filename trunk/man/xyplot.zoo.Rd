@@ -178,7 +178,9 @@ print(xyplot(z, screens = 1))
 #  series via overprinting both lines and points
 # Use colors 1, 2 and 3 for the three series (1=black, 2=red, 3=green)
 # Make 2nd (upper) panel 3x the height of the 1st (lower) panel
-p <- xyplot(z, screens = c(1,1,2), type = c("p", "l", "o"), col = 1:3)
+# Also make the strip background orange.
+p <- xyplot(z, screens = c(1,1,2), type = c("p", "l", "o"), col = 1:3,
+  par.setting = list(strip.background = list(col = "orange")))
 print(p, panel.height = list(y = c(1, 3), units = "null"))
 
 # Example of using a custom axis
