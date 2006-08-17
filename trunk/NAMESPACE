@@ -12,12 +12,14 @@ export(
   "cbind.zoo",
   "rbind.zoo",
   "is.zoo",
-  "make.par.list",
   "merge.zoo",
+  "read.zoo",
+
+## plotting
   "plot.zoo",
+  "make.par.list",
   "panel.plot.default", 
   "panel.plot.custom",
-  "read.zoo",
 
 ## new time series functionality
   "coredata",
@@ -77,7 +79,6 @@ export(
   "panel.arrows.ts",
   "panel.arrows.its",
   "panel.arrows.zoo",
-
   "panel.polygon.ts",
   "panel.polygon.its",
   "panel.polygon.zoo",

@@ -25,11 +25,16 @@
 \alias{panel.polygon.its}
 \alias{panel.plot.default}
 \alias{panel.plot.custom}
-\title{ Plot zoo Series with Lattice }
+
+\title{Plot zoo Series with Lattice}
+
 \description{
-\code{xyplot} method for \code{zoo} class. Also \code{ts} and \code{its} 
-classes.
+\code{xyplot} methods for time series objects (of class \code{"zoo"}
+or \code{"ts"}, \code{"its"}). These functions are still under development
+and the interface and functionality might be modified/extended in future
+releases.
 }
+
 \usage{
 
 \method{xyplot}{zoo}(x, data, screens = seq(length = NCOL(x)), 
@@ -40,8 +45,8 @@ classes.
     panel = panel.plot.default, ...) 
 
 panel.plot.default(x, y, subscripts, groups, 
-    panel = panel.xyplot, col = 1, 
-    type = "p", pch = 20, lty = 1, lwd = 1, ...) 
+    panel = panel.xyplot,
+    col = 1, type = "p", pch = 20, lty = 1, lwd = 1, ...) 
 
 panel.plot.custom(...) 
 
@@ -56,11 +61,11 @@ panel.polygon.zoo(x, ...)
 }
 \arguments{
   \item{x, x0, x1}{time series object of class \code{"zoo"}, \code{"ts"} or 
-  \code{"its"}.  For \code{panel.plot.default} is represents a numeric
+  \code{"its"}.  For \code{panel.plot.default} it should be a numeric
   vector.}
-  \item{y}{Numeric vector or matrix.}
-  \item{subscripts, groups, panel}{See description of \code{panel} argument
-   in \code{\link[lattice]{xyplot}}.}
+  \item{y}{numeric vector or matrix.}
+  \item{subscripts, groups, panel}{arguments for panel functions, see
+   description of \code{panel} argument in \code{\link[lattice]{xyplot}}.}
   \item{data}{currently not used.}
   \item{screens}{factor (or coerced to factor) whose levels specify which
     graph each series is to be plotted in.  \code{screens = c(1, 2, 1)}
@@ -68,8 +73,8 @@ panel.polygon.zoo(x, ...)
   \item{default.scales}{\code{scales} specification. The default is set so that all
     series have the \code{"same"} X axis but \code{"free"} Y axis. 
     See \code{\link[lattice]{xyplot}} in the \pkg{lattice} package for more
-    information on \code{scales}.  Normally the user should not modify this argument.
-    Use the \pkg{lattice} \code{scales} argument instead.}
+    information on \code{scales}. For users, it is recommended to set the \code{scales}
+    argument instead of \code{default.scales}.}
   \item{layout}{numeric vector of length 2 specifying number of columns
     and rows in the plot, see \code{\link[lattice]{xyplot}} for more details.
     The default is to fill columns with up to 5 rows.}
@@ -111,18 +116,16 @@ panel.polygon.zoo(x, ...)
   See the examples.
 }
 \value{
-  Invisibly returns a \code{trellis} class object. Printing this
+  Invisibly returns a \code{"trellis"} class object. Printing this
   object using \code{print} will display it.
 }
 \examples{
-
 library("lattice")
 library("grid")
 
 set.seed(1)
 z <- zoo(cbind(a = 1:5, b = 11:15, c = 21:25) + rnorm(5))
  
-
 # plot a blue running mean on the panel of b.
 # Also add a grid.
 # We show two ways to do it. 
@@ -140,11 +143,11 @@ trellis.unfocus()
 
 # Number 2. Using a custom panel routine.
 p <- function(x, y, groups = NULL, ..., panel.number) {
-	panel.xyplot(x, y, groups = groups, ..., panel.number)
-	if (panel.number == 2) {
-		panel.lines.zoo(rollmean(zoo(y, x), 3), col = "blue")
-		panel.grid(h = 10, v = 10, col = "grey", lty = 3)
-	}
+  panel.xyplot(x, y, groups = groups, ..., panel.number)
+  if (panel.number == 2) {
+    panel.lines.zoo(rollmean(zoo(y, x), 3), col = "blue")
+    panel.grid(h = 10, v = 10, col = "grey", lty = 3)
+  }
 }
 print(xyplot(z, panel = panel.plot.custom(panel = p)))
 
@@ -152,7 +155,7 @@ print(xyplot(z, panel = panel.plot.custom(panel = p)))
 # plot a light grey rectangle "behind" panel b
 trellis.focus("panel", 1, 2)
 grid.rect(x = 2, w = 1, default.units = "native", 
-	gp = gpar(fill = "light grey"))
+  gp = gpar(fill = "light grey"))
 do.call("panel.plot.default", trellis.panelArgs())
 trellis.unfocus()
 
@@ -178,14 +181,14 @@ print(p, panel.height = list(y = c(1, 3), units = "null"))
 # ticks for days.
 Days <- seq(from = as.Date("2006-1-1"), to = as.Date("2006-8-8"), by = "day")
 z <- zoo(seq(length(Days))^2, Days)
-Months <- Days[format(Days, "\%d") == "01"] ##FIXME: need to escape %?
-Weeks <- Days[format(Days, "\%w") == "0"]   ##FIXME: need to escape %?
+Months <- Days[format(Days, "\%d") == "01"]
+Weeks <- Days[format(Days, "\%w") == "0"]
 xyplot(z, scales = list(x = list(at = Months)))
 trellis.focus("panel", 1, 1, clip.off = TRUE)
 panel.axis("bottom", check.overlap = TRUE, outside = TRUE, labels = FALSE, 
-   tck = .7, at = as.numeric(Weeks))
+  tck = .7, at = as.numeric(Weeks))
 panel.axis("bottom", check.overlap = TRUE, outside = TRUE, labels = FALSE, 
-   tck = .4, at = as.numeric(Days)) ##FIXME: tt undefined
+  tck = .4, at = as.numeric(Days))
 trellis.unfocus()
 }
 \keyword{ts}

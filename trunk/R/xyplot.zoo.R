@@ -1,4 +1,3 @@
-
 panel.plot.default <- function(x, y, subscripts, groups, panel = panel.xyplot,
   col = 1, type = "p", pch = 20, lty = 1, lwd = 1, ...)
 {
@@ -17,18 +16,18 @@ panel.plot.default <- function(x, y, subscripts, groups, panel = panel.xyplot,
 }
 
 panel.plot.custom <- function(...) {
-	args <- list(...)
-	function(...) {
-		dots <- list(...)
-		do.call("panel.plot.default", lattice:::updateList(dots, args))
-	}
+  args <- list(...)
+  function(...) {
+    dots <- list(...)
+    do.call("panel.plot.default", lattice:::updateList(dots, args))
+  }
 }
 
 xyplot.its <-
 xyplot.ts <-
 xyplot.zoo <- function(x, data,
   screens = seq(length = NCOL(x)),
-  default.scales = list(y = list(relation = "free")),  ##FIXME: omit as exported argument?
+  default.scales = list(y = list(relation = "free")),
   layout = NULL, xlab = "Index", ylab = NULL,
   lty = 1, lwd = 1, pch = 1, type = "l", col = 1, strip = TRUE,
   panel = panel.plot.default, ...)
@@ -127,4 +126,3 @@ panel.polygon.zoo <- function(x, ...) {
   x <- as.zoo(x)
   panel.polygon(time(x), coredata(x), ...)
 }
-

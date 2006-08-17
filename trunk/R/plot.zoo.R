@@ -1,5 +1,4 @@
 make.par.list <- function(nams, x, n, m, def, recycle = sum(unnamed) > 0) {
-##FIXME: needs to be renamed: parlist() maybe, or procpar()?
 ##FIXME: should defaults for n, m, def be available?
 
 # if nams are the names of our variables and x is a parameter
