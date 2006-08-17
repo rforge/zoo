@@ -40,9 +40,12 @@ releases.
 \method{xyplot}{zoo}(x, data, screens = seq(length = NCOL(x)), 
     default.scales = list(y = list(relation = "free")), 
     layout = NULL, xlab = "Index", ylab = NULL, 
-    lty = 1, lwd = 1, pch = 1, 
-    type = "l", col = 1, strip = TRUE, 
-    panel = panel.plot.default, ...) 
+    lty = trellis.par.get("plot.line")$lty,
+    lwd = trellis.par.get("plot.line")$lwd,
+    pch = trellis.par.get("plot.symbol")$pch, 
+    type = "l", 
+    col = trellis.par.get("plot.line")$col,
+    strip = TRUE, panel = panel.plot.default, ...) 
 
 panel.plot.default(x, y, subscripts, groups, 
     panel = panel.xyplot,

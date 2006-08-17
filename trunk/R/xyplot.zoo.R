@@ -29,7 +29,12 @@ xyplot.zoo <- function(x, data,
   screens = seq(length = NCOL(x)),
   default.scales = list(y = list(relation = "free")),
   layout = NULL, xlab = "Index", ylab = NULL,
-  lty = 1, lwd = 1, pch = 1, type = "l", col = 1, strip = TRUE,
+  lty = trellis.par.get("plot.line")$lty,
+  lwd = trellis.par.get("plot.line")$lwd,
+  pch = trellis.par.get("plot.symbol")$pch, 
+  type = "l", 
+  col = trellis.par.get("plot.line")$col, 
+  strip = TRUE,
   panel = panel.plot.default, ...)
 {
   x <- as.zoo(x)
@@ -38,11 +43,15 @@ xyplot.zoo <- function(x, data,
           else colnames(x)
   screens <- make.par.list(cn, screens, NROW(x), NCOL(x), 1)
   screens <- as.factor(unlist(screens))[drop = TRUE]
-  lty <- make.par.list(cn, lty, NROW(x), NCOL(x), 1)
-  lwd <- make.par.list(cn, lwd, NROW(x), NCOL(x), 1)
-  pch <- make.par.list(cn, pch, NROW(x), NCOL(x), 20)
+  lty <- make.par.list(cn, lty, NROW(x), NCOL(x), 
+	  trellis.par.get("plot.line")$lty)
+  lwd <- make.par.list(cn, lwd, NROW(x), NCOL(x),
+	  trellis.par.get("plot.line")$lwd)
+  pch <- make.par.list(cn, pch, NROW(x), NCOL(x),
+	  trellis.par.get("plot.symbol")$pch)
   type <- make.par.list(cn, type, NROW(x), NCOL(x), "l")
-  col <- make.par.list(cn, col, NROW(x), NCOL(x), 1)
+  col <- make.par.list(cn, col, NROW(x), NCOL(x), 
+	  trellis.par.get("plot.line")$col)
   tt <- rep(time(x), NCOL(x))
   x <- coredata(x)
   screens <- rep(screens, length = NCOL(x))
