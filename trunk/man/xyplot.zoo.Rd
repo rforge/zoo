@@ -123,6 +123,11 @@ panel.polygon.zoo(x, ...)
 library("lattice")
 library("grid")
 
+# change strip background to levels of grey
+# If you like the defaults, this can be omitted.
+strip.background <- trellis.par.get("strip.background")
+trellis.par.set(strip.background = list(col = grey(7:1/8)))
+
 set.seed(1)
 z <- zoo(cbind(a = 1:5, b = 11:15, c = 21:25) + rnorm(5))
  
@@ -190,5 +195,8 @@ panel.axis("bottom", check.overlap = TRUE, outside = TRUE, labels = FALSE,
 panel.axis("bottom", check.overlap = TRUE, outside = TRUE, labels = FALSE, 
   tck = .4, at = as.numeric(Days))
 trellis.unfocus()
+
+trellis.par.set(strip.background = strip.background)
+
 }
 \keyword{ts}
