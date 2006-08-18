@@ -39,19 +39,17 @@ xyplot.zoo <- function(x, data,
 {
   x <- as.zoo(x)
   if (length(dim(x)) < 2) x <- zoo(matrix(coredata(x),,1), time(x))
+
   cn <- if (is.null(colnames(x))) paste("V", seq(length = NCOL(x)), sep = "")
           else colnames(x)
   screens <- make.par.list(cn, screens, NROW(x), NCOL(x), 1)
   screens <- as.factor(unlist(screens))[drop = TRUE]
-  lty <- make.par.list(cn, lty, NROW(x), NCOL(x), 
-	  trellis.par.get("plot.line")$lty)
-  lwd <- make.par.list(cn, lwd, NROW(x), NCOL(x),
-	  trellis.par.get("plot.line")$lwd)
-  pch <- make.par.list(cn, pch, NROW(x), NCOL(x),
-	  trellis.par.get("plot.symbol")$pch)
+  lty <- make.par.list(cn, lty, NROW(x), NCOL(x), trellis.par.get("plot.line")$lty)
+  lwd <- make.par.list(cn, lwd, NROW(x), NCOL(x), trellis.par.get("plot.line")$lwd)
+  pch <- make.par.list(cn, pch, NROW(x), NCOL(x), trellis.par.get("plot.symbol")$pch)
   type <- make.par.list(cn, type, NROW(x), NCOL(x), "l")
-  col <- make.par.list(cn, col, NROW(x), NCOL(x), 
-	  trellis.par.get("plot.line")$col)
+  col <- make.par.list(cn, col, NROW(x), NCOL(x), trellis.par.get("plot.line")$col)
+
   tt <- rep(time(x), NCOL(x))
   x <- coredata(x)
   screens <- rep(screens, length = NCOL(x))
@@ -61,13 +59,16 @@ xyplot.zoo <- function(x, data,
     nr <- ceiling(nlevels(fac)/nc)
     layout <- c(nc, nr)
   }
+
   fo <- if(NCOL(x) == 1) x ~ tt else x ~ tt | fac
+
   if (isTRUE(strip)) {
     isnotdup <- !duplicated(screens)
     strip <- cn[isnotdup][order(screens[isnotdup])]
   }
   if (is.character(strip))
     strip <- strip.custom(factor.levels = rep(strip, length(unique(screens))))
+
   if(is.null(ylab) || length(ylab) == 1) {
     xyplot(fo, panel = panel, groups = factor(col(x)),  
            type = type, default.scales = default.scales, 
