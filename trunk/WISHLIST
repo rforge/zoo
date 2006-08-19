@@ -85,6 +85,10 @@ FEATURES
     - regression test suite
     - additional use and testing
 
+  o xyplot.zoo.  Currently default lattice colors for lines are used 
+    as defaults for both lines and points.  Fix it so lattice default
+    colors for points are used as defaults for points.
+
 
 
 INTERFACES
