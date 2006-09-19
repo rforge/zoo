@@ -149,6 +149,10 @@ print(panel.lines.zoo(z.mean[,2], col = "blue"))
 print(panel.grid(h = 10, v = 10, col = "grey", lty = 3))
 trellis.unfocus()
 
+\dontrun{
+# R version 2.3.1
+# In R version 2.4.0 remove panel.number argument
+# and use panel.number() functiohn
 # Number 2. Using a custom panel routine.
 p <- function(x, y, groups = NULL, ..., panel.number) {
   panel.xyplot(x, y, groups = groups, ..., panel.number)
@@ -158,6 +162,7 @@ p <- function(x, y, groups = NULL, ..., panel.number) {
   }
 }
 print(xyplot(z, panel = panel.plot.custom(panel = p)))
+}
 
 
 # plot a light grey rectangle "behind" panel b
