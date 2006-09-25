@@ -44,6 +44,7 @@ rollapply.zoo <- function(data, width, FUN, by = 1, ascending = TRUE, by.column 
       "right" = { 0 })    
     tt <- index(data)[seq((width-n1), (nr-n1), by)]
 
+    FUN <- match.fun(FUN)
     res <- if (is.null(dim(cdata)))
 	   zoo(apply(embedi(nr, width, by, ascending), 1, 
                 function(st) FUN(cdata[st], ...)), tt, 
