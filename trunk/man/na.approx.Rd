@@ -3,8 +3,6 @@
 \alias{na.approx.default}
 \alias{na.spline}
 \alias{na.spline.default}
-\alias{na.stinterp}
-\alias{na.stinterp.default}
 \title{Replace NA by Interpolation}
 \description{
 Generic functions for replacing each \code{NA} with interpolated
