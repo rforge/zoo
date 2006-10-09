@@ -24,8 +24,17 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL, regular = FALSE, ..
               else function(x) as.Date(as.character(x), format = format)
   toPOSIXct <- function(x) as.POSIXct(as.character(x), tz = tz)
   toDefault <- function(x) {
-    rval <- try(toDate(x), silent = TRUE)    
-    if(inherits(rval, "try-error")) rval <- try(toPOSIXct(x), silent = TRUE)
+    rval <- try(toPOSIXct(x), silent = TRUE)
+    if(inherits(rval, "try-error"))
+      rval <- try(toDate(x), silent = TRUE)
+    else {
+      hms <- as.POSIXlt(rval)
+      hms <- hms$sec + 60 * hms$min + 3600 * hms$hour
+      if(isTRUE(all.equal(hms, rep.int(hms[1], length(hms))))) {
+        rval2 <- try(toDate(x), silent = TRUE)
+        if(!inherits(rval2, "try-error")) rval <- rval2
+      }
+    }
     if(inherits(rval, "try-error")) rval <- rep(NA, length(x))
     return(rval)
   }
