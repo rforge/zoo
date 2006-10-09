@@ -20,21 +20,21 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL, regular = FALSE, ..
   if(is.data.frame(rval)) rval <- as.matrix(rval)
     
   ## index transformation functions
-  toDate <- if(format == "") function(x) as.Date(as.character(x))
+  toDate <- if(missing(format)) function(x) as.Date(as.character(x))
               else function(x) as.Date(as.character(x), format = format)
   toPOSIXct <- function(x) as.POSIXct(as.character(x), tz = tz)
   toDefault <- function(x) {
-    rval <- try(toDate(x), silent = TRUE)
-    if(class(rval) == "try-error") rval <- try(toPOSIXct(x), silent = TRUE)
-    if(class(rval) == "try-error") rval <- rep(NA, length(x))
+    rval <- try(toDate(x), silent = TRUE)    
+    if(inherits(rval, "try-error")) rval <- try(toPOSIXct(x), silent = TRUE)
+    if(inherits(rval, "try-error")) rval <- rep(NA, length(x))
     return(rval)
   }
   toNumeric <- function(x) x
   
   ## setup default FUN
   if(is.null(FUN)) {
-    FUN <- if(format != "") toDate
-           else if(tz != "") toPOSIXct
+    FUN <- if(!missing(format)) toDate
+           else if(!missing(tz)) toPOSIXct
            else if(is.numeric(ix)) toNumeric
            else toDefault        
   }
