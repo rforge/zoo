@@ -2,15 +2,15 @@ rollapply <- function(data, width, FUN, by = 1, ascending = TRUE,
   by.column = TRUE, na.pad = FALSE, align = c("center", "left", "right"), ...)
     UseMethod("rollapply")
 
-rapply <- function(data, width, FUN, by = 1, ascending = TRUE,
-  by.column = TRUE, na.pad = FALSE, align = c("center", "left", "right"), ...)
+rapply <- function(data, width, FUN, ..., by = 1, ascending = TRUE,
+  by.column = TRUE, na.pad = FALSE, align = c("center", "left", "right"))
 {
     .Deprecated("rollapply")
     UseMethod("rollapply")
 }
 
-rollapply.zoo <- function(data, width, FUN, by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE,
-  align = c("center", "left", "right"), ...) {
+rollapply.zoo <- function(data, width, FUN, ..., by = 1, ascending = TRUE, by.column = TRUE, na.pad = FALSE,
+  align = c("center", "left", "right")) {
     itt <- 0
     embedi <- function(n, k, by = 1, ascending = FALSE) {
     # n = no of time points, k = number of columns
