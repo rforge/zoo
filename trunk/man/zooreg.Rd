@@ -120,6 +120,17 @@ zooreg(1:5, start = Sys.Date())
 ## or with "yearmon" index
 zooreg(1:5, end = yearmon(2000))
 
+## note difference between lag.zoo and lag.zooreg
+## and between diff acting on zoo and zooreg objects
+## (since diff is defined in terms of lag)
+x <- c(1, 4, 5, 6)
+zz <- zoo(x, x)
+zr <- as.zooreg(zz)
+lag(zz)
+lag(zr)
+diff(zz)
+diff(zr)
+
 ## standard methods available for regular series
 frequency(z)
 deltat(z)
