@@ -17,6 +17,7 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL, regular = FALSE, ..
               ix <- rval[,1]
               rval <- rval[,-1]
   }
+  if(is.factor(ix)) ix <- as.character(ix)
   if(is.data.frame(rval)) rval <- as.matrix(rval)
     
   ## index transformation functions
