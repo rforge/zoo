@@ -96,6 +96,9 @@ FEATURES
 
   o rollapply.default
 
+  o as of lattice 0.12-14 lattice:::updateList could be replaced with
+    modifyList
+
 
 INTERFACES
 **********
