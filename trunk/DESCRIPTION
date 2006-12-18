@@ -12,6 +12,6 @@ Description: An S3 class with methods for totally ordered indexed
              base R by providing methods to extend standard generics.
 Depends: R (>= 2.3.0), stats
 Suggests: chron, fCalendar, its, tseries, lattice, strucchange, DAAG
-Imports: stats, utils, graphics, lattice
+Imports: stats, utils, graphics, grDevices, lattice
 LazyLoad: yes
 License: GPL

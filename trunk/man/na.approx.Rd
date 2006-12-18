@@ -3,8 +3,6 @@
 \alias{na.approx.default}
 \alias{na.spline}
 \alias{na.spline.default}
-\alias{na.stinterp}
-\alias{na.stinterp.default}
 \title{Replace NA by Interpolation}
 \description{
 Generic functions for replacing each \code{NA} with interpolated
@@ -16,9 +14,6 @@ na.approx(object, \dots)
 
 na.spline(object, \dots) 
 \method{na.spline}{default}(object, along = index(object), na.rm = TRUE, \dots) 
-
-na.stinterp(object, \dots) 
-\method{na.stinterp}{default}(object, along = index(object), na.rm = TRUE, \dots) 
 }
 \arguments{
   \item{object}{object in which \code{NA}s are to be replaced}
