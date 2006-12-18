@@ -76,9 +76,7 @@ merge(y2, y0)
 # aggregate POSIXct seconds data every 10 minutes
 tt <- seq(10, 2000, 10)
 x <- zoo(tt, structure(tt, class = c("POSIXt", "POSIXct")))
-aggregate(x, time(x) - as.numeric(time(x)) %% 600, mean)
-
-
+aggregate(x, time(x) - as.numeric(time(x)) \%\% 600, mean)
 }
 }
 \keyword{ts}
