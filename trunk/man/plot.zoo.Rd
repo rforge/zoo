@@ -89,7 +89,6 @@ plot(z, plot.type = "single", col = list(B = 2))
 plot(z, type = "b", pch = 1:3, col = 1:3)
 plot(z, type = "b", pch = list(A = 1:5, B = 3), col = list(C = 4, 2))
 plot(z, type = "b", screen = c(1,2,1), col = 1:3)
-
 # right axis is for broken lines
 plot(x)
 opar <- par(usr = c(par("usr")[1:2], range(x2)))
@@ -99,14 +98,12 @@ par(opar)
 
 
 ## Custom x axis labelling using a custom panel.
-
 # 1. test data
 z <- zoo(c(21, 34, 33, 41, 39, 38, 37, 28, 33, 40), 
      as.Date(c("1992-01-10", "1992-01-17", "1992-01-24", "1992-01-31", 
        "1992-02-07", "1992-02-14", "1992-02-21", "1992-02-28", "1992-03-06", 
        "1992-03-13")))
 zz <- merge(a = z, b = z+10)
-
 # 2. axis tick for every point. Also every 3rd point labelled.
 my.panel <- function(...) {
    fmt <- "\%b-\%d" # format for axis labels
@@ -121,7 +118,6 @@ my.panel <- function(...) {
       axis(1, at = time(zz)[ix], lab = labs[ix], tcl = -0.7, cex.axis = 0.7)
    }
 }
-
 # 3. plot
 plot(zz, panel = my.panel, xaxt = "n")
 
