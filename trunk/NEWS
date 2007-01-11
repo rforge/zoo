@@ -1,7 +1,7 @@
 Changes in Version 1.2-3
 
   o custom panel functions in plot.zoo can now refer to 
-    parent.frame$panel.number to determine the current panel.  Also
+    parent.frame()$panel.number to determine the current panel.  Also
     added an example of this to plot.zoo.Rd .
 
 Changes in Version 1.2-2
