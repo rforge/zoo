@@ -2,7 +2,12 @@ Changes in Version 1.2-3
 
   o custom panel functions in plot.zoo can now refer to 
     parent.frame()$panel.number to determine the current panel.  Also
-    added an example of this to plot.zoo.Rd .
+    added an example of this to ?plot.zoo.
+
+  o read.zoo() will behave consistently when the file contains no data.
+  
+  o column names (if any) are checked now in rbind.zoo(), producing a
+    similar behaviour as in rbind.data.frame()
 
 Changes in Version 1.2-2
 
