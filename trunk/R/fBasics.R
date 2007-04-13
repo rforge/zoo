@@ -1,7 +1,7 @@
 length.timeDate <- function(x) prod(x@Dim)
 ORDER.timeDate <- function(x, ...) order(as.POSIXct(x), ...)
-MATCH.timeDate <- function(x, table, nomatch, ...) 
-	match(as.POSIXct(x), as.POSIXct(y), nomatch, ...)
+MATCH.timeDate <- function(x, table, nomatch = NA, ...)
+  match(as.POSIXct(x), as.POSIXct(table), nomatch = nomatch, ...)
 as.zoo.timeSeries <- function(x, ...) {
 #	require(zoo)
 	zoo(x@Data, timeDate(x@positions, x@format, x@FinCenter),

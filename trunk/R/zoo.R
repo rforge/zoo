@@ -1,7 +1,12 @@
 zoo <- function (x, order.by = index(x), frequency = NULL) 
 {
+    ## process index "order.by"    
+    if(length(unique(MATCH(order.by, order.by))) < length(order.by))
+      warning(paste("some methods for", dQuote("zoo"),
+      "objects do not work if the index entries in", sQuote("order.by"), "are not unique"))
     index <- ORDER(order.by)
     order.by <- order.by[index]
+
     if (missing(x) || is.null(x)) 
         x <- numeric()
     else if (is.vector(x)) 

@@ -120,8 +120,13 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     # extend all to a length equal to the number of args
     all <- rep(as.logical(all), length.out = length(cl))
 
-    # ensure the class of the index of each arg are all the same
+    ## check indexes:
     indexlist <- lapply(args, index)
+    ## 1. for non-unique entries
+    index_duplicates <- function(x) length(unique(MATCH(x, x))) < length(x)
+    if(any(sapply(indexlist, index_duplicates)))
+      stop("series cannot be merged with non-unique index entries in a series")
+    ## 2. for differing classes
     indexclasses <- sapply(indexlist, function(x) class(x)[1])
     if (!all(indexclasses == indexclasses[1])) 
         warning(paste("Index vectors are of different classes:", 
