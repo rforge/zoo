@@ -44,7 +44,10 @@ yearmon(x)
   There are coercion methods available for various classes including:
   default coercion to \code{"yearmon"} (which coerces to \code{"numeric"} first)
   and coercion from \code{"yearmon"} to \code{"Date"} (see below), \code{"POSIXct"},
-  \code{"POSIXlt"}, \code{"numeric"}, \code{"character"}.
+  \code{"POSIXlt"}, \code{"numeric"}, \code{"character"}.  In the case of
+  \code{as.yearmon.character} the \code{format} argument is the same as for
+  \code{"Date"} plus one can have a format specifying a year and month but
+  no day.
 }
 \value{
   Returns its argument converted to class \code{yearmon}.
@@ -55,6 +58,9 @@ yearmon(x)
 \examples{
 x <- yearmon(2000 + seq(0, 23)/12)
 x
+
+as.yearmon("mar07", "%b%y")
+as.yearmon("2007-03-01")
 
 # returned Date is the fraction of the way through
 # the period given by frac (= 0 by default)
