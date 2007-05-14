@@ -4,7 +4,7 @@ yearmon <- function(x) structure(floor(12*x + .0001)/12, class = "yearmon")
 ## coercion to yearmon: always go via numeric
 as.yearmon <- function(x, ...) UseMethod("as.yearmon")
 as.yearmon.default <- function(x, ...) as.yearmon(as.numeric(x))
-as.yearmon.numeric <- function(x, ...) structure(floor(12*x + .001)/12, class = "yearmon")
+as.yearmon.numeric <- function(x, ...) yearmon(x)
 as.yearmon.integer <- function(x, ...) structure(x, class = "yearmon")
 as.yearmon.dates <- 
 as.yearmon.Date <- 
