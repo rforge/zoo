@@ -13,6 +13,7 @@
 \alias{as.POSIXlt.yearmon}
 \alias{as.numeric.yearmon}
 \alias{as.character.yearmon}
+\alias{as.data.frame.yearmon}
 \alias{c.yearmon}
 \alias{format.yearmon}
 \alias{print.yearmon}
@@ -59,7 +60,7 @@ yearmon(x)
 x <- yearmon(2000 + seq(0, 23)/12)
 x
 
-as.yearmon("mar07", "%b%y")
+as.yearmon("mar07", "\%b\%y")
 as.yearmon("2007-03-01")
 
 # returned Date is the fraction of the way through
