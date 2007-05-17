@@ -106,8 +106,6 @@ Ops.yearmon <- function(e1, e2) {
 }
 
 
-axis.yearmon <- function(side, x, ...) axis.Date(side, as.Date(x), ...)
-
 Axis.yearmon <- function(x=NULL, at=NULL, ..., side, labels=NULL)
 	Axis(x=as.Date(x), at=at, ..., side=side, labels=labels)
 
