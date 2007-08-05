@@ -15,3 +15,4 @@ Suggests: chron, fCalendar, its, tseries, lattice, strucchange, DAAG
 Imports: stats, utils, graphics, grDevices, lattice
 LazyLoad: yes
 License: GPL
+URL: http://r-forge.r-project.org/projects/zoo/
