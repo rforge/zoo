@@ -121,6 +121,24 @@ my.panel <- function(...) {
 # 3. plot
 plot(zz, panel = my.panel, xaxt = "n")
 
+## plot with left and right axes
+## modified from http://www.mayin.org/ajayshah/KB/R/html/g6.html
+set.seed(1)
+z <- zoo(cbind(y1 = cumsum(rnorm(100)), cumsum(rnorm(100, mean = 0.2))))
+opar <- par(mai = c(.8, .8, .2, .8))
+plot(z[,1], type = "l", 
+   xlab = "X axis label", ylab = "left series")
+par(new = TRUE)
+plot(z[,2], type = "l", ann = FALSE, yaxt = "n", col = "blue")
+axis(4)
+legend(x = "topleft", bty = "n", lty = c(1,1), col = c("black", "blue"),
+       legend=c("String 1 (left scale)", "String 2 (right scale)"))
+usr <- par("usr")
+text(usr[2] + .1 * diff(usr[1:2]), mean(usr[3:4]), "right series", 
+   srt = -90, xpd = TRUE, col = "blue")
+par(opar)
+
+
 
 ## plot one zoo series against the other.
 plot(x, x2)
