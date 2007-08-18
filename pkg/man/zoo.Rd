@@ -36,7 +36,7 @@ totally ordered observations which includes irregular
 time series.
 }
 \usage{
-zoo(x, order.by = index(x), frequency = NULL)
+zoo(x = NULL, order.by = index(x), frequency = NULL)
 \method{print}{zoo}(x, style = , quote = FALSE, \dots) 
 }
 \arguments{

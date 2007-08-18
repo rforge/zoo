@@ -1,4 +1,4 @@
-zoo <- function (x, order.by = index(x), frequency = NULL) 
+zoo <- function (x = NULL, order.by = index(x), frequency = NULL) 
 {
     ## process index "order.by"    
     if(length(unique(MATCH(order.by, order.by))) < length(order.by))
