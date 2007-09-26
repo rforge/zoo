@@ -112,6 +112,14 @@ FEATURES
     - header does not have a component corresponding to the index.  It
       would be nice if read.zoo could automatically figure out that situation
       and handle it.
+    - the date format is yyyy.mm .  In that case it would be convenient
+      if it were possible to specify:
+      read.zoo(..., FUN = as.yearmon, format = "%Y.%m")
+      and, in general, if format were passed to FUN if both are specified.
+
+- in plot.zoo if screen= specified and plot.type= not specified then
+  plot.type should be regarded in a way which is consistent with screen
+  rather than always using the default of plot.type = "multiple".
 
 
 INTERFACES
