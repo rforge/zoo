@@ -43,7 +43,7 @@
 }
 \examples{
 
-as.Date(0) # origin, i.e. 1970-01-01
+as.Date(0) # origin, i.e. 1970-01-01 #Z# FIXME
 
 # all three result in origin and next 9 days
 as.Date(0:9)

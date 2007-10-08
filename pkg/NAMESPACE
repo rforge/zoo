@@ -14,6 +14,7 @@ export(
   "is.zoo",
   "merge.zoo",
   "read.zoo",
+  "write.zoo",
 
 ## plotting
   "plot.zoo",
@@ -33,7 +34,6 @@ export(
   "time<-",
 
 ## rolling operations
-  "rapply",
   "rollapply",
   "rollmax",
   "rollmax.default",

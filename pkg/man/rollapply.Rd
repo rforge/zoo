@@ -1,6 +1,4 @@
 \name{rollapply}
-\alias{rapply}
-\alias{rapply-deprecated}
 \alias{rollapply}
 \alias{rollapply.zoo}
 \alias{rollapply.ts}
@@ -43,9 +41,7 @@ rollapply(data, width, FUN, \dots, by = 1, ascending = TRUE, by.column = TRUE,
   
   In previous versions, this function was called \code{rapply}. It was renamed
   because from R 2.4.0 on, base R provides a different function \code{rapply}
-  for recursive (and not rolling) application of functions. The function 
-  \code{zoo::rapply} is still provided for backward compatibility, however
-  it dispatches now to \code{rollapply} methods.
+  for recursive (and not rolling) application of functions.
 }
 \value{
   A object of the same class as \code{data} with the results of the rolling function.
@@ -55,7 +51,7 @@ rollapply(data, width, FUN, \dots, by = 1, ascending = TRUE, by.column = TRUE,
 
 \examples{
 ## rolling mean
-z <- zoo(11:15, as.Date(31:35)) 
+z <- zoo(11:15, as.Date(31:35)) #Z# FIXME
 rollapply(z, 2, mean)
 
 ## non-overlapping means

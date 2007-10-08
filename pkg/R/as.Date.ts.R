@@ -1,4 +1,4 @@
-as.Date.numeric <- function(x, ...)
+as.Date.numeric <- function(x, ...) #Z# FIXME
 	structure(floor(x + .001), class = "Date")
 
 as.Date.integer <- function(x, ...)
