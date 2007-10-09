@@ -66,7 +66,14 @@ a column with the index and then calls \code{\link{write.table}}.
 \examples{
 \dontrun{
 ## turn *numeric* first column into yearmon index
+## where number is year + fraction of year represented by month
 z <- read.zoo("foo.csv", sep = ",", FUN = as.yearmon)
+
+## first column is of form yyyy.mm
+## (Here we use format in place of as.character so that final zero 
+## is not dropped in dates like 2001.10 which as.character would do.)
+f <- function(x) as.yearmon(format(x, nsmall = 2), "%Y.%m")
+z <- read.zoo("foo.csv", header = TRUE, FUN = f)
 
 ## turn *character* first column into Date index
 z <- read.zoo("foo.tab", format = "\%m/\%d/\%Y")
