@@ -68,6 +68,8 @@ plot.zoo <- function(x, y = NULL, screens = 1,
 
   recycle <- function(a, len, nser)
      rep(lapply(as.list(a), rep, length.out = len), length.out = nser)
+  # same as range except it passes pairs through
+  range2 <- function(x, ...) if (length(x) == 2) x else range(x, ...)
   plot.type <- match.arg(plot.type)
   dots <- list(...)
   nser <- NCOL(x)
@@ -94,11 +96,11 @@ plot.zoo <- function(x, y = NULL, screens = 1,
     pch <- make.par.list(cn, pch, NROW(x), nser, par("pch"))
     type <- make.par.list(cn, type, NROW(x), nser, "l")
     if (!is.null(ylim)) {
-        if (is.list(ylim)) ylim <- lapply(ylim, range, na.rm = TRUE)
-	else ylim <- list(range(ylim, na.rm = TRUE))
+        if (is.list(ylim)) ylim <- lapply(ylim, range2, na.rm = TRUE)
+	else ylim <- list(range2(ylim, na.rm = TRUE))
 	ylim <- lapply(make.par.list(cn, ylim, 2, nser, NULL), function(x) 
-		if (is.null(x) || length(na.omit(x)) ==0) NULL 
-		else range(x, na.rm = TRUE))
+		if (is.null(x) || length(na.omit(x)) == 0) NULL 
+		else range2(x, na.rm = TRUE))
     }
     panel <- match.fun(panel)
     if(missing(nc)) nc <- if(ngraph >  4) 2 else 1
@@ -136,7 +138,7 @@ plot.zoo <- function(x, y = NULL, screens = 1,
     if(is.null(main)) main <- ""
     main.outer <- FALSE
     if(is.null(ylim)) ylim <- range(x, na.rm = TRUE)
-	else ylim <- range(c(ylim, recursive = TRUE), na.rm = TRUE)
+	else ylim <- range2(c(ylim, recursive = TRUE), na.rm = TRUE)
 
     lty <- rep(lty, length.out = nser)
     col <- make.par.list(cn, col, NROW(x), nser, 1)
