@@ -33,8 +33,7 @@ make.par.list <- function(nams, x, n, m, def, recycle = sum(unnamed) > 0) {
   lapply(y, function(y) if (length(y)==1) y else rep(y, length.out = n))
 }
 
-plot.zoo <- function(x, y = NULL, screens = 1,
-  plot.type = c("multiple", "single"), panel = lines, 
+plot.zoo <- function(x, y = NULL, screens, plot.type, panel = lines, 
   xlab = "Index", ylab = NULL, main = NULL, xlim = NULL, ylim = NULL,
   xy.labels = FALSE, xy.lines = NULL,
   oma = c(6, 0, 5, 0), mar = c(0, 5.1, 0, 2.1), 
@@ -70,9 +69,17 @@ plot.zoo <- function(x, y = NULL, screens = 1,
      rep(lapply(as.list(a), rep, length.out = len), length.out = nser)
   # same as range except it passes pairs through
   range2 <- function(x, ...) if (length(x) == 2) x else range(x, ...)
-  plot.type <- match.arg(plot.type)
-  dots <- list(...)
+  if (missing(plot.type)) {
+	plot.type <- if (missing(screens)) "multiple"
+	else if (length(unique(screens) == 1)) "single" 
+	else "multiple"
+  }
+  plot.type <- match.arg(plot.type, c("multiple", "single"))
   nser <- NCOL(x)
+  if (missing(screens)) {
+	screens <- if (plot.type == "single") 1 else seq_len(nser)
+  }	
+  dots <- list(...)
   x.index <- index(x)
   if(is.ts(x.index)) x.index <- as.vector(x.index)
   cn <- if (is.null(colnames(x))) paste("V", seq(length = nser), sep = "")
