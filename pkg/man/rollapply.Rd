@@ -51,7 +51,7 @@ rollapply(data, width, FUN, \dots, by = 1, ascending = TRUE, by.column = TRUE,
 
 \examples{
 ## rolling mean
-z <- zoo(11:15, as.Date(31:35)) #Z# FIXME
+z <- zoo(11:15, as.Date(31:35))
 rollapply(z, 2, mean)
 
 ## non-overlapping means

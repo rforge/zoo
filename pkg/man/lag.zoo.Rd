@@ -43,7 +43,7 @@ The lagged or differenced \code{"zoo"} object.
   is shifted \emph{earlier} in time.
 
   \code{lag.zoo} and \code{lag.zooreg} can give different results.
-  For a lag of 1 \lag{lag.zoo} moves points to the adjacent time point
+  For a lag of 1 \code{lag.zoo} moves points to the adjacent time point
   whereas \code{lag.zooreg} moves the time by \code{deltat}.  This
   implies that a point in a \code{zoo} series cannot be lagged to a time 
   point that is not already in the series whereas this is possible for
