@@ -209,7 +209,7 @@ trellis.unfocus()
 trellis.par.set(strip.background = strip.background)
 
 \dontrun{
-library(plotandplayGTK)
+library(plotAndPlayGTK)
 playwith(xyplot(z))
 }
 
