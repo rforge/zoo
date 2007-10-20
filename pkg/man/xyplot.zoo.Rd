@@ -209,8 +209,15 @@ trellis.unfocus()
 trellis.par.set(strip.background = strip.background)
 
 \dontrun{
+
 library(plotAndPlayGTK)
 playwith(xyplot(z))
+
+# after running this click on Identify Points and then click on
+# points to identify in graph 
+labs <- paste(z, index(z), sep = "@")
+playwith(xyplot(z, type = "o"), labels = labs, label.args = list(cex = 0.7))
+
 }
 
 }
