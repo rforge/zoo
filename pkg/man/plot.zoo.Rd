@@ -141,7 +141,7 @@ axis(4)
 legend(x = "topleft", bty = "n", lty = c(1,1), col = c("black", "blue"),
        legend = paste(colnames(z), c("(left scale)", "(right scale)")))
 usr <- par("usr")
-# mtext line should replace text line if y labels are to have same orientation
+# if you don't care about srt= in text then mtext is shorter:
 #  mtext(colnames(z)[2], 4, 2, col = "blue")
 text(usr[2] + .1 * diff(usr[1:2]), mean(usr[3:4]), colnames(z)[2],
    srt = -90, xpd = TRUE, col = "blue")
