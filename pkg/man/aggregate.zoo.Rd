@@ -92,6 +92,9 @@ z <- zoo(101:200, as.Date("2000-01-01") + seq(0, len = 100, by = 2))
 zz <- z[as.numeric(format(time(z), "%d")) >= 21]
 zz[!duplicated(as.yearmon(time(zz)))]
 
+# same except times are of "yearmon" class
+aggregate(zz, as.yearmon, head, 1)
+
 # aggregate POSIXct seconds data every 10 minutes
 tt <- seq(10, 2000, 10)
 x <- zoo(tt, structure(tt, class = c("POSIXt", "POSIXct")))
