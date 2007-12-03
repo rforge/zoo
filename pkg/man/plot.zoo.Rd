@@ -128,6 +128,27 @@ my.panel <- function(...) {
 # 3. plot
 plot(zz, panel = my.panel, xaxt = "n")
 
+
+# plot a mulitple ts series with nice X axis using panel function
+
+tab <- ts(cbind(A = 1:24, B = 24:1), start = c(2006, 1), freq = 12)
+pnl.xaxis <- function(...) {
+     lines(...)
+     panel.number <- parent.frame()$panel.number
+     nser <- parent.frame()$nser
+     # if bottom panel
+     if (!length(panel.number) || panel.number == nser) { 
+           tt <- list(...)[[1]]
+           ym <- as.yearmon(tt)
+	   mon <- as.numeric(format(ym, "%m"))
+	   yy <- format(ym, "%y")
+	   mm <- substring(month.abb[mon], 1, 1)
+	   axis(1, tt[mon == 1], yy[mon == 1], cex.axis = 0.7)
+	   axis(1, tt[mon > 1], mm[mon > 1], cex.axis = 0.5, tcl = -0.3)
+     }
+}
+plot(as.zoo(tab), panel = pnl.xaxis, xaxt = "n")
+
 ## plot with left and right axes
 ## modified from http://www.mayin.org/ajayshah/KB/R/html/g6.html
 set.seed(1)
