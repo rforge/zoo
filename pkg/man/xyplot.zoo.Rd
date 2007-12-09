@@ -210,13 +210,16 @@ trellis.par.set(strip.background = strip.background)
 
 \dontrun{
 
+# this requires playwith version 0.8.28 or later
+
 library(plotAndPlayGTK)
-playwith(xyplot(z))
+playwith(xyplot(z3), time.mode = TRUE)
 
 # after running this click on Identify Points and then click on
-# points to identify in graph 
-labs <- paste(z, index(z), sep = "@")
-playwith(xyplot(z, type = "o"), labels = labs, label.args = list(cex = 0.7))
+# points to identify in graph; right click to finish
+labs <- paste(z3, index(z3), sep = "@")
+playwith(xyplot(z3, type = "o"), labels = labs, label.args = list(cex = 0.7), 
+  time.mode = TRUE)
 
 }
 
