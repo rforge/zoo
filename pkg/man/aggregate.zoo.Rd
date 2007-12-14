@@ -88,8 +88,8 @@ merge(y2, y0)
 
 # given daily series keep only first point in each month at
 # day 21 or more
-z <- zoo(101:200, as.Date("2000-01-01") + seq(0, len = 100, by = 2))
-zz <- z[as.numeric(format(time(z), "%d")) >= 21]
+z <- zoo(101:200, as.Date("2000-01-01") + seq(0, length = 100, by = 2))
+zz <- z[as.numeric(format(time(z), "\%d")) >= 21]
 zz[!duplicated(as.yearmon(time(zz)))]
 
 # same except times are of "yearmon" class

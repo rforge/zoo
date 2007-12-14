@@ -140,8 +140,8 @@ pnl.xaxis <- function(...) {
      if (!length(panel.number) || panel.number == nser) { 
            tt <- list(...)[[1]]
            ym <- as.yearmon(tt)
-	   mon <- as.numeric(format(ym, "%m"))
-	   yy <- format(ym, "%y")
+	   mon <- as.numeric(format(ym, "\%m"))
+	   yy <- format(ym, "\%y")
 	   mm <- substring(month.abb[mon], 1, 1)
 	   axis(1, tt[mon == 1], yy[mon == 1], cex.axis = 0.7)
 	   axis(1, tt[mon > 1], mm[mon > 1], cex.axis = 0.5, tcl = -0.3)
