@@ -298,15 +298,20 @@ merge(z5, lag(z5))
 # and then creates an illegal zoo object
 z6 <- zoo(11:15, c(1, 1, 2, 2, 5))
 z6
-# fix it up via interpolation of duplicate times
-time(z6) <- na.approx(ifelse(duplicated(time(z6)), NA, time(z6)))
-z6
 
-# or, fix it up by averaging duplicates
+# fix it up by averaging duplicates
 aggregate(z6, force, mean)
 
 # or, fix it up by taking last in each set of duplicates
 aggregate(z6, force, tail, 1)
+
+# fix it up via interpolation of duplicate times
+time(z6) <- na.approx(ifelse(duplicated(time(z6)), NA, time(z6)), na.rm = FALSE)
+# if there is a run of equal times at beginning or end they
+# wind up as NAs and we cannot have NA times
+z6 <- z6[!is.na(time(z6))]
+z6
+
 }
 
 }
