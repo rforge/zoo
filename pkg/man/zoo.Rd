@@ -277,6 +277,38 @@ x1[which(x1 > 3)]
 x1[coredata(x1 > 3)]
 x1[as.logical(x1 > 3)]
 subset(x1, x1 > 3)
+
+## any class supporting the methods discussed can be used
+## as an index class. Here are examples using complex numbers
+## and letters as the time class.
+
+z4 <- zoo(11:15, complex(real = c(1, 3, 4, 5, 6), imag = c(0, 1, 0, 0, 1)))
+merge(z4, lag(z4))
+
+z5 <- zoo(11:15, letters[1:5])
+merge(z5, lag(z5))
+
+## even though time index must be unique zoo (and read.zoo)
+## will both allow creation of such illegal objects with
+## a warning (rather than ana error) to give the user a 
+## chance to fix them up.  Extracting and replacing times
+## and aggregate.zoo will still work.
+\dontrun{
+# this gives a warning
+# and then creates an illegal zoo object
+z6 <- zoo(11:15, c(1, 1, 2, 2, 5))
+z6
+# fix it up via interpolation of duplicate times
+time(z6) <- na.approx(ifelse(duplicated(time(z6)), NA, time(z6)))
+z6
+
+# or, fix it up by averaging duplicates
+aggregate(z6, force, mean)
+
+# or, fix it up by taking last in each set of duplicates
+aggregate(z6, force, tail, 1)
+}
+
 }
 \keyword{ts}
 
