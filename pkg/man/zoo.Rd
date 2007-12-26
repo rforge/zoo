@@ -307,7 +307,7 @@ aggregate(z6, force, tail, 1)
 
 # fix it up via interpolation of duplicate times
 time(z6) <- na.approx(ifelse(duplicated(time(z6)), NA, time(z6)), na.rm = FALSE)
-# if there is a run of equal times at beginning or end they
+# if there is a run of equal times at end they
 # wind up as NAs and we cannot have NA times
 z6 <- z6[!is.na(time(z6))]
 z6
