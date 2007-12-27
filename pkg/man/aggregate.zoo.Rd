@@ -9,7 +9,7 @@ reduced \code{"zoo"} object.
 }
 
 \usage{
-\method{aggregate}{zoo}(x, by, FUN, \dots)
+\method{aggregate}{zoo}(x, by, FUN, \dots, regular = NULL, frequency = NULL)
 }
 
 \arguments{
@@ -21,11 +21,18 @@ reduced \code{"zoo"} object.
   \item{FUN}{a scalar function to compute the summary statistics
     which can be applied to all subsets.}
   \item{\dots}{further arguments passed to \code{FUN}.}
+  \item{regular}{logical. Should the aggregated series be coerced to class \code{"zooreg"}
+    (if the series is regular)? The default is \code{FALSE} for \code{"zoo"} series and
+    \code{TRUE} for \code{"zooreg"} series.}
+  \item{frequency}{numeric indicating the frequency of the aggregated series
+    (if a \code{"zooreg"} series should be returned. The default is to
+    determine the frequency from the data if \code{regular} is \code{TRUE}.
+    If \code{frequency} is specified, it sets \code{regular} to \code{TRUE}.
+    See examples for illustration.}
 }
 
 \value{
-An object of class \code{"zoo"} or \code{"zooreg"} (if the resulting
-series \code{\link{is.regular}}).
+An object of class \code{"zoo"} or \code{"zooreg"}.
 }
 
 \seealso{\code{\link{zoo}}}
@@ -67,6 +74,13 @@ z.day[!duplicated(as.yearqtr(time(z.day)))]
 \dontrun{
 z.day[!duplicated(as.yearqtr(time(z.day)), fromLast = TRUE)]
 }
+
+# The aggregated series above are of class "zoo" (because z.day
+# was "zoo"). To create a regular series of class "zooreg",
+# the frequency can be automatically chosen
+zr.qtr1 <- aggregate(z.day, as.yearqtr, mean, regular = TRUE)
+# or specified explicitely
+zr.qtr2 <- aggregate(z.day, as.yearqtr, mean, frequency = 4)
 
 
 ## aggregate on month and extend to monthly time series

@@ -1,4 +1,14 @@
-Changes in Version 1.4-0
+Changes in Version 1.4-2
+
+  o The processing of regular series in aggregate.zoo()
+    was changed. By default, a regular series is only
+    created if the original series was regular. Otherwise,
+    a regular series is only created if indicated (by
+    setting argument regular = TRUE or by supplying a
+    specific frequency).
+    
+
+Changes in Version 1.4-1
 
   o replaced by() calls by tapply() due to fixes in R
     2.6.1-patched that caused errors in plot.zoo().
