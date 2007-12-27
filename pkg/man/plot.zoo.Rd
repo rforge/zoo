@@ -77,7 +77,8 @@ In addition to classical time series line plots, there is also a
 simple \code{\link{barplot}} method for \code{"zoo"} series.
 }
 
-\seealso{\code{\link{zoo}}, \code{\link{plot.ts}}, \code{\link{barplot}}}
+\seealso{\code{\link{zoo}}, \code{\link{plot.ts}}, \code{\link{barplot}},
+\code{\link{xyplot.zoo}}}
 
 \examples{
 x.Date <- as.Date(paste(2003, 02, c(1, 3, 7, 9, 14), sep = "-"))
