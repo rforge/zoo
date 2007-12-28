@@ -129,6 +129,15 @@ my.panel <- function(...) {
 # 3. plot
 plot(zz, panel = my.panel, xaxt = "n")
 
+# with a single panel plot a fancy X axis is just the same
+# procedure as for the ordinary plot command
+plot(zz, screen = 1, col = 1:2, xaxt = "n")
+axis(1, at = time(zz), lab = FALSE)
+ix <- seq(1, length(zz), 3)
+fmt <- "\%b-\%d" # format for axis labels
+labs <- format(time(zz), fmt)
+axis(1, at = time(zz)[ix], lab = labs[ix], tcl = -0.7, cex.axis = 0.7)
+legend("bottomright", colnames(zz), lty = 1, col = 1:2)
 
 # plot a mulitple ts series with nice X axis using panel function
 
