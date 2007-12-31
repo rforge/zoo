@@ -50,12 +50,23 @@ as.data.frame.yearqtr <- function(x, row.names = NULL, optional = FALSE, ...)
 c.yearqtr <- function(...)
     as.yearqtr(do.call("c", lapply(list(...), as.numeric)))
 
-format.yearqtr <- function(x, ...) 
+format.yearqtr <- function(x, format = "%Y Q%q", ...) 
 {
+	# like gsub but replacement and x may be vectors the same length
+	gsub.vec <- function(pattern, replacement, x, ...) {
+		y <- x
+		for(i in seq_along(x)) {
+			y[i] <- gsub(pattern, replacement[i], x[i], ...)
+		}
+		y
+	}
 	x <- unclass(x)
 	year <- floor(x + .001)
 	qtr <- floor(4*(x - year) + 1 + .5 + .001)
-	xx <- paste(year, " Q", qtr, sep = "")
+	xx <- gsub.vec("%q", qtr, rep(format, length(qtr)))
+	xx <- gsub.vec("%Y", year, xx)
+	xx <- gsub.vec("%y", sprintf("%02d", year %% 100), xx)
+	xx <- gsub.vec("%C", year %/% 100, xx)
 	names(xx) <- names(x)
 	xx
 }

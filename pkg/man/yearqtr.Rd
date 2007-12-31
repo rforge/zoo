@@ -29,12 +29,22 @@
 \description{
   \code{"yearqtr"} is a class for representing quarterly data.
 }
+
 \usage{
 yearqtr(x)
+as.yearqtr(x, \dots)
+\method{format}{yearqtr}(x, format = "\%Y Q\%q", \dots)
 }
+
 \arguments{
   \item{x}{numeric (interpreted as being \dQuote{in years}).}
+  \item{format}{character string specifying format.
+  \code{"\%C"}, \code{"\%Y"}, \code{"\%y"} and \code{"\%q"}, if present,
+  are replaced with the century, year, last two digits of the year, 
+  and quarter (i.e. a number between 1 and 4), respectively.}
+  \item{\dots}{other arguments.  Currently not used.}
 }
+
 \details{
   The yearqtr class is used to represent quarterly data. Internally it holds
   the data as year plus 0 for Quarter 1, 1/4 for Quarter 2
@@ -48,10 +58,13 @@ yearqtr(x)
   \code{"POSIXlt"}, \code{"numeric"}, \code{"character"}.
 }
 \value{
-  Returns its argument converted to class \code{yearqtr}.
+  \code{yearqtr} and \code{as.yearqtr} return the first argument converted to 
+  class \code{yearqtr}.
+  The \code{format} method returns a character string representation of
+  its argument first argument.
 }
 
-\seealso{\code{\link{yearmon}}, \code{\link{zoo}}, \code{\link{zooreg}}, \code{\link{ts}}}
+\seealso{\code{\link{yearmon}}, \code{\link{zoo}}, \code{\link{zooreg}}, \code{\link{ts}} and code{\link{strptime}}.}
 
 \examples{
 x <- yearqtr(2000 + seq(0, 7)/4)

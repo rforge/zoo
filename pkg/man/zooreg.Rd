@@ -150,11 +150,6 @@ length(as.ts(aggregate(zz, as.yearmon, c))) # 6
 
 zzr <- as.zooreg(zz)
 
-
-zoo(1:6, c(
-), index = structure(c(-3625, -3594, -3563, -3534, -3502, -3472
-), class = "Date"), class = "zoo")
-
 dd <- as.Date("2000-01-01", "2000-02-01", "2000-03-01", "2000-04-01")
 zrd <- zooreg(1:4, dd)
 
