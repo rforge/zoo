@@ -37,7 +37,12 @@ as.yearqtr(x, \dots)
 }
 
 \arguments{
-  \item{x}{numeric (interpreted as being \dQuote{in years}).}
+  \item{x}{for \code{yearqtr} a numeric (interpreted as being 
+  \dQuote{in years}).  For \code{as.yearqtr} another date class
+  object.  For the \code{"yearqtr"} method of \code{format} an 
+  object of class \code{"yearqtr"} or if called as \code{format.yearqtr}
+  then an object with an \code{as.yearqtr} method that can be coerced 
+  to \code{"yearqtr"}.}
   \item{format}{character string specifying format.
   \code{"\%C"}, \code{"\%Y"}, \code{"\%y"} and \code{"\%q"}, if present,
   are replaced with the century, year, last two digits of the year, 
@@ -70,14 +75,25 @@ as.yearqtr(x, \dots)
 x <- yearqtr(2000 + seq(0, 7)/4)
 x
 
+format(x, "%Y Quarter %q")
+
+# plot with fancy X axis
+z <- zoo(seq_along(x), x)
+plot(z, xaxt = "n")
+qtr <- format(time(z), "Q%q")
+yr <- format(time(z), "%Y")
+Axis(side = 1, at = unclass(time(z)), labels = ifelse(qtr == "Q1", yr, qtr))
+
 # returned Date is the fraction of the way through
 # the period given by frac (= 0 by default)
-as.Date(x)
+dd <- as.Date(x)
+format.quarter(dd)
 as.Date(x, frac = 1)
 as.POSIXct(x)
 
-z <- zoo(rnorm(8), x, frequency = 4)
-z
-as.ts(z)
+zz <- zoo(rnorm(8), x, frequency = 4)
+zz
+as.ts(zz)
+
 }
 \keyword{ts}

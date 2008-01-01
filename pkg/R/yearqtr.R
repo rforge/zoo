@@ -60,6 +60,7 @@ format.yearqtr <- function(x, format = "%Y Q%q", ...)
 		}
 		y
 	}
+	x <- as.yearqtr(x)
 	x <- unclass(x)
 	year <- floor(x + .001)
 	qtr <- floor(4*(x - year) + 1 + .5 + .001)
