@@ -75,19 +75,19 @@ as.yearqtr(x, \dots)
 x <- yearqtr(2000 + seq(0, 7)/4)
 x
 
-format(x, "%Y Quarter %q")
+format(x, "\%Y Quarter \%q")
 
 # plot with fancy X axis
-z <- zoo(seq_along(x), x)
+z <- zoo(10:17, x)
 plot(z, xaxt = "n")
-qtr <- format(time(z), "Q%q")
-yr <- format(time(z), "%Y")
+qtr <- format(time(z), "Q\%q")
+yr <- format(time(z), "\%Y")
 Axis(side = 1, at = unclass(time(z)), labels = ifelse(qtr == "Q1", yr, qtr))
 
 # returned Date is the fraction of the way through
 # the period given by frac (= 0 by default)
 dd <- as.Date(x)
-format.quarter(dd)
+format.yearqtr(dd)
 as.Date(x, frac = 1)
 as.POSIXct(x)
 
