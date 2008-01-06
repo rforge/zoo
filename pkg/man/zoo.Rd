@@ -257,6 +257,12 @@ x1 <- zoo(1:5, 1:5)
 x2 <- zoo(2:6, 2:6)
 10 * x1 + x2
 
+## add comments to a zoo object
+comment(x1) <- c("This is a very simple example of a zoo object.", "It can be recreated using this R code: example(zoo)")
+## comments are not output by default but are still there
+x1
+comment(x1)
+
 # ifelse does not work with zoo but this works
 # to create a zoo object which equals x1 at
 # time i if x1[i] > x1[i-1] and 0 otherwise
