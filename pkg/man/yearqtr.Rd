@@ -73,7 +73,7 @@ as.yearqtr(x, \dots)
   argument to the \code{axis} method is a two element character vector
   whose first element gives the format for labeling the year ticks and
   whose second element gives the format for labelling the month ticks.
-  The default is \code{c("%Y", "Q%q")}.  If a one element format is provided
+  The default is \code{c("\%Y", "Q\%q")}.  If a one element format is provided
   rather than a vector then
   it is assumed that the second element is \code{""}.
 
