@@ -47,8 +47,9 @@ as.data.frame.yearqtr <- function(x, row.names = NULL, optional = FALSE, ...)
 
 
 ## other methods for class yearqtr
-c.yearqtr <- function(...)
+c.yearqtr <- function(...) {
     as.yearqtr(do.call("c", lapply(list(...), as.numeric)))
+}
 
 format.yearqtr <- function(x, format = "%Y Q%q", ...) 
 {
@@ -86,8 +87,8 @@ print.yearqtr <- function(x, ...) {
     val
 }
 
-axis.yearqtr <- function (side, x, at, format, ...) 
-    axis.Date(side, as.Date(x), at, format, ...)
+# axis.yearqtr <- function (side, x, at, format, ...) 
+#   axis.Date(side, as.Date(x), at, format, ...)
 
 MATCH.yearqtr <- function(x, table, nomatch = NA, ...)
     match(floor(4*as.numeric(x) + .001), floor(4*as.numeric(table) + .001), nomatch = nomatch, ...)
@@ -115,8 +116,49 @@ Ops.yearqtr <- function(e1, e2) {
 }
 
 
-axis.yearqtr <- function(side, x, ...) axis.Date(side, as.Date(x), ...)
+# axis.yearqtr <- function(side, x, ...) axis.Date(side, as.Date(x), ...)
 
 Axis.yearqtr <- function(x=NULL, at=NULL, ..., side, labels=NULL)
-	Axis(x=as.Date(x), at=at, ..., side=side, labels=labels)
+	axis.yearqtr(x=x, at=at, ..., side=side, labels=TRUE)
+
+
+axis.yearqtr <- function (side, x, at, format, labels = TRUE, ..., N1 = 25, N2 = 7) {
+    # If years in range > N1 then only years shown.  
+    # If years in range > N2 then quarter ticks are not labelled.
+    mat <- missing(at) || is.null(at)
+    if (!mat) # at not missing
+        x <- as.yearqtr(at)
+    else x <- as.yearqtr(x)
+    range <- par("usr")[if (side%%2) 
+        1:2
+    else 3:4]
+    # range[1] <- ceiling(range[1])
+    # range[2] <- floor(range[2])
+    d <- range[2] - range[1]
+    z <- c(range, x[is.finite(x)])
+    class(z) <- "yearqtr"
+    if (d > N1) { # axis has years only
+        z <- structure(pretty(z), class = "yearqtr")
+    } else if (d > N2) { # axis has all years and unlabelled quarters
+        z <- seq(min(x), max(x), 0.25)
+	# z <- seq(floor(min(x)), ceiling(max(x)))
+    } else { # years and quarters
+        z <- seq(min(x), max(x), 0.25)
+    }
+    if (!mat) 
+        z <- x[is.finite(x)]
+    z <- z[z >= range[1] & z <= range[2]]
+    z <- sort(unique(z))
+    class(z) <- "yearqtr"
+    if (identical(labels, TRUE)) {
+	if (missing(format)) format <- c("%Y", "Q%q")
+	if (length(format) == 1) format <- c(format, "")
+	if (d <= N2) labels <- format.yearqtr(z, format = format[2])
+	idx <- format.yearqtr(z, format = "%q") == "1"
+	labels[idx] <- format.yearqtr(z[idx], format = format[1])
+    } else if (identical(labels, FALSE)) 
+        labels <- rep("", length(z))
+    axis(side, at = z, labels = labels, ...)
+}
+
 

@@ -48,7 +48,13 @@ yearmon(x)
   \code{"POSIXlt"}, \code{"numeric"}, \code{"character"}.  In the case of
   \code{as.yearmon.character} the \code{format} argument is the same as for
   \code{"Date"} plus one can have a format specifying a year and month but
-  no day.
+  no day.  The \code{axis} 
+  method has an \code{N1} argument defaulting to \code{25}
+  such that if more than \code{N1} years are within the range of the data then
+  months are not shown on the axis, only years.  A similar \code{N2} argument
+  defaulting to \code{2}
+  is such that if more than \code{N2} years are within the range of the
+  data then ticks for months, if any, are not labelled.
 }
 \value{
   Returns its argument converted to class \code{yearmon}.
