@@ -60,13 +60,23 @@ as.yearqtr(x, \dots)
   There are coercion methods available for various classes including:
   default coercion to \code{"yearqtr"} (which coerces to \code{"numeric"} first)
   and coercion from \code{"yearqtr"} to \code{"Date"} (see below), \code{"POSIXct"},
-  \code{"POSIXlt"}, \code{"numeric"}, \code{"character"}.  The \code{axis} 
+  \code{"POSIXlt"}, \code{"numeric"}, \code{"character"}.  
+
+  The \code{axis} 
   method has an \code{N1} argument defaulting to \code{25}
   such that if more than \code{N1} years are within the range of the data then
   quarters are not shown on the axis, only years.  A similar \code{N2} argument
   defaulting to \code{7}
   is such that if more than \code{N2} years are within the range of the
   data then ticks for quarters, if any, are not labelled.
+  The \code{format}
+  argument to the \code{axis} method is a two element character vector
+  whose first element gives the format for labeling the year ticks and
+  whose second element gives the format for labelling the month ticks.
+  The default is \code{c("%Y", "Q%q")}.  If a one element format is provided
+  rather than a vector then
+  it is assumed that the second element is \code{""}.
+
 }
 \value{
   \code{yearqtr} and \code{as.yearqtr} return the first argument converted to 

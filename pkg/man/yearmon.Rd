@@ -47,14 +47,21 @@ yearmon(x)
   and coercion from \code{"yearmon"} to \code{"Date"} (see below), \code{"POSIXct"},
   \code{"POSIXlt"}, \code{"numeric"}, \code{"character"}.  In the case of
   \code{as.yearmon.character} the \code{format} argument is the same as for
-  \code{"Date"} plus one can have a format specifying a year and month but
-  no day.  The \code{axis} 
+  \code{"Date"}.   One can specify a year and month with no day.  
+
+  The \code{axis} 
   method has an \code{N1} argument defaulting to \code{25}
   such that if more than \code{N1} years are within the range of the data then
   months are not shown on the axis, only years.  A similar \code{N2} argument
   defaulting to \code{2}
   is such that if more than \code{N2} years are within the range of the
-  data then ticks for months, if any, are not labelled.
+  data then ticks for months, if any, are not labelled.  The \code{format}
+  argument to the \code{axis} method is a two element character vector
+  whose first element gives the format for labeling the year ticks and
+  whose second element gives the format for labelling the month ticks.
+  The default is \code{c("%Y", "%b")}.  If a one element format is provided
+  rather than a vector then
+  it is assumed that the second element is \code{""}.
 }
 \value{
   Returns its argument converted to class \code{yearmon}.
