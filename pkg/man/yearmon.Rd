@@ -18,12 +18,9 @@
 \alias{format.yearmon}
 \alias{print.yearmon}
 \alias{[.yearmon}
-\alias{axis.yearmon}
 \alias{MATCH.yearmon}
 \alias{Ops.yearmon}
 \alias{-.yearmon}
-\alias{axis.yearmon}
-\alias{Axis.yearmon}
 
 \title{An Index Class for Monthly Data}
 \description{
@@ -49,25 +46,12 @@ yearmon(x)
   \code{as.yearmon.character} the \code{format} argument is the same as for
   \code{"Date"}.   One can specify a year and month with no day.  
 
-  The \code{axis} 
-  method has an \code{N1} argument defaulting to \code{25}
-  such that if more than \code{N1} years are within the range of the data then
-  months are not shown on the axis, only years.  A similar \code{N2} argument
-  defaulting to \code{2}
-  is such that if more than \code{N2} years are within the range of the
-  data then ticks for months, if any, are not labelled.  The \code{format}
-  argument to the \code{axis} method is a two element character vector
-  whose first element gives the format for labeling the year ticks and
-  whose second element gives the format for labelling the month ticks.
-  The default is \code{c("\%Y", "\%b")}.  If a one element format is provided
-  rather than a vector then
-  it is assumed that the second element is \code{""}.
 }
 \value{
   Returns its argument converted to class \code{yearmon}.
 }
 
-\seealso{\code{\link{yearqtr}}, \code{\link{zoo}}, \code{\link{zooreg}}, \code{\link{ts}}}
+\seealso{\code{\link{yearqtr}}, \code{\link{zoo}}, \code{\link{zooreg}}, \code{\link{axis.yearmon}}, \code{\link{ts}}}
 
 \examples{
 x <- yearmon(2000 + seq(0, 23)/12)

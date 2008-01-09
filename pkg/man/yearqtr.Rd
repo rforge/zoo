@@ -18,12 +18,9 @@
 \alias{format.yearqtr}
 \alias{print.yearqtr}
 \alias{[.yearqtr}
-\alias{axis.yearqtr}
 \alias{MATCH.yearqtr}
 \alias{Ops.yearqtr}
 \alias{-.yearqtr}
-\alias{axis.yearqtr}
-\alias{Axis.yearqtr}
 
 \title{An Index Class for Quarterly Data}
 \description{
@@ -62,21 +59,6 @@ as.yearqtr(x, \dots)
   and coercion from \code{"yearqtr"} to \code{"Date"} (see below), \code{"POSIXct"},
   \code{"POSIXlt"}, \code{"numeric"}, \code{"character"}.  
 
-  The \code{axis} 
-  method has an \code{N1} argument defaulting to \code{25}
-  such that if more than \code{N1} years are within the range of the data then
-  quarters are not shown on the axis, only years.  A similar \code{N2} argument
-  defaulting to \code{7}
-  is such that if more than \code{N2} years are within the range of the
-  data then ticks for quarters, if any, are not labelled.
-  The \code{format}
-  argument to the \code{axis} method is a two element character vector
-  whose first element gives the format for labeling the year ticks and
-  whose second element gives the format for labelling the month ticks.
-  The default is \code{c("\%Y", "Q\%q")}.  If a one element format is provided
-  rather than a vector then
-  it is assumed that the second element is \code{""}.
-
 }
 \value{
   \code{yearqtr} and \code{as.yearqtr} return the first argument converted to 
@@ -85,20 +67,13 @@ as.yearqtr(x, \dots)
   its argument first argument.
 }
 
-\seealso{\code{\link{yearmon}}, \code{\link{zoo}}, \code{\link{zooreg}}, \code{\link{ts}} and code{\link{strptime}}.}
+\seealso{\code{\link{yearmon}}, \code{\link{zoo}}, \code{\link{zooreg}}, \code{\link{axis.yearqtr}}, \code{\link{ts}} and code{\link{strptime}}.}
 
 \examples{
 x <- yearqtr(2000 + seq(0, 7)/4)
 x
 
 format(x, "\%Y Quarter \%q")
-
-# plot with fancy X axis
-z <- zoo(10:17, x)
-plot(z, xaxt = "n")
-qtr <- format(time(z), "Q\%q")
-yr <- format(time(z), "\%Y")
-Axis(side = 1, at = unclass(time(z)), labels = ifelse(qtr == "Q1", yr, qtr))
 
 # returned Date is the fraction of the way through
 # the period given by frac (= 0 by default)
