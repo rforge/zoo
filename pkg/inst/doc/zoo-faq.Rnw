@@ -1,0 +1,151 @@
+\documentclass{Z}
+\DeclareGraphicsExtensions{.pdf,.eps}
+\newcommand{\mysection}[1]{\subsubsection[#1]{\textbf{#1}}}
+
+
+%% need no \usepackage{Sweave}
+
+\author{Gabor Grothendieck\\GKX Associates Inc. \And
+        Achim Zeileis\\Wirtschaftsuniversit\"at Wien}
+\Plainauthor{Achim Zeileis, Gabor Grothendieck}
+
+\title{\pkg{zoo} FAQ}
+\Plaintitle{zoo FAQ}
+
+\Keywords{irregular time series, daily data, weekly data, returns}
+
+\Abstract{This is a collection of frequently asked questions about the \pkg{zoo} package together with their answers. }
+
+\begin{document}
+
+\SweaveOpts{engine=R,eps=FALSE}
+%\VignetteIndexEntry{zoo FAQ}
+%\VignetteDepends{zoo,tseries}
+%\VignetteKeywords{irregular time series, daily data, weekly data, returns}
+%\VignettePackage{zoo}
+
+
+<<preliminaries, echo=FALSE, results=hide>>=
+library("zoo")
+@
+
+\mysection{1. I know that duplicate times are not allowed but my data has them.  What do I do?}
+
+There are examples of a variety of approaches in the examples section
+of \code{?zoo}.
+
+\mysection{2. When I try to specify a log axis to plot.zoo a warning is issued.  What is wrong?}
+
+Arguments that are part of \code{...} are passed to the \code{panel} 
+function and
+the default \code{panel} function, \code{lines}, does not accept \code{log}.  
+Either 
+ignore the warning, use \code{suppressWarnings} 
+(see \code{?suppressWarnings}) or create
+your own panel function which excludes the \code{log}:
+
+<<log-plot>>=
+z <- zoo(1:100)
+plot(z, log = "y", panel = function(..., log) lines(...))
+@
+
+\mysection{3. How do I create right and a left vertical axes in plot.zoo?}
+
+See examples section of \code{?plot.zoo}.
+
+\mysection{4. How do I create a monthly series but still keep track of the dates?}
+
+Create a subclass of \code{"yearmon"} called \code{"yearmon2"} that stores 
+the dates as names on the time vector.  It will act the same as 
+\code{"yearmon"} but we can recover the dates at any time using aggregate:
+
+<<yearmon2>>=
+as.yearmon2 <- function(x, ...) UseMethod("as.yearmon2")
+as.yearmon2.Date <- function(x, ...) {
+  y <- as.yearmon(with(as.POSIXlt(x, tz = "GMT"), 1900 + year + mon/12))
+  names(y) <- x
+  structure(y, class = c("yearmon2", class(y)))
+}
+
+as.Date.yearmon2 <- function(x, frac = 0, ...) {
+     if (!is.null(names(x))) return(as.Date(names(x)))
+     x <- unclass(x)
+     year <- floor(x + .001)
+     month <- floor(12 * (x - year) + 1 + .5 + .001)
+     dd.start <- as.Date(paste(year, month, 1, sep = "-")) 
+     dd.end <- dd.start + 32 - as.numeric(format(dd.start + 32, "%d"))
+     as.Date((1-frac) * as.numeric(dd.start) + frac * as.numeric(dd.end), origin = "1970-01-01")
+}
+
+# test
+dd <- seq(as.Date("2000-01-01"), length = 5, by = 32)
+z <- zoo(1:5, as.yearmon2(dd))
+# shows index as yearmon class
+z
+# recover dates to show index as Date class
+aggregate(z, as.Date, force) 
+@
+
+\mysection{5. I have data frame with both numeric and factor columns.  How do I convert that to a zoo object?}
+
+A \code{"zoo"} object may be a numeric vector or matrix or a factor but not
+both.  You can convert it to two \code{"zoo"} variables:
+
+<<factor-1>>=
+DF <- data.frame(time = 1:4, x = 1:4, f = factor(1:4))
+zx <- zoo(DF$x, DF$time)
+zf <- zoo(DF$f, DF$time)
+@
+
+or you can convert the factor to numeric and then create a single
+\code{"zoo"} series:
+
+<<factor-2>>=
+z <- zoo(data.matrix(DF[-1]), DF$time)
+@
+
+\mysection{6. Why does lag these give slightly different results on a zoo and a zooreg series which are otherwise the same?}
+
+<<lags>>=
+z <- zoo(11:15); lag(z)
+zr <- zooreg(11:15); lag(zr)
+@
+
+\code{lag.zoo} and \code{lag.zooreg} work differently.  For \code{"zoo"}
+objects the lagged version is obtained by moving the time points
+to the adjacent time point that exists in the series but for \code{"zooreg"} 
+objects the time is lagged by \code{deltat}, the time between adjacent
+regular times.
+
+A key difference is that in \code{"zooreg"} one can lag a point to a time point
+that did not previously exist in the series and, in particular, can lag
+a series outside of the original time range whereas that is not possible
+in a \code{"zoo"} series.
+
+Note that \code{lag.zoo} has an \code{na.pad=} argument which may be what you 
+are looking for.
+
+\mysection{7. How do I subtract the mean of each month from a zoo series?}
+
+To subtract the mean of Jan 2007 from each day in that month,
+subtract the mean of Feb 2007 from each day in that month, etc.
+try this:
+     
+<<subtract-monthly-means>>=
+# test data
+set.seed(123)
+z <- zoo(rnorm(100), as.Date("2007-01-01") + seq(0, by = 10, length = 100))
+
+# answer
+z.demean1 <- z - ave(z, as.yearmon(time(z)))
+@
+
+To subtract the mean of all Januaries from each January, etc.
+try this:
+
+<<subtract-monthly-means-2>>=
+z.demean2 <- z - ave(z, format(time(z), "%m"))
+@
+
+\end{document}
+
