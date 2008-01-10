@@ -10,13 +10,16 @@ non-\code{NA} prior to it.
 }
 \usage{
 na.locf(object, na.rm = TRUE, \dots)
-\method{na.locf}{default}(object, na.rm = TRUE, rev = FALSE, \dots)
+\method{na.locf}{default}(object, na.rm = TRUE, fromLast, rev, \dots)
 }
 \arguments{
   \item{object}{an object.}
   \item{na.rm}{logical. Should leading \code{NA}s be removed?}
-  \item{rev}{logical. Should the observations be reversed before applying LOCF?
+  \item{fromLast}{logical. Causes observations to be carried backward rather
+    than forward.  Default is \code{FALSE}.
     This corresponds to NOCB (next observation carried backward).}
+  \item{rev}{Use fromLast instead.  This argument will
+    be eliminated in the future in favor of fromLast.}
   \item{\dots}{further arguments passed to methods.}
 }
 
@@ -33,7 +36,7 @@ az <- zoo(1:6)
 
 bz <- zoo(c(2,NA,1,4,5,2))
 na.locf(bz)
-na.locf(bz, rev = TRUE)
+na.locf(bz, fromLast = TRUE)
 
 cz <- zoo(c(NA,9,3,2,3,2))
 na.locf(cz)

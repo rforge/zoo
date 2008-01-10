@@ -6,7 +6,15 @@ Changes in Version 1.4-2
     a regular series is only created if indicated (by
     setting argument regular = TRUE or by supplying a
     specific frequency).
+
+  o axis.yearqtr and axis.yearmon improved.  They no longer
+    use axis.Date.
     
+  o na.locf.default now uses fromLast= (consistent with the R 
+    duplicated function).  It is similar to the rev= argument
+    (which will be deprecated).
+
+  o zoo FAQ vignette added
 
 Changes in Version 1.4-1
 
