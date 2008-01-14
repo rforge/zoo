@@ -41,5 +41,15 @@ na.locf(bz, fromLast = TRUE)
 cz <- zoo(c(NA,9,3,2,3,2))
 na.locf(cz)
 
+# generate and fill in missing dates
+# by merging with a zero width series having those dates
+# and then applying na.locf
+z <- zoo(c(0.007306621, 0.007659046, 0.007681013,
+	0.007817548, 0.007847579, 0.007867313),
+	as.Date(c("1993-01-01", "1993-01-09", "1993-01-16",
+	"1993-01-23", "1993-01-30", "1993-02-06")))
+dd <- seq(min(time(z)), max(time(z)), "day")
+na.locf(merge(z, zoo(, dd)))
+
 }
 \keyword{ts}
