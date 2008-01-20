@@ -18,11 +18,13 @@ of \code{"zoo"} objects and replacing it.
   \item{start}{an index/time value. Only the indexes in \code{index}
     which are greater or equal to \code{start} are used.  If the index
     class supports comparisons to character variables, as does \code{Date}
-    class then \code{start} may alternately be a character variable.}
+    class and the \code{chron} package \code{dates} class, then \code{start} 
+    may alternately be a character variable.}
   \item{end}{an index/time value. Only the indexes in \code{index}
     which are lower or equal to \code{end} are used.  If the index
     class supports comparisons to character variables, as does \code{Date}
-    class, then \code{end} may alternately be a character variable.}
+    class and the \code{chron} package \code{dates} class, then \code{end} 
+    may alternately be a character variable.}
   \item{end}{an index/time value. Only the indexes in \code{index}
     which are lower or equal to \code{end} are used.}
   \item{value}{a suitable value object for use with \code{window(x)}.}
