@@ -17,6 +17,7 @@
 \alias{c.yearmon}
 \alias{format.yearmon}
 \alias{print.yearmon}
+\alias{summary.yearmon}
 \alias{[.yearmon}
 \alias{MATCH.yearmon}
 \alias{Ops.yearmon}

@@ -161,4 +161,5 @@ axis.yearqtr <- function (side, x, at, format, labels = TRUE, ..., N1 = 25, N2 =
     axis(side, at = z, labels = labels, ...)
 }
 
-
+summary.yearqtr <- function(object, ...)
+  summary(as.numeric(object), ...)

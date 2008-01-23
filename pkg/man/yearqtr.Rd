@@ -17,6 +17,7 @@
 \alias{c.yearqtr}
 \alias{format.yearqtr}
 \alias{print.yearqtr}
+\alias{summary.yearqtr}
 \alias{[.yearqtr}
 \alias{MATCH.yearqtr}
 \alias{Ops.yearqtr}

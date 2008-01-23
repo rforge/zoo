@@ -149,4 +149,5 @@ axis.yearmon <- function (side, x, at, format, labels = TRUE, ..., N1 = 25, N2 =
     axis(side, at = z, labels = labels, ...)
 }
 
-
+summary.yearmon <- function(object, ...)
+  summary(as.numeric(object), ...)
