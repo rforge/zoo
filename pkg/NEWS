@@ -16,6 +16,9 @@ Changes in Version 1.4-2
 
   o zoo FAQ vignette added
 
+  o as.yearmon.character accepts "%Y-%m" default format (as well 
+    as prior default of "%Y-%m-%d")
+
 Changes in Version 1.4-1
 
   o replaced by() calls by tapply() due to fixes in R
