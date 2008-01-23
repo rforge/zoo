@@ -10,7 +10,12 @@ as.yearmon.dates <-
 as.yearmon.Date <- 
 as.yearmon.POSIXt <- function(x, ...) as.yearmon(with(as.POSIXlt(x, tz="GMT"), 1900 + year + mon/12))
 as.yearmon.character <- function(x, format = "", ...) {
-   if (format == "") format <- "%Y-%m-%d"
+   if (format == "") {
+        nch <- nchar(gsub("[^-]", "", x))
+        if (length(table(nch)) != 1) 
+            stop("yearmon variable can only have one format")
+        format <- if (nch == 1) "%Y-%m" else "%Y-%m-%d"
+   }
    has.short.keys <- rep(regexpr("%[mbByY%]", format) > 0, length(x))
    has.no.others <- regexpr("%", gsub("%[mbByY%]", "", format)) < 0
    z <- ifelse(has.short.keys & has.no.others,

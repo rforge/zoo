@@ -60,6 +60,7 @@ x
 
 as.yearmon("mar07", "\%b\%y")
 as.yearmon("2007-03-01")
+as.yearmon("2007-12")
 
 # returned Date is the fraction of the way through
 # the period given by frac (= 0 by default)
