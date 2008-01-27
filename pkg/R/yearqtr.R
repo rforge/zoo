@@ -94,8 +94,8 @@ MATCH.yearqtr <- function(x, table, nomatch = NA, ...)
     match(floor(4*as.numeric(x) + .001), floor(4*as.numeric(table) + .001), nomatch = nomatch, ...)
 
 Ops.yearqtr <- function(e1, e2) {
-    e1 <- as.numeric(e1)
-    e2 <- as.numeric(e2)
+    e1 <- as.numeric(as.yearqtr(e1))
+    e2 <- as.numeric(as.yearqtr(e2))
     rval <- NextMethod(.Generic)
     if(is.numeric(rval)) rval <- as.yearqtr(rval)
     return(rval)
