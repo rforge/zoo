@@ -90,8 +90,8 @@ MATCH.yearmon <- function(x, table, nomatch = NA, ...)
     match(floor(12*as.numeric(x) + .001), floor(12*as.numeric(table) + .001), nomatch = nomatch, ...)
 
 Ops.yearmon <- function(e1, e2) {
-    e1 <- as.numeric(e1)
-    e2 <- as.numeric(e2)
+    e1 <- as.numeric(as.yearmon(e1))
+    e2 <- as.numeric(as.yearmon(e2))
     rval <- NextMethod(.Generic)
     if(is.numeric(rval)) rval <- as.yearmon(rval)
     return(rval)
