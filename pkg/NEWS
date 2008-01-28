@@ -22,13 +22,13 @@ Changes in Version 1.4-2
     duplicated function). It is similar to the rev= argument
     (which will be deprecated).
 
-
   o comparisons between yearmon variables and character variables
     that can be coerced to yearmon via as.yearmon now work.  This 
     also lets character variables be used in start= and end= 
     arguments of window.zoo for zoo series with a yearmon index
     (since window.zoo already allows such usage for any index class 
     that can be compared to character).  Similarly for yearqtr.
+
 
 Changes in Version 1.4-1
 
