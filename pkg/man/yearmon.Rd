@@ -22,6 +22,8 @@
 \alias{MATCH.yearmon}
 \alias{Ops.yearmon}
 \alias{-.yearmon}
+\alias{Axis.yearmon}
+\alias{axis.yearmon}
 
 \title{An Index Class for Monthly Data}
 \description{
@@ -52,7 +54,7 @@ yearmon(x)
   Returns its argument converted to class \code{yearmon}.
 }
 
-\seealso{\code{\link{yearqtr}}, \code{\link{zoo}}, \code{\link{zooreg}}, \code{\link{axis.yearmon}}, \code{\link{ts}}}
+\seealso{\code{\link{yearqtr}}, \code{\link{zoo}}, \code{\link{zooreg}}, \code{\link{ts}}}
 
 \examples{
 x <- yearmon(2000 + seq(0, 23)/12)

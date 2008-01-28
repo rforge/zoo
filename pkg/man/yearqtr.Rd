@@ -22,6 +22,8 @@
 \alias{MATCH.yearqtr}
 \alias{Ops.yearqtr}
 \alias{-.yearqtr}
+\alias{Axis.yearqtr}
+\alias{axis.yearqtr}
 
 \title{An Index Class for Quarterly Data}
 \description{
@@ -68,7 +70,8 @@ as.yearqtr(x, \dots)
   its argument first argument.
 }
 
-\seealso{\code{\link{yearmon}}, \code{\link{zoo}}, \code{\link{zooreg}}, \code{\link{axis.yearqtr}}, \code{\link{ts}} and code{\link{strptime}}.}
+\seealso{\code{\link{yearmon}}, \code{\link{zoo}}, \code{\link{zooreg}}, \code{\link{ts}},
+  code{\link{strptime}}.}
 
 \examples{
 x <- yearqtr(2000 + seq(0, 7)/4)

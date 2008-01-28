@@ -87,9 +87,6 @@ print.yearqtr <- function(x, ...) {
     val
 }
 
-# axis.yearqtr <- function (side, x, at, format, ...) 
-#   axis.Date(side, as.Date(x), at, format, ...)
-
 MATCH.yearqtr <- function(x, table, nomatch = NA, ...)
     match(floor(4*as.numeric(x) + .001), floor(4*as.numeric(table) + .001), nomatch = nomatch, ...)
 
@@ -116,10 +113,8 @@ Ops.yearqtr <- function(e1, e2) {
 }
 
 
-# axis.yearqtr <- function(side, x, ...) axis.Date(side, as.Date(x), ...)
-
-Axis.yearqtr <- function(x=NULL, at=NULL, ..., side, labels=NULL)
-	axis.yearqtr(x=x, at=at, ..., side=side, labels=TRUE)
+Axis.yearqtr <- function(x = NULL, at = NULL, ..., side, labels = NULL)
+    axis.yearqtr(x = x, at = at, ..., side = side, labels = TRUE)
 
 
 axis.yearqtr <- function (side, x, at, format, labels = TRUE, ..., N1 = 25, N2 = 7) {

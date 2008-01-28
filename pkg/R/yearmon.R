@@ -83,9 +83,6 @@ print.yearmon <- function(x, ...) {
     val
 }
 
-axis.yearmon <- function (side, x, at, format, ...) 
-    axis.Date(side, as.Date(x), at, format, ...)
-
 MATCH.yearmon <- function(x, table, nomatch = NA, ...)
     match(floor(12*as.numeric(x) + .001), floor(12*as.numeric(table) + .001), nomatch = nomatch, ...)
 
@@ -110,10 +107,8 @@ Ops.yearmon <- function(e1, e2) {
     structure(unclass(as.yearmon(e1)) - e2, class = "yearmon")
 }
 
-
-Axis.yearmon <- function(x=NULL, at=NULL, ..., side, labels=NULL)
-	axis.yearmon(x=x, at=at, ..., side=side, labels=TRUE)
-
+Axis.yearmon <- function(x = NULL, at = NULL, ..., side, labels = NULL)
+    axis.yearmon(x = x, at = at, ..., side = side, labels = TRUE)
 
 axis.yearmon <- function (side, x, at, format, labels = TRUE, ..., N1 = 25, N2 = 2) {
     # If years in range > N1 then only years shown.  
