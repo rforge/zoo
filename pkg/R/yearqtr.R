@@ -53,6 +53,7 @@ c.yearqtr <- function(...) {
 
 format.yearqtr <- function(x, format = "%Y Q%q", ...) 
 {
+    if (length(x) == 0) return(character(0))
 	# like gsub but replacement and x may be vectors the same length
 	gsub.vec <- function(pattern, replacement, x, ...) {
 		y <- x

@@ -64,6 +64,7 @@ c.yearmon <- function(...)
 
 format.yearmon <- function(x, format = "%b %Y", ...) 
 {
+    if (length(x) == 0) return(character(0))
     xx <- format(as.Date(x), format = format, ...)
     names(xx) <- names(x)
     xx
