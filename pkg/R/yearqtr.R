@@ -74,6 +74,16 @@ format.yearqtr <- function(x, format = "%Y Q%q", ...)
 	xx
 }
 
+
+months.yearqtr <- function(x, abbreviate) {
+    months(as.Date(x), abbreviate)
+}
+
+quarters.yearqtr <- function(x, abbreviate) {
+    quarters(as.Date(x), abbreviate)
+}
+
+
 print.yearqtr <- function(x, ...) { 
     print(format(x), ...)
     invisible(x) 

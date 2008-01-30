@@ -231,5 +231,9 @@ z
 aggregate(z, as.Date, force) 
 @
 
+\mysection{8. What other packages use zoo?}
+
+The packages on CRAN that depend on \pkg{zoo} are: \pkg{FinTS}, \pkg{PerformanceAnalytics}, \pkg{RBloomberg}, \pkg{dyn}, \pkg{dynlm}, \pkg{fUtilities}, \pkg{fda}, \pkg{fxregime}, \pkg{lmtest}, \pkg{party}, \pkg{sandwich}, \pkg{strucchange}, \pkg{tripEstimation}, \pkg{tseries} and \pkg{xts}.  Also these packages suggest the use of zoo with them: \pkg{TSSQLite}, \pkg{TSdbi}, \pkg{Zelig}, \pkg{gsubfn} and \pkg{pscl}.
+
 \end{document}
 

@@ -75,6 +75,14 @@ print.yearmon <- function(x, ...) {
     invisible(x) 
 }
 
+months.yearmon <- function(x, abbreviate) {
+    months(as.Date(x), abbreviate)
+}
+
+quarters.yearmon <- function(x, abbreviate) {
+    quarters(as.Date(x), abbreviate)
+}
+
 "[.yearmon" <- function (x, ..., drop = TRUE) 
 {
     cl <- oldClass(x)
