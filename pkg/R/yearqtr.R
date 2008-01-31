@@ -18,12 +18,12 @@ as.yearqtr.character <- function(x, format, ...) {
     }
     y <- if (regexpr("%[qQ]", format) > 0) {
         format <- sub("%q", "%m", format)
-        y <- as.yearmon(x, format)
-        with(month.day.year(as.yearmon(x, format)), year + (month - 1)/4)
+        y <- as.numeric(as.yearmon(x, format))
+        m0 <- round(12 * (y %% 1))
+        floor(y) + ifelse(m0 > 3, NA, m0/4)
     } else as.yearmon(x, format)
     as.yearqtr(y)
 }
-
 
 ## coercion from yearqtr
 # returned Date is the fraction of the way through the period given by frac
