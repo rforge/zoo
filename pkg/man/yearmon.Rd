@@ -8,6 +8,7 @@
 \alias{as.yearmon.Date}
 \alias{as.yearmon.POSIXt}
 \alias{as.yearmon.character}
+\alias{as.yearmon.factor}
 \alias{as.Date.yearmon}
 \alias{as.POSIXct.yearmon}
 \alias{as.POSIXlt.yearmon}

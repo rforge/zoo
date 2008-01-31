@@ -10,6 +10,7 @@ as.yearqtr.dates <-
 as.yearqtr.Date <- 
 as.yearqtr.POSIXt <- function(x, ...) as.yearqtr(as.yearmon(x))
 
+as.yearqtr.factor <- function(x, ...) as.yearqtr(as.character(x), ...)
 as.yearqtr.character <- function(x, format, ...) {
     if (missing(format) || format == "") {
         format <- if (all(regexpr("q", x) > 0))  { "%Y q%q"

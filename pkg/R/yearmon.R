@@ -9,6 +9,7 @@ as.yearmon.integer <- function(x, ...) structure(x, class = "yearmon")
 as.yearmon.dates <- 
 as.yearmon.Date <- 
 as.yearmon.POSIXt <- function(x, ...) as.yearmon(with(as.POSIXlt(x, tz="GMT"), 1900 + year + mon/12))
+as.yearmon.factor <- function(x, ...) as.yearmon(as.character(x), ...)
 as.yearmon.character <- function(x, format = "", ...) {
    if (format == "") {
         nch <- nchar(gsub("[^-]", "", x))
