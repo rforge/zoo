@@ -9,7 +9,21 @@ as.yearqtr.integer <- function(x, ...) structure(x, class = "yearqtr")
 as.yearqtr.dates <-
 as.yearqtr.Date <- 
 as.yearqtr.POSIXt <- function(x, ...) as.yearqtr(as.yearmon(x))
-as.yearqtr.character <- function(x, ...) as.yearqtr(as.Date(x, ...))
+
+as.yearqtr.character <- function(x, format, ...) {
+    if (missing(format) || format == "") {
+        format <- if (all(regexpr("q", x) > 0))  { "%Y q%q"
+        } else if (all(regexpr("Q", x) > 0)) { "%Y Q%q"
+        } else "%Y-%q"
+    }
+    y <- if (regexpr("%[qQ]", format) > 0) {
+        format <- sub("%q", "%m", format)
+        y <- as.yearmon(x, format)
+        with(month.day.year(as.yearmon(x, format)), year + (month - 1)/4)
+    } else as.yearmon(x, format)
+    as.yearqtr(y)
+}
+
 
 ## coercion from yearqtr
 # returned Date is the fraction of the way through the period given by frac

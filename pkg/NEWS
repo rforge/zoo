@@ -4,6 +4,9 @@ Changes in Version 1.4-3
 
   o qtrths.yearqtr, quarters.yearqtr methods added
 
+  o as.yearqtr.character now accepts %q and default formats are
+    "%Y Q%q", "%Y q%q" and "%Y-%q".
+
 Changes in Version 1.4-2
 
   o The processing of regular series in aggregate.zoo()
