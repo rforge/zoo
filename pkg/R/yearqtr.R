@@ -12,9 +12,12 @@ as.yearqtr.POSIXt <- function(x, ...) as.yearqtr(as.yearmon(x))
 
 as.yearqtr.factor <- function(x, ...) as.yearqtr(as.character(x), ...)
 as.yearqtr.character <- function(x, format, ...) {
+    non.na <- x[!is.na(x)]
+    if (length(non.na) == 0) 
+        return(structure(rep(NA, length(x)), class = "yearqtr"))
     if (missing(format) || format == "") {
-        format <- if (all(regexpr("q", x) > 0))  { "%Y q%q"
-        } else if (all(regexpr("Q", x) > 0)) { "%Y Q%q"
+        format <- if (all(regexpr("q", non.na) > 0))  { "%Y q%q"
+        } else if (all(regexpr("Q", non.na) > 0)) { "%Y Q%q"
         } else "%Y-%q"
     }
     y <- if (regexpr("%[qQ]", format) > 0) {
