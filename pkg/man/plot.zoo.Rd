@@ -114,20 +114,17 @@ z <- zoo(c(21, 34, 33, 41, 39, 38, 37, 28, 33, 40),
        "1992-03-13")))
 zz <- merge(a = z, b = z+10)
 # 2. axis tick for every point. Also every 3rd point labelled.
-my.panel <- function(...) {
+my.panel <- function(x, y, ..., pf = parent.frame()) {
    fmt <- "\%b-\%d" # format for axis labels
-   lines(...)
-   panel.number <- parent.frame()$panel.number
+   lines(x, y, ...)
    # if bottom panel
-   if (!length(panel.number) || panel.number == NCOL(zz)) { 
-      # next line only if non-labelled ticks wanted for each point
-      # axis(1, at = time(zz), lab = FALSE)
-      tt <- time(zz)
-      Axis(side = 1, at = tt, labels = FALSE)
-      ix <- seq(1, length(tt), 3)
-      labs <- format(tt, fmt)
-      # axis(1, at = time(zz)[ix], lab = labs[ix], tcl = -0.7, cex.axis = 0.7)
-      Axis(side = 1, at = tt[ix], labels = labs[ix], tcl = -0.7, cex.axis = 0.7)
+   if (with(pf, length(panel.number) == 0 || 
+        (panel.number - 1) %% nr == nr - 1 || panel.number == nser)) { 
+      # create ticks at x values and then label every third tick
+      Axis(side = 1, at = x, labels = FALSE)
+      ix <- seq(1, length(x), 3)
+      labs <- format(x, fmt)
+      Axis(side = 1, at = x[ix], labels = labs[ix], tcl = -0.7, cex.axis = 0.7)
    }
 }
 # 3. plot
