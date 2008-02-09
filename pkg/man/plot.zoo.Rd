@@ -119,7 +119,7 @@ my.panel <- function(x, y, ..., pf = parent.frame()) {
    lines(x, y, ...)
    # if bottom panel
    if (with(pf, length(panel.number) == 0 || 
-        (panel.number - 1) %% nr == nr - 1 || panel.number == nser)) { 
+        panel.number %% nr == 0 || panel.number == nser)) { 
       # create ticks at x values and then label every third tick
       Axis(side = 1, at = x, labels = FALSE)
       ix <- seq(1, length(x), 3)
@@ -172,12 +172,11 @@ library(zoo)
 z <- zoo(matrix(1:25, 5), c(10,11,20,21))
 colnames(z) <- letters[1:5]
 
-z. <- zoo(coredata(z))
 plot(zoo(coredata(z)), xaxt = "n", panel = function(x, y, ..., Time = time(z)) {
     lines(x, y, ...)
     # if bottom panel
     pf <- parent.frame()
-    if (with(pf, (panel.number - 1) \%\% nr == nr-1 || panel.number == nser)) {
+    if (with(pf, panel.number %% nr == 0 || panel.number == nser)) {
         Axis(side = 1, at = x, labels = Time)
     }
 })
