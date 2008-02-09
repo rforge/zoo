@@ -168,6 +168,24 @@ pnl.xaxis <- function(...) {
 }
 plot(as.zoo(tab), panel = pnl.xaxis, xaxt = "n", main = "Fancy X Axis")
 
+### Another example with a custom axis
+
+library(zoo)
+# test data
+z <- zoo(matrix(1:25, 5), c(10,11,20,21))
+colnames(z) <- letters[1:5]
+
+z. <- zoo(coredata(z))
+plot(zoo(coredata(z)), xaxt = "n", panel = function(x, y, ..., Time = time(z)) {
+    lines(x, y, ...)
+    # if bottom panel
+    pf <- parent.frame()
+    if (with(pf, (panel.number - 1) \%\% nr == nr-1 || panel.number == nser)) {
+        Axis(side = 1, at = x, labels = Time)
+    }
+})
+
+
 ## plot with left and right axes
 ## modified from http://www.mayin.org/ajayshah/KB/R/html/g6.html
 set.seed(1)
