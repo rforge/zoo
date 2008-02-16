@@ -134,16 +134,16 @@ str.zoo <- function(object, ...)
 }
 
 "$.zoo" <- function(object, x) {
-  if(NCOL(object) < 2) stop("only possible for multivariate zoo series")
+  if(length(dim(object)) != 2) stop("not possible for univariate zoo series")
   if(is.null(colnames(object))) stop("only possible for zoo series with column names")
   wi <- pmatch(x, colnames(object))
   if(is.na(wi)) NULL else object[, wi]
 }
 
 "$<-.zoo" <- function(object, x, value) {
-  if(NCOL(object) < 2) stop("only possible for multivariate zoo series")
+  if(length(dim(object)) != 2) stop("not possible for univariate zoo series")
   if(is.null(colnames(object))) stop("only possible for zoo series with column names")
-  wi <- pmatch(x, colnames(object))
+  wi <- match(x, colnames(object))
   if(is.na(wi)) {
     object <- cbind(object, value)
     colnames(object)[NCOL(object)] <- x  
