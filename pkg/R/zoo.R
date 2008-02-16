@@ -133,6 +133,26 @@ str.zoo <- function(object, ...)
   return(rval)
 }
 
+"$.zoo" <- function(object, x) {
+  if(NCOL(object) < 2) stop("only possible for multivariate zoo series")
+  if(is.null(colnames(object))) stop("only possible for zoo series with column names")
+  wi <- pmatch(x, colnames(object))
+  if(is.na(wi)) NULL else object[, wi]
+}
+
+"$<-.zoo" <- function(object, x, value) {
+  if(NCOL(object) < 2) stop("only possible for multivariate zoo series")
+  if(is.null(colnames(object))) stop("only possible for zoo series with column names")
+  wi <- pmatch(x, colnames(object))
+  if(is.na(wi)) {
+    object <- cbind(object, value)
+    colnames(object)[NCOL(object)] <- x  
+  } else {  
+    object[, wi] <- value
+  }
+  object
+}
+
 head.zoo <- function(x, n = 6, ...) {
 	if (length(dim(x)) == 0)
 		x[seq(length = min(n, length(x)))]
