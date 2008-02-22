@@ -44,13 +44,18 @@ interpreted to be the index/time, the remaining columns the corresponding data.
 (If the file only has only column then that is assumed to be the data column and
 \code{1, 2, ...} are used for the index.)  To assign the appropriate class
 to the index, \code{FUN} can be specified and is applied to the first column.
-By default, \code{read.zoo} uses \code{as.Date(as.character(x), format = format)} if \code{format} is 
-specified and \code{as.POSIXct(as.character(x), tz = tz)} if \code{tz}
-is specified; otherwise it tries to guess between \code{"numeric"},
-\code{"Date"} and \code{"POSIXct"}.
 
-If \code{regular} is set to \code{TRUE} and the resulting series has an underlying
-regularity, it is coerced to a \code{"zooreg"} series.
+To process the index, \code{read.zoo} uses the first of the following that is
+true:  1. If \code{FUN} is specified then \code{read.zoo} calls \code{FUN} with
+the index as the first argument.  2. If \code{tz} is specified then the index 
+column is converted to \code{POSIXct}.  3. If \code{format} is specified
+then the index column is converted to \code{Date}.  4. A heuristic
+attempts to decide among \code{"numeric"}, \code{"Date"} and \code{"POSIXct"}.
+In all the relevant cases, if \code{format} is specified then it is passed to
+the conversion function as a second argument.
+
+If \code{regular} is set to \code{TRUE} and the resulting series has an 
+underlying regularity, it is coerced to a \code{"zooreg"} series.
 
 \code{write.zoo} is a convenience function for writing \code{"zoo"} series
 to text files. It first coerces its argument to a \code{"data.frame"}, adds
