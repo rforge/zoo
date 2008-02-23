@@ -6,6 +6,10 @@ as.yearmon <- function(x, ...) UseMethod("as.yearmon")
 as.yearmon.default <- function(x, ...) as.yearmon(as.numeric(x))
 as.yearmon.numeric <- function(x, ...) yearmon(x)
 as.yearmon.integer <- function(x, ...) structure(x, class = "yearmon")
+as.yearmon.yearqtr <- function(x, frac = 0, ...) {
+    if (frac == 0) yearmon(as.numeric(x)) else
+    as.yearmon(as.Date(x, frac = frac), ...)
+}
 as.yearmon.dates <- 
 as.yearmon.Date <- 
 as.yearmon.POSIXt <- function(x, ...) as.yearmon(with(as.POSIXlt(x, tz="GMT"), 1900 + year + mon/12))
