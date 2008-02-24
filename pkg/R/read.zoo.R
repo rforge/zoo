@@ -29,11 +29,11 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL, regular = FALSE, in
   if(is.data.frame(rval)) rval <- as.matrix(rval)
     
   ## index transformation functions
-  toDate <- if(missing(format)) function(x) as.Date(as.character(x))
+  toDate <- if(missing(format)) function(x, ...) as.Date(as.character(x))
               else function(x, format) as.Date(as.character(x), format = format)
   toPOSIXct <- if (missing(format)) {
-        function(x) as.POSIXct(as.character(x), tz = tz)
-  } else function(x, format) {
+        function(x, tz) as.POSIXct(as.character(x), tz = tz)
+  } else function(x, format, tz) {
         as.POSIXct(strptime(as.character(x), tz = tz, format = format))
   }
   toDefault <- function(x, ...) {
@@ -62,7 +62,12 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL, regular = FALSE, in
   }
   
   ## compute index from (former) first column
-  ix <- if (missing(format)) FUN(ix) else FUN(ix, format = format)
+  ix <- if (missing(format)) {
+    if (missing(tz)) FUN(ix) else FUN(ix, tz = tz)
+  } else {
+    if (missing(tz) FUN(ix, format = format) 
+    else FUN(ix, format = format, tz = tz)
+  }
   
   ## sanity checking
   if(any(is.na(ix))) stop("index contains NAs")

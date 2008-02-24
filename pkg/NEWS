@@ -9,6 +9,14 @@ Changes in Version 1.4-3
 
   o yearqtr.factor and yearmon.factor added
 
+  o as.yearmon.yearqtr now has frac argument consistent with as.Date.yearmon
+
+  o read.zoo now passes format and tz to FUN if they are specified.  If
+    FUN is not specified but tz and format specified then POSIXct translation 
+    is done with respect to the specified format string.
+
+  o new $.zoo and $<-.zoo methods
+
 Changes in Version 1.4-2
 
   o The processing of regular series in aggregate.zoo()

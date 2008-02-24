@@ -51,8 +51,8 @@ the index as the first argument.  2. If \code{tz} is specified then the index
 column is converted to \code{POSIXct}.  3. If \code{format} is specified
 then the index column is converted to \code{Date}.  4. A heuristic
 attempts to decide among \code{"numeric"}, \code{"Date"} and \code{"POSIXct"}.
-In all the relevant cases, if \code{format} is specified then it is passed to
-the conversion function as a second argument.
+If \code{format} and/or \code{tz} is specified 
+then it is passed to the conversion function as well.
 
 If \code{regular} is set to \code{TRUE} and the resulting series has an 
 underlying regularity, it is coerced to a \code{"zooreg"} series.
