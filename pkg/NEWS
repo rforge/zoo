@@ -1,8 +1,8 @@
 Changes in Version 1.4-3
 
-  o months.yearmon, quarters.yearmon methods added
+  o months.yearmon, quarters.yearmon, cycle.yearmon methods added
 
-  o months.yearqtr, quarters.yearqtr methods added
+  o months.yearqtr, quarters.yearqtr, cycle.yearqtr methods added
 
   o as.yearqtr.character now accepts %q and default formats are
     "%Y Q%q", "%Y q%q" and "%Y-%q".

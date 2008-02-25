@@ -69,6 +69,8 @@ c.yearqtr <- function(...) {
     as.yearqtr(do.call("c", lapply(list(...), as.numeric)))
 }
 
+cycle.yearqtr <- function(x, ...) as.numeric(quarters(x))
+
 format.yearqtr <- function(x, format = "%Y Q%q", ...) 
 {
     if (length(x) == 0) return(character(0))

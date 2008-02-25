@@ -16,6 +16,7 @@
 \alias{as.character.yearqtr}
 \alias{as.data.frame.yearqtr}
 \alias{c.yearqtr}
+\alias{cycle.yearqtr}
 \alias{format.yearqtr}
 \alias{print.yearqtr}
 \alias{summary.yearqtr}

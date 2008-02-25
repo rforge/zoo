@@ -67,6 +67,8 @@ as.data.frame.yearmon <- function(x, row.names = NULL, optional = FALSE, ...)
 c.yearmon <- function(...)
     as.yearmon(do.call("c", lapply(list(...), as.numeric)))
 
+cycle.yearmon <- function(x, ...) as.numeric(months(x))
+
 format.yearmon <- function(x, format = "%b %Y", ...) 
 {
     if (length(x) == 0) return(character(0))

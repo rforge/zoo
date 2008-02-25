@@ -16,6 +16,7 @@
 \alias{as.character.yearmon}
 \alias{as.data.frame.yearmon}
 \alias{c.yearmon}
+\alias{cycle.yearmon}
 \alias{format.yearmon}
 \alias{print.yearmon}
 \alias{summary.yearmon}
