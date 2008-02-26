@@ -209,7 +209,11 @@ text(usr[2] + .1 * diff(usr[1:2]), mean(usr[3:4]), colnames(z)[2],
    srt = -90, xpd = TRUE, col = "blue")
 par(opar)
 
-
+\dontrun{
+# automatically placed point labels
+library(maptools)
+pointLabel(time(z), coredata(z[,2]), labels = format(time(z)), cex = 0.5)
+}
 
 ## plot one zoo series against the other.
 plot(x, x2)
