@@ -231,7 +231,68 @@ z
 aggregate(z, as.Date, force) 
 @
 
-\mysection{8. What other packages use zoo?}
+\mysection{8. How are axes added to a plot created using plot.zoo?}
+
+On single panel plots \code{axis} or \code{Axis} can be used just as with any 
+classic graphics plot in R.
+
+<<single-panel>>=
+# custom axis for single panel plot
+# label months but use larger year for Jan
+# months, quarters and years should have successively larger ticks
+z <- zoo(0:500, as.Date(0:500))
+plot(z, xaxt = "n")
+tt <- time(z)
+m <- unique(as.Date(as.yearmon(tt)))
+jan <- format(m, "%m") == "01"
+mlab <- substr(months(m[!jan]), 1, 1)
+Axis(side = 1, at = m[!jan], labels = mlab, tcl = -0.3, cex.axis = 0.7)
+Axis(side = 1, at = m[jan], labels = format(m[jan], "%y"), tcl = -0.7)
+Axis(side = 1, at = unique(as.Date(as.yearqtr(tt))), labels = FALSE)
+@
+
+A multivariate series can either be plotted as multiple single panel
+plots:
+
+<<multiplesingleplot>>=
+z3 <- cbind(z1 = z, z2 = 2*z, z3 = 3*z)
+opar <- par(mfrow = c(2, 2))
+tt <- time(z)
+m <- unique(as.Date(as.yearmon(tt)))
+jan <- format(m, "%m") == "01"
+mlab <- substr(months(m[!jan]), 1, 1)
+for(i in 1:ncol(z3)) {
+    plot(z3[,i], xaxt = "n", ylab = colnames(z3)[i], ylim = range(z3))
+    Axis(side = 1, at = m[!jan], labels = mlab, tcl = -0.3, cex.axis = 0.7)
+    Axis(side = 1, at = m[jan], labels = format(m[jan], "%y"), tcl = -0.7)
+    Axis(side = 1, at = unique(as.Date(as.yearqtr(tt))), labels = FALSE)
+}
+par(opar)
+@
+
+or as a multipanel plot.  In this case any custom axis must be
+placed in a panel function.
+
+<<multipanelplot>>=
+plot(z3, screen = 1:3, xaxt = "n", nc = 2, ylim = range(z3),
+  panel = function(...) {
+   lines(...)
+   panel.number <- parent.frame()$panel.number
+   nser <- parent.frame()$nser
+   # place axis on bottom panel of each column only
+   if (panel.number %% 2 == 0 || panel.number == nser) { 
+         tt <- list(...)[[1]]
+         m <- unique(as.Date(as.yearmon(tt)))
+         jan <- format(m, "%m") == "01"
+         mlab <- substr(months(m[!jan]), 1, 1)
+         Axis(side = 1, at = m[!jan], labels = mlab, tcl = -0.3, cex.axis = 0.7)
+         Axis(side = 1, at = m[jan], labels = format(m[jan], "%y"), tcl = -0.7)
+         Axis(side = 1, at = unique(as.Date(as.yearqtr(tt))), labels = FALSE)
+    }
+})
+@
+
+\mysection{9. What other packages use zoo?}
 
 The packages on CRAN that depend on \pkg{zoo} are: \pkg{FinTS}, \pkg{PerformanceAnalytics}, \pkg{RBloomberg}, \pkg{dyn}, \pkg{dynlm}, \pkg{fUtilities}, \pkg{fda}, \pkg{fxregime}, \pkg{lmtest}, \pkg{party}, \pkg{sandwich}, \pkg{strucchange}, \pkg{tripEstimation}, \pkg{tseries} and \pkg{xts}.  Also these packages suggest the use of zoo with them: \pkg{TSSQLite}, \pkg{TSdbi}, \pkg{Zelig}, \pkg{gsubfn} and \pkg{pscl}.
 
