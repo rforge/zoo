@@ -65,7 +65,7 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL, regular = FALSE, in
   ix <- if (missing(format)) {
     if (missing(tz)) FUN(ix) else FUN(ix, tz = tz)
   } else {
-    if (missing(tz) FUN(ix, format = format) 
+    if (missing(tz)) FUN(ix, format = format) 
     else FUN(ix, format = format, tz = tz)
   }
   
