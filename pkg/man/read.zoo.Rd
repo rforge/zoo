@@ -80,8 +80,23 @@ z <- read.zoo("foo.csv", sep = ",", FUN = as.yearmon)
 f <- function(x) as.yearmon(format(x, nsmall = 2), "\%Y.\%m")
 z <- read.zoo("foo.csv", header = TRUE, FUN = f)
 
-## turn *character* first column into Date index
+## turn *character* first column into "Date" index
 z <- read.zoo("foo.tab", format = "\%m/\%d/\%Y")
+
+## csv file with first column of form YYYY-mm-dd HH:MM:SS
+## Read in times as "chron" class. Requires chron 2.3-22 or later.
+z <- read.zoo("foo.csv", header = TRUE, sep = ",", FUN = as.chron)
+
+## same file format but read it in times as "POSIXct" class.
+z <- read.zoo("foo.csv", header = TRUE, sep = ",", tz = "")
+
+## csv file with first column mm-dd-yyyy. Read times as "Date" class.
+z <- read.zoo("foo.csv", header = TRUE, sep = ",", format = "\%m-\%d-\%Y")
+
+## whitespace separated file with first column of form YYYY-mm-ddTHH:MM:SS
+## and no headers.  T appears literally.  Requires chron 2.3-22 or later.
+z <- read.zoo("foo.csv", FUN = as.chron)
+ 
 }
 }
 \keyword{ts}
