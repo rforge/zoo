@@ -17,6 +17,9 @@ Changes in Version 1.4-3
 
   o new $.zoo and $<-.zoo methods
 
+  o format.yearqtr and as.character.yearqtr performance speedup for the
+    common case of default format.
+
 Changes in Version 1.4-2
 
   o The processing of regular series in aggregate.zoo()

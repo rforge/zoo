@@ -9,6 +9,7 @@ as.yearqtr.integer <- function(x, ...) structure(x, class = "yearqtr")
 as.yearqtr.dates <-
 as.yearqtr.Date <- 
 as.yearqtr.POSIXt <- function(x, ...) as.yearqtr(as.yearmon(x))
+as.yearqtr.yearqtr <- function(x, ...) x
 
 as.yearqtr.factor <- function(x, ...) as.yearqtr(as.character(x), ...)
 as.yearqtr.character <- function(x, format, ...) {
@@ -86,6 +87,8 @@ format.yearqtr <- function(x, format = "%Y Q%q", ...)
 	x <- unclass(x)
 	year <- floor(x + .001)
 	qtr <- floor(4*(x - year) + 1 + .5 + .001)
+    if (format == "%Y Q%q") return(paste(year, " Q", qtr, sep = ""))
+    # TODO: speed up the following
 	xx <- gsub.vec("%q", qtr, rep(format, length(qtr)))
 	xx <- gsub.vec("%Y", year, xx)
 	xx <- gsub.vec("%y", sprintf("%02d", year %% 100), xx)
