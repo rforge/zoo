@@ -58,6 +58,7 @@ export(
   "as.yearmon.default",
   "yearqtr",
   "as.yearqtr",
+  "as.yearqtr.yearqtr",
   "as.yearqtr.default",
   "format.yearqtr",
 
