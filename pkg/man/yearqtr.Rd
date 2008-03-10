@@ -9,6 +9,7 @@
 \alias{as.yearqtr.POSIXt}
 \alias{as.yearqtr.character}
 \alias{as.yearqtr.factor}
+\alias{as.yearqtr.yearqtr}
 \alias{as.Date.yearqtr}
 \alias{as.POSIXct.yearqtr}
 \alias{as.POSIXlt.yearqtr}
