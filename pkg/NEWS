@@ -1,4 +1,10 @@
-Changes in Version 1.4-3
+Changes in Version 1.5-0
+
+  o new $.zoo and $<-.zoo methods
+
+  o read.zoo now passes format and tz to FUN if they are specified.  If
+    FUN is not specified but tz and format specified then POSIXct translation 
+    is done with respect to the specified format string.
 
   o months.yearmon, quarters.yearmon, cycle.yearmon methods added
 
@@ -11,14 +17,9 @@ Changes in Version 1.4-3
 
   o as.yearmon.yearqtr now has frac argument consistent with as.Date.yearmon
 
-  o read.zoo now passes format and tz to FUN if they are specified.  If
-    FUN is not specified but tz and format specified then POSIXct translation 
-    is done with respect to the specified format string.
-
-  o new $.zoo and $<-.zoo methods
-
   o format.yearqtr and as.character.yearqtr performance speedup for the
     common case of default format.
+
 
 Changes in Version 1.4-2
 
