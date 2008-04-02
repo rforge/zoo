@@ -9,7 +9,7 @@ and writing \code{"zoo"} series from/to text files. They are convenience
 interfaces to \code{read.table} and \code{write.table}, respectively.
 }
 \usage{
-read.zoo(file, format = "", tz = "", FUN = NULL, regular = FALSE, index.column = 1, \dots)
+read.zoo(file, format = "", tz = "", FUN = NULL, regular = FALSE, index.column = 1, agg.fun, \dots)
 write.zoo(x, file = "", index.name = "Index", row.names = FALSE, col.names = NULL, \dots)
 }
 \arguments{
@@ -31,6 +31,12 @@ write.zoo(x, file = "", index.name = "Index", row.names = FALSE, col.names = NUL
     because the row names are just character representations of the index.}
   \item{col.names}{logical. Should column names be written? Default is to
     write column names only if \code{x} has column names.}
+  \item{agg.fun}{function.  If specified the \code{aggregate} is applied
+    to the zoo object created to aggregate all values with the same time
+    index.  If not specified then no aggregation is performed and a warning
+    is given if there are any duplicated time indexes.  Note that most
+    \code{zoo} functions do not accept objects with duplicate time indexes. 
+    See \code{\link{aggregate.zoo}}.}
   \item{\dots}{further arguments passed to \code{\link{read.table}} or
     \code{\link{write.table}}, respectively.}
 }

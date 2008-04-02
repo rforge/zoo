@@ -1,4 +1,4 @@
-read.zoo <- function(file, format = "", tz = "", FUN = NULL, regular = FALSE, index.column = 1, ...)
+read.zoo <- function(file, format = "", tz = "", FUN = NULL, regular = FALSE, index.column = 1, agg.fun, ...)
 {
   ## `file' and `...' is simply passed to read.table
   ## the first column is interpreted to be the index, the rest the coredata
@@ -73,9 +73,21 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL, regular = FALSE, in
   if(any(is.na(ix))) stop("index contains NAs")
   if(length(ix) != NROW(rval)) stop("index does not match data")
   
-  ## setup zoo object and return
-  rval <- zoo(rval, ix)
+  ## setup zoo object and return 
+  ## Suppress duplicates warning if agg.fun specified
+  if (missing(agg.fun)) agg.fun <- NULL
+  withCallingHandlers(rval <- zoo(rval, ix), warning = 
+    function(w) {
+        if (!is.null(agg.fun) && !is.na(pmatch("some methods for", w$message)))
+            invokeRestart("muffleWarning")
+    }
+  )
+
   if(regular && is.regular(rval)) rval <- as.zooreg(rval)
+  if (!is.null(agg.fun)) {
+        agg.fun <- match.fun(agg.fun)
+        rval <- aggregate(rval, time(rval), agg.fun)
+  }
   return(rval)
 }
 

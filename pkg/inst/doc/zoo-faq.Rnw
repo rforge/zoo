@@ -47,8 +47,12 @@ portion of \pkg{zoo} will not accept
 duplicates among the times.  Typically duplicates are eliminated by
 averaging over them, taking the last among each run of duplicates
 or interpolating the duplicates and deleting ones on the end that
-cannot be interpolated.  These three approaches are shown here. Note
-that in the code below that \code{force} is the identity 
+cannot be interpolated.  These three approaches are shown here
+using the \code{aggregate.zoo} function.  Another way to do this
+is to use the \code{agg.fun} argument of \code{read.zoo} which 
+will aggregate the zoo object read in by \code{read.zoo} all in one step.
+Note
+that in the example code below that \code{force} is the identity 
 function (i.e. it just returns its argument).  It 
 is an \pkg{R} core function:
 
