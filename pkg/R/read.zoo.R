@@ -1,4 +1,5 @@
-read.zoo <- function(file, format = "", tz = "", FUN = NULL, regular = FALSE, index.column = 1, agg.fun, ...)
+read.zoo <- function(file, format = "", tz = "", FUN = NULL,
+  regular = FALSE, index.column = 1, aggregate = FALSE, ...)
 {
   ## `file' and `...' is simply passed to read.table
   ## the first column is interpreted to be the index, the rest the coredata
@@ -74,8 +75,16 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL, regular = FALSE, in
   if(length(ix) != NROW(rval)) stop("index does not match data")
   
   ## setup zoo object and return 
-  ## Suppress duplicates warning if agg.fun specified
-  if (missing(agg.fun)) agg.fun <- NULL
+  ## Suppress duplicates warning if aggregate specified
+  if(identical(aggregate, TRUE)) {
+    agg.fun <- mean
+  } else if(identical(aggregate, FALSE)) {
+    agg.fun <- NULL
+  } else {
+    agg.fun <- match.fun(aggregate)
+    if(!is.function(agg.fun)) stop(paste("invalid specification of", sQuote("aggregate")))
+  }
+  remove(list = "aggregate")
   withCallingHandlers(rval <- zoo(rval, ix), warning = 
     function(w) {
         if (!is.null(agg.fun) && !is.na(pmatch("some methods for", w$message)))
@@ -84,10 +93,7 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL, regular = FALSE, in
   )
 
   if(regular && is.regular(rval)) rval <- as.zooreg(rval)
-  if (!is.null(agg.fun)) {
-        agg.fun <- match.fun(agg.fun)
-        rval <- aggregate(rval, time(rval), agg.fun)
-  }
+  if (!is.null(agg.fun)) rval <- aggregate(rval, time(rval), agg.fun)
   return(rval)
 }
 
