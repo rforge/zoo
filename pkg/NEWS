@@ -1,6 +1,8 @@
 Changes in Version 1.5-1
 
-  o read.zoo has new agg.fun argument
+  o read.zoo has new aggregate function argument to aggregate duplicate times
+
+  o with.zoo added
 
 Changes in Version 1.5-0
 
