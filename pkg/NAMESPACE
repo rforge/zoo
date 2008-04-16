@@ -85,11 +85,12 @@ export(
   "panel.polygon.its",
   "panel.polygon.zoo",
 
-## auxiliary generics
+## auxiliary generics/methods
   "MATCH",
   "MATCH.default",
   "ORDER",
-  "ORDER.default")
+  "ORDER.default",
+  "as.Date.numeric")
 
 ## methods for class zoo
   S3method("Ops", "zoo")
