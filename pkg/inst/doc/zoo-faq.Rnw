@@ -329,6 +329,7 @@ plot in R without zoo we get the same behavior.
 
 \begin{tabular}{|l|p{10cm}|} \hline
 \multicolumn{2}{|l|}{\emph{Depends}} \\ \hline
+\pkg{BootPR} & Bootstrap prediction intervals and bias-corrected forecasting \\
 \pkg{dyn} & Time-series regression \\
 \pkg{dynlm} & Dynamic linear regression \\
 \pkg{fda} & Functional data analysis \\
