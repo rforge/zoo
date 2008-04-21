@@ -1,4 +1,4 @@
-\documentclass{Z}
+\documentclass[article,nojss]{jss}
 \DeclareGraphicsExtensions{.pdf,.eps}
 
 %% need no \usepackage{Sweave}
@@ -37,11 +37,22 @@
   regular and irregular time series classes in \proglang{R}.
 }
 
+\Address{
+  Achim Zeileis\\
+  Wirtschaftsuniversit\"at Wien\\
+  E-mail: \email{Achim.Zeileis@R-project.org}\\
+  
+  Gabor Grothendieck\\
+  GKX Associates Inc.\\
+  E-mail: \email{ggrothendieck@gmail.com}
+}
+  
+
 \begin{document}
 
 \SweaveOpts{engine=R,eps=FALSE}
 %\VignetteIndexEntry{zoo: An S3 Class and Methods for Indexed Totally Ordered Observations}
-%\VignetteDepends{zoo,tseries,fCalendar,strucchange,DAAG}
+%\VignetteDepends{zoo,tseries,fCalendar,fSeries,strucchange,DAAG}
 %\VignetteKeywords{totally ordered observations, irregular time series, S3, R}
 %\VignettePackage{zoo}
 
@@ -51,6 +62,7 @@ library("zoo")
 library("tseries")
 library("strucchange")
 library("fCalendar")
+library("fSeries")
 online <- FALSE ## if set to FALSE the local copy of MSFT.rda
                 ## is used instead of get.hist.quote()
 options(prompt = "R> ")
@@ -59,22 +71,22 @@ options(prompt = "R> ")
 \section{Introduction} \label{sec:intro}
 
 The \proglang{R} system for statistical computing
-\citep[\url{http://www.R-project.org/}]{zoo:R:2005}
+\citep[\url{http://www.R-project.org/}]{zoo:R:2008}
 ships with a class for regularly spaced time series,
 \code{"ts"} in package \pkg{stats}, but has no native class for
 irregularly spaced time series. With the increased interest in
 computational finance with \proglang{R} over the last years
 several implementations of classes for irregular time series 
 emerged which are aimed particularly at finance applications.
-These include the \proglang{S3} classes \code{"timeSeries"}
-in package \pkg{fCalendar} from the \pkg{Rmetrics} bundle \citep{zoo:fCalendar:2004}
-and \code{"irts"} in package \pkg{tseries} \citep{zoo:tseries:2005}
-and the \proglang{S4} class \code{"its"} in package \pkg{its} \citep{zoo:its:2004}.
+These include the \proglang{S4} classes \code{"timeSeries"}
+in package \pkg{fSeries} from the \pkg{Rmetrics} suite \citep{zoo:Rmetrics:2008},
+\code{"its"} in package \pkg{its} \citep{zoo:its:2004}
+and the \proglang{S3} class \code{"irts"} in package \pkg{tseries} \citep{zoo:tseries:2007}.
 With these packages available, why would anybody want yet another 
 package providing infrastructure for irregular time series?
 The above mentioned implementations have in common that they are restricted to a particular
 class for the time scale: the former implementation comes with its own time class
-\code{"timeDate"} built on top of the \code{"POSIXt"} classes
+\code{"timeDate"} from package \pkg{fCalendar} built on top of the \code{"POSIXct"} class
 available in base \proglang{R} whereas the latter two use \code{"POSIXct"} directly.
 And this was the starting point for the \pkg{zoo} project: the first author
 of the present paper needed
@@ -163,7 +175,7 @@ following methods (plotting, aggregating, mathematical operations) for \code{"zo
 objects are typically only useful for numeric observations \code{x}. Special
 effort in the design was put into independence from a particular class for
 the index vector. In \pkg{zoo}, it is assumed that combination \code{c()},
-querying the \code{length()}, value matching \code{MATCH()}, subsetting \code{[,},
+querying the \code{length()}, value matching \code{MATCH()}, subsetting \code{[},
 and, of course, ordering \code{ORDER()} work when applied to the index. 
 In addition, an \code{as.character()} method might improve printed output\footnote{If
 an \code{as.character()} method is already defined, but gives not the desired
@@ -785,13 +797,13 @@ crosses its 5\% critical value and
 thus signals a significant decrease in the mean electrical resistance over the
 juice content. For more information on the package \pkg{strucchange} and the 
 function \code{gefp} see \cite{zoo:Zeileis+Leisch+Hornik:2002} and 
-\cite{zoo:Zeileis:2004}.
+\cite{zoo:Zeileis:2005}.
 
 
 \subsection[tseries: Historical financial data]{\pkg{tseries}: Historical financial data}
 \label{sec:tseries}
 
-\emph{This section war written when \pkg{tseries} did not yet support \code{"zoo"}
+\emph{This section was written when \pkg{tseries} did not yet support \code{"zoo"}
 series directly. For historical reasons and completeness, the example is still
 included but for practical purposes it is not relevant anymore because,
 from version 0.9-30 on, \code{get.hist.quote} returns a \code{"zoo"} series by default.}
@@ -824,15 +836,24 @@ if(online) {
 In the returned \code{MSFT} object the irregular data is stored by extending
 it in a regular grid and filling the gaps with \code{NA}s. The time is stored
 in days starting from an \code{origin}, in this case specified to be 1970-01-01, the
-origin used by the \code{Date} class.
-This series can be transformed easily into an irregular \code{"zoo"} series 
-using a \code{"Date"} index. The log-difference returns for Microsoft
-is depicted in Figure~\ref{fig:tseries}.
+origin used by the \code{"Date"} class.
+This series can be transformed easily into a \code{"zoo"} series 
+using a \code{"Date"} index. 
 
 <<tseries2>>=
 MSFT <- as.zoo(MSFT)
 index(MSFT) <- as.Date(index(MSFT))
 MSFT <- na.omit(MSFT)
+@
+
+Because this is daily data, the series has a natural underlying regularity.
+Thus, \code{as.zoo()} returns a \code{"zooreg"} object by default. To treat it
+as an irregular series \code{as.zoo()} can be applied a second time, yielding
+a \code{"zoo"} series. The corresponding log-difference returns are
+depicted in Figure~\ref{fig:tseries}.
+
+<<tseries3>>=
+MSFT <- as.zoo(MSFT)
 @
 
 \begin{figure}[h!]
@@ -848,20 +869,22 @@ plot(diff(log(MSFT)))
 \subsection[fCalendar: Indexes of class "timeDate"]{\pkg{fCalendar}: Indexes of class \code{"timeDate"}}
 \label{sec:fCalendar}
 
-Although the methods in \pkg{zoo} work out of the box for many index classes,
-it might be necessary for some index classes to provide \code{c}, \code{length},
-\code{ORDER} and \code{MATCH} methods such that the methods in \pkg{zoo} 
-work properly. An example for such an index class which requires a bit more
-attention is \code{"timeDate"} from the \pkg{fCalendar} package.
+\emph{The original version of this section was written when \pkg{fCalendar} and \pkg{zoo}
+did not yet include enough methods to attach \code{"timeDate"} indexes to \code{"zoo"}
+series. For historical reasons and completeness, we still briefly comment on the communcation
+between the packages and their classes.}
 
-But after the necessary methods have been defined
-<<fCalendar1>>=
-length.timeDate <- function(x) prod(x@Dim)
-ORDER.timeDate <- function(x, ...) order(as.POSIXct(x), ...)
-MATCH.timeDate <- function(x, table, nomatch = NA, ...)
-  match(as.POSIXct(x), as.POSIXct(table), nomatch = nomatch, ...)
-@
-the class \code{"timeDate"} can be used for indexing \code{"zoo"} objects.
+Although the methods in \pkg{zoo} work out of the box for many index classes,
+it might be necessary for some index classes to provide \code{c()}, \code{length()}, \code{[},
+\code{ORDER()} and \code{MATCH()} methods such that the methods in \pkg{zoo} 
+work properly. Previously, this was the case \code{"timeDate"} from the \pkg{fCalendar} package
+which is why it was used as an example in this vigntte. 
+Meanwhile however, both \pkg{zoo} and \pkg{fCalendar}
+have been enhanced: The latter contains the methods for \code{c()}, \code{length()}, and \code{[},
+while \pkg{zoo} has methods for \code{ORDER()} and \code{MATCH()} for class \code{"timeDate"}.
+The last two functions essentially work by coercing to the underlying \code{"POSIXct"} and then
+using the associated methods.
+
 The following example illustrates how \code{z2} can be transformed
 to use the \code{"timeDate"} class.
 <<fCalendar2>>=
