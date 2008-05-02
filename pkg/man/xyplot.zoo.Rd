@@ -214,7 +214,7 @@ trellis.par.set(strip.background = strip.background)
 
 # this requires playwith version 0.8.28 or later
 
-library(plotAndPlayGTK)
+library(plotAndPlay)
 playwith(xyplot(z3), time.mode = TRUE)
 
 # after running this click on Identify Points and then click on
