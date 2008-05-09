@@ -17,7 +17,7 @@ write.zoo(x, file = "", index.name = "Index", row.names = FALSE, col.names = NUL
   \item{file}{character giving the name of the file which the data
     are to be read from/written to. See \code{\link{read.table}} and
     \code{\link{write.table}} for more information.}
-  \item{format}{date format argument passed to \code{\link{as.Date.character}}.}
+  \item{format}{date format argument passed to \code{FUN}}.}
   \item{tz}{time zone argument passed to \code{\link{as.POSIXct}}.}
   \item{FUN}{a function for computing the index from the first column
     of the data. See details.}
@@ -63,6 +63,13 @@ attempts to decide among \code{"numeric"}, \code{"Date"} and \code{"POSIXct"}.
 If \code{format} and/or \code{tz} is specified 
 then it is passed to the conversion function as well.
 
+Note that if the index field is entirely numeric it will be passed as
+a number by default so that a field value such as code{09122007} intended
+to represent December 12, 2007 would be interpreted as the 91st day and
+thereby generate an error.  In those cases the index field can be forced
+to be interpreted as \code{"character"} by specifying the index column
+in \code{"colClasses"} as shown in the examples below.
+
 If \code{regular} is set to \code{TRUE} and the resulting series has an 
 underlying regularity, it is coerced to a \code{"zooreg"} series.
 
@@ -90,7 +97,12 @@ f <- function(x) as.yearmon(format(x, nsmall = 2), "\%Y.\%m")
 z <- read.zoo("foo.csv", header = TRUE, FUN = f)
 
 ## turn *character* first column into "Date" index
+## Assume lines look like: 12/22/2007 1 2
 z <- read.zoo("foo.tab", format = "\%m/\%d/\%Y")
+
+# ensure that first column is interpreted as character so leading 0 not dropped
+# Suppose links look like: 09112007 1 2 and there is no header
+z <- read.zoo("foo.txt", format = "\%d\%m\%Y", colClasses = c(V1 = "character"))
 
 ## csv file with first column of form YYYY-mm-dd HH:MM:SS
 ## Read in times as "chron" class. Requires chron 2.3-22 or later.
