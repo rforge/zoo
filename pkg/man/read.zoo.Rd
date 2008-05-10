@@ -75,21 +75,28 @@ a column with the index and then calls \code{\link{write.table}}.
 \value{
 \code{read.zoo} returns an object of class \code{"zoo"} (or \code{"zooreg"}).
 }
-\note{If the index field is entirely numeric it will be passed to \code{FUN}
-or builtin date conversion routine as
-a number, rather than a character string, 
-by default so that a field value such as code{09122007} intended
+\note{\code{read.zoo} works by first reading the data in using \code{read.table}
+and then processing it.  This implies that 
+if the index field is entirely numeric the default is to pass it to \code{FUN}
+or the builtin date conversion routine
+a number, rather than a character string. 
+Thus a date field such as code{09122007} intended
 to represent December 12, 2007 would be seen as \code{9122007}
 and interpreted as the 91st day 
 thereby generating an error.  
 
-This comment also applies to trailing decimals so that \code{2000.10}
-would be interprted as \code{2000.1} unless similar precautions were taken.
+This comment also applies to trailing decimals so that if 
+\code{2000.10} were intended to represent the 10th month of 2000 in fact
+it would receive
+\code{2000.1} and regard it as the first month of 2000
+unless similar precautions were taken.
 
-In the above cases the index field can be forced
-to be interpreted as \code{"character"} so that leading or trialing zeros
-are not dropped by specifying a \code{"character"}
-index column in \code{"colClasses"} as shown in the examples below.
+In the above cases the index field should be specified to be
+\code{"character"} so that leading or trailing zeros
+are not dropped.  This can be done by specifying a \code{"character"}
+index column in the 
+\code{"colClasses"} argument, which is passed to \code{read.table}, 
+as shown in the examples below.
 }
 
 \seealso{\code{\link{zoo}}}
