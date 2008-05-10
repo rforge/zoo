@@ -63,12 +63,6 @@ attempts to decide among \code{"numeric"}, \code{"Date"} and \code{"POSIXct"}.
 If \code{format} and/or \code{tz} is specified 
 then it is passed to the conversion function as well.
 
-Note that if the index field is entirely numeric it will be passed as
-a number by default so that a field value such as code{09122007} intended
-to represent December 12, 2007 would be interpreted as the 91st day and
-thereby generate an error.  In those cases the index field can be forced
-to be interpreted as \code{"character"} by specifying the index column
-in \code{"colClasses"} as shown in the examples below.
 
 If \code{regular} is set to \code{TRUE} and the resulting series has an 
 underlying regularity, it is coerced to a \code{"zooreg"} series.
@@ -80,6 +74,22 @@ a column with the index and then calls \code{\link{write.table}}.
 
 \value{
 \code{read.zoo} returns an object of class \code{"zoo"} (or \code{"zooreg"}).
+}
+\note{If the index field is entirely numeric it will be passed to \code{FUN}
+or builtin date conversion routine as
+a number, rather than a character string, 
+by default so that a field value such as code{09122007} intended
+to represent December 12, 2007 would be seen as \code{9122007}
+and interpreted as the 91st day 
+thereby generating an error.  
+
+This comment also applies to trailing decimals so that \code{2000.10}
+would be interprted as \code{2000.1} unless similar precautions were taken.
+
+In the above cases the index field can be forced
+to be interpreted as \code{"character"} so that leading or trialing zeros
+are not dropped by specifying a \code{"character"}
+index column in \code{"colClasses"} as shown in the examples below.
 }
 
 \seealso{\code{\link{zoo}}}
