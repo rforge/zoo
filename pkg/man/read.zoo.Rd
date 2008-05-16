@@ -17,7 +17,7 @@ write.zoo(x, file = "", index.name = "Index", row.names = FALSE, col.names = NUL
   \item{file}{character giving the name of the file which the data
     are to be read from/written to. See \code{\link{read.table}} and
     \code{\link{write.table}} for more information.}
-  \item{format}{date format argument passed to \code{FUN}}.}
+  \item{format}{date format argument passed to \code{FUN}.}
   \item{tz}{time zone argument passed to \code{\link{as.POSIXct}}.}
   \item{FUN}{a function for computing the index from the first column
     of the data. See details.}
