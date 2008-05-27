@@ -213,14 +213,13 @@ trellis.par.set(strip.background = strip.background)
 # separate the panels and suppress the ticks on very top
 
 my.axis <- function(side, ...) if (side != "top") axis.default(side, ...)
-my.panel <- function(..., side) {
+my.panel <- function(...) {
        panel.axis(outside = TRUE, lab = FALSE)
        panel.plot.default(...)
 }
-my.par = list(clip = list(panel = "off", strip = "off"))
 set.seed(1)
 z <- zoo(cbind(a = 1:5, b = 11:15, c = 21:25) + rnorm(5))
-xyplot(z, between = list(x = 1.2, y = 1), par.settings = my.par,
+xyplot(z, between = list(x = 1.2, y = 1), par.settings = list(panel = "off"),
        axis = my.axis, panel = my.panel)
 
 
