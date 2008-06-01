@@ -55,14 +55,14 @@ such illegal objects.   Since \code{merge.zoo}
 is the workhorse behind many \pkg{zoo} functions, a significant
 portion of \pkg{zoo} will not accept
 duplicates among the times.  Typically duplicates are eliminated by
-averaging over them, taking the last among each run of duplicates
-or interpolating the duplicates and deleting ones on the end that
+(1) averaging over them, (2) taking the last among each run of duplicates
+or (3) interpolating the duplicates and deleting ones on the end that
 cannot be interpolated.  These three approaches are shown here
 using the \code{aggregate.zoo} function.  Another way to do this
 is to use the \code{aggregate} argument of \code{read.zoo} which 
 will aggregate the zoo object read in by \code{read.zoo} all in one step.
-Note
-that in the example code below that \code{force} is the identity 
+
+Note that in the example code below that \code{force} is the identity 
 function (i.e. it just returns its argument).  It 
 is an \pkg{R} core function:
 
@@ -101,8 +101,8 @@ plot(z, log = "y", panel = function(..., log) lines(...))
 
 \mysection{3. How do I create right and a left vertical axes in plot.zoo?}
 
-The following shows an example of creating plot containing a single
-panel in with both left and right axes.  
+The following shows an example of creating a plot containing a single
+panel and both left and right axes.  
 
 <<plot-axes,fig=TRUE, height=4.5, width=6,split=TRUE,include=FALSE,prefix=FALSE>>=
 set.seed(1)
@@ -147,7 +147,7 @@ or convert the factor to numeric and create a single
 z <- zoo(data.matrix(DF[-1]), DF$time)
 @
 
-\mysection{5. Why does lag these give slightly different results on a zoo and a zooreg series which are otherwise the same?}
+\mysection{5. Why does lag give slightly different results on a zoo and a zooreg series which are otherwise the same?}
 
 To be definite let us consider the following examples, noting how 
 both \code{code} and \code{diff} give a different answer with the same 
@@ -265,7 +265,7 @@ Axis(side = 1, at = m[jan], labels = format(m[jan], "%y"), tcl = -0.7)
 Axis(side = 1, at = unique(as.Date(as.yearqtr(tt))), labels = FALSE)
 @
 
-A multivariate series can either be plotted as multiple single panel
+A multivariate series can either be generated as (1) multiple single panel
 plots:
 
 <<multiplesingleplot>>=
@@ -284,7 +284,7 @@ for(i in 1:ncol(z3)) {
 par(opar)
 @
 
-or as a multipanel plot.  In this case any custom axis must be
+or (2) as a multipanel plot.  In this case any custom axis must be
 placed in a panel function.
 
 <<multipanelplot>>=
