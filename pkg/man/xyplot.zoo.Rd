@@ -222,6 +222,12 @@ z <- zoo(cbind(a = 1:5, b = 11:15, c = 21:25) + rnorm(5))
 xyplot(z, between = list(x = 1.2, y = 1), par.settings = list(panel = "off"),
        axis = my.axis, panel = my.panel)
 
+# left strips but no top strips
+xyplot(z, screens = colnames(z), strip = FALSE , strip.left = TRUE)
+
+# same but more complex
+xyplot(z, strip = FALSE , strip.left = strip.custom(factor.levels = colnames(z)))
+
 
 \dontrun{
 
