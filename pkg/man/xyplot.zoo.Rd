@@ -226,16 +226,16 @@ xyplot(z, strip = FALSE , strip.left = strip.custom(factor.levels = colnames(z))
 
 \dontrun{
 
-# this requires playwith version 0.8.28 or later
+# this requires playwith version 0.8-55 or later
 
-library(plotAndPlay)
+library(playwith)
+z3 <- zoo(cbind(a = rnorm(100), b = rnorm(100) + 1), as.Date(1:100))
 playwith(xyplot(z3), time.mode = TRUE)
 
 # after running this click on Identify Points and then click on
 # points to identify in graph; right click to finish
 labs <- paste(z3, index(z3), sep = "@")
-playwith(xyplot(z3, type = "o"), labels = labs, label.args = list(cex = 0.7), 
-  time.mode = TRUE)
+playwith(xyplot(z3, type = "o"), labels = labs, label.args = list(cex = 0.7))
 
 }
 

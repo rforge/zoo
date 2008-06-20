@@ -364,6 +364,7 @@ plot in R without zoo we get the same behavior.
 \pkg{TSdbi} & Time series database interface \\
 \pkg{Zelig} & Everyone's statistical software \\ \hline
 \multicolumn{2}{|l|}{\emph{Uses}} \\ \hline
+\pkg{playwith} & Interactive graphics \\ \hline
 \pkg{YaleToolkit} & Data exploration tools from Yale University \\ \hline
 \end{tabular}
 
