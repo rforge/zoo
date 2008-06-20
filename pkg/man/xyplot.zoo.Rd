@@ -114,8 +114,8 @@ panel.polygon.zoo(x, ...)
   \code{plot.panel.custom} facilitates the development of 
   custom panels.   Usually it has one argument \code{"panel"}
   which specifies the custom panel.  That panel typically calls
-  \code{plot.panel.default} and uses the \code{panel.number}
-  argument to take additional special action for particular panels.  
+  \code{plot.panel.default}.  The panel function may use the panel.number()
+  function to find out which panel is currently being executed.
   See the examples.
 }
 \value{
@@ -152,20 +152,15 @@ print(panel.grid(h = 10, v = 10, col = "grey", lty = 3))
 trellis.unfocus()
 
 # Number 2. Using a custom panel routine.
-\dontrun{
-# This example relies on R version 2.3.1.
-# In R version 2.4.0, remove panel.number argument
-# and use panel.number() function.
-p <- function(x, y, groups = NULL, ..., panel.number) {
-  panel.xyplot(x, y, groups = groups, ..., panel.number)
-  if (panel.number == 2) {
+# This example relies on R version 2.40 or higher.
+p <- function(x, y, groups = NULL, ...) {
+  panel.xyplot(x, y, groups = groups, ...)
+  if (panel.number() == 2) {
     panel.lines.zoo(rollmean(zoo(y, x), 3), col = "blue")
     panel.grid(h = 10, v = 10, col = "grey", lty = 3)
   }
 }
 print(xyplot(z, panel = panel.plot.custom(panel = p)))
-}
-
 
 # plot a light grey rectangle "behind" panel b
 trellis.focus("panel", 1, 2)
