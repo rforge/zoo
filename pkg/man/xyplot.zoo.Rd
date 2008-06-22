@@ -237,6 +237,10 @@ playwith(xyplot(z3), time.mode = TRUE)
 labs <- paste(z3, index(z3), sep = "@")
 playwith(xyplot(z3, type = "o"), labels = labs, label.args = list(cex = 0.7))
 
+# for playwith identify tool this returns indexes into times of clicked points 
+ids <- do.call(rbind, playDevCur()$ids)$which
+z3[ids,]
+
 }
 
 }
