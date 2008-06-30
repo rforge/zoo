@@ -223,5 +223,23 @@ plot(x, x2, xy.labels = 1:5, xy.lines = FALSE)
 ## barplot
 x <- zoo(cbind(rpois(5, 2), rpois(5, 3)), x.Date)
 barplot(x, beside = TRUE)
+
+# interactive plotting
+\dontrun{
+library(TeachingDemos)
+tke.test1 <- list(Parameters=list(
+	pch=list('spinbox',init=1,from=0,to=255,width=5),
+	cex=list('slider',init=1.5,from=0.1,to=5,resolution=0.1),
+	type=list('combobox',init='b',
+	   values=c('p','l','b','o','c','h','s','S','n'), width=5),
+	lwd=list('spinbox',init=1,from=0,to=5,increment=1,width=5),
+	lty=list('spinbox',init=1,from=0,to=6,increment=1,width=5)
+))
+z <- zoo(rnorm(25))
+tkexamp(plot(z), tke.test1, plotloc = "top")
+}
+
+
+
 }
 \keyword{ts}
