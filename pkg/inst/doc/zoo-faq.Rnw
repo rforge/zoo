@@ -335,7 +335,33 @@ lines(na.omit(z))
 Note that this is not specific to \pkg{zoo.}  If we
 plot in R without zoo we get the same behavior.
 
+\mysection{10. Does zoo work with RMetrics?}
+
+Yes.  \code{timeDate} class objects from the \pkg{fCalendar} package can be used
+directly as the index of a \code{zoo} series and \code{as.timeSeries.zoo} and
+\code{as.zoo.timeSeries} can convert back and forth between objects of
+class \code{zoo} and class \code{timeSeries} from the \pkg{fSeries} package.
+
+<<>>=
+library(fCalendar)
+dts <- c("1989-09-28", "2001-01-15", "2004-08-30", "1990-02-09")
+tms <- c(  "23:12:55",   "10:34:02",   "08:30:00",   "11:18:23")
+td <- timeDate(paste(dts, tms), format = "%Y-%m-%d %H:%M:%S")
+
+library(zoo)
+z <- zoo(1:4, td)
+zz <- merge(z, lag(z))
+plot(zz)
+
+library(fSeries)
+zz
+as.timeSeries(zz)
+as.zoo(as.timeSeries(zz))
+@
+
 \mysection{10. What other packages use zoo?}
+
+
 
 \begin{tabular}{|l|p{10cm}|} \hline
 \multicolumn{2}{|l|}{\emph{Depends}} \\ \hline
@@ -364,6 +390,8 @@ plot in R without zoo we get the same behavior.
 \pkg{TSdbi} & Time series database interface \\
 \pkg{Zelig} & Everyone's statistical software \\ \hline
 \multicolumn{2}{|l|}{\emph{Uses}} \\ \hline
+\pkg{fCalendar} & R Metrics date and time functions \\ \hline
+\pkg{fSeries} & R Metrics time series functions \\ \hline
 \pkg{playwith} & Interactive graphics \\ \hline
 \pkg{YaleToolkit} & Data exploration tools from Yale University \\ \hline
 \end{tabular}
