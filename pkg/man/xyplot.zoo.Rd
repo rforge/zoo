@@ -206,7 +206,6 @@ trellis.unfocus()
 trellis.par.set(strip.background = strip.background)
 
 # separate the panels and suppress the ticks on very top
-
 my.axis <- function(side, ...) if (side != "top") axis.default(side, ...)
 my.panel <- function(...) {
        panel.axis(outside = TRUE, lab = FALSE)
@@ -225,10 +224,8 @@ xyplot(z, strip = FALSE , strip.left = strip.custom(factor.levels = colnames(z))
 
 
 \dontrun{
-
-# this requires playwith version 0.8-55 or later
-
-library(playwith)
+# playwith (>= 0.8-55)
+library("playwith")
 z3 <- zoo(cbind(a = rnorm(100), b = rnorm(100) + 1), as.Date(1:100))
 playwith(xyplot(z3), time.mode = TRUE)
 
@@ -240,7 +237,6 @@ playwith(xyplot(z3, type = "o"), labels = labs, label.args = list(cex = 0.7))
 # for playwith identify tool this returns indexes into times of clicked points 
 ids <- do.call(rbind, playDevCur()$ids)$which
 z3[ids,]
-
 }
 
 }
