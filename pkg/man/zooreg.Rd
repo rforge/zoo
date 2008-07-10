@@ -132,6 +132,10 @@ lag(zr)
 diff(zz)
 diff(zr)
 
+## lag.zooreg wihtout and with na.pad
+lag(zr)
+lag(zr, na.pad = TRUE)
+
 ## standard methods available for regular series
 frequency(z)
 deltat(z)
