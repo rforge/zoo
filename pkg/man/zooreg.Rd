@@ -124,17 +124,17 @@ zooreg(1:5, end = yearmon(2000))
 ## act differently on zoo and zooreg objects!
 ## lag.zoo moves a point to the adjacent time whereas
 ## lag.zooreg moves a point by deltat
-x <- c(1, 4, 5, 6)
+x <- c(1, 2, 3, 6)
 zz <- zoo(x, x)
 zr <- as.zooreg(zz)
-lag(zz)
-lag(zr)
+lag(zz, k = -1)
+lag(zr, k = -1)
 diff(zz)
 diff(zr)
 
 ## lag.zooreg wihtout and with na.pad
-lag(zr)
-lag(zr, na.pad = TRUE)
+lag(zr, k = -1)
+lag(zr, k = -1, na.pad = TRUE)
 
 ## standard methods available for regular series
 frequency(z)
