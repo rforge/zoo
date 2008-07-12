@@ -29,6 +29,7 @@ as.yearqtr.character <- function(x, format, ...) {
     } else as.yearmon(x, format)
     as.yearqtr(y)
 }
+as.yearqtr.ti <- function(x, ...) as.yearqtr(as.Date(x), ...)
 
 ## coercion from yearqtr
 # returned Date is the fraction of the way through the period given by frac

@@ -193,3 +193,18 @@ lines.zoo <- function(x, y = NULL, type = "l", ...)
 points.zoo <- function(x, y = NULL, type = "p", ...)
   lines(x, y, type = type, ...)
 
+
+plot.tis <- function(x, ...) eval.parent(substitute(plot(as.zoo(x), ...)))
+
+plot.ti <- function (x, y, xlab = "", ...) 
+{
+	x <- POSIXct(x)
+	NextMethod()
+}
+
+points.ti <- lines.ti <- function(x, ...) {
+	x <- POSIXct(x)
+	NextMethod()
+}
+
+

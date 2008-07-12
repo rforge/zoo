@@ -30,6 +30,7 @@ as.yearmon.character <- function(x, format = "", ...) {
       as.Date(x, format, ...))
    as.yearmon(as.Date(z))
 }
+as.yearmon.ti <- function(x, ...) as.yearmon(as.Date(x), ...)
 
 ## coercion from yearmon
 # returned Date is the fraction of the way through the period given by frac
