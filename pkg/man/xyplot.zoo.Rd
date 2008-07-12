@@ -2,35 +2,43 @@
 \alias{xyplot.zoo}
 \alias{xyplot.ts}
 \alias{xyplot.its}
+\alias{xyplot.tis}
 \alias{panel.lines.zoo}
 \alias{panel.lines.ts}
 \alias{panel.lines.its}
+\alias{panel.lines.tis}
 \alias{panel.points.zoo}
 \alias{panel.points.ts}
 \alias{panel.points.its}
+\alias{panel.points.tis}
 \alias{panel.segments.zoo}
 \alias{panel.segments.ts}
 \alias{panel.segments.its}
+\alias{panel.segments.tis}
 \alias{panel.text.zoo}
 \alias{panel.text.ts}
 \alias{panel.text.its}
+\alias{panel.text.tis}
 \alias{panel.rect.zoo}
 \alias{panel.rect.ts}
 \alias{panel.rect.its}
+\alias{panel.rect.tis}
 \alias{panel.arrows.zoo}
 \alias{panel.arrows.ts}
 \alias{panel.arrows.its}
+\alias{panel.arrows.tis}
 \alias{panel.polygon.zoo}
 \alias{panel.polygon.ts}
 \alias{panel.polygon.its}
+\alias{panel.polygon.tis}
 \alias{panel.plot.default}
 \alias{panel.plot.custom}
 
 \title{Plot zoo Series with Lattice}
 
 \description{
-\code{xyplot} methods for time series objects (of class \code{"zoo"}
-or \code{"ts"}, \code{"its"}). These functions are still under development
+\code{xyplot} methods for time series objects (of class \code{"zoo"},
+\code{"ts"}, \code{"its"}, or \code{"tis"}). These functions are still under development
 and the interface and functionality might be modified/extended in future
 releases.
 }

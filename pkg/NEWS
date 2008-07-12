@@ -1,9 +1,10 @@
-Changes in Version 1.5-5
+Changes in Version 1.6-0
 
   o lag.zooreg now has an na.pad argument, like lag.zoo
 
   o lag.zooreg bug fix
 
+  o interface to tis/ti objects from fame package
 
 Changes in Version 1.5-4
 

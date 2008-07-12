@@ -9,6 +9,7 @@
 \alias{as.zooreg}
 \alias{as.zooreg.default}
 \alias{as.zooreg.ts}
+\alias{as.zooreg.its}
 \alias{as.ts.zooreg}
 \alias{as.zoo.zooreg}
 \alias{as.zooreg.zoo}
@@ -58,7 +59,8 @@ and strictly regular series. Internally, it is the same as \code{"zoo"} except
 it also has a \code{"frequency"} attribute. Its index class is more restricted 
 than \code{"zoo"}. The index: 1. must be numeric or a class which can be coerced
 via \code{as.numeric} (such as \code{\link{yearmon}}, \code{\link{yearqtr}},
-\code{\link{Date}}, \code{\link{POSIXct}} etc.). 2. when converted to numeric
+\code{\link{Date}}, \code{\link{POSIXct}}, \code{\link[fame]{tis}}, etc.). 
+2. when converted to numeric
 must be expressable as multiples of 1/frequency. 3.
 group generic functions \code{\link{Ops}} should be defined, i.e.,
 adding/substracting a numeric to/from the index class should produce the correct
@@ -93,6 +95,12 @@ Methods to standard generics for regular series such as \code{\link{frequency}},
 \code{\link{deltat}} and \code{\link{cycle}} are available for both \code{"zooreg"}
 and \code{"zoo"} objects. In the latter case, it is checked first (in a data-driven way)
 whether the series is in fact regular or not.
+
+\code{as.zooreg.tis} has a \code{class} argument whose value represents the
+class of the index of the \code{zooreg} object into which the \code{tis}
+object is converted.  The default value is \code{"ti"}.  Note that the 
+frequency of the \code{zooreg} object will not necessarily be the same
+as the frequency of the \code{tis} object that it is converted from.  
 }
 
 \value{
