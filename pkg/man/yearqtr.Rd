@@ -6,6 +6,8 @@
 \alias{as.yearqtr.integer}
 \alias{as.yearqtr.dates}
 \alias{as.yearqtr.Date}
+\alias{as.yearqtr.jul}
+\alias{as.jul.yearqtr}
 \alias{as.yearqtr.POSIXt}
 \alias{as.yearqtr.character}
 \alias{as.yearqtr.factor}
@@ -65,7 +67,10 @@ as.yearqtr(x, \dots)
   There are coercion methods available for various classes including:
   default coercion to \code{"yearqtr"} (which coerces to \code{"numeric"} first)
   and coercion from \code{"yearqtr"} to \code{"Date"} (see below), \code{"POSIXct"},
-  \code{"POSIXlt"}, \code{"numeric"}, \code{"character"}.  
+  \code{"POSIXlt"}, \code{"numeric"}, \code{"character"} and \code{"jul"}.  
+  The last one is from the \code{frame} package on CRAN.
+
+  Certain methods support a \code{frac} argument.  See \code{\link{yearmon}}.
 
 }
 \value{

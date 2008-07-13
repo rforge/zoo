@@ -4,7 +4,8 @@ Changes in Version 1.6-0
 
   o lag.zooreg bug fix
 
-  o interface to tis/ti objects from fame package
+  o interface with CRAN fame package including conversions with tis, ti, 
+    jul and graphics support
 
 Changes in Version 1.5-4
 

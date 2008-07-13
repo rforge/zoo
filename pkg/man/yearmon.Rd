@@ -6,6 +6,7 @@
 \alias{as.yearmon.integer}
 \alias{as.yearmon.dates}
 \alias{as.yearmon.Date}
+\alias{as.yearmon.jul}
 \alias{as.yearmon.POSIXt}
 \alias{as.yearmon.character}
 \alias{as.yearmon.factor}
@@ -15,6 +16,7 @@
 \alias{as.numeric.yearmon}
 \alias{as.character.yearmon}
 \alias{as.data.frame.yearmon}
+\alias{as.jul.yearmon}
 \alias{c.yearmon}
 \alias{cycle.yearmon}
 \alias{format.yearmon}
@@ -44,13 +46,16 @@ yearmon(x)
   
   There are coercion methods available for various classes including:
   default coercion to \code{"yearmon"} (which coerces to \code{"numeric"} first)
-  and coercion from \code{"yearmon"} to \code{"Date"} (see below), 
+  and coercions to and from \code{"yearmon"} to \code{"Date"} (see below), 
   \code{"POSIXct"},
-  \code{"POSIXlt"}, \code{"numeric"}, \code{"character"}.  In the case of
+  \code{"POSIXlt"}, \code{"numeric"}, \code{"character"} and \code{"jul"}.  
+  The last one is from the \code{"fame"} package available on CRAN.
+  In the case of
   \code{as.yearmon.character} the \code{format} argument is the same as for
   \code{"Date"}.   One can specify a year and month with no day.  
 
-  \code{as.Date.yearmon} and \code{as.yearmon.yearqtr} both have an optional
+  \code{as.Date.yearmon}, \code{as.yearmon.yearqtr} and \code{as.jul.yearqmon}
+  each has an optional
   second argument of \code{"frac"} which is a number between 0 and 1 inclusive
   that indicates the fraction of the way through the period that the result
   represents.  The default is 0 which means the beginning of the period.
