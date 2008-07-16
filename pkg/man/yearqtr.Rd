@@ -6,6 +6,7 @@
 \alias{as.yearqtr.integer}
 \alias{as.yearqtr.dates}
 \alias{as.yearqtr.Date}
+\alias{as.yearqtr.timeDate}
 \alias{as.yearqtr.jul}
 \alias{as.jul.yearqtr}
 \alias{as.yearqtr.POSIXt}

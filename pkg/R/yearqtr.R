@@ -9,6 +9,7 @@ as.yearqtr.integer <- function(x, ...) structure(x, class = "yearqtr")
 
 as.jul.yearqtr <- function(x, ...) jul(as.Date(x, ...)) # jul is from fame
 as.yearqtr.jul <- # jul is in fame package
+as.yearqtr.timeDate <-
 as.yearqtr.dates <-
 as.yearqtr.Date <- 
 as.yearqtr.POSIXt <- function(x, ...) as.yearqtr(as.yearmon(x))

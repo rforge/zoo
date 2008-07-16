@@ -6,6 +6,7 @@
 \alias{as.yearmon.integer}
 \alias{as.yearmon.dates}
 \alias{as.yearmon.Date}
+\alias{as.yearmon.timeDate}
 \alias{as.yearmon.jul}
 \alias{as.yearmon.POSIXt}
 \alias{as.yearmon.character}
