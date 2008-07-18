@@ -7,6 +7,8 @@ Changes in Version 1.6-0
   o interface with CRAN fame package including conversions with tis, ti, 
     jul and graphics support
 
+  o interface with CRAN package fts
+
 Changes in Version 1.5-4
 
   o improvments in read.zoo()

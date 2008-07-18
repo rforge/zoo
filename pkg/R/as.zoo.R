@@ -13,6 +13,18 @@ as.zoo.factor <- function(x, ...)
   zoo(x, ...)
 }
 
+as.zoo.fts <- function(x, ...) 
+{
+	stopifnot(require(fts))
+	zoo(as.matrix(x), dates(x))
+}
+
+as.fts.zoo <- function(x, ...)
+{
+	stopifnot(require(fts), inherits(dates(x), "POSIXt"))
+	fts(coredata(x), time(x))
+}
+
 as.zoo.irts <- function(x, ...)
 {
   zoo(x$value, x$time, ...)
