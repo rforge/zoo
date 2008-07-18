@@ -125,6 +125,11 @@ z <- read.zoo("foo.txt", format = "\%d\%m\%Y", colClasses = c(V1 = "character"))
 ## Read in times as "chron" class. Requires chron 2.3-22 or later.
 z <- read.zoo("foo.csv", header = TRUE, sep = ",", FUN = as.chron)
 
+## same but with custom format.  Note as.chron uses POSIXt-style % formats
+## Read in times as "chron" class. Requires chron 2.3-24 or later.
+z <- read.zoo("foo.csv", header = TRUE, sep = ",", FUN = as.chron, 
+	format = "%Y%m%d")
+
 ## same file format but read it in times as "POSIXct" class.
 z <- read.zoo("foo.csv", header = TRUE, sep = ",", tz = "")
 
