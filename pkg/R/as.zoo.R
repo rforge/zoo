@@ -16,7 +16,7 @@ as.zoo.factor <- function(x, ...)
 as.zoo.fts <- function(x, ...) 
 {
 	stopifnot(require(fts))
-	zoo(as.matrix(x), dates(x))
+	zoo(as.matrix(x), attr(x, "dates"))
 }
 
 as.fts.zoo <- function(x, ...)
