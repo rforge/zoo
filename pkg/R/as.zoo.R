@@ -21,8 +21,8 @@ as.zoo.fts <- function(x, ...)
 
 as.fts.zoo <- function(x, ...)
 {
-	stopifnot(require(fts), inherits(dates(x), "POSIXt"))
-	fts(coredata(x), time(x))
+	stopifnot(require(fts), inherits(index(x), "POSIXt"))
+	fts(coredata(x), index(x))
 }
 
 as.zoo.irts <- function(x, ...)
