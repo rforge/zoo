@@ -13,7 +13,6 @@
 \alias{as.list.ts}
 \alias{as.zoo.ts}
 \alias{as.ts.zoo}
-\alias{as.fts.zoo}
 
 \title{Coercion from and to zoo}
 \description{
@@ -35,9 +34,7 @@ as.zoo(x, \dots)
 Methods for coercing objects of class \code{"zoo"} to other classes
 currently include: \code{\link{as.ts}}, \code{\link{as.matrix}}, \code{\link{as.vector}},
 \code{\link{as.data.frame}}, \code{\link{as.list}} (the latter also being available
-for \code{"ts"} objects). Furthermore the coercion function
-\code{as.its.zoo} is provided, but works only
-if the corresponding package is attached.
+for \code{"ts"} objects). 
 
 In the conversion between \code{zoo} and \code{ts}, the \code{\link{zooreg}} class is
 always used.
