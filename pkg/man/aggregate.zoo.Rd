@@ -135,5 +135,9 @@ aggregate(z, new.freq, tail, 1)
 
 # or, take mean of all points in each
 aggregate(z, new.freq, mean)
+
+# example of taking means in the presence of NAs
+z.na <- zooreg(c(1:364, NA), start = as.Date("2001-01-01"))
+aggregate(z.na, as.yearqtr, mean, na.rm = TRUE)
 }
 \keyword{ts}
