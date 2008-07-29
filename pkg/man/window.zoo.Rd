@@ -56,5 +56,12 @@ window(x, start = "2003-02-01")
 z <- zooreg(rnorm(10), start = 2000, freq = 4)
 window(z, start = 2001.75)
 window(z, start = c(2001, 4))
+
+## replace data at times of d0 which are in dn
+d1 <- d0 <- zoo(1:10) + 100
+dn <- - head(d0, 4)
+
+window(d1, time(dn)) <- coredata(dn)
+
 }
 \keyword{ts}
