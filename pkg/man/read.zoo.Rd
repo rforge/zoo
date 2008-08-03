@@ -16,7 +16,10 @@ write.zoo(x, file = "", index.name = "Index", row.names = FALSE, col.names = NUL
 \arguments{
   \item{file}{character giving the name of the file which the data
     are to be read from/written to. See \code{\link{read.table}} and
-    \code{\link{write.table}} for more information.}
+    \code{\link{write.table}} for more information. Alternatively,
+    in \code{read.zoo}, \code{file} can be a \code{data.frame} (e.g.,
+    resulting from a previous \code{read.table} call) that
+    is subsequently processed to a \code{"zoo"} series.}
   \item{format}{date format argument passed to \code{FUN}.}
   \item{tz}{time zone argument passed to \code{\link{as.POSIXct}}.}
   \item{FUN}{a function for computing the index from the first column
@@ -139,8 +142,11 @@ z <- read.zoo("foo.csv", header = TRUE, sep = ",", format = "\%m-\%d-\%Y")
 ## whitespace separated file with first column of form YYYY-mm-ddTHH:MM:SS
 ## and no headers.  T appears literally.  Requires chron 2.3-22 or later.
 z <- read.zoo("foo.csv", FUN = as.chron)
- 
 }
+
+## omit the read.table() phase and directly supply a data.frame
+dat <- data.frame(date = paste("2000-01-", 10:15, sep = ""), a = rnorm(6), b = 1:6)
+z <- read.zoo(dat)
 }
 \keyword{ts}
 

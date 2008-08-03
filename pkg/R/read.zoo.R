@@ -7,7 +7,7 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   ## defaults for `FUN' are guessed and are numeric, Date or POSIXct
 
   ## read data
-  rval <- read.table(file, ...)
+  rval <- if (is.data.frame(file)) file else read.table(file, ...)
 
   ## if `file' does not contain data
   if(NROW(rval) < 1) {
