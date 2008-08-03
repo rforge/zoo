@@ -147,6 +147,15 @@ z <- read.zoo("foo.csv", FUN = as.chron)
 ## omit the read.table() phase and directly supply a data.frame
 dat <- data.frame(date = paste("2000-01-", 10:15, sep = ""), a = rnorm(6), b = 1:6)
 z <- read.zoo(dat)
+
+## using builtin data frame BOD
+read.zoo(BOD)
+
+read.zoo(BOD, FUN = as.Date)
+
+read.zoo(BOD[c(1:6, 1), ], aggregate = mean)
+
+
 }
 \keyword{ts}
 
