@@ -8,7 +8,6 @@
 \alias{as.yearqtr.Date}
 \alias{as.yearqtr.timeDate}
 \alias{as.yearqtr.jul}
-\alias{as.jul.yearqtr}
 \alias{as.yearqtr.POSIXt}
 \alias{as.yearqtr.character}
 \alias{as.yearqtr.factor}

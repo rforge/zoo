@@ -17,7 +17,6 @@
 \alias{as.numeric.yearmon}
 \alias{as.character.yearmon}
 \alias{as.data.frame.yearmon}
-\alias{as.jul.yearmon}
 \alias{c.yearmon}
 \alias{cycle.yearmon}
 \alias{format.yearmon}
@@ -55,7 +54,7 @@ yearmon(x)
   \code{as.yearmon.character} the \code{format} argument is the same as for
   \code{"Date"}.   One can specify a year and month with no day.  
 
-  \code{as.Date.yearmon}, \code{as.yearmon.yearqtr} and \code{as.jul.yearqmon}
+  \code{as.Date.yearmon} and \code{as.yearmon.yearqtr} 
   each has an optional
   second argument of \code{"frac"} which is a number between 0 and 1 inclusive
   that indicates the fraction of the way through the period that the result

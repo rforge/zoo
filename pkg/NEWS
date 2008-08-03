@@ -5,9 +5,11 @@ Changes in Version 1.6-0
   o lag.zooreg bug fix
 
   o interface with CRAN fame package including conversions with tis, ti, 
-    jul and graphics support
+    jul and graphics support.
 
   o interface with CRAN package fts
+
+  o workaround to eliminate warning when zoo loads
 
 Changes in Version 1.5-4
 

@@ -1,5 +1,4 @@
 \name{as.Date.numeric}
-\alias{as.Date.numeric}
 \alias{as.Date.ts}
 
 \title{Date Conversion Functions from Numeric, Integer and ts Objects}

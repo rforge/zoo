@@ -96,8 +96,7 @@ export(
   "MATCH",
   "MATCH.default",
   "ORDER",
-  "ORDER.default",
-  "as.Date.numeric")
+  "ORDER.default")
 
 ## methods for class zoo
   S3method("Ops", "zoo")
@@ -192,7 +191,6 @@ export(
   S3method("Ops", "yearmon")
   S3method("[", "yearmon")
   S3method("as.Date", "yearmon")
-  S3method("as.jul", "yearmon")
   S3method("as.POSIXct", "yearmon")
   S3method("as.POSIXlt", "yearmon")
   S3method("as.character", "yearmon")
@@ -212,7 +210,6 @@ export(
   S3method("Ops", "yearqtr")
   S3method("[", "yearqtr")
   S3method("as.Date", "yearqtr")
-  S3method("as.jul", "yearqtr")
   S3method("as.POSIXct", "yearqtr")
   S3method("as.POSIXlt", "yearqtr")
   S3method("as.character", "yearqtr")
@@ -239,7 +236,6 @@ export(
   S3method("na.contiguous", "list")
 
 ## coercion to classes Date, list, yearmon, yearqtr, zoo, zooreg
-  S3method("as.Date", "numeric")
   S3method("as.Date", "ts")
   S3method("as.list", "ts")
   S3method("as.yearmon", "Date")
