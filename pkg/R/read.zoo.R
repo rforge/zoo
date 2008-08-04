@@ -1,5 +1,6 @@
 read.zoo <- function(file, format = "", tz = "", FUN = NULL,
-  regular = FALSE, index.column = 1, aggregate = FALSE, ...)
+  regular = FALSE, index.column = 1, make.unique = NULL, 
+  aggregate = FALSE, ...)
 {
   ## `file' and `...' is simply passed to read.table
   ## the first column is interpreted to be the index, the rest the coredata
@@ -61,6 +62,7 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
         else if (is.numeric(ix)) toNumeric
         else toDefault
   }
+  FUN <- match.fun(FUN)
   
   ## compute index from (former) first column
   ix <- if (missing(format)) {
@@ -68,6 +70,11 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   } else {
     if (missing(tz)) FUN(ix, format = format) 
     else FUN(ix, format = format, tz = tz)
+  }
+
+  if (!is.null(make.unique)) {
+	make.unique <- match.fun(make.unique)
+	ix <- make.unique(ix)
   }
   
   ## sanity checking

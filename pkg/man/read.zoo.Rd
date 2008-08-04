@@ -10,7 +10,8 @@ interfaces to \code{read.table} and \code{write.table}, respectively.
 }
 \usage{
 read.zoo(file, format = "", tz = "", FUN = NULL,
-  regular = FALSE, index.column = 1, aggregate = FALSE, \dots)
+  regular = FALSE, index.column = 1, make.unique = NULL,
+  aggregate = FALSE, \dots)
 write.zoo(x, file = "", index.name = "Index", row.names = FALSE, col.names = NULL, \dots)
 }
 \arguments{
@@ -35,6 +36,9 @@ write.zoo(x, file = "", index.name = "Index", row.names = FALSE, col.names = NUL
     because the row names are just character representations of the index.}
   \item{col.names}{logical. Should column names be written? Default is to
     write column names only if \code{x} has column names.}
+  \item{make.unique}{function. It is applied to the time index after 
+	\code{FUN} and before \code{aggregate} normally intended to make 
+    duplicate index values unique.}
   \item{aggregate}{logical or function. If set to \code{TRUE}, then \code{\link{aggregate.zoo}}
     is applied to the zoo object created to compute the \code{\link{mean}} of all values with
     the same time index. Alternatively, \code{aggregate} can be set to any other
@@ -102,7 +106,7 @@ index column in the
 as shown in the examples below.
 }
 
-\seealso{\code{\link{zoo}}}
+\seealso{\code{\link{zoo}}, \code{\link{make.unique}}}
 
 \examples{
 \dontrun{
