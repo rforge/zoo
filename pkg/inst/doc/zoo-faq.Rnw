@@ -412,6 +412,7 @@ as.zoo(as.timeSeries(zz))
 \pkg{tripEstimation} & Metropolis sampler and supporting functions for
   estimating animal movement from archival tags and satellite fixes \\
 \pkg{tseries} & Time series analysis and computational finance \\
+\pkg{VhayuR} & R Interface to the Vhayu time series database \\
 \pkg{xts} & Extensible time series \\ \hline
 \multicolumn{2}{|l|}{\emph{Suggests}} \\ \hline
 \pkg{gsubfn} & Utilities for strings and function arguments \\
