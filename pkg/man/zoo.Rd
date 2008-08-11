@@ -328,6 +328,42 @@ time(z6) <- na.approx(ifelse(duplicated(time(z6)), NA, time(z6)), na.rm = FALSE)
 # wind up as NAs and we cannot have NA times
 z6 <- z6[!is.na(time(z6))]
 z6
+
+x1. <- x1 <- zoo (matrix (1:12, nrow = 3), as.Date("2008-08-01") + 0:2)
+colnames (x1) <- c ("A", "B", "C", "D")
+x2 <- zoo (matrix (1:12, nrow = 3), as.Date("2008-08-01") + 1:3)
+colnames (x2) <- c ("B", "C", "D", "E")
+
+both.dates = as.Date (intersect (index (t1), index (t2)))
+both.cols = intersect (colnames (t1), colnames (t2))
+
+x1 [both.dates, both.cols]
+
+##
+## there is "[.zoo" but no "[<-.zoo" however these 4 work
+##
+
+## wrong
+## x1[both.dates, both.cols] <- x2[both.dates, both.cols]
+
+# 4 correct alternates
+# #1
+window(x1, both.dates)[, both.cols] <- x2[both.dates, both.cols]
+
+# #2. restore x1 and show a different way
+x1 <- x1.
+window(x1, both.dates)[, both.cols] <- window(x2, both.dates)[, both.cols]
+
+# #3. restore x1 and show a different way
+x1 <- x1.
+x1[time(x1) %in% both.dates, both.cols] <- x2[both.dates, both.cols]
+
+# #4. restore x1 and show a different way
+x1 <- x1.
+x1[time(x1) %in% both.dates, both.cols] <- x2[time(t2) %in% both.dates, both.cols]
+
+
+
 }
 
 }
