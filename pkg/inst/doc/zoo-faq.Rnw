@@ -409,6 +409,7 @@ as.zoo(as.timeSeries(zz))
 \pkg{RBloomberg} & \proglang{R}/\pkg{Bloomberg} interface \\
 \pkg{sandwich} & Robust covariance matrix estimators \\
 \pkg{strucchange} & Testing, monitoring, and dating structural changes \\
+\pkg{tis} & Regular time series package, previously part of fame package \\
 \pkg{tripEstimation} & Metropolis sampler and supporting functions for
   estimating animal movement from archival tags and satellite fixes \\
 \pkg{tseries} & Time series analysis and computational finance \\
