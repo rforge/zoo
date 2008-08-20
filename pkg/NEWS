@@ -4,8 +4,10 @@ Changes in Version 1.6-0
 
   o lag.zooreg bug fix
 
-  o interface with CRAN fame package including conversions with tis, ti, 
-    jul and graphics support.
+  o tis to zoo support for CRAN tis package including certain conversions from 
+    tis, ti and jul and graphics support.  Other direction provided by 
+    tis package.  (The tis package was previously part of the CRAN fame 
+    package but was recently factored out into its own package.)
 
   o interface with CRAN package fts
 
