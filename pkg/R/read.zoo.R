@@ -78,7 +78,16 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   }
   
   ## sanity checking
-  if(any(is.na(ix))) stop("index contains NAs")
+  if(any(is.na(ix))) {
+    idx <- which(is.na(ix))
+	msg <- if (length(idx) == 1)
+		paste("index contains an NA at data row", idx)
+	else if (length(idx) < 4)
+		paste("index contains NAs at data rows:", paste(idx, collapse = " "))
+	else paste("index contains", length(idx), "NAs at data rows:", 
+		paste(head(idx, 3), collapse = " "), "...")
+	stop(msg)
+  }
   if(length(ix) != NROW(rval)) stop("index does not match data")
   
   ## setup zoo object and return 
