@@ -81,11 +81,11 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   if(any(is.na(ix))) {
     idx <- which(is.na(ix))
 	msg <- if (length(idx) == 1)
-		paste("index contains an NA at data row", idx)
-	else if (length(idx) < 4)
-		paste("index contains NAs at data rows:", paste(idx, collapse = " "))
-	else paste("index contains", length(idx), "NAs at data rows:", 
-		paste(head(idx, 3), collapse = " "), "...")
+		paste("index has bad entry at data row", idx)
+	else if (length(idx) <= 100)
+		paste("index has bad entries at data rows:", paste(idx, collapse = " "))
+	else paste("index has", length(idx), "bad entries at data rows:", 
+		paste(head(idx, 100), collapse = " "), "...")
 	stop(msg)
   }
   if(length(ix) != NROW(rval)) stop("index does not match data")
