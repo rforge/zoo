@@ -124,9 +124,8 @@ z <- read.zoo("foo.csv", header = TRUE, FUN = f)
 ## Assume lines look like: 12/22/2007 1 2
 z <- read.zoo("foo.tab", format = "\%m/\%d/\%Y")
 
-# ensure that first column is interpreted as character so leading 0 not dropped
-# Suppose links look like: 09112007 1 2 and there is no header
-z <- read.zoo("foo.txt", format = "\%d\%m\%Y", colClasses = c(V1 = "character"))
+# Suppose lines look like: 09112007 1 2 and there is no header
+z <- read.zoo("foo.txt", format = "\%d\%m\%Y")
 
 ## csv file with first column of form YYYY-mm-dd HH:MM:SS
 ## Read in times as "chron" class. Requires chron 2.3-22 or later.
