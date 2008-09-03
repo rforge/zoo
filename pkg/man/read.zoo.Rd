@@ -10,7 +10,7 @@ interfaces to \code{read.table} and \code{write.table}, respectively.
 }
 \usage{
 read.zoo(file, format = "", tz = "", FUN = NULL,
-  regular = FALSE, index.column = 1, make.unique = NULL,
+  regular = FALSE, index.column = 1, drop = TRUE, make.unique = NULL,
   aggregate = FALSE, \dots)
 write.zoo(x, file = "", index.name = "Index", row.names = FALSE, col.names = NULL, \dots)
 }
@@ -29,6 +29,8 @@ write.zoo(x, file = "", index.name = "Index", row.names = FALSE, col.names = NUL
     (if the series is regular)?}
   \item{index.column}{integer. The column of the data frame in which the index/time
     is stored.}
+  \item{drop}{logical. If the data frame contains just a single data column, should
+    the second dimension be dropped?}
   \item{x}{a \code{"zoo"} object.}
   \item{index.name}{character with name of the index column in the written
     data file.}  
@@ -37,7 +39,7 @@ write.zoo(x, file = "", index.name = "Index", row.names = FALSE, col.names = NUL
   \item{col.names}{logical. Should column names be written? Default is to
     write column names only if \code{x} has column names.}
   \item{make.unique}{function. It is applied to the time index after 
-	\code{FUN} and before \code{aggregate} normally intended to make 
+    \code{FUN} and before \code{aggregate} normally intended to make 
     duplicate index values unique.}
   \item{aggregate}{logical or function. If set to \code{TRUE}, then \code{\link{aggregate.zoo}}
     is applied to the zoo object created to compute the \code{\link{mean}} of all values with
@@ -157,7 +159,6 @@ read.zoo(BOD)
 read.zoo(BOD, FUN = as.Date)
 
 read.zoo(BOD[c(1:6, 1), ], aggregate = mean)
-
 
 }
 \keyword{ts}

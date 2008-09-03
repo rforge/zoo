@@ -1,5 +1,5 @@
 read.zoo <- function(file, format = "", tz = "", FUN = NULL,
-  regular = FALSE, index.column = 1, make.unique = NULL, 
+  regular = FALSE, index.column = 1, drop = TRUE, make.unique = NULL, 
   aggregate = FALSE, ...)
 {
   ## `file' and `...' is simply passed to read.table
@@ -13,7 +13,7 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   ## if `file' does not contain data
   if(NROW(rval) < 1) {
     if(is.data.frame(rval)) rval <- as.matrix(rval)
-    if(NCOL(rval) > 1) rval <- rval[,-index.column]
+    if(NCOL(rval) > 1) rval <- rval[,-index.column, drop = drop]
     rval <- zoo(rval)
     return(rval)
   }
@@ -25,7 +25,7 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   if (NCOL(rval) == 1) ix <- seq(length = NROW(rval))
   else {
     ix <- rval[,index.column]
-    rval <- rval[,-index.column]
+    rval <- rval[,-index.column, drop = drop]
   }
   if(is.factor(ix)) ix <- as.character(ix)
   if(is.data.frame(rval)) rval <- as.matrix(rval)
