@@ -230,6 +230,14 @@ xyplot(z, screens = colnames(z), strip = FALSE , strip.left = TRUE)
 # same but more complex
 xyplot(z, strip = FALSE , strip.left = strip.custom(factor.levels = colnames(z)))
 
+# plot list of zoo objects using different x scales
+z.l <- list(
+	zoo(cbind(a = rnorm(10), b = rnorm(10)), as.Date("2006-01-01") + 0:9),
+	zoo(cbind(c = rnorm(10), d = rnorm(10)), as.Date("2006-12-01") + 0:9)
+)
+zm <- do.call(merge, z.l)
+xlim <- lapply(zm, function(x) range(time(na.omit(x))))
+xyplot(zm, xlim = xlim, scale = list(relation = "free"))
 
 \dontrun{
 # playwith (>= 0.8-55)
