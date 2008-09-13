@@ -10,6 +10,7 @@
 \alias{as.yearmon.jul}
 \alias{as.yearmon.POSIXt}
 \alias{as.yearmon.character}
+\alias{as.yearmon.date}
 \alias{as.yearmon.factor}
 \alias{as.Date.yearmon}
 \alias{as.POSIXct.yearmon}
@@ -20,11 +21,13 @@
 \alias{c.yearmon}
 \alias{cycle.yearmon}
 \alias{format.yearmon}
+\alias{mean.yearmon}
 \alias{print.yearmon}
 \alias{summary.yearmon}
 \alias{[.yearmon}
 \alias{MATCH.yearmon}
 \alias{Ops.yearmon}
+\alias{Sys.yearmon}
 \alias{-.yearmon}
 
 \title{An Index Class for Monthly Data}
@@ -59,6 +62,15 @@ yearmon(x)
   second argument of \code{"frac"} which is a number between 0 and 1 inclusive
   that indicates the fraction of the way through the period that the result
   represents.  The default is 0 which means the beginning of the period.
+
+  There is also a \code{date} method for \code{as.yearmon} usable with objects
+  created with package \code{date}.
+
+  \code{Sys.yearmon()} returns the current year/month and methods for
+  \code{min}, \code{max} and \code{range} are defined (by defining 
+  a method for \code{Summary}.
+
+  A \code{yearmon} \code{mean} method is also defined.
 
 }
 \value{

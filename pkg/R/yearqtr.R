@@ -198,3 +198,23 @@ axis.yearqtr <- function (side, x, at, format, labels = TRUE, ..., N1 = 25, N2 =
 
 summary.yearqtr <- function(object, ...)
   summary(as.numeric(object), ...)
+
+## convert from package date
+as.yearqtr.date <- function(x, ...) {
+	as.yearqtr(as.Date(x, ...))
+}
+
+mean.Date <- function (x, ...)
+    structure(mean(unclass(x), ...), class = "Date")
+
+Summary.yearqtr <- function (..., na.rm)
+{
+    ok <- switch(.Generic, max = , min = , range = TRUE, FALSE)
+    if (!ok) stop(.Generic, " not defined for yearqtr objects")
+    val <- NextMethod(.Generic)
+    class(val) <- oldClass(list(...)[[1]])
+    val
+}
+
+Sys.yearqtr <- function() as.yearqtr(Sys.Date())
+

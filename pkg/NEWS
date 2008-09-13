@@ -37,6 +37,9 @@ Changes in Version 1.5-4
   o interactive plots/demos using the packages "TeachingDemos"
     (plot.zoo) and "playwith" (xyplot.zoo)
 
+  o mean.yearmon and Sys.yearmon are defined.  Similarly for yearqtr.
+
+  o min, max and range methods for yearmon are defined via Summary
 
 Changes in Version 1.5-3
 

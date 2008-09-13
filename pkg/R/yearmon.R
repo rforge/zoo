@@ -174,3 +174,25 @@ axis.yearmon <- function (side, x, at, format, labels = TRUE, ..., N1 = 25, N2 =
 
 summary.yearmon <- function(object, ...)
   summary(as.numeric(object), ...)
+
+###
+
+## convert from package date
+as.yearmon.date <- function(x, ...) {
+	as.yearmon(as.Date(x, ...))
+}
+
+mean.Date <- function (x, ...)
+    structure(mean(unclass(x), ...), class = "Date")
+
+Summary.yearmon <- function (..., na.rm)
+{
+    ok <- switch(.Generic, max = , min = , range = TRUE, FALSE)
+    if (!ok) stop(.Generic, " not defined for yearmon objects")
+    val <- NextMethod(.Generic)
+    class(val) <- oldClass(list(...)[[1]])
+    val
+}
+
+Sys.yearmon <- function() as.yearmon(Sys.Date())
+

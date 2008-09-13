@@ -4,6 +4,7 @@
 \alias{as.yearqtr.default} 
 \alias{as.yearqtr.numeric}
 \alias{as.yearqtr.integer}
+\alias{as.yearqtr.date}
 \alias{as.yearqtr.dates}
 \alias{as.yearqtr.Date}
 \alias{as.yearqtr.timeDate}
@@ -21,11 +22,14 @@
 \alias{c.yearqtr}
 \alias{cycle.yearqtr}
 \alias{format.yearqtr}
+\alias{mean.yearqtr}
 \alias{print.yearqtr}
 \alias{summary.yearqtr}
 \alias{[.yearqtr}
 \alias{MATCH.yearqtr}
 \alias{Ops.yearqtr}
+\alias{Summary.yearqtr}
+\alias{Sys.yearqtr}
 \alias{-.yearqtr}
 
 \title{An Index Class for Quarterly Data}
@@ -69,6 +73,15 @@ as.yearqtr(x, \dots)
   and coercion from \code{"yearqtr"} to \code{"Date"} (see below), \code{"POSIXct"},
   \code{"POSIXlt"}, \code{"numeric"}, \code{"character"} and \code{"jul"}.  
   The last one is from the \code{frame} package on CRAN.
+
+  There is also a \code{date} method for \code{as.yearqtr} usable with objects
+  created with package \code{date}.
+
+  \code{Sys.yearqtr()} returns the current year/month and methods for
+  \code{min}, \code{max} and \code{range} are defined (by defining 
+  a method for \code{Summary}.
+
+  A \code{yearqtr} \code{mean} method is also defined.
 
   Certain methods support a \code{frac} argument.  See \code{\link{yearmon}}.
 
