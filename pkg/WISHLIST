@@ -109,7 +109,7 @@ FEATURES
 
   o add class= arg to as.zoo.ts
 
-  o cut/min/max/seq/range/floor/ceiling/round/trunc on yearmon/yearqtr objects
+  o cut/seq/floor/ceiling/round/trunc on yearmon/yearqtr objects
 
 
 INTERFACES
