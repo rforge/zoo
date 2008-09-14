@@ -195,6 +195,11 @@ over the full sample period. The generic function \code{\link{rollapply}}
 provides this functionality for arbitrary functions and more efficient versions
 \code{\link{rollmean}}, \code{\link{rollmax}}, \code{\link{rollmedian}} are
 available for the mean, maximum and median respectively.
+
+The \code{zoo} package has an \code{as.Date} \code{numeric} method
+which is similar to the one in the core of \code{R} except that the
+\code{origin} argument defaults to January 1, 1970 (whereas the one
+in the core of \code{R} has no default).
 }
 
 \references{

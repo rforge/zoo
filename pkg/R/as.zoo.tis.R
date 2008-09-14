@@ -5,7 +5,6 @@ as.zoo.tis <- function(x, ...) {
 }
 
 as.zoo.tis <- function(x, class = "ti", ...) {
-	require(tis)
 	if (class == "ti") {
 		as.zoo(as.zooreg(x, class = "ti", ...))
 	} else if (class == "numeric") {
@@ -18,7 +17,6 @@ as.zoo.tis <- function(x, class = "ti", ...) {
 }
 
 as.zooreg.tis <- function(x, class = "ti", ...) {
-	require(tis)
 	if (class == "ti")
 		zooreg(stripTis(x), start = start(x), ...)
 	else 

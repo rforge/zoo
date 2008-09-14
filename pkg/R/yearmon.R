@@ -182,8 +182,7 @@ as.yearmon.date <- function(x, ...) {
 	as.yearmon(as.Date(x, ...))
 }
 
-mean.Date <- function (x, ...)
-    structure(mean(unclass(x), ...), class = "Date")
+mean.yearmon <- function (x, ...) as.yearmon(mean(unclass(x), ...))
 
 Summary.yearmon <- function (..., na.rm)
 {

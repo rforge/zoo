@@ -204,8 +204,7 @@ as.yearqtr.date <- function(x, ...) {
 	as.yearqtr(as.Date(x, ...))
 }
 
-mean.Date <- function (x, ...)
-    structure(mean(unclass(x), ...), class = "Date")
+mean.yearqtr <- function (x, ...) as.yearqtr(mean(unclass(x), ...))
 
 Summary.yearqtr <- function (..., na.rm)
 {

@@ -46,7 +46,7 @@ always used.
 
 \seealso{\code{\link{zoo}}, \code{\link{zooreg}}, \code{\link{ts}},
   \code{\link[its]{its}}, \code{\link[tseries]{irts}}, 
-  \code{\link[fame]{tis}}}, \code{\link[fts]{fts}}
+  \code{\link[fame]{tis}}, \code{\link[fts]{fts}}}
   
 
 \examples{
