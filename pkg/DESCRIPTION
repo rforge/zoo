@@ -1,6 +1,6 @@
 Package: zoo
-Version: 1.5-4
-Date: 2008-07-09
+Version: 1.6-0
+Date: 2008-09-14
 Title: Z's ordered observations
 Author: Achim Zeileis, G Grothendieck
 Maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>
