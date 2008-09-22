@@ -97,6 +97,20 @@ wind up as \code{NA}s and we cannot have \code{NA} times.
 z[!is.na(time(z))]
 @
 
+An alternative to aggregating the data is to make the times unique
+by changing them slightly.  The facilities here are limited to 
+time classes for
+which addition by a number makes sense.  See the \code{make.unique.approx}
+and \code{make.unique.incr} functions which use interpolation or
+incrementing by a fixed number.  Interpolation has the further restriction
+that the interpolated result must make sense.  For example, it makes sense to
+interpolate \code{"POSIXct"} variables but not \code{"Date"} variables since
+the interpolation may fall between dates.
+Also see the \code{make.unique}
+argument to \code{read.zoo} which allows one to read in the data
+and make it unique all in one operation.  
+
+
 \mysection[2. When I try to specify a log axis to plot.zoo a warning is issued.  What is wrong?]{2. When I try to specify a log axis to \code{plot.zoo} a warning is issued.  What is wrong?}
 
 Arguments that are part of \code{...} are passed to the \code{panel} 
