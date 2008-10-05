@@ -35,6 +35,11 @@ reduced \code{"zoo"} object.
 An object of class \code{"zoo"} or \code{"zooreg"}.
 }
 
+\note{The \code{xts} package functions \code{endpoints}, \code{period.apply} 
+\code{to.period}, \code{to.weekly}, \code{to.monthly}, etc., 
+can also directly input and output certain \code{zoo} objects and 
+so can be used for aggregation tasks in some cases as well.}
+
 \seealso{\code{\link{zoo}}}
 
 \examples{
