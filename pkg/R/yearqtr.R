@@ -217,3 +217,11 @@ Summary.yearqtr <- function (..., na.rm)
 
 Sys.yearqtr <- function() as.yearqtr(Sys.Date())
 
+range.yearqtr <- function(..., na.rm = FALSE) {
+	as.yearqtr(range.default(..., na.rm = na.rm))
+}
+
+unique.yearqtr <- function(..., incomparables = FALSE) {
+	as.yearqtr(range.default(..., incomparables = incomparables))
+}
+

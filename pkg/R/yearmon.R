@@ -195,3 +195,13 @@ Summary.yearmon <- function (..., na.rm)
 
 Sys.yearmon <- function() as.yearmon(Sys.Date())
 
+range.yearmon <- function(..., na.rm = FALSE) {
+	as.yearmon(range.default(..., na.rm = na.rm))
+}
+
+unique.yearmon <- function(..., incomparables = FALSE) {
+	as.yearmon(range.default(..., incomparables = incomparables))
+}
+
+
+

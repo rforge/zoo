@@ -24,7 +24,9 @@
 \alias{format.yearqtr}
 \alias{mean.yearqtr}
 \alias{print.yearqtr}
+\alias{range.yearqtr}
 \alias{summary.yearqtr}
+\alias{unique.yearqtr}
 \alias{[.yearqtr}
 \alias{MATCH.yearqtr}
 \alias{Ops.yearqtr}

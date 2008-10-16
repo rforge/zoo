@@ -20,6 +20,10 @@ Changes in Version 1.6-0
 
   o better error message in read.zoo if NAs found in index
 
+  o added range.yearmon, range.yearqtr
+
+  o added unique.yearmon, unique.yearqtr
+
 Changes in Version 1.5-4
 
   o improvments in read.zoo()

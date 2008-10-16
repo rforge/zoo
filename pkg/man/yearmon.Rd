@@ -23,7 +23,9 @@
 \alias{format.yearmon}
 \alias{mean.yearmon}
 \alias{print.yearmon}
+\alias{range.yearmon}
 \alias{summary.yearmon}
+\alias{unique.yearmon}
 \alias{[.yearmon}
 \alias{MATCH.yearmon}
 \alias{Ops.yearmon}

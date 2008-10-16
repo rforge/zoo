@@ -216,7 +216,9 @@ export(
   S3method("make.unique.incr", "yearmon")
   S3method("mean", "yearmon")
   S3method("print", "yearmon")
+  S3method("range", "yearmon")
   S3method("summary", "yearmon")
+  S3method("unique", "yearmon")
 
 ## methods for class yearqtr 
   S3method("-", "yearqtr")
@@ -238,7 +240,9 @@ export(
   S3method("make.unique.incr", "yearqtr")
   S3method("mean", "yearqtr")
   S3method("print", "yearqtr")
+  S3method("range", "yearqtr")
   S3method("summary", "yearqtr")
+  S3method("unique", "yearqtr")
 
 ## methods for class timeDate/timeSeries 
   S3method("MATCH", "timeDate")
