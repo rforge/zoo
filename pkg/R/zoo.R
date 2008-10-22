@@ -182,3 +182,4 @@ with.zoo <- function(data, expr, ...) {
     eval(substitute(expr), as.list(data), enclos = parent.frame())
 }
 
+xtfrm.zoo <- function(x) coredata(x)

@@ -32,6 +32,8 @@
 \alias{head.ts}
 \alias{tail.ts}
 
+\alias{xtfrm.zoo}
+
 \title{Z's Ordered Observations}
 \description{
 \code{zoo} is the creator for an S3 class of indexed

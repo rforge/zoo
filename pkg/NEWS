@@ -1,3 +1,7 @@
+Changes in Version 1.7-0
+
+  o xtfrm.zoo added
+
 Changes in Version 1.6-0
 
   o lag.zooreg now has an na.pad argument, like lag.zoo

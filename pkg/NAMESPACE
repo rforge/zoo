@@ -15,6 +15,7 @@ export(
   "merge.zoo",
   "read.zoo",
   "write.zoo",
+  "xtfrm.zoo",
 
 ## plotting
   "plot.zoo",
