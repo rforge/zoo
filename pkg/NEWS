@@ -1,6 +1,3 @@
-Changes in Version 1.7-0
-
-  o xtfrm.zoo added
 
 Changes in Version 1.6-0
 
@@ -27,6 +24,8 @@ Changes in Version 1.6-0
   o added range.yearmon, range.yearqtr
 
   o added unique.yearmon, unique.yearqtr
+
+  o xtfrm.zoo added
 
 Changes in Version 1.5-4
 
