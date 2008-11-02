@@ -21,6 +21,7 @@
 \alias{c.yearmon}
 \alias{cycle.yearmon}
 \alias{format.yearmon}
+\alias{is.yearmon}
 \alias{mean.yearmon}
 \alias{print.yearmon}
 \alias{range.yearmon}
@@ -61,6 +62,8 @@ yearmon(x)
   \code{"Date"}.   These are described in \code{\link{strptime}}.  Unlike
   \code{"Date"} one can specify a year and month with no day.  
   Default formats of \code{"%Y-%m"}, \code{"%Y-%m-%d"} and \code{"%b %Y"}.
+
+  There is an \code{is.numeric} method which returns \code{FALSE}.
 
   \code{as.Date.yearmon} and \code{as.yearmon.yearqtr} 
   each has an optional

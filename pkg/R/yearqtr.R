@@ -151,6 +151,7 @@ Ops.yearqtr <- function(e1, e2) {
     structure(unclass(as.yearqtr(e1)) - e2, class = "yearqtr")
 }
 
+is.numeric.yearqtr <- function(x) FALSE
 
 Axis.yearqtr <- function(x = NULL, at = NULL, ..., side, labels = NULL)
     axis.yearqtr(x = x, at = at, ..., side = side, labels = TRUE)

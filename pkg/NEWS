@@ -21,13 +21,16 @@ Changes in Version 1.6-0
 
   o better error message in read.zoo if NAs found in index
 
-  o added range.yearmon, range.yearqtr
-
-  o added unique.yearmon, unique.yearqtr
-
   o xtfrm.zoo added
 
-  o as.yearmon(as.character(ym)) where ym is yearmon now works
+  o improvements in yearmon and yearqtr:
+	- added range.yearmon, range.yearqtr
+    - added unique.yearmon, unique.yearqtr
+    - as.yearmon now also accepts "%b %Y" as a default format so
+      as.yearmon(as.character(ym)) where ym is yearmon now works
+    - is.numeric.yearmon and is.numeric.yearqtr which return FALSE
+
+  o added as.zoo.mcmc. as.mcmc.default in coda handles other direction.
 
 Changes in Version 1.5-4
 

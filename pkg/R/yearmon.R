@@ -130,6 +130,8 @@ Ops.yearmon <- function(e1, e2) {
     structure(unclass(as.yearmon(e1)) - e2, class = "yearmon")
 }
 
+is.numeric.yearmon <- function(x) FALSE
+
 Axis.yearmon <- function(x = NULL, at = NULL, ..., side, labels = NULL)
     axis.yearmon(x = x, at = at, ..., side = side, labels = TRUE)
 

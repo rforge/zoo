@@ -22,6 +22,7 @@
 \alias{c.yearqtr}
 \alias{cycle.yearqtr}
 \alias{format.yearqtr}
+\alias{is.numeric.yearqtr}
 \alias{mean.yearqtr}
 \alias{print.yearqtr}
 \alias{range.yearqtr}
@@ -75,6 +76,8 @@ as.yearqtr(x, \dots)
   and coercion from \code{"yearqtr"} to \code{"Date"} (see below), \code{"POSIXct"},
   \code{"POSIXlt"}, \code{"numeric"}, \code{"character"} and \code{"jul"}.  
   The last one is from the \code{frame} package on CRAN.
+
+  There is an \code{is.numeric} method which returns \code{FALSE}.
 
   There is also a \code{date} method for \code{as.yearqtr} usable with objects
   created with package \code{date}.

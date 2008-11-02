@@ -214,6 +214,7 @@ export(
   S3method("c", "yearmon")
   S3method("cycle", "yearmon")
   S3method("format", "yearmon")
+  S3method("is.numeric", "yearmon")
   S3method("make.unique.incr", "yearmon")
   S3method("mean", "yearmon")
   S3method("print", "yearmon")
@@ -221,7 +222,7 @@ export(
   S3method("summary", "yearmon")
   S3method("unique", "yearmon")
 
-## methods for class yearqtr 
+	## methods for class yearqtr 
   S3method("-", "yearqtr")
   S3method("Axis", "yearqtr")
   S3method("MATCH", "yearqtr")
@@ -238,6 +239,7 @@ export(
   S3method("c", "yearqtr")
   S3method("cycle", "yearqtr")
   S3method("format", "yearqtr")
+  S3method("is.numeric", "yearqtr")
   S3method("make.unique.incr", "yearqtr")
   S3method("mean", "yearqtr")
   S3method("print", "yearqtr")
@@ -285,6 +287,7 @@ export(
   S3method("as.zoo", "fts")
   S3method("as.zoo", "irts")
   S3method("as.zoo", "its")
+  S3method("as.zoo", "mcmc")
   S3method("as.zoo", "ts")
   S3method("as.zoo", "zoo")
   S3method("as.zoo", "zooreg")

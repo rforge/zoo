@@ -37,6 +37,13 @@ as.zoo.its <- function(x, ...)
 	zoo(x, index, ...)
 }
 
+# as.mcmc.default can handle other direction
+as.zoo.mcmc <- function(x, ...)
+{
+	stopifnot(require(coda))
+	as.zoo(as.ts(x, ...))
+}
+
 as.zoo.timeSeries <- function(x, ...) {
   stopifnot(require("fSeries"))
   zoo(as.matrix(x), time(x), ...)  
