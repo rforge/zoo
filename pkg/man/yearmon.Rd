@@ -56,8 +56,11 @@ yearmon(x)
   \code{"POSIXlt"}, \code{"numeric"}, \code{"character"} and \code{"jul"}.  
   The last one is from the \code{"fame"} package available on CRAN.
   In the case of
-  \code{as.yearmon.character} the \code{format} argument is the same as for
-  \code{"Date"}.   One can specify a year and month with no day.  
+  \code{as.yearmon.character} the \code{format} argument uses the same
+  percent code as 
+  \code{"Date"}.   These are described in \code{\link{strptime}}.  Unlike
+  \code{"Date"} one can specify a year and month with no day.  
+  Default formats of \code{"%Y-%m"}, \code{"%Y-%m-%d"} and \code{"%b %Y"}.
 
   \code{as.Date.yearmon} and \code{as.yearmon.yearqtr} 
   each has an optional

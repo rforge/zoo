@@ -24,7 +24,8 @@ as.yearmon.character <- function(x, format = "", ...) {
 		nch <- na.omit(nch)
         if (length(table(nch)) != 1) 
             stop("yearmon variable can only have one format")
-        format <- if (all(nch == 1)) "%Y-%m" else "%Y-%m-%d"
+		format <- if (all(nch == 0)) "%B %Y"
+		else if (all(nch == 1)) "%Y-%m" else "%Y-%m-%d"
    }
    has.short.keys <- rep(regexpr("%[mbByY%]", format) > 0, length(x))
    has.no.others <- regexpr("%", gsub("%[mbByY%]", "", format)) < 0

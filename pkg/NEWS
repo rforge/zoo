@@ -27,6 +27,8 @@ Changes in Version 1.6-0
 
   o xtfrm.zoo added
 
+  o as.yearmon(as.character(ym)) where ym is yearmon now works
+
 Changes in Version 1.5-4
 
   o improvments in read.zoo()
