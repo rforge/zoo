@@ -218,6 +218,18 @@ plot(x, x2)
 plot(x, x2, xy.labels = TRUE)
 plot(x, x2, xy.labels = 1:5, xy.lines = FALSE)
 
+## shade a portion of a plot and make axis fancier
+
+v <- zooreg(rnorm(50), start = as.yearmon(2004), freq = 12)
+
+plot(v, type = "n")
+u <- par("usr")
+rect(as.yearmon("2007-8"), u[3], as.yearmon("2009-11"), u[4], 
+   border = 0, col = "grey")
+lines(v)
+axis(1, floor(time(v)), labels = FALSE, tcl = -1)
+
+
 ## barplot
 x <- zoo(cbind(rpois(5, 2), rpois(5, 3)), x.Date)
 barplot(x, beside = TRUE)
