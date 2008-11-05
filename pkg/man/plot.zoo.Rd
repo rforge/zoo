@@ -164,7 +164,7 @@ pnl.xaxis <- function(...) {
 	   mon <- as.numeric(format(ym, "\%m"))
 	   yy <- format(ym, "\%y")
 	   mm <- substring(month.abb[mon], 1, 1)
-       if (any(mm == 1))
+       if (any(mon == 1))
 	    # axis(1, tt[mon == 1], yy[mon == 1], cex.axis = 0.7)
 	    Axis(side = 1, at = tt[mon == 1], labels = yy[mon == 1], cex.axis = 0.7)
 	   # axis(1, tt[mon > 1], mm[mon > 1], cex.axis = 0.5, tcl = -0.3)
