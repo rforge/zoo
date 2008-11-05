@@ -110,7 +110,7 @@ plot(x)
 opar <- par(usr = c(par("usr")[1:2], range(x2)))
 lines(x2, lty = 2)
 # axis(4)
-Axis(side = 4)
+axis(side = 4)
 par(opar)
 
 
@@ -129,10 +129,10 @@ my.panel <- function(x, y, ..., pf = parent.frame()) {
    if (with(pf, length(panel.number) == 0 || 
         panel.number \%\% nr == 0 || panel.number == nser)) { 
       # create ticks at x values and then label every third tick
-      Axis(side = 1, at = x, labels = FALSE)
+      axis(side = 1, at = x, labels = FALSE)
       ix <- seq(1, length(x), 3)
       labs <- format(x, fmt)
-      Axis(side = 1, at = x[ix], labels = labs[ix], tcl = -0.7, cex.axis = 0.7)
+      axis(side = 1, at = x[ix], labels = labs[ix], tcl = -0.7, cex.axis = 0.7)
    }
 }
 # 3. plot
@@ -143,12 +143,12 @@ plot(zz, panel = my.panel, xaxt = "n")
 plot(zz, screen = 1, col = 1:2, xaxt = "n")
 # axis(1, at = time(zz), labels = FALSE)
 tt <- time(zz)
-Axis(side = 1, at = tt, labels = FALSE)
+axis(side = 1, at = tt, labels = FALSE)
 ix <- seq(1, length(tt), 3)
 fmt <- "\%b-\%d" # format for axis labels
 labs <- format(tt, fmt)
 # axis(1, at = time(zz)[ix], labels = labs[ix], tcl = -0.7, cex.axis = 0.7)
-Axis(side = 1, at = tt[ix], labels = labs[ix], tcl = -0.7, cex.axis = 0.7)
+axis(side = 1, at = tt[ix], labels = labs[ix], tcl = -0.7, cex.axis = 0.7)
 legend("bottomright", colnames(zz), lty = 1, col = 1:2)
 
 ## plot a mulitple ts series with nice x-axis using panel function
@@ -166,9 +166,9 @@ pnl.xaxis <- function(...) {
 	   mm <- substring(month.abb[mon], 1, 1)
        if (any(mon == 1))
 	    # axis(1, tt[mon == 1], yy[mon == 1], cex.axis = 0.7)
-	    Axis(side = 1, at = tt[mon == 1], labels = yy[mon == 1], cex.axis = 0.7)
+	    axis(side = 1, at = tt[mon == 1], labels = yy[mon == 1], cex.axis = 0.7)
 	   # axis(1, tt[mon > 1], mm[mon > 1], cex.axis = 0.5, tcl = -0.3)
-	   Axis(side = 1, at = tt[mon > 1], labels = mm[mon > 1], cex.axis = 0.5, tcl = -0.3)
+	   axis(side = 1, at = tt[mon > 1], labels = mm[mon > 1], cex.axis = 0.5, tcl = -0.3)
      }
 }
 plot(as.zoo(tab), panel = pnl.xaxis, xaxt = "n", main = "Fancy X Axis")
@@ -183,7 +183,7 @@ plot(zoo(coredata(z)), xaxt = "n", panel = function(x, y, ..., Time = time(z)) {
     # if bottom panel
     pf <- parent.frame()
     if (with(pf, panel.number \%\% nr == 0 || panel.number == nser)) {
-        Axis(side = 1, at = x, labels = Time)
+        axis(side = 1, at = x, labels = Time)
     }
 })
 
@@ -198,7 +198,7 @@ plot(z[,1], type = "l",
 par(new = TRUE)
 plot(z[,2], type = "l", ann = FALSE, yaxt = "n", col = "blue")
 # axis(4)
-Axis(side = 4)
+axis(side = 4)
 legend(x = "topleft", bty = "n", lty = c(1,1), col = c("black", "blue"),
   legend = paste(colnames(z), c("(left scale)", "(right scale)")))
 usr <- par("usr")
