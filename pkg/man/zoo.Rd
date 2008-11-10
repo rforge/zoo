@@ -10,6 +10,7 @@
 \alias{[.zoo}
 \alias{$.zoo}
 \alias{$<-.zoo}
+\alias{subset.zoo}
 \alias{head.zoo}
 \alias{tail.zoo}
 \alias{Ops.zoo}
