@@ -147,8 +147,12 @@ str.zoo <- function(object, ...)
   if(is.na(wi)) {
     object <- cbind(object, value)
     colnames(object)[NCOL(object)] <- x  
-  } else {  
-    object[, wi] <- value
+  } else {
+    if(is.null(value)) {
+      object <- object[, -wi, drop=FALSE]
+    } else {   
+      object[, wi] <- value
+    }
   }
   object
 }
