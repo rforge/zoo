@@ -194,7 +194,7 @@ subset.zoo <- function (x, subset, select, drop = FALSE, ...)
         vars <- eval(substitute(select), nl, parent.frame())
     }
     if (missing(subset)) 
-        subset <- c(TRUE, NROW(x))
+        subset <- rep(TRUE, NROW(x))
     else if (!is.logical(subset)) 
         stop("'subset' must be logical")
     x[subset & !is.na(subset), vars, drop = drop]
