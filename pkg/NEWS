@@ -30,7 +30,9 @@ Changes in Version 1.6-0
       as.yearmon(as.character(ym)) where ym is yearmon now works
     - is.numeric.yearmon and is.numeric.yearqtr which return FALSE
 
-  o added as.zoo.mcmc. (as.mcmc.default in coda handles other direction.)
+  o as.zoo.mcmc added (as.mcmc.default in coda handles other direction.)
+
+  o subset.zoo added
 
 Changes in Version 1.5-4
 

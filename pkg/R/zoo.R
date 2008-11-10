@@ -183,3 +183,20 @@ with.zoo <- function(data, expr, ...) {
 }
 
 xtfrm.zoo <- function(x) coredata(x)
+
+subset.zoo <- function (x, subset, select, drop = FALSE, ...) 
+{
+    if (missing(select)) 
+        vars <- TRUE
+    else {
+        nl <- as.list(1:ncol(x))
+        names(nl) <- colnames(x)
+        vars <- eval(substitute(select), nl, parent.frame())
+    }
+    if (missing(subset)) 
+        subset <- c(TRUE, NROW(x))
+    else if (!is.logical(subset)) 
+        stop("'subset' must be logical")
+    x[subset & !is.na(subset), vars, drop = drop]
+}
+
