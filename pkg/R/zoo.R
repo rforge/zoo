@@ -197,10 +197,13 @@ subset.zoo <- function (x, subset, select, drop = FALSE, ...)
         names(nl) <- colnames(x)
         vars <- eval(substitute(select), nl, parent.frame())
     }
-    if (missing(subset)) 
+    if (missing(subset)) {
         subset <- rep(TRUE, NROW(x))
-    else if (!is.logical(subset)) 
-        stop("'subset' must be logical")
+    } else {
+		e <- substitute(subset)
+		subset <- eval.parent(e, cbind(as.data.frame(x), time = time(x)))
+		if (!is.logical(subset)) stop("'subset' must be logical")
+	}
     x[subset & !is.na(subset), vars, drop = drop]
 }
 
