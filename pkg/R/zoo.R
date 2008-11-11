@@ -200,10 +200,23 @@ subset.zoo <- function (x, subset, select, drop = FALSE, ...)
     if (missing(subset)) {
         subset <- rep(TRUE, NROW(x))
     } else {
-		e <- substitute(subset)
-		subset <- eval.parent(e, cbind(as.data.frame(x), time = time(x)))
-		if (!is.logical(subset)) stop("'subset' must be logical")
+        e <- substitute(subset)
+	if("time" %in% colnames(x)) {
+	  xdf <- as.data.frame(x)
+	  warning("'time' is a column in 'x' (not the time index)")
+	} else {
+	  xdf <- cbind(as.data.frame(x), time = time(x))
 	}
+        subset <- eval(e, xdf, parent.frame())
+        if (!is.logical(subset)) stop("'subset' must be logical")
+    }
     x[subset & !is.na(subset), vars, drop = drop]
+}
+
+names.zoo <- function(x) colnames(x)
+
+"names<-.zoo" <- function(x, value) {
+  colnames(x) <- value
+  x
 }
 
