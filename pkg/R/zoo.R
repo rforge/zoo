@@ -203,11 +203,14 @@ subset.zoo <- function (x, subset, select, drop = FALSE, ...)
         e <- substitute(subset)
 	if("time" %in% colnames(x)) {
 	  xdf <- as.data.frame(x)
-	  warning("'time' is a column in 'x' (not the time index)")
+          subset <- eval(e, xdf, parent.frame())
+          xdf$time <- time(x)
+          subset2 <- eval(e, xdf, parent.frame())
+	  if(!identical(subset, subset2))
+  	      warning("'time' is a column in 'x' (not the time index)")
 	} else {
-	  xdf <- cbind(as.data.frame(x), time = time(x))
+          subset <- eval(e, cbind(as.data.frame(x), time = time(x)), parent.frame())
 	}
-        subset <- eval(e, xdf, parent.frame())
         if (!is.logical(subset)) stop("'subset' must be logical")
     }
     x[subset & !is.na(subset), vars, drop = drop]
