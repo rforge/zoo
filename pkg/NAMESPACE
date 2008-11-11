@@ -14,7 +14,6 @@ export(
   "is.zoo",
   "merge.zoo",
   "read.zoo",
-  "subset.zoo",
   "write.zoo",
   "xtfrm.zoo",
 
@@ -155,6 +154,7 @@ export(
   S3method("rollmean", "zoo")
   S3method("rollmedian", "zoo")
   S3method("scale", "zoo")
+  S3method("subset", "zoo")
   S3method("start", "zoo")
   S3method("str", "zoo")
   S3method("summary", "zoo")
