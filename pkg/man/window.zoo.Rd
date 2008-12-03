@@ -8,13 +8,13 @@ of \code{"zoo"} objects and replacing it.
 }
 
 \usage{
-\method{window}{zoo}(x, index = index.zoo(x), start = NULL, end = NULL, \dots)
-\method{window}{zoo}(x, index = index.zoo(x), start = NULL, end = NULL, \dots) <- value
+\method{window}{zoo}(x, index. = index(x), start = NULL, end = NULL, \dots)
+\method{window}{zoo}(x, index. = index(x), start = NULL, end = NULL, \dots) <- value
 }
 
 \arguments{
   \item{x}{an object.}
-  \item{index}{the index/time window which should be extracted.}
+  \item{index.}{the index/time window which should be extracted.}
   \item{start}{an index/time value. Only the indexes in \code{index}
     which are greater or equal to \code{start} are used.  If the index
     class supports comparisons to character variables, as does \code{"Date"}
