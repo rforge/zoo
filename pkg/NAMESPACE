@@ -262,6 +262,9 @@ export(
   S3method("index2char", "numeric")
   S3method("na.contiguous", "data.frame")
   S3method("na.contiguous", "list")
+  S3method("ORDER", "chron")
+  S3method("ORDER", "dates")
+  S3method("ORDER", "times")
 
 ## coercion to classes Date, list, yearmon, yearqtr, zoo, zooreg
   S3method("as.Date", "ts")

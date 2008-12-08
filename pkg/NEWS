@@ -34,6 +34,10 @@ Changes in Version 1.6-0
 
   o subset.zoo added
 
+  o ORDER.chron, ORDER.dates, ORDER.times added.  Without these order
+    has become very slow in R 2.8.0.
+    
+
 Changes in Version 1.5-4
 
   o improvments in read.zoo()

@@ -135,18 +135,19 @@ plot.zoo <- function(x, y = NULL, screens, plot.type, panel = lines,
       panel.number <- j
       range. <- rep(ranges[[j]], length.out = length(time(x)))
       if(j%%nr==0 || j == length(levels(screens))) {
-	args <- list(x.index, range., xlab = "", ylab = ylab[j], 
-		xlim = xlim, ylim = ylim[[j]], ...)
-	args$type <- "n"
-	do.call("plot", args)
-	mtext(xlab, side = 1, line = 3)
+			args <- list(x.index, range., xlab = "", ylab = ylab[j], 
+				xlim = xlim, ylim = ylim[[j]], ...)
+			args$type <- "n"
+			do.call("plot", args)
+			mtext(xlab, side = 1, line = 3)
       } else {      
-        args <- list(x.index, range., axes = FALSE, xlab = "", ylab = ylab[j], 
-		xlim = xlim, ylim = ylim[[j]], ...)
-	args$type <- "n"
-	do.call("plot", args)
-        box()
-        axis(2, xpd = NA)
+			# args <- list(x.index, range., axes = FALSE, xlab = "", 
+			args <- list(x.index, range., xaxt = "n", xlab = "", 
+				ylab = ylab[j], xlim = xlim, ylim = ylim[[j]], ...)
+			args$type <- "n"
+			do.call("plot", args)
+			box()
+			# axis(2, xpd = NA)
       }
 
       for(i in which(screens == levels(screens)[j]))
