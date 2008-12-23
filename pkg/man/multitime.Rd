@@ -1,4 +1,5 @@
 \name{as.multitime}
+\alias{multitime}
 \alias{as.multitime}
 \alias{as.multitime.default}
 \alias{coredata.multitime}
@@ -23,8 +24,10 @@
   that correspond to year/months.
 }
 \usage{
+multitime(x, ...)
+
 as.multitime(x, ...)
-as.multitime.default(x, index, ...)
+\method{as.multitime}{default}(x, index, ...)
 }
 \arguments{
   \item{x}{ Primary time scale. }
@@ -49,11 +52,11 @@ through the time scales and return the first one found of the indicated
 class or if none found convert the first time scale to the indicated class.
 }
 \value{
-  A multitime object.
+  An object of class \code{"multitime"}.
 }
 \examples{
 # use secondary time scale to uniquify times
-z <- zoo(1:3, multitime(c(1, 1, 2), c(1, 2, 1))
+z <- zoo(1:3, multitime(c(1, 1, 2), c(1, 2, 1)))
 z
 
 # an object with both yearmon and Date scales

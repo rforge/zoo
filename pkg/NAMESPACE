@@ -71,6 +71,7 @@ export(
   "as.yearqtr.yearqtr",
   "as.yearqtr.default",
   "format.yearqtr",
+  "multitime",
 
 # *** temporary -- change these to S3Method when lattice creates generics
   "panel.lines.ts",

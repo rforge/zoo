@@ -1,3 +1,4 @@
+multitime <- function(x, ...) as.multitime(x, ...)
 
 as.multitime <- function(x, ...) UseMethod("as.multitime")
 as.multitime.default <- function(x, index, ...) {
