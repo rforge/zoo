@@ -61,7 +61,7 @@ yearmon(x)
   percent code as 
   \code{"Date"}.   These are described in \code{\link{strptime}}.  Unlike
   \code{"Date"} one can specify a year and month with no day.  
-  Default formats of \code{"%Y-%m"}, \code{"%Y-%m-%d"} and \code{"%b %Y"}.
+  Default formats of \code{"\%Y-\%m"}, \code{"\%Y-\%m-\%d"} and \code{"\%b \%Y"}.
 
   There is an \code{is.numeric} method which returns \code{FALSE}.
 
