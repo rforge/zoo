@@ -76,11 +76,11 @@ yearmon(x)
 
   \code{Sys.yearmon()} returns the current year/month and methods for
   \code{min}, \code{max} and \code{range} are defined (by defining 
-  a method for \code{Summary}.
+  a method for \code{Summary}).
 
   A \code{yearmon} \code{mean} method is also defined.
-
 }
+
 \value{
   Returns its argument converted to class \code{yearmon}.
 }

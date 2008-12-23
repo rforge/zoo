@@ -40,7 +40,7 @@ as.zoo.its <- function(x, ...)
 # as.mcmc.default can handle other direction
 as.zoo.mcmc <- function(x, ...)
 {
-	stopifnot(require(coda))
+	stopifnot(require("coda"))
 	as.zoo(as.ts(x, ...))
 }
 
