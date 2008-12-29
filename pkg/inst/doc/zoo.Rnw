@@ -936,7 +936,7 @@ leads to improved printing compared to the regular series \code{zr1} and \code{z
 from Section~\ref{sec:zooreg}.
 
 <<yearmon1>>=
-zr3 <- zooreg(rnorm(9), start = yearmon(2000), frequency = 12)
+zr3 <- zooreg(rnorm(9), start = as.yearmon(2000), frequency = 12)
 zr3
 @
 

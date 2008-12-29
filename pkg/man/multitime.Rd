@@ -56,12 +56,12 @@ class or if none found convert the first time scale to the indicated class.
 }
 \examples{
 # use secondary time scale to uniquify times
-z <- zoo(1:3, multitime(c(1, 1, 2), c(1, 2, 1)))
+z <- zoo(1:3, as.multitime(c(1, 1, 2), c(1, 2, 1)))
 z
 
 # an object with both yearmon and Date scales
 ym <- as.yearmon(2001:2003)
-z2 <- zoo(1:3, multitime(ym, as.Date(ym, frac = 1)))
+z2 <- zoo(1:3, as.multitime(ym, as.Date(ym, frac = 1)))
 z2
 as.yearmon(time(z2))
 as.Date(time(z2))

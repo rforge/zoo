@@ -88,7 +88,7 @@ yearmon(x)
 \seealso{\code{\link{yearqtr}}, \code{\link{zoo}}, \code{\link{zooreg}}, \code{\link{ts}}}
 
 \examples{
-x <- yearmon(2000 + seq(0, 23)/12)
+x <- as.yearmon(2000 + seq(0, 23)/12)
 x
 
 as.yearmon("mar07", "\%b\%y")
