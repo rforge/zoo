@@ -189,10 +189,10 @@ in interpolation. Both methods are not necessary for working with \code{"zoo"}
 objects but could be used if available.
 All these methods are available, e.g., for standard numeric and character vectors and for
 vectors of classes \code{"Date"}, \code{"POSIXct"} or \code{"times"}
-from package \pkg{chron} and \code{"dateTime"} in \pkg{timeDate}.
-Because not all required methods used to be available for \code{"dateTime"} in older
+from package \pkg{chron} and \code{"timeDate"} in \pkg{timeDate}.
+Because not all required methods used to be available for \code{"timeDate"} in older
 versions of \pkg{fCalendar}, Section~\ref{sec:fCalendar} has a somewhat outdated example how
-to provide such methods so that \code{"zoo"} objects work with \code{"dateTime"} indexes.
+to provide such methods so that \code{"zoo"} objects work with \code{"timeDate"} indexes.
 To achieve this  independence of the index class, new generic functions for
 ordering (\code{ORDER()}) and value matching (\code{MATCH()}) are introduced
 as the corresponding base functions \code{order()} and \code{match()} are 
@@ -881,7 +881,7 @@ it might be necessary for some index classes to provide \code{c()}, \code{length
 \code{ORDER()} and \code{MATCH()} methods such that the methods in \pkg{zoo} 
 work properly. Previously, this was the case \code{"timeDate"} from the \pkg{fCalendar} package
 which is why it was used as an example in this vigntte. 
-Meanwhile however, both \pkg{zoo} and \pkg{fCalendar}
+Meanwhile however, both \pkg{zoo} and \pkg{fCalendar}/\pkg{timeDate}
 have been enhanced: The latter contains the methods for \code{c()}, \code{length()}, and \code{[},
 while \pkg{zoo} has methods for \code{ORDER()} and \code{MATCH()} for class \code{"timeDate"}.
 The last two functions essentially work by coercing to the underlying \code{"POSIXct"} and then
