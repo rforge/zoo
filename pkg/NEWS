@@ -35,8 +35,10 @@ Changes in Version 1.6-0
   o subset.zoo added
 
   o ORDER.chron, ORDER.dates, ORDER.times added.  Without these order
-    has become very slow in R 2.8.0.
-    
+    has become very slow with older versions of the chron package.
+
+  o as.zoo.timeSeries has been updated to reflect the replacement of
+    the fSeries package with the timeSeries package
 
 Changes in Version 1.5-4
 
