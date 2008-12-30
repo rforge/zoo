@@ -385,7 +385,7 @@ plot in \proglang{R} without \pkg{zoo} we get the same behavior.
 Yes.  \code{timeDate} class objects from the \pkg{fCalendar} package can be used
 directly as the index of a \code{zoo} series and \code{as.timeSeries.zoo} and
 \code{as.zoo.timeSeries} can convert back and forth between objects of
-class \code{zoo} and class \code{timeSeries} from the \pkg{fSeries} package.
+class \code{zoo} and class \code{timeSeries} from the \pkg{timeSeries} package.
 
 <<Rmetrics>>=
 library("fCalendar")
@@ -398,7 +398,7 @@ z <- zoo(1:4, td)
 zz <- merge(z, lag(z))
 plot(zz)
 
-library("fSeries")
+library("timeSeries")
 zz
 as.timeSeries(zz)
 as.zoo(as.timeSeries(zz))
@@ -437,11 +437,11 @@ as.zoo(as.timeSeries(zz))
 \pkg{Zelig} & Everyone's statistical software \\ \hline
 \multicolumn{2}{|l|}{\emph{Uses or Used with}} \\ \hline
 \pkg{fCalendar} & \pkg{Rmetrics} date and time functions: \code{timeDate} usable with \code{zoo} \\ \hline
-\pkg{fSeries} & \pkg{Rmetrics} time series functions: \code{as.timeSeries.zoo}, \code{as.zoo.timeSeries} \\ \hline
 \pkg{grid} & Graphics infrastructure: use with \code{xyplot.zoo} \\ \hline
 \pkg{its} & Irregular time series: \code{as.its.zoo}, \code{as.zoo.its} \\ \hline
 \pkg{lattice} & \pkg{grid}-based graphics: use with \code{xyplot.zoo} \\ \hline
 \pkg{playwith} & Interactive graphics: works with \code{xylot.zoo} \\ \hline
+\pkg{timeSeries} & \pkg{Rmetrics} time series functions: \code{as.timeSeries.zoo}, \code{as.zoo.timeSeries} \\ \hline
 \pkg{YaleToolkit} & Data exploration tools from Yale University: accepts \code{"zoo"} input \\ \hline
 \end{tabular}
 

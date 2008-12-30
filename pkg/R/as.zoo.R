@@ -45,7 +45,7 @@ as.zoo.mcmc <- function(x, ...)
 }
 
 as.zoo.timeSeries <- function(x, ...) {
-  stopifnot(require("fSeries"))
+  stopifnot(require("timeSeries"))
   zoo(as.matrix(x), time(x), ...)  
 }
 

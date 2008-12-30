@@ -102,7 +102,7 @@ as.yearqtr(x, \dots)
   code{\link{strptime}}.}
 
 \examples{
-x <- yearqtr(2000 + seq(0, 7)/4)
+x <- as.yearqtr(2000 + seq(0, 7)/4)
 x
 
 format(x, "\%Y Quarter \%q")
