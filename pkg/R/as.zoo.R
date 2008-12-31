@@ -50,7 +50,8 @@ as.zoo.timeSeries <- function(x, ...) {
 }
 
 as.zoo.xts <- function(x, ...) {
-	structure(x, class = setdiff(class(x), "xts"))
+	require(xts)
+	zoo(coredata(x), order.by = index(x), ...)
 }
 
 as.zooreg.xts <- function(x, ...) {
