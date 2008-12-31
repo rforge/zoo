@@ -49,6 +49,14 @@ as.zoo.timeSeries <- function(x, ...) {
   zoo(as.matrix(x), time(x), ...)  
 }
 
+as.zoo.xts <- function(x, ...) {
+	structure(x, class = setdiff(class(x), "xts"))
+}
+
+as.zooreg.xts <- function(x, ...) {
+	as.zooreg(as.zoo(x, ...))
+}
+
 as.zoo.zoo <- function(x, ...) x
 
 ## This should be in its now.

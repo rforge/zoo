@@ -32,13 +32,17 @@ Changes in Version 1.6-0
 
   o as.zoo.mcmc added (as.mcmc.default in coda handles other direction.)
 
-  o subset.zoo added
-
-  o ORDER.chron, ORDER.dates, ORDER.times added.  Without these order
-    has become very slow with older versions of the chron package.
+  o as.zoo.xts and as.zooreg.xts added
 
   o as.zoo.timeSeries has been updated to reflect the replacement of
     the fSeries package with the timeSeries package
+
+  o subset.zoo added
+
+  o ORDER.chron, ORDER.dates, ORDER.times added.  Without these order
+    has become very slow when using older versions of the chron package 
+    (although the most recent version of chron has no slowdown even without 
+    this fix as it implements xtfrm).
 
 Changes in Version 1.5-4
 
