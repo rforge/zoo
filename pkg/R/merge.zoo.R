@@ -69,7 +69,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     parent <- parent.frame()
 
     is.plain <- function(x) 
-	all(class(x) %in% c("array", "integer", "numeric", "factor", "matrix"))
+	all(class(x) %in% c("array", "integer", "numeric", "factor", "matrix", "logical"))
 
     is.scalar <- function(x) is.plain(x) && length(x) == 1
 
