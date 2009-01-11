@@ -302,6 +302,9 @@ mlab <- substr(months(m[!jan]), 1, 1)
 axis(side = 1, at = m[!jan], labels = mlab, tcl = -0.3, cex.axis = 0.7)
 axis(side = 1, at = m[jan], labels = format(m[jan], "%y"), tcl = -0.7)
 axis(side = 1, at = unique(as.Date(as.yearqtr(tt))), labels = FALSE)
+
+# vertical grid lines
+abline(v = m, col = grey(0.8), lty = 2)
 @
 
 A multivariate series can either be generated as (1)~multiple single panel
