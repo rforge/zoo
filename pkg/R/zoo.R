@@ -216,10 +216,17 @@ subset.zoo <- function (x, subset, select, drop = FALSE, ...)
     x[subset & !is.na(subset), vars, drop = drop]
 }
 
-names.zoo <- function(x) colnames(x)
+names.zoo <- function(x) {
+  cx <- coredata(x)
+  if(is.matrix(cx)) colnames(cx) else names(cx)
+}
 
 "names<-.zoo" <- function(x, value) {
-  colnames(x) <- value
+  if(is.matrix(coredata(x))) {
+    colnames(x) <- value
+  } else {
+    names(coredata(x)) <- value
+  }
   x
 }
 
