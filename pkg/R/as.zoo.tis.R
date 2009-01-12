@@ -1,5 +1,3 @@
-
-
 as.zoo.tis <- function(x, ...) {
 	as.zoo(as.zooreg(x, ...))
 }

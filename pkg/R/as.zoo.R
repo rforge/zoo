@@ -15,13 +15,13 @@ as.zoo.factor <- function(x, ...)
 
 as.zoo.fts <- function(x, ...) 
 {
-	stopifnot(require(fts))
+	stopifnot(require("fts"))
 	zoo(as.matrix(x), attr(x, "dates"))
 }
 
 # as.fts.zoo <- function(x, ...)
 # {
-#	stopifnot(require(fts), inherits(index(x), "POSIXt"))
+#	stopifnot(require("fts"), inherits(index(x), "POSIXt"))
 #	fts(coredata(x), index(x))
 # }
 
@@ -46,11 +46,11 @@ as.zoo.mcmc <- function(x, ...)
 
 as.zoo.timeSeries <- function(x, ...) {
   stopifnot(require("timeSeries"))
-  zoo(as.matrix(x), time(x), ...)  
+  zoo(as.matrix(x), timeSeries::time(x), ...)  
 }
 
 as.zoo.xts <- function(x, ...) {
-	require(xts)
+	require("xts")
 	zoo(coredata(x), order.by = index(x), ...)
 }
 
@@ -62,7 +62,7 @@ as.zoo.zoo <- function(x, ...) x
 
 ## This should be in its now.
 ## as.its.zoo <- function(x) {
-## 	stopifnot(require(its))
+## 	stopifnot(require("its"))
 ## 	index <- index(x)
 ## 	stopifnot(inherits(index, "POSIXct"))
 ## 	its(coredata(x), index)

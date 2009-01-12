@@ -385,13 +385,13 @@ plot in \proglang{R} without \pkg{zoo} we get the same behavior.
 
 \mysection[10. Does zoo work with Rmetrics?]{10. Does \pkg{zoo} work with \pkg{Rmetrics}?}
 
-Yes.  \code{timeDate} class objects from the \pkg{fCalendar} package can be used
+Yes.  \code{timeDate} class objects from the \pkg{timeDate} package can be used
 directly as the index of a \code{zoo} series and \code{as.timeSeries.zoo} and
 \code{as.zoo.timeSeries} can convert back and forth between objects of
 class \code{zoo} and class \code{timeSeries} from the \pkg{timeSeries} package.
 
 <<Rmetrics>>=
-library("fCalendar")
+library("timeDate")
 dts <- c("1989-09-28", "2001-01-15", "2004-08-30", "1990-02-09")
 tms <- c(  "23:12:55",   "10:34:02",   "08:30:00",   "11:18:23")
 td <- timeDate(paste(dts, tms), format = "%Y-%m-%d %H:%M:%S")
@@ -405,6 +405,11 @@ library("timeSeries")
 zz
 as.timeSeries(zz)
 as.zoo(as.timeSeries(zz))
+@
+
+<<Rmetrics-detach, echo=FALSE, results=hide>>=
+detach("package:timeDate")
+detach("package:timeSeries")
 @
 
 \mysection[10. What other packages use zoo?]{10. What other packages use \pkg{zoo}?}
@@ -439,7 +444,7 @@ as.zoo(as.timeSeries(zz))
 \pkg{TSdbi} & Time series database interface \\
 \pkg{Zelig} & Everyone's statistical software \\ \hline
 \multicolumn{2}{|l|}{\emph{Uses or Used with}} \\ \hline
-\pkg{fCalendar} & \pkg{Rmetrics} date and time functions: \code{timeDate} usable with \code{zoo} \\ \hline
+\pkg{timeDate} & \pkg{Rmetrics} date and time functions: \code{timeDate} usable with \code{zoo} \\ \hline
 \pkg{grid} & Graphics infrastructure: use with \code{xyplot.zoo} \\ \hline
 \pkg{its} & Irregular time series: \code{as.its.zoo}, \code{as.zoo.its} \\ \hline
 \pkg{lattice} & \pkg{grid}-based graphics: use with \code{xyplot.zoo} \\ \hline
