@@ -74,6 +74,7 @@ export(
   "multitime",
   "as.multitime",
   "as.multitime.default",
+  "xtfrm.multitime",
 
 # *** temporary -- change these to S3Method when lattice creates generics
   "panel.lines.ts",
@@ -209,7 +210,6 @@ export(
   S3method("as.character", "multitime")
   S3method("MATCH", "multitime")
   S3method("ORDER", "multitime")
-  S3method("xtfrm", "multitime")
   S3method("Ops", "multitime")
   S3method("[", "multitime")
   S3method("c", "multitime")
