@@ -44,6 +44,12 @@ Changes in Version 1.6-0
     (although the most recent version of chron has no slowdown even without 
     this fix as it implements xtfrm).
 
+
+Changes in Version 1.5-5
+
+  o documentation enhancements for new Rd parser
+
+
 Changes in Version 1.5-4
 
   o improvments in read.zoo()
