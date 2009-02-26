@@ -243,6 +243,16 @@ axis(1, floor(time(v)), labels = FALSE, tcl = -1)
 x <- zoo(cbind(rpois(5, 2), rpois(5, 3)), x.Date)
 barplot(x, beside = TRUE)
 
+## 3d plot
+## The persp function in R (not part of zoo) works with zoo objects.
+## This example was posted to r-sig-finance by Enrico Schumann
+## https://stat.ethz.ch/pipermail/r-sig-finance/2009q1/003710.html
+nC <- 10    # columns
+nO <- 100 # observations
+dataM <- array(runif(nC * nO), dim=c(nO, nC))
+zz <- zoo(dataM, 1:nO)
+persp(1:nO, 1:nC, zz)
+
 # interactive plotting
 \dontrun{
 library("TeachingDemos")
