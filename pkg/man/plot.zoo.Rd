@@ -245,7 +245,7 @@ barplot(x, beside = TRUE)
 
 ## 3d plot
 ## The persp function in R (not part of zoo) works with zoo objects.
-## This example was posted to r-sig-finance by Enrico Schumann
+## The following example is by Enrico Schumann.
 ## https://stat.ethz.ch/pipermail/r-sig-finance/2009q1/003710.html
 nC <- 10    # columns
 nO <- 100 # observations
