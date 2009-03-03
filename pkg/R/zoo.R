@@ -1,5 +1,6 @@
 zoo <- function (x = NULL, order.by = index(x), frequency = NULL) 
 {
+    if (is.data.frame(x)) stop("first argument to zoo may not be a data frame")
     ## process index "order.by"    
     if(length(unique(MATCH(order.by, order.by))) < length(order.by))
       warning(paste("some methods for", dQuote("zoo"),
