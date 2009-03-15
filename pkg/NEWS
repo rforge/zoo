@@ -25,7 +25,6 @@ Changes in Version 1.6-0
 
   o improvements in yearmon and yearqtr:
 	- added range.yearmon, range.yearqtr
-    - added unique.yearmon, unique.yearqtr
     - as.yearmon now also accepts "%b %Y" as a default format so
       as.yearmon(as.character(ym)) where ym is yearmon now works
     - is.numeric.yearmon and is.numeric.yearqtr which return FALSE
@@ -43,6 +42,8 @@ Changes in Version 1.6-0
     has become very slow when using older versions of the chron package 
     (although the most recent version of chron has no slowdown even without 
     this fix as it implements xtfrm).
+
+  o rbind.zoo and c.zoo ignore NULL arguments
 
 
 Changes in Version 1.5-5

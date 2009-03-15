@@ -1,6 +1,7 @@
 rbind.zoo <- function(..., deparse.level = 1)
 {  
-  args <- list(...)
+
+  args <- Filter(Negate(is.null), list(...))
   indexes <- do.call("c", lapply(args, index))
 
   my.table <- function(x) {
