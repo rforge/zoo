@@ -43,8 +43,7 @@ Changes in Version 1.6-0
     (although the most recent version of chron has no slowdown even without 
     this fix as it implements xtfrm).
 
-  o rbind.zoo and c.zoo ignore NULL arguments
-
+  o cbind.zoo, merge.zoo, rbind.zoo and c.zoo now ignore NULL arguments
 
 Changes in Version 1.5-5
 

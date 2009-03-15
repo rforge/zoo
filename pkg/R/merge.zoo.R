@@ -67,6 +67,11 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     cl[[1]] <- cl$all <- cl$fill <- cl$retclass <- cl$suffixes <- NULL
     args <- list(...)
 
+	# remove NULL args
+	isnull <- sapply(args, is.null)
+	cl <- cl[!isnull]
+	args <- args[!isnull]
+
     parent <- parent.frame()
 
     is.plain <- function(x) 
