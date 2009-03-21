@@ -31,7 +31,7 @@ rbind.zoo <- function(..., deparse.level = 1)
   }
   if(!namsOK) warning("column names differ")
 
-  if(ncols[1] > 1)
+  if((ncols[1] > 1) | !all(is.null(sapply(args, dim))))
     rval <- zoo(do.call("rbind", lapply(args, coredata)), indexes)
   else
     rval <- zoo(do.call("c", lapply(args, coredata)), indexes)
@@ -152,7 +152,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
            table(MATCH(x, x))
 	}
 	union <- do.call("c", list)
-	sort.unique(union)[ my.table(union) == length(list) ]
+	sort.unique(union)[which(my.table(union) == length(list))]
     }
     indexintersect <- intersect.list(indexlist)
 
