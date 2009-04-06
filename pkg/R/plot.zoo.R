@@ -126,8 +126,8 @@ plot.zoo <- function(x, y = NULL, screens, plot.type, panel = lines,
 	# otherwise, if the ylim are specified use the range of the ylim values;
 	# otherwise, use the range of the data
 	f <- function(idx) if (allsame(ylim)) ylim[idx][[1]]
-		else if (!is.null(ylim) && length(idx) > 0) 
-			range(ylim[idx], finite = TRUE)
+		else if (!is.null(ylim) && length(idx) > 0 && 
+			length(unlist(ylim[idx])) > 0) range(ylim[idx], finite = TRUE)
 		else range(x[, idx], na.rm = TRUE)
 	# ranges is indexed by screen
 	ranges <- tapply(1:ncol(x), screens, f)
