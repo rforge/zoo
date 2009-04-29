@@ -25,7 +25,7 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   if (NCOL(rval) == 1) ix <- seq(length = NROW(rval))
   else {
     ix <- rval[,index.column]
-	split.values <- if (!is.null(split)) rval[, split]
+    split.values <- if (!is.null(split)) rval[, split]
     rval <- rval[,-c(split, index.column), drop = drop]
   }
   if(is.factor(ix)) ix <- as.character(ix)
@@ -81,13 +81,13 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   ## sanity checking
   if(any(is.na(ix))) {
     idx <- which(is.na(ix))
-	msg <- if (length(idx) == 1)
-		paste("index has bad entry at data row", idx)
-	else if (length(idx) <= 100)
-		paste("index has bad entries at data rows:", paste(idx, collapse = " "))
-	else paste("index has", length(idx), "bad entries at data rows:", 
-		paste(head(idx, 100), collapse = " "), "...")
-	stop(msg)
+    msg <- if (length(idx) == 1)
+      paste("index has bad entry at data row", idx)
+    else if (length(idx) <= 100)
+      paste("index has bad entries at data rows:", paste(idx, collapse = " "))
+    else paste("index has", length(idx), "bad entries at data rows:", 
+      paste(head(idx, 100), collapse = " "), "...")
+    stop(msg)
   }
   if(length(ix) != NROW(rval)) stop("index does not match data")
   
@@ -104,19 +104,18 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   remove(list = "aggregate")
 
   if (is.null(split)) {
-	rval <- if (!is.null(agg.fun)) aggregate(zoo(rval), ix, agg.fun)
-	else zoo(rval, ix)
+    rval <- if (!is.null(agg.fun)) aggregate(zoo(rval), ix, agg.fun) else zoo(rval, ix)
     if(regular && is.regular(rval)) rval <- as.zooreg(rval)
   } else {
 	split.matrix <- split.data.frame
 	rval <- split(rval, split.values)
 	ix <- split(ix, split.values)
 	rval <- mapply(zoo, rval, ix)
-    if(regular) {
-		rval <- lapply(rval, function(x) if (is.regular(x)) as.zooreg(x) else x)
+        if(regular) {
+	    rval <- lapply(rval, function(x) if (is.regular(x)) as.zooreg(x) else x)
 	}
 	if (!is.null(agg.fun)) rval <-
-		lapply(seq_along(rval), function(z) aggregate(z, time(z), agg.fun))
+	    lapply(seq_along(rval), function(z) aggregate(z, time(z), agg.fun))
 	rval <- do.call(merge, rval)
   }
 	
