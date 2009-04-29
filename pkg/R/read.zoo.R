@@ -117,6 +117,7 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
 	}
 	if (!is.null(agg.fun)) rval <-
 		lapply(seq_along(rval), function(z) aggregate(z, time(z), agg.fun))
+	rval <- do.call(merge, rval)
   }
 	
   return(rval)
