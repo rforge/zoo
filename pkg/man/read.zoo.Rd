@@ -11,7 +11,7 @@ interfaces to \code{read.table} and \code{write.table}, respectively.
 \usage{
 read.zoo(file, format = "", tz = "", FUN = NULL,
   regular = FALSE, index.column = 1, drop = TRUE, make.unique = NULL,
-  aggregate = FALSE, \dots)
+  split = NULL, aggregate = FALSE, \dots)
 write.zoo(x, file = "", index.name = "Index", row.names = FALSE, col.names = NULL, \dots)
 }
 \arguments{
@@ -41,6 +41,10 @@ write.zoo(x, file = "", index.name = "Index", row.names = FALSE, col.names = NUL
   \item{make.unique}{function. It is applied to the time index after 
     \code{FUN} and before \code{aggregate} normally intended to make 
     duplicate index values unique.}
+  \item{aggregate}{NULL or column number or name or vector of numbers or 
+   names. If not NULL then the data is assumed to be in long format and is 
+   split according to the indicated columns.  See the R 
+   \code{\link[stats]{reshape}} command for description of long data.}
   \item{aggregate}{logical or function. If set to \code{TRUE}, then \code{\link{aggregate.zoo}}
     is applied to the zoo object created to compute the \code{\link{mean}} of all values with
     the same time index. Alternatively, \code{aggregate} can be set to any other

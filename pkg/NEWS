@@ -45,6 +45,11 @@ Changes in Version 1.6-0
 
   o cbind.zoo, merge.zoo, rbind.zoo and c.zoo now ignore NULL arguments
 
+  o read.zoo now accepts a split argument that allows reading in of datasets
+    in long format (where long is as defined in R's reshape command)
+
+  o split.zoo added
+
 Changes in Version 1.5-5
 
   o documentation enhancements for new Rd parser
