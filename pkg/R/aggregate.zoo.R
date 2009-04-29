@@ -40,10 +40,10 @@ split.zoo <- function(x, f, drop = FALSE, ...) {
 	xc <- coredata(x)
 	if (length(dim(xc)) < 2) {
 		lapply(split(seq_along(xc), f, drop = drop, ...), 
-			function(ind) zoo(coredata(x)[ind], ix[ind]))
+			function(ind) zoo(xc[ind], ix[ind]))
 	} else {
 		lapply(split(seq_len(nrow(xc)), f, drop = drop, ...), 
-			function(ind) zoo(coredata(x)[ind, , drop = FALSE], ix[ind]))
+			function(ind) zoo(xc[ind, , drop = drop], ix[ind]))
 	}
 }
 

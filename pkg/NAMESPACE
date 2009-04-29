@@ -158,7 +158,7 @@ export(
   S3method("rollmean", "zoo")
   S3method("rollmedian", "zoo")
   S3method("scale", "zoo")
-  S3method("split, "zoo")
+  S3method("split", "zoo")
   S3method("subset", "zoo")
   S3method("start", "zoo")
   S3method("str", "zoo")

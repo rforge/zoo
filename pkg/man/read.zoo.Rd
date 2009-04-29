@@ -41,7 +41,7 @@ write.zoo(x, file = "", index.name = "Index", row.names = FALSE, col.names = NUL
   \item{make.unique}{function. It is applied to the time index after 
     \code{FUN} and before \code{aggregate} normally intended to make 
     duplicate index values unique.}
-  \item{aggregate}{NULL or column number or name or vector of numbers or 
+  \item{split}{NULL or column number or name or vector of numbers or 
    names. If not NULL then the data is assumed to be in long format and is 
    split according to the indicated columns.  See the R 
    \code{\link[stats]{reshape}} command for description of long data.}

@@ -104,14 +104,8 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   remove(list = "aggregate")
 
   if (is.null(split)) {
-    withCallingHandlers(rval <- zoo(rval, ix), warning = function(w) {
-		agg.or.split <- !is.null(agg.fun) || !is.null(split)
-        if (agg.or.split && !is.na(pmatch("some methods for", w$message))) {
-				invokeRestart("muffleWarning")
-		}
-      }
-    )
-	if (!is.null(agg.fun)) rval <- aggregate(zoo(rval), ix, agg.fun)
+	rval <- if (!is.null(agg.fun)) aggregate(zoo(rval), ix, agg.fun)
+	else zoo(rval, ix)
     if(regular && is.regular(rval)) rval <- as.zooreg(rval)
   } else {
 	split.matrix <- split.data.frame
