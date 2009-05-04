@@ -26,7 +26,7 @@ make.par.list <- function(nams, x, n, m, def, recycle = sum(unnamed) > 0) {
   y[in.x] <- x[nams[in.x]]
   if (recycle) {
     stopifnot(sum(unnamed) > 0)
-    y[!in.x] <- x[unnamed]
+    y[!in.x] <- rep(x[unnamed], length.out = sum(!in.x)) ## CHECK, this was: x[unnamed]
   } else {
     y[which(!in.x)[seq(len=sum(unnamed))]] <- x[unnamed]
   }
