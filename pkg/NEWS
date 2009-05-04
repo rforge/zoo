@@ -50,6 +50,8 @@ Changes in Version 1.6-0
 
   o split.zoo added
 
+  o added is.na= argument to na.trim
+
 Changes in Version 1.5-5
 
   o documentation enhancements for new Rd parser
