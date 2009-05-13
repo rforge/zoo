@@ -44,7 +44,12 @@ write.zoo(x, file = "", index.name = "Index", row.names = FALSE, col.names = NUL
   \item{split}{NULL or column number or name or vector of numbers or 
    names. If not NULL then the data is assumed to be in long format and is 
    split according to the indicated columns.  See the R 
-   \code{\link[stats]{reshape}} command for description of long data.}
+   \code{\link[stats]{reshape}} command for description of long data.
+   If \code{split=Inf} then the first of each run are made into a separate
+   series, the second of each run and so on.  If \code{split= -Inf} then
+   the last of each run is made into a separate series, the second last
+   and so on.
+}
   \item{aggregate}{logical or function. If set to \code{TRUE}, then \code{\link{aggregate.zoo}}
     is applied to the zoo object created to compute the \code{\link{mean}} of all values with
     the same time index. Alternatively, \code{aggregate} can be set to any other
