@@ -412,7 +412,7 @@ detach("package:timeDate")
 detach("package:timeSeries")
 @
 
-\mysection[10. What other packages use zoo?]{10. What other packages use \pkg{zoo}?}
+\mysection[11. What other packages use zoo?]{11. What other packages use \pkg{zoo}?}
 
 \begin{tabular}{|l|p{10cm}|} \hline
 \multicolumn{2}{|l|}{\emph{Depends}} \\ \hline
