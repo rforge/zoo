@@ -102,7 +102,7 @@ as.data.frame.zoo <- function(x, row.names = NULL, optional = FALSE, ...)
 	if (!is.null(row.names)) row.names(y) <- row.names 
 	  else {
 	    tmp <- index2char(index(x), frequency = attr(x, "frequency"))
-	    if (!any(duplicated(tmp))) row.names(y) <- tmp
+	    if (NROW(y) > 0 && !any(duplicated(tmp))) row.names(y) <- tmp
         }
 	return(y)
 }

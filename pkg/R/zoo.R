@@ -81,7 +81,9 @@ summary.zoo <- function(object, ...)
 		colnames(y) <- if (NCOL(object) == 1) lab
 		  else paste(lab, 1:NCOL(object), sep=".")
 	}
-	summary(cbind(data.frame(Index = index(object)), y), ...)
+	if (NROW(y) > 0) {
+		summary(cbind(data.frame(Index = index(object)), y), ...)
+	} else summary(data.frame(Index = index(object)), ...)
 }
 
 
