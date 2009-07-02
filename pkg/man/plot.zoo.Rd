@@ -76,7 +76,7 @@ frame the panel is being called from.  See examples.
 \code{par(mfrow=...)} and \code{Axis} can be used in conjunction with 
 single panel plots in the same way as with other classic graphics.
 
-For multipanel graphics, \code{plot.zoo} takes over the layout so
+For multi-panel graphics, \code{plot.zoo} takes over the layout so
 \code{par(mfrow=...)} cannot be used.  \code{Axis} can be used within
 the panels themselves but not outside the panel.  See examples.
 

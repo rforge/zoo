@@ -63,9 +63,9 @@ via \code{as.numeric} (such as \code{\link{yearmon}}, \code{\link{yearqtr}},
 \code{\link{Date}}, \code{\link{POSIXct}}, \code{\link[fame]{tis}}, 
 \code{\link[xts]{xts}}, etc.). 
 2. when converted to numeric
-must be expressable as multiples of 1/frequency. 3.
+must be expressible as multiples of 1/frequency. 3.
 group generic functions \code{\link{Ops}} should be defined, i.e.,
-adding/substracting a numeric to/from the index class should produce the correct
+adding/subtracting a numeric to/from the index class should produce the correct
 value of the index class again.
 
 \code{zooreg} is the \code{zoo} analogue to \code{\link{ts}}. The arguments
@@ -79,7 +79,7 @@ index specified complies with the frequency specified.
 
 The class \code{"zooreg"} offers two advantages over code \code{"ts"}: 1. The
 index does not have to be plain numeric (although that is the default), it just
-must be coercable to numeric, thus printing and plotting can be customized.
+must be coercible to numeric, thus printing and plotting can be customized.
 2. This class can not only represent strictly regular series, but also series
 with an underlying regularity, i.e., where some observations from a regular grid
 are omitted.

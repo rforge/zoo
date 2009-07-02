@@ -18,8 +18,8 @@ na.locf(object, na.rm = TRUE, \dots)
   \item{fromLast}{logical. Causes observations to be carried backward rather
     than forward.  Default is \code{FALSE}.
     This corresponds to NOCB (next observation carried backward).}
-  \item{rev}{Use fromLast instead.  This argument will
-    be eliminated in the future in favor of fromLast.}
+  \item{rev}{Use \code{fromLast} instead.  This argument will
+    be eliminated in the future in favor of \code{fromLast}.}
   \item{\dots}{further arguments passed to methods.}
 }
 

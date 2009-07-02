@@ -61,7 +61,7 @@ as.yearqtr(x, \dots)
 }
 
 \details{
-  The yearqtr class is used to represent quarterly data. Internally it holds
+  The \code{"yearqtr"} class is used to represent quarterly data. Internally it holds
   the data as year plus 0 for Quarter 1, 1/4 for Quarter 2
   and so on in order that its internal representation is the same as 
   \code{ts} class with \code{frequency = 4}. If \code{x} is not in this

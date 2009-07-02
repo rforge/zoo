@@ -44,7 +44,7 @@ yearmon(x)
   \item{x}{numeric (interpreted as being \dQuote{in years}).}
 }
 \details{
-  The yearmon class is used to represent monthly data. Internally it holds
+  The \code{"yearmon"} class is used to represent monthly data. Internally it holds
   the data as year plus 0 for January, 1/12 for February, 2/12 for March
   and so on in order that its internal representation is the same as 
   \code{ts} class with \code{frequency = 12}. If \code{x} is not in this

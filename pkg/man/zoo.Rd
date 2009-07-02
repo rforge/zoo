@@ -163,7 +163,7 @@ start and the end of the index/time vector can be queried by
 \code{window<-} (see \code{\link{window.zoo}}).
 
 In addition to standard group generic function (see \code{\link{Ops}}),
-the following mathematical operations are availabe as methods for
+the following mathematical operations are available as methods for
 \code{"zoo"} objects: transpose \code{t} which coerces to a matrix 
 first, and \code{cumsum}, \code{cumprod}, \code{cummin}, \code{cummax}
 which are applied column wise.

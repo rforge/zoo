@@ -96,7 +96,7 @@ a column with the index and then calls \code{\link{write.table}}.
 \note{\code{read.zoo} works by first reading the data in using \code{read.table}
 and then processing it.  This implies that 
 if the index field is entirely numeric the default is to pass it to \code{FUN}
-or the builtin date conversion routine
+or the built-in date conversion routine
 a number, rather than a character string. 
 Thus, a date field such as \code{09122007} intended
 to represent December 12, 2007 would be seen as \code{9122007}
@@ -162,7 +162,7 @@ z <- read.zoo("foo.csv", FUN = as.chron)
 dat <- data.frame(date = paste("2000-01-", 10:15, sep = ""), a = rnorm(6), b = 1:6)
 z <- read.zoo(dat)
 
-## using builtin data frame BOD
+## using built-in data frame BOD
 read.zoo(BOD)
 
 read.zoo(BOD, FUN = as.Date)
