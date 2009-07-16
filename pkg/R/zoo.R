@@ -161,17 +161,23 @@ str.zoo <- function(object, ...)
 }
 
 head.zoo <- function(x, n = 6, ...) {
-	if (length(dim(x)) == 0)
-		x[seq(length = min(n, length(x)))]
-	else
-		x[seq(length = min(n, nrow(x))),, drop = FALSE]
+	stopifnot(length(n) == 1L)
+	xlen <- NROW(x)
+    n <- if (n < 0L) 
+        max(NROW(x) + n, 0L)
+    else min(n, xlen)
+	if (length(dim(x)) == 0) x[seq_len(n)]
+	else x[seq_len(n),, drop = FALSE]
 }
  
 tail.zoo <- function(x, n = 6, ...) {
-	if (length(dim(x)) == 0)
-		x[seq(to = length(x), length = min(n, length(x)))]
-	else
-		x[seq(to = nrow(x), length = min(n, nrow(x))),, drop = FALSE]
+    stopifnot(length(n) == 1L)
+    xlen <- NROW(x)
+    n <- if (n < 0L) 
+        max(xlen + n, 0L)
+    else min(n, xlen)
+	if (length(dim(x)) == 0) x[seq.int(to = xlen, length.out = n)]
+	else x[seq.int(to = xlen, length.out = n),, drop = FALSE]
 }
 
 range.zoo <- function(..., na.rm = FALSE)
