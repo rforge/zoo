@@ -53,6 +53,8 @@ Changes in Version 1.6-0
 
   o head.zoo and tail.zoo now allow second argument to be negative
 
+  o fixed strip argument in xyplot.zoo.  Thanks to Christian Gunning.
+
 
 Changes in Version 1.5-6
 

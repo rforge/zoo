@@ -80,9 +80,8 @@ xyplot.zoo <- function(x, data,
     xyplot(fo, panel = panel, groups = factor(col(x)),  
   	   type = type, default.scales = default.scales, 
   	   layout = layout, xlab = xlab, ylab = "", pch = pch, 
-  	   col = col, lty = lty, lwd = lwd, outer = TRUE,
-  	   strip.left = strip.custom(horizontal = FALSE, 
-  	   factor.levels = ylab), strip = TRUE, ...)
+   	   strip.left = strip.custom(horizontal = FALSE, 
+  	   factor.levels = ylab), strip = strip, ...)
   }
 }
 
