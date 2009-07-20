@@ -32,7 +32,6 @@ rbind.zoo <- function(..., deparse.level = 1)
   if(!namsOK) warning("column names differ")
 
   if((ncols[1] > 1) | !all(sapply(args, function(a) is.null(dim(a)))))
-    #Z: was# !all(is.null(sapply(args, dim)))
     rval <- zoo(do.call("rbind", lapply(args, coredata)), indexes)
   else
     rval <- zoo(do.call("c", lapply(args, coredata)), indexes)
