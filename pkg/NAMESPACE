@@ -56,11 +56,6 @@ export(
 ## make.unique operations
   "make.unique.approx",
   "make.unique.approx.default",
-  "make.unique.incr",
-  "make.unique.incr.Date",
-  "make.unique.incr.yearmon",
-  "make.unique.incr.yearqtr",
-  "make.unique.incr.default",
 
 ## new index classes
   "yearmon",
@@ -238,7 +233,6 @@ export(
   S3method("cycle", "yearmon")
   S3method("format", "yearmon")
   S3method("is.numeric", "yearmon")
-  S3method("make.unique.incr", "yearmon")
   S3method("mean", "yearmon")
   S3method("print", "yearmon")
   S3method("range", "yearmon")
@@ -263,7 +257,6 @@ export(
   S3method("cycle", "yearqtr")
   S3method("format", "yearqtr")
   S3method("is.numeric", "yearqtr")
-  S3method("make.unique.incr", "yearqtr")
   S3method("mean", "yearqtr")
   S3method("print", "yearqtr")
   S3method("range", "yearqtr")
@@ -320,4 +313,3 @@ export(
   S3method("as.zooreg", "ts")
   S3method("as.zooreg", "zoo")
   S3method("as.zooreg", "tis")
-  S3method("make.unique.incr", "Date")

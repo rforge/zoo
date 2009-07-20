@@ -15,8 +15,8 @@ Changes in Version 1.6-0
 
   o read.zoo now optionally accepts a data frame for the file argument
 
-  o new functions make.unique.approx and make.unique.incr for resolving
-    duplicate index values.  Also new make.unique argument to read.zoo.
+  o new function make.unique.approx for resolving duplicate index values.  
+    Also new make.unique argument to read.zoo.
 
   o better error message in read.zoo if NAs found in index
 
