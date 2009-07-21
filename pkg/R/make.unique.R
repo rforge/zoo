@@ -1,4 +1,5 @@
 
+if (FALSE) {
 make.unique.incr <- function(x, incr, ...) {
 	UseMethod("make.unique.incr")
 }
@@ -33,6 +34,7 @@ make.unique.incr.default <- function(x, incr, quantile = 1, ...) {
 	y <- ave(x, x, FUN = FUN)
 	if (!identical(ORDER(y), o)) stop("Algorithm failed", call. = TRUE)
 	y
+}
 }
 
 make.unique.approx <- function(x, ...) {
