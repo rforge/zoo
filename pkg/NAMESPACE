@@ -61,11 +61,13 @@ export(
   "yearmon",
   "as.yearmon",
   "as.yearmon.default",
+  "Sys.yearmon",
   "yearqtr",
   "as.yearqtr",
   "as.yearqtr.yearqtr",
   "as.yearqtr.default",
   "format.yearqtr",
+  "Sys.yearqtr",
   "multitime",
   "as.multitime",
   "as.multitime.default",
@@ -100,9 +102,6 @@ export(
   "panel.polygon.its",
   "panel.polygon.tis",
   "panel.polygon.zoo",
-
-  "Sys.yearmon",
-  "Sys.yearqtr",
 
 ## auxiliary generics/methods
   "MATCH",
@@ -197,7 +196,7 @@ export(
   S3method("coredata<-", "its")
   S3method("xyplot", "its")
 
-## methods for class its
+## methods for class tis
   S3method("xyplot", "tis")
 
 ## methods for class multitime

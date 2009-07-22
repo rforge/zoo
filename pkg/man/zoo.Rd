@@ -25,6 +25,9 @@
 \alias{na.contiguous.default}
 \alias{na.contiguous.zoo}
 \alias{scale.zoo}
+\alias{xtfrm.zoo}
+\alias{names.zoo}
+\alias{names<-.zoo}
 
 \alias{index2char}
 \alias{index2char.default}
@@ -32,8 +35,6 @@
 
 \alias{head.ts}
 \alias{tail.ts}
-
-\alias{xtfrm.zoo}
 
 \title{Z's Ordered Observations}
 \description{

@@ -208,4 +208,3 @@ points.ti <- lines.ti <- function(x, ...) {
 	NextMethod()
 }
 
-

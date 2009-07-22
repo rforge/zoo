@@ -1,59 +1,48 @@
 Changes in Version 1.6-0
 
-  o lag.zooreg now has an na.pad argument, like lag.zoo
+  o tis graphics support
 
-  o lag.zooreg bug fix
+  o workaround to eliminate as.Date.numeric() warning when zoo loads
 
-  o tis to zoo support for CRAN tis package including certain conversions from 
-    tis, ti and jul and graphics support.  Other direction provided by 
-    tis package.  (The tis package was previously part of the CRAN fame 
-    package but was recently factored out into its own package.)
+  o read.zoo() now optionally accepts a data frame for the file argument
 
-  o interface with CRAN package fts
+  o new function make.unique.approx() for resolving duplicate index values.  
+    Also new make.unique argument to read.zoo().
 
-  o workaround to eliminate warning when zoo loads
+  o better error message in read.zoo() if NAs found in index
 
-  o read.zoo now optionally accepts a data frame for the file argument
-
-  o new function make.unique.approx for resolving duplicate index values.  
-    Also new make.unique argument to read.zoo.
-
-  o better error message in read.zoo if NAs found in index
-
-  o xtfrm.zoo added
-
-  o improvements in yearmon and yearqtr:
-	- added range.yearmon, range.yearqtr
-    - as.yearmon now also accepts "%b %Y" as a default format so
-      as.yearmon(as.character(ym)) where ym is yearmon now works
-    - is.numeric.yearmon and is.numeric.yearqtr which return FALSE
-
-  o as.zoo.mcmc added (as.mcmc.default in coda handles other direction.)
-
-  o as.zoo.xts and as.zooreg.xts added
-
-  o as.zoo.timeSeries has been updated to reflect the replacement of
-    the fSeries package with the timeSeries package
-
-  o subset.zoo added
-
-  o ORDER.chron, ORDER.dates, ORDER.times added.  Without these order
-    has become very slow when using older versions of the chron package 
-    (although the most recent version of chron has no slowdown even without 
-    this fix as it implements xtfrm).
-
-  o cbind.zoo, merge.zoo, rbind.zoo and c.zoo now ignore NULL arguments
-
-  o read.zoo now accepts a split argument that allows reading in of datasets
+  o read.zoo() now accepts a split argument that allows reading in of datasets
     in long format (where long is as defined in R's reshape command)
 
-  o split.zoo added
+  o Methods for cbind(), merge(), rbind(), and c() now ignore NULL arguments
 
-  o added is.na= argument to na.trim
 
-  o head.zoo and tail.zoo now allow second argument to be negative
+Changes in Version 1.5-7
 
-  o fixed strip argument in xyplot.zoo.  Thanks to Christian Gunning.
+  o added "zoo" methods for xtfrm(), split(), and subset()
+
+  o as.zoo() methods for "xts", "tis", "fts", and "mcmc" objects (the other
+    direction being handled by the respective packages)
+  
+  o improvements in yearmon and yearqtr:
+    - added range(), unique(), and is.numeric() methods
+    - is.numeric() methods return FALSE
+    - as.yearmon() now also accepts "%b %Y" as a default format so
+      as.yearmon(as.character(ym)) where ym is yearmon now works
+
+  o fixed strip argument in xyplot() method (thanks to Christian Gunning)
+
+  o lag() method for "zooreg" objects now has an na.pad argument,
+    like the corresponding "zoo" method. Additinal bug fix.
+
+  o head() and tail() methods now allow second argument to be negative
+
+  o added is.na argument to na.trim()
+
+  o ORDER() methods for "chron", "dates", and "times" objects added.
+    Without these order has become very slow when using older versions of
+    the chron package (although the most recent version of chron has no
+    slowdown even without this fix as it implements xtfrm()).
 
 
 Changes in Version 1.5-6

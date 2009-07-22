@@ -99,7 +99,6 @@ lag.zooreg <- function(x, k = 1, na.pad = FALSE, ...)
    index(x) <- ix
 
    if (na.pad) merge(x, zoo(, time(x0))) else x
-
 }
 
 diff.zoo <- function(x, lag = 1, differences = 1, arithmetic = TRUE, na.pad = FALSE, ...)
