@@ -19,6 +19,11 @@ Changes in Version 1.6-0
   o fixed unique.yearmon and unique.yearqtr
 
 
+Changes in Version 1.5-8
+
+  o bug fixes in unique() methods for yearmon/yearqtr
+  
+
 Changes in Version 1.5-7
 
   o added "zoo" methods for xtfrm(), split(), and subset()
