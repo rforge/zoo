@@ -16,6 +16,8 @@ Changes in Version 1.6-0
 
   o Methods for cbind(), merge(), rbind(), and c() now ignore NULL arguments
 
+  o fixed unique.yearmon and unique.yearqtr
+
 
 Changes in Version 1.5-7
 
