@@ -18,6 +18,8 @@ Changes in Version 1.6-0
 
   o fixed unique.yearmon and unique.yearqtr
 
+  o plot.zoo now accepts vector lwd
+
 
 Changes in Version 1.5-8
 

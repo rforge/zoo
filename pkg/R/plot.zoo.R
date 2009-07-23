@@ -37,7 +37,8 @@ plot.zoo <- function(x, y = NULL, screens, plot.type, panel = lines,
   xlab = "Index", ylab = NULL, main = NULL, xlim = NULL, ylim = NULL,
   xy.labels = FALSE, xy.lines = NULL,
   oma = c(6, 0, 5, 0), mar = c(0, 5.1, 0, 2.1), 
-  col = 1, lty = 1, pch = 1, type = "l", nc, widths = 1, heights = 1, ...)
+  col = 1, lty = 1, lwd = 1, pch = 1, type = "l", 
+  nc, widths = 1, heights = 1, ...)
 {
   ## if y supplied: scatter plot y ~ x
   if(!is.null(y)) {
@@ -59,7 +60,7 @@ plot.zoo <- function(x, y = NULL, screens, plot.type, panel = lines,
       xlab = xlab, ylab = ylab, xlim = xlim, ylim = ylim, ...)
     if(do.lab) text(xy, col = col,
       labels = if(!is.logical(xy.labels)) xy.labels else index2char(index(xyzoo)), ...)
-    if(xy.lines) lines(xy, col = col, lty = lty, type = if(do.lab) "c" else "l", ...)
+    if(xy.lines) lines(xy, col = col, lty = lty, lwd = lwd, type = if(do.lab) "c" else "l", ...)
 
     return(invisible(xyzoo))
   }
@@ -99,6 +100,7 @@ plot.zoo <- function(x, y = NULL, screens, plot.type, panel = lines,
     if(is.null(ylab)) ylab <- paste("Series", which(!duplicated(screens)))
     ylab <- rep(ylab, length.out = ngraph)
     lty <- rep(lty, length.out = nser)
+    lwd <- rep(lwd, length.out = nser)
     col <- make.par.list(cn, col, NROW(x), nser, 1)
     pch <- make.par.list(cn, pch, NROW(x), nser, par("pch"))
     type <- make.par.list(cn, type, NROW(x), nser, "l")
@@ -151,7 +153,7 @@ plot.zoo <- function(x, y = NULL, screens, plot.type, panel = lines,
       }
 
       for(i in which(screens == levels(screens)[j]))
-        panel(x.index, x[, i], col = col[[i]], pch = pch[[i]], lty = lty[i], type = type[[i]], ...)
+        panel(x.index, x[, i], col = col[[i]], pch = pch[[i]], lty = lty[i], lwd = lwd[i], type = type[[i]], ...)
     }
   } else {
     if(is.null(ylab)) ylab <- deparse(substitute(x))
@@ -161,6 +163,7 @@ plot.zoo <- function(x, y = NULL, screens, plot.type, panel = lines,
 	else ylim <- range2(c(ylim, recursive = TRUE), na.rm = TRUE)
 
     lty <- rep(lty, length.out = nser)
+	lwd <- rep(lwd, length.out = nser)
     col <- make.par.list(cn, col, NROW(x), nser, 1)
     pch <- make.par.list(cn, pch, NROW(x), nser, par("pch"))
     type <- make.par.list(cn, type, NROW(x), nser, "l")
@@ -175,7 +178,7 @@ plot.zoo <- function(x, y = NULL, screens, plot.type, panel = lines,
     y <- as.matrix(x)
     for(i in 1:nser) {
       panel(x.index, y[, i], col = col[[i]], pch = pch[[i]], lty = lty[i], 
-		type = type[[i]], ...)
+        lwd = lwd[i], type = type[[i]], ...)
     }
   }
   title(main, outer = main.outer)
