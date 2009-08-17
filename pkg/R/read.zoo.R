@@ -22,7 +22,7 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   if(NCOL(rval) < 1) stop("data file must specify at least one column")
   
   ## extract index, retain rest of the data
-  if (NCOL(rval) == 1) ix <- seq(length = NROW(rval))
+  if (NCOL(rval) == 1) ix <- seq_len(NROW(rval))
   else {
     ix <- rval[,index.column]
 	split.values <- if (!is.null(split)) {

@@ -28,7 +28,7 @@ make.par.list <- function(nams, x, n, m, def, recycle = sum(unnamed) > 0) {
     stopifnot(sum(unnamed) > 0)
     y[!in.x] <- rep(x[unnamed], length.out = sum(!in.x)) ## CHECK, this was: x[unnamed]
   } else {
-    y[which(!in.x)[seq(len=sum(unnamed))]] <- x[unnamed]
+    y[which(!in.x)[seq_len(sum(unnamed))]] <- x[unnamed]
   }
   lapply(y, function(y) if (length(y)==1) y else rep(y, length.out = n))
 }
@@ -83,7 +83,7 @@ plot.zoo <- function(x, y = NULL, screens, plot.type, panel = lines,
   dots <- list(...)
   x.index <- index(x)
   if(is.ts(x.index)) x.index <- as.vector(x.index)
-  cn <- if (is.null(colnames(x))) paste("V", seq(length = nser), sep = "")
+  cn <- if (is.null(colnames(x))) paste("V", seq_len(nser), sep = "")
 	  else colnames(x)
 
   screens <- make.par.list(cn, screens, NROW(x), nser, 1)
@@ -133,7 +133,7 @@ plot.zoo <- function(x, y = NULL, screens, plot.type, panel = lines,
 		else range(x[, idx], na.rm = TRUE)
 	# ranges is indexed by screen
 	ranges <- tapply(1:ncol(x), screens, f)
-    for(j in seq(along = levels(screens))) {
+    for(j in seq_along(levels(screens))) {
       panel.number <- j
       range. <- rep(ranges[[j]], length.out = length(time(x)))
       if(j%%nr==0 || j == length(levels(screens))) {

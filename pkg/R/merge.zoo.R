@@ -86,7 +86,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     scalars <- sapply(args, is.scalar)
 
     if(!is.zoo(args[[1]])) args[[1]] <- as.zoo(args[[1]])
-    for(i in seq(along = args))
+    for(i in seq_along(args))
         if (is.plain(args[[i]]))  
             args[[i]] <- zoo(args[[i]], index(args[[1]]), attr(args[[1]], "frequency"))
 	else if (!is.zoo(args[[i]]))
@@ -107,7 +107,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
         makeNames <- function(l) {
             nm <- names(l)
             fixup <- if (is.null(nm)) 
-                seq(along = l)
+                seq_along(l)
             else nm == ""
             dep <- sapply(l[fixup], function(x) deparse(x)[1])
             if (is.null(nm)) 
@@ -141,7 +141,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
     # fn to get the unique elements in x, in sorted order, using only
     # [, match, length and order
     sort.unique <- function(x) {
-        x <- x[MATCH(x, x) == seq(length = length(x))]
+        x <- x[MATCH(x, x) == seq_len(length(x))]
         x[ORDER(x)]
     }
 
@@ -320,11 +320,11 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
             rval[rval == ""] <- suffixes[i]
             rval
         }
-        zoocolnames <- lapply(seq(along = args), f)
+        zoocolnames <- lapply(seq_along(args), f)
         f <- function(i) ifelse(fixme[[i]], paste(zoocolnames[[i]], 
             suffixes[i], sep = "."), zoocolnames[[i]])
         if (any(duplicated(unlist(zoocolnames)))) 
-            zoocolnames <- lapply(seq(along = args), f)
+            zoocolnames <- lapply(seq_along(args), f)
         colnames(rval) <- make.unique(unlist(zoocolnames))
     } else {
         fixcolnames <- function(a) {
@@ -335,7 +335,7 @@ merge.zoo <- function(..., all = TRUE, fill = NA, suffixes = NULL, retclass = c(
             else return(paste(".", 1:NCOL(a), sep = ""))
         }
         zoocolnames <- lapply(args, fixcolnames)
-        zoocolnames <- unlist(lapply(seq(along = args), function(i) 
+        zoocolnames <- unlist(lapply(seq_along(args), function(i) 
 		if (!is.null(zoocolnames[[i]])) # NULL returned if false
 			paste(suffixes[i], zoocolnames[[i]], sep = ""))
 	)
