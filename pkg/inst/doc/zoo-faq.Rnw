@@ -110,6 +110,44 @@ Also see the \code{make.unique}
 argument to \code{read.zoo} which allows one to read in the data
 and make it unique all in one operation.  
 
+The \code{read.zoo} command has an \code{aggregate} argument that
+supports arbitrary summarization.  For example, in the following
+we take the last value among any duplicate times and sum the volumes
+among all duplicate times.  We do this by reading the data twice,
+once for each aggregate function.  In this example, the first three
+columns are junk that we wish to suppress which is why we specified
+\code{colClasses}; however, in most cases that argument would not
+be necessary.
+<<duplicates>>=
+Lines <- "1|BHARTIARTL|EQ|18:15:05|600|1
+2|BHARTIARTL|EQ|18:15:05|600|99
+3|GLENMARK|EQ|18:15:05|238.1|5
+4|HINDALCO|EQ|18:15:05|43.75|100
+5|BHARTIARTL|EQ|18:15:05|600|1
+6|BHEL|EQ|18:15:05|1100|11
+7|HINDALCO|EQ|18:15:06|43.2|1
+8|CHAMBLFERT|EQ|18:15:06|46|10
+9|CHAMBLFERT|EQ|18:15:06|46|90
+10|BAJAUTOFIN|EQ|18:15:06|80|100"
+
+library(zoo)
+library(chron)
+
+tail1 <- function(x) tail(x, 1)
+cls <- c("NULL", "NULL", "NULL", "character", "numeric", "numeric")
+nms <- c("", "", "", "time", "value", "volume")
+
+z <- read.zoo(textConnection(Lines), aggregate = tail1,
+       FUN = times, sep = "|", colClasses = cls, col.names = nms)
+
+# re-read using sum
+z2 <- read.zoo(textConnection(Lines), aggregate = sum,
+       FUN = times, sep = "|", colClasses = cls, col.names = nms)
+
+z$volume <- z2$volume
+z
+@
+
 
 \mysection[2. When I try to specify a log axis to plot.zoo a warning is issued.  What is wrong?]{2. When I try to specify a log axis to \code{plot.zoo} a warning is issued.  What is wrong?}
 
