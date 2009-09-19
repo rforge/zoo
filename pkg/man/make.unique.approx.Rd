@@ -13,7 +13,7 @@ make.unique.approx(x, ...)
   \item{x}{Vector.  Vector of a class which has differences that can be coerced to numeric for which the difference, when added to the first value, returns the
 second value. }
   \item{quantile}{A number between 0 and 1 such that if it is 0 then
-the first time value among dplicates is kept as is and the others
+the first time value among duplicates is kept as is and the others
 calculated via linear interpolation or if 1 then the last time value is
 kept as is and the others calculated via linear interpolation.  If
 an intermediate fraction is used then that quantile is kept as is.}

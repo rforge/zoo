@@ -28,7 +28,7 @@ An object in which each \code{NA} in the input object is replaced
 by the most recent non-\code{NA} prior to it.  If there are no earlier non-\code{NA}s then 
 the \code{NA} is omitted (if \code{na.rm = TRUE}) or it is not replaced (if \code{na.rm = FALSE}).  
 
-Note that if a multicolumn zoo object has a column entirely composed of
+Note that if a multi-column zoo object has a column entirely composed of
 \code{NA} then with \code{na.rm=TRUE}, the default,
 the above implies that the resulting object will have
 zero rows. Use \code{na.rm=FALSE} to preserve the \code{NA} values instead.
