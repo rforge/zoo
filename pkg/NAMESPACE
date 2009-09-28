@@ -14,6 +14,7 @@ export(
   "is.zoo",
   "merge.zoo",
   "read.zoo",
+  "rev.zoo",
   "write.zoo",
   "xtfrm.zoo",
 

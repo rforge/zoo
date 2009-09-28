@@ -20,6 +20,8 @@ Changes in Version 1.6-0
 
   o plot.zoo now accepts vector lwd
 
+  o rev.zoo
+
 
 Changes in Version 1.5-8
 

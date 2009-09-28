@@ -28,6 +28,7 @@
 \alias{xtfrm.zoo}
 \alias{names.zoo}
 \alias{names<-.zoo}
+\alias{rev.zoo}
 
 \alias{index2char}
 \alias{index2char.default}
@@ -122,7 +123,7 @@ respective help page and \code{\link{is.regular}} for further details.
 Methods to standard generics for \code{"zoo"} objects currently
 include: \code{print} (see above), \code{summary}, \code{str}, \code{head},
 \code{tail}, \code{[} (subsetting), \code{rbind}, \code{cbind}, \code{merge}
-(see \code{\link{merge.zoo}}), \code{aggregate} (see \code{\link{aggregate.zoo}}), \code{split} (see \code{\link{aggregate.zoo}}), \code{barplot},
+(see \code{\link{merge.zoo}}), \code{aggregate} (see \code{\link{aggregate.zoo}}), \code{rev}, \code{split} (see \code{\link{aggregate.zoo}}), \code{barplot},
 \code{plot} and \code{lines} (see \code{\link{plot.zoo}}). For multivariate
 \code{"zoo"} series with column names the \code{$} extractor is available,
 behaving similar as for \code{"data.frame"} objects.

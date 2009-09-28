@@ -239,3 +239,8 @@ names.zoo <- function(x) {
   x
 }
 
+rev.zoo <- function(x) {
+	zoo(coredata(x), time(x)[rev(ORDER(time(x)))])
+}
+
+
