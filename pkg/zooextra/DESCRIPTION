@@ -1,8 +1,8 @@
-Package: zooextra
+Package: zooExtra
 Version: 0.1-1
 Date: 2009-09-30
 Title: Supplementary Functionality for zoo Time Series
-Author: Achim Zeileis, Gabor Grothendieck, Jeff A. Ryan
+Author: Achim Zeileis, Gabor Grothendieck
 Maintainer: Achim Zeileis <Achim.Zeileis@R-project.org>
 Description: Supplementary functionality that can be used with the
 	zoo package for regular and irregular time series data.
