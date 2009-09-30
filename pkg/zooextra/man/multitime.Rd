@@ -9,7 +9,7 @@
 \alias{ORDER.multitime}
 \alias{xtfrm.multitime}
 \alias{Ops.multitime}
-\alias{"[.multitime"}
+\alias{[.multitime}
 \alias{c.multitime}
 \alias{as.numeric.multitime}
 \alias{as.Date.multitime}
@@ -56,6 +56,7 @@ class or if none found convert the first time scale to the indicated class.
 }
 \examples{
 # use secondary time scale to uniquify times
+if (require("zoo")) {
 z <- zoo(1:3, as.multitime(c(1, 1, 2), c(1, 2, 1)))
 z
 
@@ -65,6 +66,7 @@ z2 <- zoo(1:3, as.multitime(ym, as.Date(ym, frac = 1)))
 z2
 as.yearmon(time(z2))
 as.Date(time(z2))
+}
 
 }
 \keyword{ts}

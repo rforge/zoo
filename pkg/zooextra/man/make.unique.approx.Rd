@@ -26,7 +26,6 @@ the one at the position whose quantile is indicated is left as is and
 all others are linearly interpolated.
 
 }
-\seealso{ \code{\link{read.zoo}} }
 \examples{
 xx <- c(10, rep(20, 10), 30)
 make.unique.approx(xx)
