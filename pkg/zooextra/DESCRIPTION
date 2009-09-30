@@ -9,8 +9,8 @@ Description: Supplementary functionality that can be used with the
 	The package also serves as a development platform for ideas
 	that might (or might not) eventually end up in the zoo
 	package.
-Depends: R (>= 2.9.0), stats
-Suggests: zoo, chron
+Depends: R (>= 2.9.0), stats, zoo
+Suggests: chron, zoo
 Imports: stats, utils
 License: GPL-2
 URL: http://R-Forge.R-project.org/projects/zoo/
