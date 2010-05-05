@@ -41,17 +41,19 @@ make.unique.approx <- function(x, ...) {
 	UseMethod("make.unique.approx")
 }
 
-make.unique.approx.default <- function(x, quantile = 1, ...) {
-	o <- ORDER(x)
-	xo <- x[o]
-	d <- as.numeric(xo - xo[1])
-	y <- ave(d, d, FUN = function(x) {
-			n <- length(x)
-			if (n > 1) replace(x, -ceiling(n * quantile + 1 - quantile), NA)
-			else x
-	})
-	y <- na.approx(y)
-	x[o] <- xo[1] + y
+make.unique.approx.default <- function(x, quantile = 0:1, ...) {
+	for(q in quantile) {
+		o <- ORDER(x)
+		xo <- x[o]
+		d <- as.numeric(xo - xo[1])
+		y <- ave(d, d, FUN = function(x) {
+				n <- length(x)
+				if (n > 1) replace(x, -ceiling(n * q + 1 - q), NA)
+				else x
+		})
+		y <- na.approx(y, rule = 2, na.rm = FALSE)
+		x[o] <- xo[1] + y
+	}
 	x
 }
 
