@@ -25,9 +25,8 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <! --- R-Forge Logo --- >
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 <tr><td>
-<a href="/"><img src="<?php echo $themeroot; ?>/images/logo.png" border="0" alt="R-Forge Logo" /> </a> </td> </tr>
+<a href="/"><img src="<?php echo $themeroot; ?>/imagesrf/logo.png" border="0" alt="R-Forge Logo" /> </a> </td> </tr>
 </table>
-
 
 <!-- get project title  -->
 <!-- own website starts here, the following may be changed as you like -->
@@ -41,8 +40,6 @@ fclose($handle);
 echo $contents; } ?>
 
 <!-- end of project description -->
-
-<p> No content added. </p>
 
 <p> The <strong>R-Forge summary page</strong> can be found <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
 <p> The <strong>CRAN summary page</strong> can be found <a href="http://cran.r-project.org/web/packages/zoo/index.html"><strong>here</strong></a>. </p>
