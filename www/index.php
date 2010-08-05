@@ -45,7 +45,7 @@ echo $contents; } ?>
 <p> No content added. </p>
 
 <p> The <strong>R-Forge summary page</strong> can be found <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
-<p> The <strong>CRAN summary page</strong> can be found <a href="http://cran.r-project.org/web/packages/zoo/index.html?"><strong>here</strong></a>. </p>
+<p> The <strong>CRAN summary page</strong> can be found <a href="http://cran.r-project.org/web/packages/zoo/index.html"><strong>here</strong></a>. </p>
 
 </body>
 </html>
