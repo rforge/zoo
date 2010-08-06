@@ -43,6 +43,8 @@ echo $contents; } ?>
 
 <p> The <strong>R-Forge summary page</strong> can be found <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. </p>
 <p> The <strong>CRAN summary page</strong> can be found <a href="http://cran.r-project.org/web/packages/zoo/index.html"><strong>here</strong></a>. </p>
+<p> The <strong>zoo help pages</strong> can be found <a href="http://bm2.genes.nig.ac.jp/RGM2/pkg.php?p=zoo"><strong>here</strong></a>. </p>
+<p> The <strong>zoo image gallery</strong> can be found <a href="http://bm2.genes.nig.ac.jp/RGM2/index.php?scope=name&query=zoo"><strong>here</strong></a>. </p>
 
 </body>
 </html>
