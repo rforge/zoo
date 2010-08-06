@@ -25,7 +25,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 <! --- R-Forge Logo --- >
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 <tr><td>
-<a href="/"><img src="<?php echo $themeroot; ?>/imagesrf/logo.png" border="0" alt="R-Forge Logo" /> </a> </td> </tr>
+<a href="/"><img src="http://www.colegioamorim.com.br/ermelino/files/animals_hanging_around_zoo_sign_hg_wht.gif" border="0" alt="zoo Logo" /> </a> </td> </tr>
 </table>
 
 <!-- get project title  -->
