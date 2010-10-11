@@ -22,11 +22,11 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 
 <body>
 
-<! --- R-Forge Logo --- >
+<! --- R-Forge Logo
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 <tr><td>
 <a href="/"><img src="http://www.colegioamorim.com.br/ermelino/files/animals_hanging_around_zoo_sign_hg_wht.gif" border="0" alt="zoo Logo" /> </a> </td> </tr>
-</table>
+</table> -->
 
 <!-- get project title  -->
 <!-- own website starts here, the following may be changed as you like -->
