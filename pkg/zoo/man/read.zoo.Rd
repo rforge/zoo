@@ -65,8 +65,8 @@ list.  Also it is always converted to a list if it has length 1.}
    names. If not NULL then the data is assumed to be in long format and is 
    split according to the indicated columns.  See the \R 
    \code{\link[stats]{reshape}} command for description of long data.
-   If \code{split=Inf} then the first of each run are made into a separate
-   series, the second of each run and so on.  If \code{split= -Inf} then
+   If \code{split = Inf} then the first of each run among the times are made into
+   a separate series, the second of each run and so on.  If \code{split= -Inf} then
    the last of each run is made into a separate series, the second last
    and so on.
 }
@@ -109,6 +109,8 @@ underlying regularity, it is coerced to a \code{"zooreg"} series.
 \code{write.zoo} is a convenience function for writing \code{"zoo"} series
 to text files. It first coerces its argument to a \code{"data.frame"}, adds
 a column with the index and then calls \code{\link{write.table}}.
+
+See also \code{vignette("zoo-read", package = "zoo")} for detailed examples.
 }
 
 \value{
@@ -142,6 +144,8 @@ as shown in the examples below.
 
 \examples{
 \dontrun{
+## See also vignette("zoo-read", package = "zoo") for more examples
+
 ## turn *numeric* first column into yearmon index
 ## where number is year + fraction of year represented by month
 z <- read.zoo("foo.csv", sep = ",", FUN = as.yearmon)
@@ -195,14 +199,13 @@ CVX 20070201 9 40 52 73.25 100 0
 CVX 20070201 9 40 53 73.25 300 0"
 
 z <- read.zoo(textConnection(Lines), 
-	colClasses = c("NULL", "NULL", "numeric", "numeric", "numeric", "numeric",
-		"numeric", "NULL"), 
-	col.names = c("Symbol", "Date", "Hour", "Minute", "Second", "Price", 
-		"Volume", "junk"),
-	index = 1:3,  # do not count columns that are "NULL" in colClasses
-	FUN = function(h, m, s) times(paste(h, m, s, sep = ":")),
-	FUN2 = function(tt) trunc(tt, "00:00:05"),
-	aggregate = mean)
+  colClasses = c("NULL", "NULL", "numeric", "numeric", "numeric",
+    "numeric", "numeric", "NULL"),
+  col.names = c("Symbol", "Date", "Hour", "Minute", "Second", "Price", "Volume", "junk"),
+  index = 1:3,  # do not count columns that are "NULL" in colClasses
+  FUN = function(h, m, s) times(paste(h, m, s, sep = ":")),
+  FUN2 = function(tt) trunc(tt, "00:00:05"),
+  aggregate = mean)
 
 ## omit the read.table() phase and directly supply a data.frame
 dat <- data.frame(date = paste("2000-01-", 10:15, sep = ""), a = rnorm(6), b = 1:6)
@@ -215,13 +218,10 @@ read.zoo(BOD, FUN = as.Date)
 
 read.zoo(BOD[c(1:6, 1), ], aggregate = mean)
 
-\dontrun{
 # read in all csv files in the current directory and merge them
 read.zoo(Sys.glob("*.csv"), header = TRUE, sep = ",")
-}
 
 }
 }
 
 \keyword{ts}
-
