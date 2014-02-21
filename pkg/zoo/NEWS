@@ -1,5 +1,7 @@
 Changes in Version 1.7-11
 
+  o Extended the license from "GPL-2" to "GPL-2 | GPL-3".
+
   o Avoid duplications in Suggests/Imports/Depends in the package's
     DESCRIPTION. Use only :: instead of ::: to access certain functions
     from other namespaces.
