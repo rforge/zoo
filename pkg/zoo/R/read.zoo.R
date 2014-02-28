@@ -20,6 +20,15 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   ## read data
   rval <- if (is.data.frame(file)) file else read.table(file, ...)
 
+  ## if time index appears to be already processed, use FUN = identity
+  if (is.data.frame(file) && 
+      length(index.column) == 1 && 
+      !is.character(rval[[index.column]]) &&
+      !is.factor(rval[[index.column]]) &&
+      missing(tz) &&
+      missing(format) &&
+      missing(FUN)) FUN <- identity
+
   # returns TRUE if a formal argument x has no default
   no.default <- function(x) typeof(x) %in% c("symbol", "language")
 

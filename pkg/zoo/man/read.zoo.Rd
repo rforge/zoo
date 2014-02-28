@@ -94,11 +94,18 @@ interpreted to be the index/time, the remaining columns the corresponding data.
 to the index, \code{FUN} can be specified and is applied to the first column.
 
 To process the index, \code{read.zoo} calls \code{FUN} with the index as the
-first argument.  If \code{FUN} is not specified then if there are multiple
-index columns they are pasted together with a space between each.  Using the
-index column or pasted index column: 1. If \code{tz} is specified then the
-index column is converted to \code{POSIXct}.  2. If \code{format} is specified
-then the index column is converted to \code{Date}.  3. Otherwise, a heuristic
+first argument. If \code{FUN} is not specified, the following default is employed:
+
+(a) If \code{file} is a data frame with a single
+index column that appears to be a time index already, then \code{FUN = identity} is used.
+The conditions for a readily produced time index are: It is not \code{character} or 
+\code{factor} (and the arguments \code{tz} and \code{format} must not be specified).
+
+(b) If the conditions from (a) do not hold then the following strategy is used.
+If there are multiple index columns they are pasted together with a space between each.
+Using the (pasted) index column: (1) If \code{tz} is specified then the
+index column is converted to \code{POSIXct}.  (2) If \code{format} is specified
+then the index column is converted to \code{Date}. (3) Otherwise, a heuristic
 attempts to decide among \code{"numeric"}, \code{"Date"} and \code{"POSIXct"}.
 If \code{format} and/or \code{tz} is specified then they are passed to the
 conversion function as well.
@@ -211,17 +218,15 @@ z <- read.zoo(text = Lines,
 dat <- data.frame(date = paste("2000-01-", 10:15, sep = ""), a = rnorm(6), b = 1:6)
 z <- read.zoo(dat)
 
+# read in all csv files in the current directory and merge them
+read.zoo(Sys.glob("*.csv"), header = TRUE, sep = ",")
+}
+
 ## using built-in data frame BOD
 read.zoo(BOD)
 
-read.zoo(BOD, FUN = as.Date)
-
 read.zoo(BOD[c(1:6, 1), ], aggregate = mean)
 
-# read in all csv files in the current directory and merge them
-read.zoo(Sys.glob("*.csv"), header = TRUE, sep = ",")
-
-}
 }
 
 \keyword{ts}
