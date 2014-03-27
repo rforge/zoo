@@ -20,9 +20,10 @@ rollapplyr(\dots, align = "right")
 \arguments{
   \item{data}{the data to be used (representing a series of observations).}
   \item{width}{numeric vector or list. In the simplest case this is an integer
-    specifying the window width which is aligned to the original sample according
-    to the \code{align} argument. Alternatively, \code{width} can be a list
-    regarded as offsets compared to the current time, see below for details.}
+    specifying the window width (in numbers of observations) which is aligned
+    to the original sample according to the \code{align} argument. Alternatively,
+    \code{width} can be a list regarded as offsets compared to the current
+    time, see below for details.}
   \item{FUN}{the function to be applied.}
   \item{\dots}{optional arguments to \code{FUN}.}
   \item{by}{calculate FUN at every \code{by}-th time point rather than 
