@@ -153,8 +153,14 @@ plot.zoo <- function(x, y = NULL, screens, plot.type, panel = lines,
       do.call("axis", c(list(side = y.side, xpd = NA), dots))
       mtext(ylab[j], y.side, line = 3)
 
-      for(i in which(screens == levels(screens)[j]))
+      for(i in which(screens == levels(screens)[j])) {
+        ## for potential usage in panel function
+        series.number <- i
+        series.within.screen <- ave(seq_along(screens), screens, FUN = seq_along)
+       
+        ## draw individual lines/points with panel function
         panel(x.index, x[, i], col = col[[i]], pch = pch[[i]], lty = lty[i], lwd = lwd[i], type = type[[i]], ...)
+      }
     }
   } else {
     if(is.null(ylab)) ylab <- deparse(substitute(x))
