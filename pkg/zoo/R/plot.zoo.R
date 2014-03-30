@@ -156,7 +156,7 @@ plot.zoo <- function(x, y = NULL, screens, plot.type, panel = lines,
       for(i in which(screens == levels(screens)[j])) {
         ## for potential usage in panel function
         series.number <- i
-        series.within.screen <- ave(seq_along(screens), screens, FUN = seq_along)
+        series.within.screen <- ave(seq_along(screens), screens, FUN = seq_along)[series.number]
        
         ## draw individual lines/points with panel function
         panel(x.index, x[, i], col = col[[i]], pch = pch[[i]], lty = lty[i], lwd = lwd[i], type = type[[i]], ...)
