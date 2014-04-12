@@ -29,6 +29,11 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
       missing(format) &&
       missing(FUN)) FUN <- identity
 
+  ## if time index is POSIXlt it is coerced to POSIXct
+  if (is.data.frame(file) && 
+      length(index.column) == 1 && 
+      inherits(rval[[index.column]], "POSIXlt")) rval[[index.column]] <- as.POSIXct(rval[[index.column]])
+
   # returns TRUE if a formal argument x has no default
   no.default <- function(x) typeof(x) %in% c("symbol", "language")
 
