@@ -93,7 +93,7 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   else split
 
   rval2 <- if (is.null(split.)) {
-	 rval[ , ! is.index.column, drop = drop]
+    rval[ , ! is.index.column, drop = FALSE]
   } else {
 
      split.values <- if (is.character(split) || is.finite(split)) rval[, split]
@@ -108,11 +108,14 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
 	 if (0 %in% split.) {
 		stop(paste("split:", split, "not found in colnames:", colnames(rval)))
 	 }
-	 rval[,-c(if (is.finite(split.)) split. else 0, which(is.index.column)), drop = drop]
+	 rval[,-c(if (is.finite(split.)) split. else 0, which(is.index.column)), drop = FALSE]
   }
 
   if(is.factor(ix)) ix <- as.character(ix)
   rval3 <- if(is.data.frame(rval2)) as.matrix(rval2) else  if(is.list(rval2)) t(rval2) else rval2
+  
+  if(NCOL(rval3) == 1 && drop) rval3 <- drop(rval3)
+
     
   ## index transformation functions
 
