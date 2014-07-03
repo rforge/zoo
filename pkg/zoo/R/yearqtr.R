@@ -80,7 +80,7 @@ c.yearqtr <- function(...) {
     as.yearqtr(do.call("c", lapply(list(...), as.numeric)))
 }
 
-cycle.yearqtr <- function(x, ...) as.integer(round(4 * (as.numeric(x) %% 1))) + 1L
+cycle.yearqtr <- function(x, ...) round(4 * (as.numeric(x) %% 1)) + 1
 
 format.yearqtr <- function(x, format = "%Y Q%q", ...) 
 {

@@ -79,7 +79,7 @@ as.data.frame.yearmon <- function(x, row.names = NULL, optional = FALSE, ...)
 c.yearmon <- function(...)
     as.yearmon(do.call("c", lapply(list(...), as.numeric)))
 
-cycle.yearmon <- function(x, ...) as.integer(round(12 * (as.numeric(x) %% 1))) + 1L
+cycle.yearmon <- function(x, ...) round(12 * (as.numeric(x) %% 1)) + 1
 
 format.yearmon <- function(x, format = "%b %Y", ...) 
 {
