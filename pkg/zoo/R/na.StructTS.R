@@ -3,7 +3,6 @@ na.StructTS <- function(object, ...) UseMethod("na.StructTS")
 
 na.StructTS.ts <- function(object, ..., na.rm = FALSE, maxgap = Inf)
 {
-	print("entering ts method")
     na.StructTS.0 <- function(y) {
         yf <- y
 		isna <- is.na(y)
