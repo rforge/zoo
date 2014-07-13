@@ -167,6 +167,7 @@ export(
   S3method("cycle", "zoo")
   S3method("deltat", "zoo")
   S3method("diff", "zoo")
+  S3method("dim<-", "zoo")
   S3method("end", "zoo")
   S3method("frequency", "zoo")
   S3method("frequency<-", "zoo")

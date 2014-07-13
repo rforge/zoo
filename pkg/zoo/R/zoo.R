@@ -351,3 +351,14 @@ transform.zoo <- function(`_data`, ...)
   ## return zoo
   zoo(`_data`, ix, freq)
 }
+
+`dim<-.zoo` <- function(x, value) {
+  d <- dim(x)
+  l <- length(x)
+  ok <- isTRUE(all.equal(d, value)) ||                                  ## no change
+    (is.null(d) && l == 0L && all(value == c(length(index(x)), 0L))) || ## zero-length vector -> 0-column matrix
+    (is.null(d) && l > 0L && all(value == c(l, 1L))) ||                 ## positive-length vector -> 1-column matrix
+    (!is.null(d) && d[2L] <= 1L && is.null(value))                      ## 0- or 1-column matrix -> vector
+  if(!ok) warning("setting this dimension may lead to an invalid zoo object")
+  NextMethod()
+}

@@ -4,6 +4,9 @@ Changes in Version 1.7-12
     if the index.column is not character or factor.  See ?read.zoo for
     additional details.
 
+  o Added a dim<- method that checks whether the new dimension value
+    appears to be ok and then calls the default.
+
 
 Changes in Version 1.7-11
 
