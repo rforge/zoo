@@ -84,7 +84,7 @@ as.matrix.zoo <- function(x, ...)
 	    colnames(y) <- if (length(colnames(x)) > 0) 
 		colnames(x)
 	    else {
-		lab <- deparse(substitute(x))
+		lab <- deparse(substitute(x), width.cutoff = 100L, nlines = 1L)
 		if (NCOL(x) == 1) 
 		    lab
 		else paste(lab, 1:NCOL(x), sep = ".")
@@ -104,7 +104,7 @@ as.data.frame.zoo <- function(x, row.names = NULL, optional = FALSE, ...)
 		colnames(y) <- if (length(colnames(x)) > 0) 
 			colnames(x)
 		else {
-			lab <- deparse(substitute(x))
+			lab <- deparse(substitute(x), width.cutoff = 100L, nlines = 1L)
 			if (NCOL(x) == 1) lab
 	                  else paste(lab, 1:NCOL(x), sep = ".")
 		}
