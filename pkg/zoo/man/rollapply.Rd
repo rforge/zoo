@@ -99,6 +99,7 @@ rollapply(z2, 3, mean)   # uses rollmean which is optimized for mean
 rollmean(z2, 3)          # same
 rollapply(z2, 3, (mean)) # does not use rollmean
 
+
 ## rolling regression:
 ## set up multivariate zoo series with
 ## number of UK driver deaths and lags 1 and 12
@@ -117,6 +118,21 @@ rr <- rollapply(seat, width = 36,
 ## showing the shifts after the oil crisis in Oct 1973
 ## and after the seatbelt legislation change in Jan 1983
 plot(rr)
+
+
+## rolling mean by time window (e.g., 3 days) rather than
+## by number of observations (e.g., when these are unequally spaced):
+#
+## - test data
+tt <- as.Date("2000-01-01") + c(1, 2, 5, 6, 7, 8, 10)
+z <- zoo(seq_along(tt), tt)
+## - fill it out to a daily series, zm, using NAs
+## using a zero width zoo series g on a grid
+g <- zoo(, seq(start(z), end(z), "day"))
+zm <- merge(z, g)
+## - 3-day rolling mean
+rollapply(zm, 3, mean, na.rm = TRUE, fill = NA)
+
 
 ## different values of rule argument
 z <- zoo(c(NA, NA, 2, 3, 4, 5, NA))
