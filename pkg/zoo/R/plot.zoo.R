@@ -214,12 +214,12 @@ plot.tis <- function(x, ...) eval.parent(substitute(plot(as.zoo(x), ...)))
 
 plot.ti <- function (x, y, xlab = "", ...) 
 {
-	x <- POSIXct(x)
+	x <- tis::POSIXct(x)
 	NextMethod()
 }
 
 points.ti <- lines.ti <- function(x, ...) {
-	x <- POSIXct(x)
+	x <- tis::POSIXct(x)
 	NextMethod()
 }
 

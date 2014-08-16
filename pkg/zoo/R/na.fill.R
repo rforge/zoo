@@ -72,8 +72,11 @@ na.fill.zoo <- function(object, fill, ix, ...) {
 		}
 		if (length(fill[[3]]) == 0) keep <- unique(pmin(wx.max, keep)) 
 		object[keep, , drop = is.null(dim(object))]
+	} else {
+	  object[is.na(object)] <- fill
 	}
 
+    return(object)
 }
 
 na.fill.default <- function(object, fill, ix, ...) {
