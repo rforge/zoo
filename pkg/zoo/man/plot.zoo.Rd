@@ -217,10 +217,10 @@ par(opar)
 
 ## another plot with left and right axes
 ## modified from https://stat.ethz.ch/pipermail/r-help/2014-May/375293.html
-x1 <- c(38.2, 18.1, 83.2, 42.7, 22.8, 48.1, 81.8, 129.6, 52.0, 110.3)
-x2 <- c(2.2, 0.8, 0.7, 1.6, 0.9, 0.9, 1.1, 2.8, 5.1, 2.1)
-z1 <- zooreg(x1, start = as.POSIXct("2013-01-01 00:00:01"), frequency = 0.0000006)
-z2 <- zooreg(x2, start = as.POSIXct("2013-01-01 00:00:20"), frequency = 0.0000006)
+d1 <- c(38.2, 18.1, 83.2, 42.7, 22.8, 48.1, 81.8, 129.6, 52.0, 110.3)
+d2 <- c(2.2, 0.8, 0.7, 1.6, 0.9, 0.9, 1.1, 2.8, 5.1, 2.1)
+z1 <- zooreg(d1, start = as.POSIXct("2013-01-01 00:00:01"), frequency = 0.0000006)
+z2 <- zooreg(d2, start = as.POSIXct("2013-01-01 00:00:20"), frequency = 0.0000006)
 zt <- zooreg(rnorm(1050), start = as.POSIXct("2013-01-01 00:00:01"), frequency = 0.00007)
 z <- merge(zt, z1, z2, all = TRUE)
 z <- na.spline(z[,2:3], na.rm = FALSE)
