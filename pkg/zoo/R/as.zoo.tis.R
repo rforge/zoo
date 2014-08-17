@@ -6,7 +6,7 @@ as.zoo.tis <- function(x, class = "ti", ...) {
     zoo(tis::stripTis(x), time(tis::ti(x), offset = 0))
   } else {
     asFun <- paste("as", class, sep = ".")
-    zoo(tis::stripTis(x), do.call(asFun, list(tis::POSIXct(ti(x), offset = 0, tz = "GMT"))), ...)
+    zoo(tis::stripTis(x), do.call(asFun, list(tis::POSIXct(tis::ti(x), offset = 0, tz = "GMT"))), ...)
   }
 }
 
