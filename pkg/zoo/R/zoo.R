@@ -217,9 +217,11 @@ str.zoo <- function(object, ...)
   if(NCOL(object) > 0L & is.null(colnames(object))) stop("only possible for zoo series with column names")
   wi <- match(x, colnames(object))
   if(is.na(wi)) {
-    object <- cbind(object, value)
-    if(is.null(dim(object))) dim(object) <- c(length(object), 1)
-    colnames(object)[NCOL(object)] <- x  
+    if(!is.null(value)) {
+      object <- cbind(object, value)
+      if(is.null(dim(object))) dim(object) <- c(length(object), 1)
+      colnames(object)[NCOL(object)] <- x  
+    }
   } else {
     if(is.null(value)) {
       object <- object[, -wi, drop = FALSE]
