@@ -15,7 +15,6 @@ na.StructTS.ts <- function(object, ..., na.rm = FALSE, maxgap = Inf)
 }
 
 na.StructTS.zoo <- function(object, ..., na.rm = FALSE, maxgap = Inf) {
-	print("entering zoo method")
 	z <- na.StructTS(as.ts(object), ..., na.rm = FALSE, maxgap = maxgap)
 	z <- as.zoo(z)
 	time(z) <- time(object)
