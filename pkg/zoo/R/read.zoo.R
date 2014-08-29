@@ -132,7 +132,7 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   }
 
   toDefault <- function(x, ...) {
-    rval. <- try(toPOSIXct(x, ...), silent = TRUE)
+    rval. <- try(toPOSIXct(x, tz = ""), silent = TRUE)
     if(inherits(rval., "try-error"))
       rval. <- try(toDate(x), silent = TRUE)
     else {
