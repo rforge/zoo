@@ -107,9 +107,12 @@ Using the (pasted) index column: (1) If \code{tz} is specified then the
 index column is converted to \code{POSIXct}.  (2) If \code{format} is specified
 then the index column is converted to \code{Date}. (3) Otherwise, a heuristic
 attempts to decide between \code{"numeric"}, \code{"POSIXct"}, and \code{"Date"} by
-trying them in that order (which may not always succeed though). Supplying
-\code{format} and/or \code{tz} as appropriate for the index, typically leads
-more reliable results than the heuristic.
+trying them in that order (which may not always succeed though). By default,
+only the standard date/time format is used. Hence, supplying \code{format} and/or \code{tz}
+is necessary if some date/time format is used that is not the default. And even
+if the default format is appropriate for the index, explicitly supplying
+\code{format} and/or \code{tz} typically leads to more reliable results than
+reyling on the heuristic.
 
 If \code{regular} is set to \code{TRUE} and the resulting series has an 
 underlying regularity, it is coerced to a \code{"zooreg"} series.
