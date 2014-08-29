@@ -106,9 +106,10 @@ If there are multiple index columns they are pasted together with a space betwee
 Using the (pasted) index column: (1) If \code{tz} is specified then the
 index column is converted to \code{POSIXct}.  (2) If \code{format} is specified
 then the index column is converted to \code{Date}. (3) Otherwise, a heuristic
-attempts to decide among \code{"numeric"}, \code{"Date"} and \code{"POSIXct"}.
-If \code{format} and/or \code{tz} is specified then they are passed to the
-conversion function as well.
+attempts to decide between \code{"numeric"}, \code{"POSIXct"}, and \code{"Date"} by
+trying them in that order (which may not always succeed though). Supplying
+\code{format} and/or \code{tz} as appropriate for the index, typically leads
+more reliable results than the heuristic.
 
 If \code{regular} is set to \code{TRUE} and the resulting series has an 
 underlying regularity, it is coerced to a \code{"zooreg"} series.
