@@ -71,12 +71,11 @@ na.fill.zoo <- function(object, fill, ix, ...) {
 			keep <- setdiff(keep, intersect(which(!ix), wrng))
 		}
 		if (length(fill[[3]]) == 0) keep <- unique(pmin(wx.max, keep)) 
-		object[keep, , drop = is.null(dim(object))]
-	} else {
+		return(object[keep, , drop = is.null(dim(object))])
+	} else if(length(fill)) {
 	  object[is.na(object)] <- fill
+	  return(object)
 	}
-
-    return(object)
 }
 
 na.fill.default <- function(object, fill, ix, ...) {
