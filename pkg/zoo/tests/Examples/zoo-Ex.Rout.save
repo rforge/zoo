@@ -1,6 +1,6 @@
 
-R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
-Copyright (C) 2013 The R Foundation for Statistical Computing
+R version 3.1.1 (2014-07-10) -- "Sock it to Me"
+Copyright (C) 2014 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -951,8 +951,6 @@ Warning in merge.zoo(x, y1, y2, all = TRUE) :
 > z[10] <- NA
 > 
 > zout <- na.StructTS(z)
-[1] "entering zoo method"
-[1] "entering ts method"
 > 
 > plot(cbind(z, zout), screen = 1, col = 1:2, type = c("l", "p"), pch = 20)
 > 
@@ -1526,6 +1524,29 @@ Sep 2000 Oct 2000 Nov 2000 Dec 2000
 +   srt = -90, xpd = TRUE, col = "blue")
 > par(opar)
 > 
+> 
+> ## another plot with left and right axes
+> ## modified from https://stat.ethz.ch/pipermail/r-help/2014-May/375293.html
+> d1 <- c(38.2, 18.1, 83.2, 42.7, 22.8, 48.1, 81.8, 129.6, 52.0, 110.3)
+> d2 <- c(2.2, 0.8, 0.7, 1.6, 0.9, 0.9, 1.1, 2.8, 5.1, 2.1)
+> z1 <- zooreg(d1, start = as.POSIXct("2013-01-01 00:00:01"), frequency = 0.0000006)
+> z2 <- zooreg(d2, start = as.POSIXct("2013-01-01 00:00:20"), frequency = 0.0000006)
+> zt <- zooreg(rnorm(1050), start = as.POSIXct("2013-01-01 00:00:01"), frequency = 0.00007)
+> z <- merge(zt, z1, z2, all = TRUE)
+> z <- na.spline(z[,2:3], na.rm = FALSE)
+> ## function to round up to a number divisible by n (2011 by Owen Jones)
+> roundup <- function(x, n) ceiling(ceiling(x)/n) * n
+> ## plot how to match secondary y-axis ticks to primary ones
+> plot(z$z1, ylim = c(0, signif(max(na.omit(z$z1)), 2)), xlab = "")
+> ## use multiplication for even tick numbers and fake sekondary y-axis
+> max.yl <- roundup(max(na.omit(z$z2)), par("yaxp")[3])
+> multipl.yl <- max(na.omit(z$z2)) / max.yl
+> multipl.z2 <- signif(max(na.omit(z$z1) * 1.05), 2)/max.yl
+> lines(z$z2 * multipl.z2, lty = 2)
+> at4 <- axTicks(4)
+> axis(4, at = at4, seq(0, max.yl, length.out = par("yaxp")[3] + 1))
+> 
+> 
 > # automatically placed point labels
 > ## Not run: 
 > ##D library("maptools")
@@ -1679,17 +1700,19 @@ Sep 2000 Oct 2000 Nov 2000 Dec 2000
 > ##D dat <- data.frame(date = paste("2000-01-", 10:15, sep = ""), a = rnorm(6), b = 1:6)
 > ##D z <- read.zoo(dat)
 > ##D 
-> ##D ## using built-in data frame BOD
-> ##D read.zoo(BOD)
-> ##D 
-> ##D read.zoo(BOD, FUN = as.Date)
-> ##D 
-> ##D read.zoo(BOD[c(1:6, 1), ], aggregate = mean)
-> ##D 
 > ##D # read in all csv files in the current directory and merge them
 > ##D read.zoo(Sys.glob("*.csv"), header = TRUE, sep = ",")
-> ##D 
 > ## End(Not run)
+> 
+> ## using built-in data frame BOD
+> read.zoo(BOD)
+   1    2    3    4    5    7 
+ 8.3 10.3 19.0 16.0 15.6 19.8 
+> 
+> read.zoo(BOD[c(1:6, 1), ], aggregate = mean)
+   1    2    3    4    5    7 
+ 8.3 10.3 19.0 16.0 15.6 19.8 
+> 
 > 
 > 
 > 
@@ -1733,6 +1756,7 @@ Sep 2000 Oct 2000 Nov 2000 Dec 2000
          2          3          4          5 
 -0.4261464  0.3144318  0.3630533  0.3681067 
 > 
+> 
 > ## rolling regression:
 > ## set up multivariate zoo series with
 > ## number of UK driver deaths and lags 1 and 12
@@ -1751,6 +1775,25 @@ Sep 2000 Oct 2000 Nov 2000 Dec 2000
 > ## showing the shifts after the oil crisis in Oct 1973
 > ## and after the seatbelt legislation change in Jan 1983
 > plot(rr)
+> 
+> 
+> ## rolling mean by time window (e.g., 3 days) rather than
+> ## by number of observations (e.g., when these are unequally spaced):
+> #
+> ## - test data
+> tt <- as.Date("2000-01-01") + c(1, 2, 5, 6, 7, 8, 10)
+> z <- zoo(seq_along(tt), tt)
+> ## - fill it out to a daily series, zm, using NAs
+> ## using a zero width zoo series g on a grid
+> g <- zoo(, seq(start(z), end(z), "day"))
+> zm <- merge(z, g)
+> ## - 3-day rolling mean
+> rollapply(zm, 3, mean, na.rm = TRUE, fill = NA)
+2000-01-02 2000-01-03 2000-01-04 2000-01-05 2000-01-06 2000-01-07 2000-01-08 
+        NA        1.5        2.0        3.0        3.5        4.0        5.0 
+2000-01-09 2000-01-10 2000-01-11 
+       5.5        6.5         NA 
+> 
 > 
 > ## different values of rule argument
 > z <- zoo(c(NA, NA, 2, 3, 4, 5, NA))
@@ -2633,8 +2676,8 @@ Feb 2000  NA   6
 > ###   mean.zoo median.zoo na.contiguous na.contiguous.data.frame
 > ###   na.contiguous.list na.contiguous.default na.contiguous.zoo scale.zoo
 > ###   xtfrm.zoo names.zoo names<-.zoo quantile.zoo rev.zoo transform.zoo
-> ###   index2char index2char.default index2char.numeric head.ts tail.ts
-> ###   ifelse.zoo
+> ###   ifelse.zoo dim<-.zoo index2char index2char.default index2char.numeric
+> ###   head.ts tail.ts
 > ### Keywords: ts
 > 
 > ### ** Examples
@@ -2950,7 +2993,7 @@ NA  1  2  3 NA  6
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  6.628 0.104 6.771 0 0 
+Time elapsed:  5.04 0.116 5.168 0 0 
 > grDevices::dev.off()
 null device 
           1 
