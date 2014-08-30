@@ -7,6 +7,9 @@ Changes in Version 1.7-12
   o Added a dim<- method that checks whether the new dimension value
     appears to be ok and then calls the default.
 
+  o The index<- and time<- methods now enforce that the new time index
+    is actually correctly ordered (suggested by Joshua Ulrich).
+
 
 Changes in Version 1.7-11
 
