@@ -122,7 +122,12 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   toDate <- if(missing(format) || is.null(format)) {
      function(x, ...) as.Date(format(x, scientific = FALSE))
   } else {
-     function(x, format) as.Date(format(x, scientific = FALSE), format = format)
+     function(x, format) {
+       if(any(sapply(c("%H", "%M", "%S"), function(y) grepl(y, format, fixed = TRUE)))) {
+         warning("the 'format' appears to be for a date/time, please specify 'tz' if you want to create a POSIXct time index")
+       }
+       as.Date(format(x, scientific = FALSE), format = format)
+     }
   }
 
   toPOSIXct <- if (missing(format) || is.null(format)) {

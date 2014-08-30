@@ -111,8 +111,8 @@ trying them in that order (which may not always succeed though). By default,
 only the standard date/time format is used. Hence, supplying \code{format} and/or \code{tz}
 is necessary if some date/time format is used that is not the default. And even
 if the default format is appropriate for the index, explicitly supplying
-\code{format} and/or \code{tz} typically leads to more reliable results than
-reyling on the heuristic.
+\code{FUN} or at least \code{format} and/or \code{tz} typically leads to more
+reliable results than the heuristic.
 
 If \code{regular} is set to \code{TRUE} and the resulting series has an 
 underlying regularity, it is coerced to a \code{"zooreg"} series.
@@ -154,8 +154,35 @@ as shown in the examples below.
 \seealso{\code{\link{zoo}}}
 
 \examples{
+## this manual page provides a few typical examples, many more cases
+## are covered in vignette("zoo-read", package = "zoo")
+
+## read text lines with a single date column
+Lines <- "2013-12-24  2
+2013-12-25 3
+2013-12-26 8"
+read.zoo(text = Lines, FUN = as.Date)       # explicit coercion
+read.zoo(text = Lines, format = "\%Y-\%m-\%d") # same
+read.zoo(text = Lines)                      # same, via heuristic
+
+## read text lines with date/time in separate columns
+Lines <- "2013-11-24 12:41:21 2
+2013-12-25 12:41:22.25 3
+2013-12-26 12:41:22.75 8"
+read.zoo(text = Lines, index = 1:2,
+  FUN = paste, FUN2 = as.POSIXct)            # explicit coercion
+read.zoo(text = Lines, index = 1:2, tz = "") # same
+read.zoo(text = Lines, index = 1:2)          # same, via heuristic
+
+## read directly from a data.frame (artificial and built-in BOD)
+dat <- data.frame(date = paste("2000-01-", 10:15, sep = ""),
+  a = sin(1:6), b = cos(1:6))
+read.zoo(dat)
+data("BOD", package = "datasets")
+read.zoo(BOD)
+
 \dontrun{
-## See also vignette("zoo-read", package = "zoo") for more examples
+## descriptions of typical examples
 
 ## turn *numeric* first column into yearmon index
 ## where number is year + fraction of year represented by month
@@ -193,6 +220,9 @@ z <- read.zoo("foo.csv", header = TRUE, sep = ",", format = "\%m-\%d-\%Y")
 ## and no headers.  T appears literally.  Requires chron 2.3-22 or later.
 z <- read.zoo("foo.csv", FUN = as.chron)
 
+# read in all csv files in the current directory and merge them
+read.zoo(Sys.glob("*.csv"), header = TRUE, sep = ",")
+
 # We use "NULL" in colClasses for those columns we don't need but in 
 # col.names we still have to include dummy names for them.  Of what 
 # is left the index is the first three columns (1:3) which we convert 
@@ -217,19 +247,7 @@ z <- read.zoo(text = Lines,
   FUN = function(h, m, s) times(paste(h, m, s, sep = ":")),
   FUN2 = function(tt) trunc(tt, "00:00:05"),
   aggregate = mean)
-
-## omit the read.table() phase and directly supply a data.frame
-dat <- data.frame(date = paste("2000-01-", 10:15, sep = ""), a = rnorm(6), b = 1:6)
-z <- read.zoo(dat)
-
-# read in all csv files in the current directory and merge them
-read.zoo(Sys.glob("*.csv"), header = TRUE, sep = ",")
 }
-
-## using built-in data frame BOD
-read.zoo(BOD)
-
-read.zoo(BOD[c(1:6, 1), ], aggregate = mean)
 
 }
 
