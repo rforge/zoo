@@ -9,6 +9,10 @@ Changes in Version 1.7-12
 
   o The index<- and time<- methods now enforce that the new time index
     is actually correctly ordered (suggested by Joshua Ulrich).
+    
+  o read.zoo() heuristic improved so that POSIXct rather than Date is
+    detected in cases like: read.zoo(text = "2010-01-01 12:05:03 88.1",
+    index = 1:2).
 
 
 Changes in Version 1.7-11
