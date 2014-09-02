@@ -305,5 +305,13 @@ z <- zoo(rnorm(25))
 tkexamp(plot(z), tke.test1, plotloc = "top")
 }
 
+# setting ylim on a multi-panel plot - 2nd panel y axis range is 1-50
+data("anscombe", package = "datasets")
+ans6 <- zoo(anscombe[, 1:6])
+screens <- c(1, 1, 2, 2, 3, 3)
+ylim <- unname(tapply(as.list(ans6), screens, range))
+ylim[[2]] <- 1:50 # or ylim[[2]] <- c(1, 50)
+plot(ans6, screens = screens, ylim = ylim) 
+
 }
 \keyword{ts}
