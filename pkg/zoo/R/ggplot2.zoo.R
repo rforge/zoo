@@ -27,7 +27,8 @@ fortify.zoo <- function(model, data, melt = FALSE, col.names, ...)
     names(df) <- switch(as.character(length(col.names)), 
 	   "1" = c("Index", "Series", col.names),
 	   "2" = c("Index", col.names),
-	   col.names)
+	   "3" = col.names,
+	   c("Index", "Series", "Value"))
   } else {
     df <- cbind(data.frame(index(model)), coredata(model))
     names(df) <- if (length(col.names) == k+1) c(col.names[1], lab)
