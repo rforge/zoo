@@ -20,9 +20,9 @@
 }
 
 \usage{
-  \method{autoplot}{zoo}(object, geom = "line", facets, screens = 1, \dots)
+  \method{autoplot}{zoo}(object, geom = "line", facets, \dots)
   \method{fortify}{zoo}(model, data, melt = FALSE, col.names, \dots)
-  facet_free(facets = Screens ~ ., margins = FALSE, scales = "free_y", ...)
+  facet_free(facets = Series ~ ., margins = FALSE, scales = "free_y", ...)
 
   yearmon_trans(format = "\%b \%Y", n = 5)
   scale_x_yearmon(..., format = "\%b \%Y", n = 5)
@@ -40,8 +40,7 @@
     in \code{\link[ggplot2]{qplot}}.}
   \item{facets}{specification of \code{facets} for \code{\link[ggplot2]{qplot}}. The
     default in the \code{autoplot} method is to use \code{facets = NULL} for univariate
-    series and \code{facets = Screens ~ .} for multivariate series.}
-  \item{screens}{See \code{plot.zoo}.}
+    series and \code{facets = Series ~ .} for multivariate series.}
   \item{\dots}{further arguments passed to \code{\link[ggplot2]{qplot}}
     for \code{autoplot} (and not used for \code{fortify}).}
   \item{model}{an object of class \code{"zoo"} to be converted to
@@ -125,7 +124,7 @@ autoplot(as.zoo(EuStockMarkets), facets = NULL)
 
 autoplot(z) + 
 	aes(colour = NULL, linetype = NULL) +
-	facet_grid(Series ~ ., scales = "free_y")
+	facet_grid(series ~ ., scales = "free_y")
 
 autoplot(z) + aes(colour = NULL, linetype = NULL) + facet_free() # same
 
