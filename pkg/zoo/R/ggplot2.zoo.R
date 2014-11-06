@@ -39,10 +39,22 @@ fortify.zoo <- function(model, data, melt = FALSE, col.names, ...)
 }
 
 
-autoplot.zoo <- function(object, geom = "line", facets, ...)
+autoplot.zoo <- function(object, geom = "line", facets, screens = 1, ...)
 {
   ## need ggplot2 package
   stopifnot(require("ggplot2"))
+
+  ## process screens
+  nser <- NCOL(object)
+  cn <- if (is.null(colnames(object))) paste("V", seq_len(nser), sep = "")
+	  else colnames(object)
+
+  # ensure screens is a factor of length nser
+  if (!is.factor(screens) || length(screens) != nser) {
+	  screens <- make.par.list(cn, screens, NROW(object), nser, 1)
+	  screens <- as.factor(unlist(screens))[drop = TRUE]
+  }
+  Screens <- rep(screens, each = NROW(object))
 
   ## convert to data.frame (and assure correct label
   ## processing by fortify.zoo)
@@ -52,13 +64,14 @@ autoplot.zoo <- function(object, geom = "line", facets, ...)
     if(is.null(colnames(object))) colnames(object) <- lab
   }
   if(is.null(colnames(object))) colnames(object) <- paste(lab, 1:NCOL(object), sep = ".")
-  df <- fortify.zoo(object, melt = TRUE)
+  df <- cbind(fortify.zoo(object, melt = TRUE))
+  df <- cbind(df,  Screens)
 
   ## default for facets
   single <- nlevels(df$Series) == 1L
   if(missing(facets)) {
     auto <- TRUE
-    facets <- if(single) NULL else Series ~ .
+    facets <- if (length(unique(screens)) > 1) Screens ~ .
   } else {
     auto <- FALSE
   }  
@@ -75,7 +88,8 @@ autoplot.zoo <- function(object, geom = "line", facets, ...)
   return(gg)
 }
 
-facet_free <- function (facets = Series ~ ., margins = FALSE, scales = "free_y", ...) {
+facet_free <- function (facets = Screens ~ ., margins = FALSE, 
+			scales = "free_y", ...) {
   stopifnot(require("ggplot2"))
   ggplot2::facet_grid(facets, margins = margins, scales = scales, ...)
 }

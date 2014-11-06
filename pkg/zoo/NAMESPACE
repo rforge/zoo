@@ -201,6 +201,7 @@ export(
   S3method("rollmax", "zoo")
   S3method("rollmean", "zoo")
   S3method("rollmedian", "zoo")
+  S3method("rollsum", "zoo")
   S3method("scale", "zoo")
   S3method("split", "zoo")
   S3method("subset", "zoo")
@@ -245,6 +246,7 @@ export(
   S3method("rollmax", "ts")
   S3method("rollmean", "ts")
   S3method("rollmedian", "ts")
+  S3method("rollsum", "ts")
   S3method("xblocks", "ts")
 
 ## methods for class irts
@@ -351,7 +353,6 @@ export(
   S3method("rollapply", "default")
   S3method("rollmax", "default")
   S3method("rollmean", "default")
-  S3method("rollmedian", "default")
   S3method("rollmedian", "default")
   S3method("rollsum", "default")
   S3method("xblocks", "default")

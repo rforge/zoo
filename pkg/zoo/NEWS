@@ -14,8 +14,11 @@ Changes in Version 1.7-12
     detected in cases like: read.zoo(text = "2010-01-01 12:05:03 88.1",
     index = 1:2).
     
-  o fortify() method now has a col.names argument that allows to set
+  o The fortify() method now has a col.names argument that allows to set
     (some of) the column names of the resulting data.frame.
+
+  o The autplot() method now has a screen argument analogously to the
+    standard base plot() method.
 
 
 Changes in Version 1.7-11
