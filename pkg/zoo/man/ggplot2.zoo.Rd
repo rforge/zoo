@@ -21,7 +21,7 @@
 
 \usage{
   \method{autoplot}{zoo}(object, geom = "line", facets, \dots)
-  \method{fortify}{zoo}(model, data, melt = FALSE, col.names, \dots)
+  \method{fortify}{zoo}(model, data, melt = FALSE, \dots)
   facet_free(facets = Series ~ ., margins = FALSE, scales = "free_y", ...)
 
   yearmon_trans(format = "\%b \%Y", n = 5)
@@ -49,7 +49,6 @@
     method).}
   \item{melt}{Should the resulting data frame be in long format (\code{melt = TRUE})
     or wide format (\code{melt = FALSE}).}
-  \item{col.names}{Vector of column names.}
   \item{margins}{As in \code{\link[ggplot2]{facet_grid}}.}
   \item{scales}{As in \code{\link[ggplot2]{facet_grid}} except it defaults to \code{"free_y"}.}
   \item{format}{A format acceptable to \link{format.yearmon} or \link{format.yearqtr}.}

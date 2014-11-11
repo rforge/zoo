@@ -1,19 +1,13 @@
-fortify.zoo <- function(model, data, melt = FALSE, col.names, ...)
+fortify.zoo <- function(model, data, melt = FALSE, ...)
 {
   ## dimensions
   n <- NROW(model)
   k <- NCOL(model)
 
   ## series labels
-  lab <- if (missing(col.names) || is.null(col.names)) {
-	  col.names <- NULL
-	  colnames(model) 
-  } else {
-	  if (length(col.names) == k && !melt) col.names
-	  else if (length(col.names) == k+1 && !melt) col.names[-1]
-	  else rep.int(deparse(substitute(model)), k)
-  }
-  if (!is.null(lab)) lab <- make.unique(lab)
+  lab <- colnames(model)
+  if(is.null(lab)) lab <- rep.int(deparse(substitute(model)), k)
+  lab <- make.unique(lab)
   
   ## either long format (melt = TRUE) or wide format (melt = FALSE)
   if(melt) {
@@ -24,15 +18,10 @@ fortify.zoo <- function(model, data, melt = FALSE, col.names, ...)
         factor(rep(1:k, each = n), levels = 1:k, labels = lab),
 	as.vector(coredata(model)))
     }
-    names(df) <- switch(as.character(length(col.names)), 
-	   "1" = c("Index", "Series", col.names),
-	   "2" = c("Index", col.names),
-	   "3" = col.names,
-	   c("Index", "Series", "Value"))
+    names(df) <- c("Index", "Series", "Value")
   } else {
     df <- cbind(data.frame(index(model)), coredata(model))
-    names(df) <- if (length(col.names) == k+1) c(col.names[1], lab)
-    else c("Index", lab)
+    names(df) <- c("Index", lab)  
   }
   
   return(df)
