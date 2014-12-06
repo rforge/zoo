@@ -191,7 +191,7 @@ All these methods are available, e.g., for standard numeric and character vector
 vectors of classes \code{"Date"}, \code{"POSIXct"} or \code{"times"}
 from package \pkg{chron} and \code{"timeDate"} in \pkg{timeDate}.
 Because not all required methods used to be available for \code{"timeDate"} in older
-versions of \pkg{fCalendar}, Section~\ref{sec:fCalendar} has a rather outdated example how
+versions of \pkg{fCalendar}, Section~\ref{sec:timeDate} has a rather outdated example how
 to provide such methods so that \code{"zoo"} objects work with \code{"timeDate"} indexes.
 To achieve this  independence of the index class, new generic functions for
 ordering (\code{ORDER()}) and value matching (\code{MATCH()}) are introduced
