@@ -1,5 +1,5 @@
 
-R version 3.1.1 (2014-07-10) -- "Sock it to Me"
+R version 3.1.2 (2014-10-31) -- "Pumpkin Helmet"
 Copyright (C) 2014 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -1615,6 +1615,14 @@ Sep 2000 Oct 2000 Nov 2000 Dec 2000
 > ##D tkexamp(plot(z), tke.test1, plotloc = "top")
 > ## End(Not run)
 > 
+> # setting ylim on a multi-panel plot - 2nd panel y axis range is 1-50
+> data("anscombe", package = "datasets")
+> ans6 <- zoo(anscombe[, 1:6])
+> screens <- c(1, 1, 2, 2, 3, 3)
+> ylim <- unname(tapply(as.list(ans6), screens, range))
+> ylim[[2]] <- 1:50 # or ylim[[2]] <- c(1, 50)
+> plot(ans6, screens = screens, ylim = ylim) 
+> 
 > 
 > 
 > 
@@ -2125,8 +2133,10 @@ NA NA  6  9 NA 15 18 21 24 27
 2004-03-14 
 -0.6212406 
 > rollsum(x, 3)
-[1]  0.4052854  1.8015351  1.0087177  1.7821741  1.5962360 -0.3130755 -2.4460972
-[8] -1.7110095
+2004-01-11 2004-01-15 2004-01-23 2004-02-05 2004-02-21 2004-02-25 2004-03-13 
+ 0.4052854  1.8015351  1.0087177  1.7821741  1.5962360 -0.3130755 -2.4460972 
+2004-03-14 
+-1.7110095 
 > 
 > xm <- zoo(matrix(1:12, 4, 3), x.Date[1:4])
 > rollmean(xm, 3)
@@ -2142,9 +2152,9 @@ NA NA  6  9 NA 15 18 21 24 27
 2004-01-11 2 6 10
 2004-01-15 3 7 11
 > rollsum(xm, 3)
-     x.1 x.2 x.3
-[1,]   6  18  30
-[2,]   9  21  33
+                  
+2004-01-11 6 18 30
+2004-01-15 9 21 33
 > 
 > rollapply(xm, 3, mean) # uses rollmean
                  
@@ -3028,7 +3038,7 @@ NA  1  2  3 NA  6
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  5.144 0.08 5.233 0 0 
+Time elapsed:  5.224 0.124 5.366 0 0 
 > grDevices::dev.off()
 null device 
           1 
