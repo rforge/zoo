@@ -141,9 +141,13 @@ as.ts.zooreg <- function(x, ...)
 {
   freq <- frequency(x)
   deltat <- 1/freq
-  # round. <- function(x) deltat * round(x/deltat)
-  round. <- function(x) deltat * floor(x/deltat+0.5)
-  tt <- round.(as.numeric(time(x)))
+  tt <- as.numeric(time(x))
+  round. <- if(isTRUE(all.equal(c(deltat, tt), round(c(deltat, tt))))) {
+    function(x) floor(x + 0.5)
+  } else {
+    function(x) deltat * floor(x/deltat + 0.5)
+  }
+  tt <- round.(tt)
   tt2 <- round.(seq(head(tt,1), tail(tt,1), deltat))
   xx <- merge(zoo(coredata(x), tt), zoo(, tt2))
   ts(coredata(xx), start = tt[1], frequency = freq)
