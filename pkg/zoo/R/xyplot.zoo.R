@@ -35,7 +35,6 @@ xyplot.zoo <- function(x, data, ...)
 
 xyplot.tis <- function(x, data, ...)
 {
-    stopifnot(require("tis"))
     x <- aggregate(as.zoo(x), tis::POSIXct, identity)
     obj <- lattice::xyplot.ts(x, ...)
     obj$call <- match.call()

@@ -25,7 +25,6 @@ as.zoo.data.frame <- function(x, ...)
 
 as.zoo.fts <- function(x, ...) 
 {
-	stopifnot(require("fts"))
 	zoo(as.matrix(x), attr(x, "dates"))
 }
 
@@ -44,34 +43,22 @@ as.zoo.its <- function(x, ...)
 # as.mcmc.default can handle other direction
 as.zoo.mcmc <- function(x, ...)
 {
-	stopifnot(require("coda"))
 	as.zoo(as.ts(x, ...))
 }
 
 as.zoo.timeSeries <- function(x, ...) {
-  stopifnot(require("timeSeries"))
   zoo(as.matrix(x), timeSeries::time(x), ...)  
 }
 
 as.zoo.xts <- function(x, ...) {
-  stopifnot(require("xts"))
   zoo(coredata(x), order.by = index(x), ...)
 }
 
 as.zooreg.xts <- function(x, frequency = NULL, ...) {
-  stopifnot(require("xts"))
   as.zooreg(as.zoo(x, ...), frequency = frequency)
 }
 
 as.zoo.zoo <- function(x, ...) x
-
-## This should be in its now.
-## as.its.zoo <- function(x) {
-## 	stopifnot(require("its"))
-## 	index <- index(x)
-## 	stopifnot(inherits(index, "POSIXct"))
-## 	its(coredata(x), index)
-## }
 
 as.vector.zoo <- function(x, mode = "any")
 	as.vector(as.matrix(x), mode = mode)
