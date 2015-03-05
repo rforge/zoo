@@ -17,6 +17,8 @@ Changes in Version 1.7-12
   o The fortify() method now has a col.names argument that allows to set
     (some of) the column names of the resulting data.frame.
 
+  o Various small bug fixes and enhancements.
+
 
 Changes in Version 1.7-11
 
