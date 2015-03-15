@@ -23,7 +23,7 @@
 #include <R.h>
 #include <Rinternals.h>
 #include <Rdefines.h>
-#include "zoo.h"
+#include <zoo.h>
 
 SEXP zoo_lag (SEXP x, SEXP _k, SEXP _pad)
 {
