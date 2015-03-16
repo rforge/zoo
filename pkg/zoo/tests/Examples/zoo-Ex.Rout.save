@@ -946,9 +946,9 @@ Warning in merge.zoo(x, y1, y2, all = TRUE) :
 > ### ** Examples
 > 
 > 
-> z <- zooreg(rep(10 * seq(4), each = 4) + rep(c(3, 1, 2, 4), times = 4), 
+> z <- zooreg(rep(10 * seq(8), each = 4) + rep(c(3, 1, 2, 4), times = 8), 
 + 	start = as.yearqtr(2000), freq = 4)
-> z[10] <- NA
+> z[25] <- NA
 > 
 > zout <- na.StructTS(z)
 > 
@@ -3038,7 +3038,7 @@ NA  1  2  3 NA  6
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  5.224 0.124 5.366 0 0 
+Time elapsed:  5.4 0.12 5.542 0 0 
 > grDevices::dev.off()
 null device 
           1 
