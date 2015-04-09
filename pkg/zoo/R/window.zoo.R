@@ -15,10 +15,10 @@ window.zoo <- function(x, index. = index(x), start = NULL, end = NULL, ...)
   if(is.null(start)) {
     if(is.null(end)) {
       wi <- which(MATCH(all.indexes, index., nomatch = 0) > 0)
-      return(x[wi,,])
+      return(x[wi, , drop = FALSE])
     } else {
       wi <- which(in.index & all.indexes <= end)
-      return(x[wi,,])
+      return(x[wi, , drop = FALSE])
     }
   } else {
     if(is.null(end)) {
@@ -26,7 +26,7 @@ window.zoo <- function(x, index. = index(x), start = NULL, end = NULL, ...)
     } else {
       wi <- which(in.index & all.indexes >= start & all.indexes <= end)
     }
-    return(x[wi,,])
+    return(x[wi, , drop = FALSE])
   }
 }
 
