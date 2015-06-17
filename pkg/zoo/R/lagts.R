@@ -20,9 +20,9 @@ lagts.default <- function(x, k = 1, na.pad = TRUE, ...)
         ## try to figure out what observation have been padded for all series
 	if(!na.pad & min(abs(k)) > 0) {
             rval <- if(all(k > 0)) {
-	        rval[-seq(1, length = min(k[k > 0])),, drop = FALSE]
+	        rval[-seq(1, length.out = min(k[k > 0])),, drop = FALSE]
             } else if(all(k < 0)) {
-	        rval[-seq(to = nr, length = -max(k[k < 0])),, drop = FALSE]
+	        rval[-seq(to = nr, length.out = -max(k[k < 0])),, drop = FALSE]
 	    } else {
 	        if((min(k[k > 0]) >= nr) & (min(-k[k < 0]) >= nr)) rval[0,, drop = FALSE]
 	    }
@@ -45,15 +45,15 @@ lagts.default <- function(x, k = 1, na.pad = TRUE, ...)
     ## do subsetting first
     if(k < 0)  {
         rval <- if(length(dim(x)) == 0) {
-            x[-seq(1, length = -k)]
+            x[-seq(1, length.out = -k)]
         } else {
-	    x[-seq(1, length = -k),, drop = FALSE]
+	    x[-seq(1, length.out = -k),, drop = FALSE]
 	}
     } else {
         rval <- if(length(dim(x)) == 0) {
-	    x[-seq(to = nr, length = k)]
+	    x[-seq(to = nr, length.out = k)]
 	} else {
-  	    x[-seq(to = nr, length = k),, drop = FALSE]
+  	    x[-seq(to = nr, length.out = k),, drop = FALSE]
 	}
     }
    

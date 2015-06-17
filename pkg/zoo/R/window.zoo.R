@@ -69,11 +69,11 @@ lag.zoo <- function(x, k = 1, na.pad = FALSE, ...)
    if (k == 0) return(x)
    if (abs(k) > nr) k <- nr
    if (k > 0)  {
-	   xx <- x[-seq(1, length = k),, drop = FALSE]
-	   attr(xx, "index") <- index(x)[-seq(to = nr,length = k)]
+	   xx <- x[-seq(1, length.out = k),, drop = FALSE]
+	   attr(xx, "index") <- index(x)[-seq(to = nr, length.out = k)]
    } else {
-	   xx <- x[-seq(to = nr, length = -k),, drop = FALSE]
-	   attr(xx, "index") <- index(x)[-seq(1, length = -k)]
+	   xx <- x[-seq(to = nr, length.out = -k),, drop = FALSE]
+	   attr(xx, "index") <- index(x)[-seq(1, length.out = -k)]
    }
    if (na.pad) merge(zoo(,time(x)), xx, all = c(TRUE, FALSE)) else xx
 }
