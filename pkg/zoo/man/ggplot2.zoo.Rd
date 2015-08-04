@@ -123,7 +123,7 @@ autoplot(as.zoo(EuStockMarkets), facets = NULL)
 
 autoplot(z) + 
 	aes(colour = NULL, linetype = NULL) +
-	facet_grid(series ~ ., scales = "free_y")
+	facet_grid(Series ~ ., scales = "free_y")
 
 autoplot(z) + aes(colour = NULL, linetype = NULL) + facet_free() # same
 
