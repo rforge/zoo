@@ -2,6 +2,8 @@ Changes in Version 1.7-13
 
   o The window() method erroneously dropped the dimension in case of
     1-column zoo series. Fixed now.
+
+  o Bug fix in NA handling of rollmax() pointed out by Cory Fletcher.
     
 
 Changes in Version 1.7-12
