@@ -69,9 +69,10 @@ na.spline(object, \dots)
 }
 
 \value{
-  An object of similar structure as \code{object} with (internal) \code{NA}s
-  replaced by interpolation. Leading or trailing \code{NA}s are omitted if
-  \code{na.rm = TRUE} or not replaced if \code{na.rm = FALSE}. 
+  An object of similar structure as \code{object} with \code{NA}s replaced by
+  interpolation. For \code{na.approx} only the internal \code{NA}s are replaced and
+  leading or trailing \code{NA}s are omitted if \code{na.rm = TRUE} or not
+  replaced if \code{na.rm = FALSE}. 
 }
 
 \seealso{\code{\link{zoo}}, \code{\link{approx}}, \code{\link{na.contiguous}},
