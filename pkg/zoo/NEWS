@@ -5,6 +5,9 @@ Changes in Version 1.7-13
 
   o Bug fix in NA handling of rollmax() pointed out by Cory Fletcher.
     
+  o A few as.yearmon/as.yearqtr methods were not registered in
+    the NAMESPACE but are now.
+
 
 Changes in Version 1.7-12
 
