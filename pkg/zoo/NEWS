@@ -12,6 +12,9 @@ Changes in Version 1.7-13
     cannot be applied. Instead of throwing an error (as up to version
     1.7-12) simply no NAs are replaced now.
 
+  o Bug fix for lag(z, k = k, na.pad = TRUE) which ignored na.pad = TRUE
+    if 'k' was a vector of lags.
+
 
 Changes in Version 1.7-12
 
