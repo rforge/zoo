@@ -7,6 +7,10 @@ Changes in Version 1.7-13
     
   o A few as.yearmon/as.yearqtr methods were not registered in
     the NAMESPACE but are now.
+    
+  o If there are less then two non-NAs in na.approx() then approx()
+    cannot be applied. Instead of throwing an error (as up to version
+    1.7-12) simply no NAs are replaced now.
 
 
 Changes in Version 1.7-12

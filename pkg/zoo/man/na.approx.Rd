@@ -57,7 +57,8 @@ na.spline(object, \dots)
   If \code{obj} is a plain vector then \code{na.approx(obj, x, y, xout, ...)}
   returns \code{approx(x = x[!na], y = coredata(obj)[!na], xout = xout, ...)}
   (where \code{na} indicates observations with \code{NA}) such that \code{xout}
-  defaults to \code{x}.
+  defaults to \code{x}. Note that if there are less than two non-\code{NA}s then
+  \code{approx()} cannot be applied and thus no \code{NA}s can be replaced.
   
   If \code{obj} is a \code{zoo}, \code{zooreg} or \code{ts} object its
   \code{coredata} value is processed as described and its time index is \code{xout} if
