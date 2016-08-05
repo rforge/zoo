@@ -1,3 +1,13 @@
+Changes in Version 1.7-14
+
+  o Several convenience interfaces to read.zoo() have been added:
+    read.table.zoo(), read.csv.zoo(), read.csv2.zoo(), read.delim.zoo(),
+    read.delim2.zoo(). All of these first call the corresponding read.*()
+    function to read the data from a text file (with the respective default
+    settings) and subsequently call read.zoo() to turn the data into
+    a zoo series.
+
+
 Changes in Version 1.7-13
 
   o The window() method erroneously dropped the dimension in case of
