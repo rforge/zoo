@@ -7,6 +7,11 @@ Changes in Version 1.7-14
     settings) and subsequently call read.zoo() to turn the data into
     a zoo series.
 
+  o na.approx.default() did not properly process the "maxgap" argument
+    if y did not contain any NAs but NAs were only created implicitly
+    by xout being different from x (pointed out by Stefan Metzger).
+    A suitable fix has been added that merges x and xout first.
+
 
 Changes in Version 1.7-13
 

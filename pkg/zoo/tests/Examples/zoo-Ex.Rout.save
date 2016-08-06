@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2016-04-28 r70561) -- "Unsuffered Consequences"
+R Under development (unstable) (2016-07-25 r70974) -- "Unsuffered Consequences"
 Copyright (C) 2016 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -1643,7 +1643,8 @@ Sep 2000 Oct 2000 Nov 2000 Dec 2000
 > 
 > ### Name: read.zoo
 > ### Title: Reading and Writing zoo Series
-> ### Aliases: read.zoo write.zoo
+> ### Aliases: read.zoo read.table.zoo read.csv.zoo read.csv2.zoo
+> ###   read.delim.zoo read.delim2.zoo write.zoo
 > ### Keywords: ts
 > 
 > ### ** Examples
@@ -3046,7 +3047,7 @@ NA  1  2  3 NA  6
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  3.64 0.064 3.704 0 0 
+Time elapsed:  1.516 0.056 1.575 0 0 
 > grDevices::dev.off()
 null device 
           1 
