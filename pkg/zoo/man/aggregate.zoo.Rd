@@ -10,7 +10,8 @@ reduced \code{"zoo"} object.
 }
 
 \usage{
-\method{aggregate}{zoo}(x, by, FUN = sum, \dots, regular = NULL, frequency = NULL)
+\method{aggregate}{zoo}(x, by, FUN = sum, \dots,
+  regular = NULL, frequency = NULL, coredata = TRUE)
 }
 
 \arguments{
@@ -30,6 +31,9 @@ reduced \code{"zoo"} object.
     determine the frequency from the data if \code{regular} is \code{TRUE}.
     If \code{frequency} is specified, it sets \code{regular} to \code{TRUE}.
     See examples for illustration.}
+  \item{coredata}{logical. Should only the \code{coredata(x)}
+    be passed to every \code{by} group? If set to \code{FALSE} the
+    full zoo series is used.}
 }
 
 \value{

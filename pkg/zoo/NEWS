@@ -12,6 +12,10 @@ Changes in Version 1.7-14
     by xout being different from x (pointed out by Stefan Metzger).
     A suitable fix has been added that merges x and xout first.
 
+  o aggregate.zoo() gained the argument coredata=TRUE which can control
+    whether only the coredata is passed to each aggregation group
+    (previous behavior) or the full zoo series.
+
 
 Changes in Version 1.7-13
 
