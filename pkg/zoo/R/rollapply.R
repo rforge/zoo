@@ -69,7 +69,7 @@ rollapply.zoo <- function(data, width, FUN, ..., by = 1,
 			lapply(1:NCOL(data), function(j)
 				rollapply(data[, j, drop = TRUE], width = width, FUN = FUN, ...,
 					by = by, by.column = by.column, fill = fill,
-					partial = partial, align = align)
+					partial = partial, align = align, coredata = coredata)
 			)
 		)
 		if (NCOL(data) == 1) dim(z) <- c(length(z), 1)
