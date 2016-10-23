@@ -4,6 +4,7 @@
 \alias{as.yearmon.default} 
 \alias{as.yearmon.numeric}
 \alias{as.yearmon.integer}
+\alias{as.yearmon.date}
 \alias{as.yearmon.dates}
 \alias{as.yearmon.Date}
 \alias{as.yearmon.timeDate}
@@ -35,6 +36,7 @@
 \alias{[[.yearmon}
 \alias{MATCH.yearmon}
 \alias{Ops.yearmon}
+\alias{Summary.yearmon}
 \alias{Sys.yearmon}
 \alias{-.yearmon}
 \alias{xtfrm.yearmon}
