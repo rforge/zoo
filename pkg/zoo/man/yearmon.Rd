@@ -25,7 +25,7 @@
 \alias{c.yearmon}
 \alias{cycle.yearmon}
 \alias{format.yearmon}
-\alias{is.yearmon}
+\alias{is.numeric.yearmon}
 \alias{mean.yearmon}
 \alias{print.yearmon}
 \alias{range.yearmon}
