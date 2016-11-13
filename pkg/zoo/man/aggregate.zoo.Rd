@@ -20,8 +20,9 @@ reduced \code{"zoo"} object.
     aggregation groups and the new index to be associated with each group.
     If \code{by} is a function, then it is applied to \code{index(x)} to
     obtain the aggregation groups.}
-  \item{FUN}{a scalar function to compute the summary statistics
-    which can be applied to all subsets.}
+  \item{FUN}{a function to compute the summary statistics which can be applied
+    to all subsets. Always needs to return a result of fixed length (typically
+    scalar).}
   \item{\dots}{further arguments passed to \code{FUN}.}
   \item{regular}{logical. Should the aggregated series be coerced to class \code{"zooreg"}
     (if the series is regular)? The default is \code{FALSE} for \code{"zoo"} series and
