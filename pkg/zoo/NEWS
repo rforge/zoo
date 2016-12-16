@@ -16,6 +16,11 @@ Changes in Version 1.7-14
     which can control whether only the coredata is passed to each subset
     (previous behavior) or the full zoo series.
 
+  o The "its" package has been archived on CRAN and hence removed from
+    the list of zoo's suggested packages. However, various methods for
+    objects of class "its" continue to be available in zoo in case someone
+    still uses the legacy code.
+
 
 Changes in Version 1.7-13
 
