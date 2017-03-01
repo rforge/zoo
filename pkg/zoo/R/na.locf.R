@@ -1,25 +1,3 @@
-na.locf0 <- function(x, fromLast = FALSE, maxgap = Inf) {
-  if(xzoo <- is.zoo(x)) {
-    z <- x
-    x <- if (fromLast) rev(coredata(x)) else coredata(x)
-  }
-  ok <- which(!is.na(x))
-  if(is.na(x[1L])) ok <- c(1L, ok)
-  gaps <- diff(c(ok, length(x) + 1L))
-  x <- if(any(gaps > maxgap)) {
-    zoo::.fill_short_gaps(x, rep(x[ok], gaps), maxgap = maxgap)
-  } else {
-    rep(x[ok], gaps)
-  }
-  if (fromLast) x <- rev(x)
-  if(xzoo) {
-    z[] <- x
-    return(z)
-  } else {
-    return(x)
-  }
-}
-
 na.locf <- function(object, na.rm = TRUE, ...)
 	UseMethod("na.locf")
 
@@ -35,15 +13,32 @@ na.locf.default <- function(object, na.rm = TRUE, fromLast, rev, maxgap = Inf, r
 			maxgap = maxgap, method = "constant", rule = rule, ...))
 	}
 
+	na.locf.0 <- function(x) {
+	      L <- !is.na(x)
+	      idx <- if (fromLast)
+	         rev(c(NA,rev(which(L)))[cumsum(rev(L))+1])
+              else
+	         c(NA,which(L))[cumsum(L)+1]
+	      # na.index(x,i) returns x[i] except if i[j] is NA then
+	      # x[i[j]] is NA too
+	      na.index <- function(x, i) {
+		L <- !is.na(i)
+		x[!L] <- NA
+		x[L] <- coredata(x)[i[L]]
+	  	x
+	      }
+	      xf <- na.index(x, idx)
+              .fill_short_gaps(x, xf, maxgap = maxgap)
+	}
    	if (!missing(rev)) {
 	   warning("na.locf.default: rev= deprecated. Use fromLast= instead.")
 	   if (missing(fromLast)) fromLast <- rev
 	} else if (missing(fromLast)) fromLast <- FALSE
 	rev <- base::rev
 	object[] <- if (length(dim(object)) == 0)
-		na.locf0(object, fromLast = fromLast, maxgap = maxgap)
+		na.locf.0(object)
 	else
-		apply(object, length(dim(object)), na.locf0, fromLast = fromLast, maxgap = maxgap)
+		apply(object, length(dim(object)), na.locf.0)
 	if (na.rm) na.trim(object, is.na = "all") else object
 }
 
