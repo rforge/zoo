@@ -21,6 +21,8 @@ Changes in Version 1.7-14
     objects of class "its" continue to be available in zoo in case someone
     still uses the legacy code.
 
+  o Better support of vector-valued 'split' arguments in read.zoo().
+
 
 Changes in Version 1.7-13
 
