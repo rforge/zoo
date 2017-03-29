@@ -1,6 +1,6 @@
 
-R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
-Copyright (C) 2016 The R Foundation for Statistical Computing
+R Under development (unstable) (2017-03-29 r72434) -- "Unsuffered Consequences"
+Copyright (C) 2017 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -1062,7 +1062,7 @@ Data:
 numeric(0)
 
 Index:
-character(0)
+[1] "Date of length 0"
 > na.approx(z, xout = d0 + 7, na.rm = FALSE)
 2000-01-08 
         NA 
@@ -1202,7 +1202,8 @@ NA  2  1  4  5  2 NA
 > 
 > ### Name: na.locf
 > ### Title: Last Observation Carried Forward
-> ### Aliases: na.locf na.locf.data.frame na.locf.list na.locf.default
+> ### Aliases: na.locf na.locf0 na.locf.data.frame na.locf.list
+> ###   na.locf.default
 > ### Keywords: ts
 > 
 > ### ** Examples
@@ -3048,7 +3049,7 @@ NA  1  2  3 NA  6
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  2.048 0.008 2.06 0 0 
+Time elapsed:  5.1 0.032 5.132 0 0 
 > grDevices::dev.off()
 null device 
           1 

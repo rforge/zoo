@@ -324,7 +324,11 @@ ifelse.zoo <- function(test, yes, no) {
 
 mean.zoo <- function(x, ...)  mean(coredata(x), ...)
 
-median.zoo <- function(x, na.rm = FALSE, ...)  median(coredata(x), na.rm = na.rm, ...)
+median.zoo <- if(getRversion() <= "3.3.3") {
+  function(x, na.rm = FALSE) median(coredata(x), na.rm = na.rm)
+} else {
+  function(x, na.rm = FALSE, ...) median(coredata(x), na.rm = na.rm, ...)
+}
 
 quantile.zoo <- function(x, ...) quantile(coredata(x), ...)
 

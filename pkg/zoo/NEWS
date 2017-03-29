@@ -1,3 +1,13 @@
+Changes in Version 1.7-15
+
+  o na.locf() is made faster by using a diff()-based solution rather than
+    cumsum() (suggested by Ruben Arslan). Also, the workhorse function
+    na.locf0() underlying the default na.locf() method is now exported
+    in the user interface as it is faster (but also supports less options).
+
+  o Better support of vector-valued 'split' arguments in read.zoo().
+
+
 Changes in Version 1.7-14
 
   o Several convenience interfaces to read.zoo() have been added:
@@ -12,11 +22,6 @@ Changes in Version 1.7-14
     by xout being different from x (pointed out by Stefan Metzger).
     A suitable fix has been added that merges x and xout first.
 
-  o na.locf() is made faster by using a diff()-based solution rather than
-    cumsum() (suggested by Ruben Arslan). Also, the workhorse function
-    na.locf0() underlying the default na.locf() method is now exported
-    in the user interface as it is faster (but also supports less options).
-
   o aggregate.zoo() and rollapply.zoo() gained the argument coredata=TRUE
     which can control whether only the coredata is passed to each subset
     (previous behavior) or the full zoo series.
@@ -25,8 +30,6 @@ Changes in Version 1.7-14
     the list of zoo's suggested packages. However, various methods for
     objects of class "its" continue to be available in zoo in case someone
     still uses the legacy code.
-
-  o Better support of vector-valued 'split' arguments in read.zoo().
 
 
 Changes in Version 1.7-13
