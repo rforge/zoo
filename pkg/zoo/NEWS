@@ -7,6 +7,8 @@ Changes in Version 1.7-15
 
   o Better support of vector-valued 'split' arguments in read.zoo().
 
+  o Special-cased rollmax(..., k = 1) to return the input coredata().
+
 
 Changes in Version 1.7-14
 
