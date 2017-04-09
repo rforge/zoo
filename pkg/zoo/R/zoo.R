@@ -1,5 +1,5 @@
 zoo <- function (x = NULL, order.by = index(x), frequency = NULL,
-  calendar = getOption("zooreg.calendar", TRUE)) 
+  calendar = getOption("zoo.calendar", TRUE)) 
 {
     ## process index "order.by"    
     if(length(unique(MATCH(order.by, order.by))) < length(order.by))

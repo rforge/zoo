@@ -1,6 +1,6 @@
 zooreg <- function(data, start = 1, end = numeric(), frequency = 1, 
   deltat = 1, ts.eps = getOption("ts.eps"), order.by = NULL,
-  calendar = getOption("zooreg.calendar", TRUE))
+  calendar = getOption("zoo.calendar", TRUE))
 {
     ## choose frequency/deltat
     if (missing(frequency)) frequency <- 1/deltat
