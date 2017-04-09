@@ -1,4 +1,5 @@
-zoo <- function (x = NULL, order.by = index(x), frequency = NULL) 
+zoo <- function (x = NULL, order.by = index(x), frequency = NULL,
+  calendar = getOption("zooreg.calendar", TRUE)) 
 {
     ## process index "order.by"    
     if(length(unique(MATCH(order.by, order.by))) < length(order.by))
@@ -38,6 +39,9 @@ zoo <- function (x = NULL, order.by = index(x), frequency = NULL)
         orig.order.by <- order.by
         order.by <- floor(frequency * order.by + .0001)/frequency
         if(!isTRUE(all.equal(order.by, orig.order.by))) order.by <- orig.order.by
+	if(calendar && frequency %in% c(4, 12)) {
+	  order.by <- if(frequency == 4) as.yearqtr(order.by) else as.yearmon(order.by)	
+	}
       }
     }
 

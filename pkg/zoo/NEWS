@@ -1,4 +1,11 @@
-Changes in Version 1.7-15
+Changes in Version 1.8-0
+
+  o zoo() and zooreg() gained a calendar = getOption("zooreg.calendar", TRUE)
+    argument so that, by default, yearqtr and yearmon are used as the time
+    index for regular zoo series with frequency 4 and 12, respectively. With
+    calendar = FALSE the behavior from previous versions with plain
+    unclassed time indexes can be obtained. Set option(zooreg.calendar = FALSE)
+    to always retain the old behavior.
 
   o na.locf() is made faster by using a diff()-based solution rather than
     cumsum() (suggested by Ruben Arslan). Also, the workhorse function
