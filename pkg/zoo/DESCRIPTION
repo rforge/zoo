@@ -1,10 +1,11 @@
 Package: zoo
 Version: 1.8-0
-Date: 2017-04-11
+Date: 2017-04-13
 Title: S3 Infrastructure for Regular and Irregular Time Series (Z's Ordered Observations)
 Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org"),
              person(given = "Gabor", family = "Grothendieck", role = "aut", email = "ggrothendieck@gmail.com"),
              person(given = c("Jeffrey", "A."), family = "Ryan", role = "aut", email = "jeff.a.ryan@gmail.com"),
+             person(given = c("Joshua", "M."), family = "Ulrich", role = "ctb", email = "josh.m.ulrich@gmail.com"),
              person(given = "Felix", family = "Andrews", role = "ctb", email = "felix@nfrac.org"))
 Description: An S3 class with methods for totally ordered indexed
              observations. It is particularly aimed at irregular time series
