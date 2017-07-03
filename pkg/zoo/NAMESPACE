@@ -155,6 +155,7 @@ export(
   S3method("[<-", "zoo")
   S3method("$", "zoo")
   S3method("$<-", "zoo")
+  S3method(".DollarNames", "zoo")
   S3method("aggregate", "zoo")
   S3method("as.data.frame", "zoo")
   S3method("as.list", "zoo")
