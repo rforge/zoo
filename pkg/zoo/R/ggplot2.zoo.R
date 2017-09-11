@@ -12,15 +12,15 @@ fortify.zoo <- function(model, data, melt = FALSE, ...)
   ## either long format (melt = TRUE) or wide format (melt = FALSE)
   if(melt) {
     df <- if(k == 1L) {
-      data.frame(index(model), factor(rep.int(1, n), labels = lab), coredata(model))
+      data.frame(index(model), factor(rep.int(1, n), labels = lab), coredata(model), ...)
     } else {
       data.frame(index(model)[rep.int(1:n, k)],
         factor(rep(1:k, each = n), levels = 1:k, labels = lab),
-	as.vector(coredata(model)))
+	as.vector(coredata(model)), ...)
     }
     names(df) <- c("Index", "Series", "Value")
   } else {
-    df <- cbind(data.frame(index(model)), coredata(model))
+    df <- cbind(data.frame(index(model), ...), coredata(model))
     names(df) <- c("Index", lab)  
   }
   
