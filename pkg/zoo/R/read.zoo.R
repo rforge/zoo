@@ -18,7 +18,11 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   }
 
   ## read data
-  rval <- if (is.data.frame(file)) file else read.table(file, ...)
+  rval <- if (is.data.frame(file)) {
+    if(inherits(file, "tbl")) as.data.frame(file) else file
+  } else {
+    read.table(file, ...)
+  }
 
   ## if time index appears to be already processed, use FUN = identity
   if (is.data.frame(file) && 

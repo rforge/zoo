@@ -6,6 +6,9 @@ Changes in Version 1.8-1
   o rollapply(x, k, FUN, align = "right") lead to an error if length(x) < k.
     This has been corrected to match the behavior of the other align types.
 
+  o read.zoo() now also handles "tbl" objects by coercing them to proper
+    "data.frame"s first.
+
 
 Changes in Version 1.8-0
 
