@@ -6,6 +6,11 @@ Changes in Version 1.8-1
   o rollapply(x, k, FUN, align = "right") lead to an error if length(x) < k.
     This has been corrected to match the behavior of the other align types.
 
+  o rollmean(), rollsum(), rollmedian(), and rollmax() no longer throw an
+    error if the series is shorter than the window size. Instead rollapply()
+    is called which either returns an empty series (if "fill" is not specified)
+    or a padded series (if "fill" is specified, e.g., to NA).
+
   o read.zoo() now also handles "tbl" objects by coercing them to proper
     "data.frame"s first.
 
