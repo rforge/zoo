@@ -14,6 +14,9 @@ Changes in Version 1.8-1
   o read.zoo() now also handles "tbl" objects by coercing them to proper
     "data.frame"s first.
 
+  o The fortify() method gained a "names" argument so that the column names
+    of the (melted) series can be modified.
+
 
 Changes in Version 1.8-0
 

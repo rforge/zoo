@@ -21,7 +21,9 @@
 
 \usage{
   \method{autoplot}{zoo}(object, geom = "line", facets, \dots)
-  \method{fortify}{zoo}(model, data, melt = FALSE, \dots)
+  \method{fortify}{zoo}(model, data, 
+	names = c("Index", "Series", "Value"),
+	melt = FALSE, sep = NULL, \dots)
   facet_free(facets = Series ~ ., margins = FALSE, scales = "free_y", ...)
 
   yearmon_trans(format = "\%b \%Y", n = 5)
@@ -47,6 +49,12 @@
     a \code{"data.frame"}.}
   \item{data}{not used (required by generic \code{\link[ggplot2]{fortify}}
     method).}
+  \item{names}{character. New names given to index/time column,
+    series indicator (if melted), and value column (if melted). If only
+    a subset of characters should be changed, either NAs can be used
+    or a named vector.}
+  \item{sep}{If specified then the Series column is split into multiple 
+	  columns using sep as the split character.}
   \item{melt}{Should the resulting data frame be in long format (\code{melt = TRUE})
     or wide format (\code{melt = FALSE}).}
   \item{margins}{As in \code{\link[ggplot2]{facet_grid}}.}
@@ -137,3 +145,4 @@ autoplot(zoo(data), facet = NULL) + geom_point()
 autoplot(zoo(data), facet = NULL) + geom_point() + aes(linetype = Series)
 }
 }
+

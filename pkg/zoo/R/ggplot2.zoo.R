@@ -1,13 +1,22 @@
-fortify.zoo <- function(model, data, melt = FALSE, ...)
+fortify.zoo <- function(model, data, names = c("Index", "Series", "Value"),
+		melt = FALSE, sep = NULL, ...)
 {
+  if (!is.null(sep) && !melt) stop("Cannot specify sep if melt = FALSE")
   ## dimensions
   n <- NROW(model)
   k <- NCOL(model)
-
+  
   ## series labels
   lab <- colnames(model)
   if(is.null(lab)) lab <- rep.int(deparse(substitute(model)), k)
   lab <- make.unique(lab)
+  
+  ## return data names
+  nm <- c("Index", "Series", "Value")
+  names <- unlist(names)
+  if(!is.null(names(names))) names <- names[nm]
+  names <- rep_len(names, 3L)
+  nm[!is.na(names)] <- names[!is.na(names)]
   
   ## either long format (melt = TRUE) or wide format (melt = FALSE)
   if(melt) {
@@ -18,10 +27,14 @@ fortify.zoo <- function(model, data, melt = FALSE, ...)
         factor(rep(1:k, each = n), levels = 1:k, labels = lab),
 	as.vector(coredata(model)), ...)
     }
-    names(df) <- c("Index", "Series", "Value")
+    if (!is.null(sep)) df <- 
+        data.frame(df[1], 
+           do.call("rbind", strsplit(as.character(df[[2]]), ".", fixed = TRUE)),
+	   df[3])
+    names(df) <- nm
   } else {
     df <- cbind(data.frame(index(model), ...), coredata(model))
-    names(df) <- c("Index", lab)  
+    names(df) <- c(nm[1L], lab)  
   }
   
   return(df)
@@ -92,4 +105,5 @@ scale_x_yearqtr <- function(..., format = "%Y-%q", n = 5) {
 scale_y_yearqtr <- function(..., format = "%Y-%q", n = 5) {
   ggplot2::scale_y_continuous(..., trans = yearqtr_trans(format, n))
 }
+
 
