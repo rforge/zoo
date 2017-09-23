@@ -49,7 +49,7 @@
     a \code{"data.frame"}.}
   \item{data}{not used (required by generic \code{\link[ggplot2]{fortify}}
     method).}
-  \item{names}{character. New names given to index/time column,
+  \item{names}{(list of) character vector(s). New names given to index/time column,
     series indicator (if melted), and value column (if melted). If only
     a subset of characters should be changed, either NAs can be used
     or a named vector.}
@@ -143,6 +143,20 @@ data <- cbind(A = c(6, 1, NA, NA), B = c(16, 4, 1, NA), C = c(25, 7, 2, 1))
 autoplot(zoo(data), facet = NULL) + geom_point()
 ## with different line types
 autoplot(zoo(data), facet = NULL) + geom_point() + aes(linetype = Series)
+
+## illustrate just fortify() method
+z <- zoo(data)
+fortify(z)
+fortify(z, melt = TRUE)
+fortify(z, melt = TRUE, names = c("Time", NA, NA))
+fortify(z, melt = TRUE, names = c(Index = "Time"))
+
+## with/without splitting
+z <- zoo(cbind(a.A = 1:2, a.B = 2:3, b.A = 3:4, c.B = 4:5))
+fortify(z)
+fortify(z, melt = TRUE, sep = ".",
+  names = list(Series = c("Lower", "Upper")))
+
 }
 }
 
