@@ -148,7 +148,7 @@ autoplot(zoo(data), facet = NULL) + geom_point() + aes(linetype = Series)
 z <- zoo(data)
 fortify(z)
 fortify(z, melt = TRUE)
-fortify(z, melt = TRUE, names = c("Time", NA, NA))
+fortify(z, melt = TRUE, names = c("Time", NA, "Data"))
 fortify(z, melt = TRUE, names = c(Index = "Time"))
 
 ## with/without splitting
