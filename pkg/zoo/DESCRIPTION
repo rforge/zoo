@@ -2,7 +2,8 @@ Package: zoo
 Version: 1.8-1
 Date: 2017-09-21
 Title: S3 Infrastructure for Regular and Irregular Time Series (Z's Ordered Observations)
-Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org"),
+Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org",
+                    comment = c(ORCID = "0000-0003-0918-3766")),
              person(given = "Gabor", family = "Grothendieck", role = "aut", email = "ggrothendieck@gmail.com"),
              person(given = c("Jeffrey", "A."), family = "Ryan", role = "aut", email = "jeff.a.ryan@gmail.com"),
              person(given = c("Joshua", "M."), family = "Ulrich", role = "ctb", email = "josh.m.ulrich@gmail.com"),

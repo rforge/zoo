@@ -271,10 +271,14 @@ read.csv.zoo <- function(file, format = "", tz = "", FUN = NULL,
   split = NULL, aggregate = FALSE, ...)
 {
   file <- read.csv(file, ...)
-  read.zoo(file, format = format, tz = tz, FUN = FUN, regular = regular,
+  args <- list(file = file, format = format, tz = tz, FUN = FUN, regular = regular,
     index.column = index.column, drop = drop, FUN2 = FUN2, 
     split = split, aggregate = aggregate)
-  
+  if(missing(tz)) args$tz <- NULL
+  if(missing(format)) args$format <- NULL
+  if(missing(FUN)) args$FUN <- NULL
+  if(missing(FUN2)) args$FUN2 <- NULL
+  do.call("read.zoo", args)
 }
 
 read.csv2.zoo <- function(file, format = "", tz = "", FUN = NULL,
