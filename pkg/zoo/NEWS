@@ -12,7 +12,8 @@ Changes in Version 1.8-1
     or a padded series (if "fill" is specified, e.g., to NA).
 
   o read.zoo() now also handles "tbl" objects by coercing them to proper
-    "data.frame"s first.
+    "data.frame"s first. Also gained a read = read.table argument to simplify
+    convenience interfaces read.csv.zoo() etc.
 
   o The fortify() method gained a "names" argument so that the column names
     of the (melted) series can be modified.
