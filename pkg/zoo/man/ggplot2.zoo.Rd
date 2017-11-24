@@ -24,15 +24,15 @@
   \method{fortify}{zoo}(model, data, 
 	names = c("Index", "Series", "Value"),
 	melt = FALSE, sep = NULL, \dots)
-  facet_free(facets = Series ~ ., margins = FALSE, scales = "free_y", ...)
+  facet_free(facets = Series ~ ., margins = FALSE, scales = "free_y", \dots)
 
   yearmon_trans(format = "\%b \%Y", n = 5)
-  scale_x_yearmon(..., format = "\%b \%Y", n = 5)
-  scale_y_yearmon(..., format = "\%b \%Y", n = 5)
+  scale_x_yearmon(\dots, format = "\%b \%Y", n = 5)
+  scale_y_yearmon(\dots, format = "\%b \%Y", n = 5)
 
   yearqtr_trans(format = "\%Y-\%q", n = 5)
-  scale_x_yearqtr(..., format = "\%Y-\%q", n = 5)
-  scale_y_yearqtr(..., format = "\%Y-\%q", n = 5)
+  scale_x_yearqtr(\dots, format = "\%Y-\%q", n = 5)
+  scale_y_yearqtr(\dots, format = "\%Y-\%q", n = 5)
   
 }
 
@@ -44,7 +44,8 @@
     default in the \code{autoplot} method is to use \code{facets = NULL} for univariate
     series and \code{facets = Series ~ .} for multivariate series.}
   \item{\dots}{further arguments passed to \code{\link[ggplot2]{qplot}}
-    for \code{autoplot} (and not used for \code{fortify}).}
+    for \code{autoplot} (and not used for \code{fortify}). For the \code{scale_*_*}
+    functions the arguments are passed on to \code{scale_*_continuous}.}
   \item{model}{an object of class \code{"zoo"} to be converted to
     a \code{"data.frame"}.}
   \item{data}{not used (required by generic \code{\link[ggplot2]{fortify}}
