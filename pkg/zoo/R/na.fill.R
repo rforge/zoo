@@ -40,7 +40,9 @@ na.fill.zoo <- function(object, fill, ix, ...) {
 		# we will be coercing fill values to the class of coredata(data).
 		# This allows fill=c("extend", NA) to work even though NA is coerced to
 		#  a character NA.
-		as.cls <- if (is.numeric(coredata(object))) {
+		as.cls <- if (is.integer(coredata(object))) {
+		  as.integer
+		} else if(is.numeric(coredata(object))) {
 		  as.numeric
 		} else if(is.character(coredata(object))) {
 		  as.character
