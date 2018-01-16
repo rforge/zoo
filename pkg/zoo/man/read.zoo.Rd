@@ -193,7 +193,7 @@ read.zoo(text = Lines, index = 1:2,
 read.zoo(text = Lines, index = 1:2, tz = "") # same
 read.zoo(text = Lines, index = 1:2)          # same, via heuristic
 
-## read text lines with year/month in separate columns
+## read text lines with month/year in separate columns
 Lines <- "Jan 1998 4.36
 Feb 1998 4.34"
 read.zoo(text = Lines, index = 1:2, FUN = paste, FUN2 = as.yearmon)
