@@ -36,16 +36,20 @@ rollapplyr <- function(..., align = "right") {
 rollapply <- function(data, ...) UseMethod("rollapply")
 
 rollapply.default <- function(data, ...) {
+        if (length(data) < 1L) return(data)
 	coredata(rollapply(zoo(data), ...))
 }
 
 rollapply.ts <- function(data, ...) {
+        if (length(data) < 1L) return(data)
 	as.ts(rollapply(as.zoo(data), ...))
 }
 
 rollapply.zoo <- function(data, width, FUN, ..., by = 1, 
 	by.column = TRUE, fill = if (na.pad) NA, na.pad = FALSE,
 	partial = FALSE, align = c("center", "left", "right"), coredata = TRUE) {
+
+        if (length(data) < 1L) return(data)
 
 	if (!missing(na.pad)) {
 		warning("na.pad argument is deprecated")
