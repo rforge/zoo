@@ -14,6 +14,8 @@ rollmean <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE,
 rollmean.zoo <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE, 
 	align = c("center", "left", "right"), ...) {
 
+  if (length(x) < 1L) return(x)
+
   if (!missing(na.pad)) warning("na.pad is deprecated. Use fill.")
 
   align <- match.arg(align)
@@ -49,12 +51,17 @@ rollmean.zoo <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE,
 }
 
 rollmean.default <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE, 
-	align = c("center", "left", "right"), ...) {
+	align = c("center", "left", "right"), ...)
+{		
+		if (length(x) < 1L) return(x)
+
 		coredata(rollmean(zoo(x), k, fill = fill, align = align, ...))
 }
 
 rollmean.ts <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE, 
-	align = c("center", "left", "right"), ...) {
+	align = c("center", "left", "right"), ...)
+{
+		if (length(x) < 1L) return(x)
 		as.ts(rollmean(as.zoo(x), k, fill = fill, align = align, ...))
 }
 
@@ -68,7 +75,9 @@ rollsum <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE,
 }
 
 rollsum.zoo <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE, 
-	align = c("center", "left", "right"), ...) {
+	align = c("center", "left", "right"), ...)
+{
+  if (length(x) < 1L) return(x)
 
   if (!missing(na.pad)) warning("na.pad is deprecated. Use fill.")
 
@@ -105,12 +114,17 @@ rollsum.zoo <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE,
 }
 
 rollsum.default <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE, 
-	align = c("center", "left", "right"), ...) {
+	align = c("center", "left", "right"), ...)
+{
+		if (length(x) < 1L) return(x)
+		
 		coredata(rollsum(zoo(x), k, fill = fill, align = align, ...))
 }
 
 rollsum.ts <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE, 
-	align = c("center", "left", "right"), ...) {
+	align = c("center", "left", "right"), ...)
+{
+		if (length(x) < 1L) return(x)
 		as.ts(rollsum(as.zoo(x), k, fill = fill, align = align, ...))
 }
 
@@ -124,7 +138,9 @@ rollmax <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE,
 }
 
 rollmax.zoo <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE, 
-	align = c("center", "left", "right"), ...) {
+	align = c("center", "left", "right"), ...)
+{
+  if (length(x) < 1L) return(x)
 
   if (!missing(na.pad)) warning("na.pad is deprecated. Use fill.")
 
@@ -171,12 +187,18 @@ rollmax.zoo <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE,
 }
 
 rollmax.default <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE, 
-	align = c("center", "left", "right"), ...) {
+	align = c("center", "left", "right"), ...)
+{
+		if (length(x) < 1L) return(x)
+		
 		coredata(rollmax(zoo(x), k, fill = fill, align = align, ...))
 }
 
 rollmax.ts <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE, 
-	align = c("center", "left", "right"), ...) {
+	align = c("center", "left", "right"), ...)
+{
+		if (length(x) < 1L) return(x)
+		
 		as.ts(rollmax(as.zoo(x), k, fill = fill, align = align, ...))
 }
 
@@ -191,7 +213,9 @@ rollmedian <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE,
 }
 
 rollmedian.zoo <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE, 
-	align = c("center", "left", "right"), ...) {
+	align = c("center", "left", "right"), ...)
+{
+  if (length(x) < 1L) return(x)
 
   if (!missing(na.pad)) warning("na.pad is deprecated. Use fill.")
 
@@ -226,12 +250,18 @@ rollmedian.zoo <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE,
 }
 
 rollmedian.default <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE, 
-	align = c("center", "left", "right"), ...) {
+	align = c("center", "left", "right"), ...)
+{
+		if (length(x) < 1L) return(x)
+		
 		coredata(rollmedian(zoo(x), k, fill = fill, align = align, ...))
 }
 
 rollmedian.ts <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE, 
-	align = c("center", "left", "right"), ...) {
+	align = c("center", "left", "right"), ...)
+{
+		if (length(x) < 1L) return(x)
+		
 		as.ts(rollmedian(as.zoo(x), k, fill = fill, align = align, ...))
 }
 

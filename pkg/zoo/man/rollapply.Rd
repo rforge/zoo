@@ -80,6 +80,8 @@ rollapplyr(\dots, align = "right")
 
   \code{rollapplyr} is a wrapper around \code{rollapply} that uses a default
   of \code{align = "right"}.
+  
+  If \code{data} is of length 0, \code{data} is returned unmodified.
 }
 \value{
   A object of the same class as \code{data} with the results of the rolling function.

@@ -73,6 +73,8 @@ default methods. The default method of \code{rollmedian}
 is an interface to \code{\link{runmed}}.
 The default methods of \code{rollmean} and \code{rollsum} do not handle inputs that contain
 \code{NA}s. In such cases, use \code{\link{rollapply}} instead.
+
+If \code{x} is of length 0, \code{x} is returned unmodified.
 }
 
 \value{
