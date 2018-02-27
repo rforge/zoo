@@ -81,7 +81,7 @@ na.fill.zoo <- function(object, fill, ix, ...) {
 		if (length(fill[[3]]) == 0) keep <- unique(pmin(wx.max, keep)) 
 		return(object[keep, , drop = is.null(dim(object))])
 	} else if(length(fill)) {
-	  object[is.na(object)] <- fill
+	  object[is.na(object)] <- if(unlist(fill[1]) == "extend") NA else unlist(fill[1])
 	  return(object)
 	}
 }

@@ -3,6 +3,9 @@ Changes in Version 1.8-2
   o If rollapply(), rollmean(), etc. are applied to zero-length objects,
     these objects are returned unmodified.
 
+  o Applying na.fill() to all-NA vectors/columns now consistently treats
+    all NAs as leading NAs.
+
 
 Changes in Version 1.8-1
 
