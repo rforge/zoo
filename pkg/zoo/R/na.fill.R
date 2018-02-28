@@ -54,14 +54,14 @@ na.fill.zoo <- function(object, fill, ix, ...) {
 		# fill points on left
 		if (length(fill[[1]]) > 0) 
 			if (!is.null(fill[[1]])) object[seq_len(wx.min - 1)] <- 
-				if (is.character(fill[[1]]) && fill[[1]] == "extend")
+				if (is.character(fill[[1]]) && !is.na(fill[[1]]) && fill[[1]] == "extend")
 						object[[wx.min]] else fill[[1]]
 		# fill intermediate points
 		# - this is for zoo method, for zooreg method it would be possible to
 		#   perform linear interpolation in proportion to time rather than
 		#   in proportion to the integer index
 		if (length(fill[[2]]) > 0) {
-			if (is.character(fill[[2]]) && fill[[2]] == "extend") object[wrng] <- 
+			if (is.character(fill[[2]]) && !is.na(fill[[2]]) && fill[[2]] == "extend") object[wrng] <- 
 					# as.list(approx(wix, unlist(object[wix]), xout = wrng)$y)
 					approx(wix, unlist(object[wix]), xout = wrng)$y
 			else object[intersect(which(!ix), wrng)] <- fill[[2]]
@@ -69,7 +69,7 @@ na.fill.zoo <- function(object, fill, ix, ...) {
 		# fill points on right
 		if (length(fill[[3]]) > 0) 
 			object[seq(wx.max + 1, length.out = n - wx.max)] <- 
-				if (is.character(fill[[3]]) && fill[[3]] == "extend")
+				if (is.character(fill[[3]]) && !is.na(fill[[3]]) && fill[[3]] == "extend")
 						object[[wx.max]] else fill[[3]]
 
 		keep <- seq_len(n)
@@ -81,7 +81,8 @@ na.fill.zoo <- function(object, fill, ix, ...) {
 		if (length(fill[[3]]) == 0) keep <- unique(pmin(wx.max, keep)) 
 		return(object[keep, , drop = is.null(dim(object))])
 	} else if(length(fill)) {
-	  object[is.na(object)] <- if(unlist(fill[1]) == "extend") NA else unlist(fill[1])
+	  fill <- unlist(fill[1])[1]
+	  object[is.na(object)] <- if(!is.na(fill) && fill == "extend") NA else fill
 	  return(object)
 	}
 }
