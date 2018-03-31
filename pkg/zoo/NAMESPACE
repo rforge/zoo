@@ -356,6 +356,7 @@ export(
   S3method("na.approx", "default")
   S3method("na.fill", "default")
   S3method("na.locf", "default")
+  S3method("na.locf", "data.frame")
   S3method("na.spline", "default")
   S3method("na.trim", "default")
   S3method("na.aggregate", "default")
