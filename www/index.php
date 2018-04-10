@@ -22,11 +22,11 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
 
 <body>
 
-<! --- R-Forge Logo
+<!-- R-Forge Logo -->
 <table border="0" width="100%" cellspacing="0" cellpadding="0">
 <tr><td>
-<a href="/"><img src="http://www.colegioamorim.com.br/ermelino/files/animals_hanging_around_zoo_sign_hg_wht.gif" border="0" alt="zoo Logo" /> </a> </td> </tr>
-</table> -->
+<a href="http://r-forge.r-project.org/"><img src="http://<?php echo $themeroot; ?>/imagesrf/logo.png" border="0" alt="R-Forge Logo" /> </a> </td> </tr>
+</table>
 
 <!-- get project title  -->
 <!-- own website starts here, the following may be changed as you like -->
@@ -41,10 +41,11 @@ echo $contents; } ?>
 
 <!-- end of project description -->
 
-<p> The <strong>CRAN summary page</strong> can be found <a href="http://cran.r-project.org/web/packages/zoo/index.html"><strong>here</strong></a>. This page includes direct links to the documentation, NEWS, source, Windows binary and other elements of the project.</p>
-<p> The <strong>zoo help pages</strong> can be found <a href="http://bm2.genes.nig.ac.jp/RGM2/pkg.php?p=zoo"><strong>here</strong></a>. </p>
-<p> The <strong>zoo image gallery</strong> can be found <a href="http://bm2.genes.nig.ac.jp/RGM2/index.php?scope=name&query=zoo"><strong>here</strong></a>. </p>
-<p> The <strong>R-Forge summary page</strong> can be found <a href="http://<?php echo $domain; ?>/projects/<?php echo $group_name; ?>/"><strong>here</strong></a>. This page contains links to the development source repository which is hosted under subversion.</p>
+<ul>
+  <li><strong>CRAN release version and supplements:</strong> <a href="https://CRAN.R-project.org/package=zoo">https://CRAN.R-project.org/package=zoo</a></li>
+  <li><strong>R-Forge development version:</strong> <a href="https://R-Forge.R-project.org/R/?group_id=18">https://R-Forge.R-project.org/R/?group_id=18</a></li>
+  <li><strong>R-Forge project summary:</strong> <a href="https://R-Forge.R-project.org/projects/zoo/">https://R-Forge.R-project.org/projects/zoo/</a></li>
+</ul>
 
 </body>
 </html>
