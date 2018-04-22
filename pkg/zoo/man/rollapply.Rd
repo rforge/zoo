@@ -47,6 +47,7 @@ rollapplyr(\dots, align = "right")
     be passed to every \code{width} window? If set to \code{FALSE} the
     full zoo series is used.}
 }
+
 \details{
   If \code{width} is a plain numeric vector its elements are regarded as widths
   to be interpreted in conjunction with \code{align} whereas if \code{width} is a list
@@ -66,6 +67,12 @@ rollapplyr(\dots, align = "right")
   invoked at all for the first two points.  If \code{partial} is a numeric then it
   specifies the minimum number of offsets that must be within range.  Negative
   \code{partial} is interpreted as \code{FALSE}.
+
+  If \code{width} is a scalar then \code{partial = TRUE} and \code{fill = NA} are
+  mutually exclusive but if offsets are specified for the \code{width} and 0 is not
+  among the offsets then the output will be shorter than the input even
+  if \code{partial = TRUE} is specified.  In that case it may still be useful
+  to specify \code{fill} in addition to \code{partial}.
 
   If \code{FUN} is \code{mean}, \code{max} or \code{median} and \code{by.column} is 
   \code{TRUE} and width is a plain scalar and there are no other arguments
