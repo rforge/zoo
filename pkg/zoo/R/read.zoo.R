@@ -202,7 +202,7 @@ read.zoo <- function(file, format = "", tz = "", FUN = NULL,
   }
   
   ## sanity checking
-  if(any(is.na(ix))) {
+  if(anyNA(ix)) {
     idx <- which(is.na(ix))
 	msg <- if (length(idx) == 1)
 		paste("index has bad entry at data row", idx)
