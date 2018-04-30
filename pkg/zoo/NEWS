@@ -1,5 +1,8 @@
 Changes in Version 1.8-2
 
+  o Properly register autoplot() and fortify() methods for "zoo" objects
+    provided that "ggplot2" is loaded.
+
   o If rollapply(), rollmean(), etc. are applied to zero-length objects,
     these objects are returned unmodified.
 
