@@ -58,9 +58,9 @@ rollapply.zoo <- function(data, width, FUN, ..., by = 1,
     if (is.vector(width) && !is.list(width) && length(width) == 1 &&
 		by.column && length(by) == 1 && by == 1 && (missing(partial) | identical(partial, FALSE)) &&
 		length(list(...)) < 1 && length(sw <- deparse(substitute(FUN))) == 1) {
-		  if (sw == "mean" && all(!is.na(data))) {
+		  if (sw == "mean" && !anyNA(data)) {
 				return(rollmean(data, width, fill = fill, align = align))
-		  } else if (sw == "median" && width %% 2 == 1) {
+		  } else if (sw == "median" && width %% 2 == 1 && !anyNA(data)) {
 				return(rollmedian(data, width, fill = fill, align = align))
 	      } else if (sw == "max") {
 				return(rollmax(data, width, fill = fill, align = align))
