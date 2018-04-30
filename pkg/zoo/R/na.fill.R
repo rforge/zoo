@@ -6,6 +6,50 @@
 #  NA is linearly interpolated
 # If component is NULL then the corresponding NA is dropped.
 
+na.fill0 <- function(x, fill, ix = !is.na(x))
+{
+  if (length(x) == 0L) {
+    x
+  } else if (length(fill) == 0L || sum(lengths(as.list(fill))) == 0L) {
+    structure(x[ix], na.action = which(!ix))
+  } else if (length(fill) == 1L) {
+    if (identical(as.list(fill)[[1L]], "extend"))
+      stop("fill cannot be 'extend'")
+    if (!is.logical(ix)) ix <- seq_along(x) %in% ix
+    replace(x, !ix, as.list(fill)[[1L]])
+  } else {
+    fill <- rep(as.list(fill), length = 3L)
+    if (identical(fill[[2L]], "extend")) 
+      stop("fill[[2L]] cannot be 'extend'")
+    ix <- if (is.logical(ix)) rep(ix, length = length(x)) else seq_along(x) %in% ix
+    wx <- which(ix)
+    if (length(wx) == 0L) {
+      x[] <- fill[[2L]]
+      x
+    } else {
+      rng <- range(wx)
+
+      if (identical(fill[[1L]], "extend")) fill[[1L]] <- x[rng[1L]]
+      if (identical(fill[[3L]], "extend")) fill[[3L]] <- x[rng[2L]]
+
+      fill_lens <- lengths(fill)
+
+      pre <- seq_along(ix) < rng[1L]
+      post <- seq_along(ix) > rng[2L]
+
+      if (fill_lens[2L]) x[!ix] <- fill[[2L]]
+      if (fill_lens[1L]) x[pre] <- fill[[1L]]
+      if (fill_lens[3L]) x[post] <- fill[[3L]]
+
+      omit <- (pre & !fill_lens[1L]) |
+              (!pre & !post & !ix & !fill_lens[2L]) |
+              (post & !fill_lens[3L])
+      x <- x[!omit]
+      if (sum(omit)) structure(x, na.action = which(omit)) else x
+    }
+  }
+}
+
 na.fill <- function(object, fill, ...) UseMethod("na.fill")
 
 na.fill.zoo <- function(object, fill, ix, ...) {

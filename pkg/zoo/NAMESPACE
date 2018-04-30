@@ -71,6 +71,7 @@ export(
   "na.approx.default",
   "na.fill",
   "na.fill.default",
+  "na.fill0",
   "na.locf",
   "na.locf.default",
   "na.locf0",
