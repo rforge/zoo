@@ -20,6 +20,9 @@ rollmean.zoo <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE,
 
   align <- match.arg(align)
 
+  n <- length(index(x))
+  if(k > n || anyNA(coredata(x))) return(rollapply(x, k, FUN = (mean), fill = fill, align = align, ...))
+
   if (length(dim(x)) == 2) {
 	  # merge is the only zoo specific part of this method
 	  
@@ -30,9 +33,6 @@ rollmean.zoo <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE,
 	  colnames(out) <- colnames(x)
 	  return(out)
   }
-
-  n <- length(x)
-  if(k > n || anyNA(coredata(x))) return(rollapply(x, k, FUN = (mean), fill = fill, align = align, ...))
 
   ix <- switch(align,
       "left" = { 1:(n-k+1) },
@@ -83,6 +83,9 @@ rollsum.zoo <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE,
 
   align <- match.arg(align)
 
+  n <- length(index(x))
+  if(k > n || anyNA(coredata(x))) return(rollapply(x, k, FUN = (sum), fill = fill, align = align, ...))
+
   if (length(dim(x)) == 2) {
 	  # merge is the only zoo specific part of this method
 	  
@@ -93,9 +96,6 @@ rollsum.zoo <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE,
 	  colnames(out) <- colnames(x)
 	  return(out)
   }
-
-  n <- length(x)
-  if(k > n || anyNA(coredata(x))) return(rollapply(x, k, FUN = (sum), fill = fill, align = align, ...))
 
   ix <- switch(align,
       "left" = { 1:(n-k+1) },
@@ -221,6 +221,9 @@ rollmedian.zoo <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE,
 
   align <- match.arg(align)
 
+  n <- length(index(x))
+  if(k > n || anyNA(coredata(x))) return(rollapply(x, k, FUN = (median), fill = fill, align = align, ...))
+
   if (length(dim(x)) == 2) {
 	  # merge is the only zoo specific part of this method
 	  out <- do.call("merge", c(lapply(1:NCOL(x), function(i) {
@@ -230,9 +233,6 @@ rollmedian.zoo <- function(x, k, fill = if (na.pad) NA, na.pad = FALSE,
 	  colnames(out) <- colnames(x)
 	  return(out)
   }
-
-  n <- length(x)
-  if(k > n || anyNA(coredata(x))) return(rollapply(x, k, FUN = (median), fill = fill, align = align, ...))
 
   ix <- switch(align,
       "left" = { 1:(n-k+1) },
