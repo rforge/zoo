@@ -14,10 +14,10 @@ na.fill(object, fill, \dots)
 \method{na.fill}{zoo}(object, fill, ix, \dots)
 \method{na.fill}{default}(object, fill, ix, \dots)
 
-na.fill0(x, fill, ix = !is.na(x))
+na.fill0(object, fill, ix = !is.na(object))
 }
 \arguments{
-  \item{object, x}{an object.}
+  \item{object}{an object.}
   \item{fill}{a three component list or a vector that is coerced to a 
     list. Shorter objects are recycled.  The three components 
     represent the fill value to the left of the data, within the
