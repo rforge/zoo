@@ -372,6 +372,7 @@ export(
 
 ## coercion to classes Date, list, yearmon, yearqtr, zoo, zooreg
   S3method("as.Date", "default", ".as_Date_default")
+  S3method("as.Date", "mondate", ".as_Date_default")
   S3method("as.Date", "numeric")
   S3method("as.list", "ts")
   S3method("as.yearmon", "date")
