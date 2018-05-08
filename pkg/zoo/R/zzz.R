@@ -9,7 +9,7 @@ register_s3_method <- function(pkg, generic, class, fun = NULL) {
     stopifnot(is.function(fun))
   }
 
-  if (pkg %in% loadedNamespaces()) {
+  if (isNamespaceLoaded(pkg)) {
     registerS3method(generic, class, fun, envir = asNamespace(pkg))
   }
 
