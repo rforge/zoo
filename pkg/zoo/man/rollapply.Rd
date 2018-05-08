@@ -146,6 +146,19 @@ zm <- merge(z, g)
 rollapply(zm, 3, mean, na.rm = TRUE, fill = NA)
 
 
+## rolling weekly sums (with some missing dates)
+z <- zoo(1:11, as.Date("2016-03-09") + c(0:7, 9:10, 12))
+weeksum <- function(z) sum(z[time(z) > max(time(z)) - 7])
+zs <- rollapplyr(z, 7, weeksum, fill = NA, coredata = FALSE)
+merge(value = z, weeksum = zs)
+
+
+## replicate cumsum with either 'partial' or vector width 'k'
+cumsum(1:10)
+rollapplyr(1:10, 10, sum, partial = TRUE)
+rollapplyr(1:10, 1:10, sum)
+
+
 ## different values of rule argument
 z <- zoo(c(NA, NA, 2, 3, 4, 5, NA))
 rollapply(z, 3, sum, na.rm = TRUE)
