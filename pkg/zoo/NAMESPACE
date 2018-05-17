@@ -409,6 +409,7 @@ export(
   S3method("as.zoo", "its")
   S3method("as.zoo", "matrix")
   S3method("as.zoo", "mcmc")
+  S3method("as.zoo", "tis")
   S3method("as.zoo", "ts")
   S3method("as.zoo", "xts")
   S3method("as.zoo", "zoo")
