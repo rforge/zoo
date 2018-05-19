@@ -18,6 +18,10 @@ Changes in Version 1.8-2
     all NAs as leading NAs. Also filling character vectors/columns has been
     improved.
 
+  o In write.zoo() the time index column is now coerced to as.character()
+    prior to calling write.table() so that quote=TRUE is applied when writing
+    time indexes with spaces (e.g., "Jan 2000" for "yearmon").
+
 
 Changes in Version 1.8-1
 
