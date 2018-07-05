@@ -87,8 +87,7 @@ rollapply.zoo <- function(data, width, FUN, ..., by = 1,
 	align <- match.arg(align)
 
 	width <- if (!is.list(width)) {
-	  lapply(width, function(w) {
-	                w <- trunc(w)
+	  lapply(trunc(width), function(w) {
 			if (align == "right") seq(to = 0, length.out = w)
 			else if (align == "center") seq(to = floor(w/2), length.out = w)
 			else seq(from = 0, length.out = w)
