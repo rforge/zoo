@@ -85,6 +85,7 @@ single panel plots in the same way as with other classic graphics.
 For multi-panel graphics, \code{plot.zoo} takes over the layout so
 \code{par(mfrow=...)} cannot be used.  \code{Axis} can be used within
 the panels themselves but not outside the panel.  See examples.
+Also, \code{par(new = TRUE)} is not supported for multi-panel graphics.
 
 In addition to classical time series line plots, there is also a
 simple \code{\link{barplot}} method for \code{"zoo"} series.
