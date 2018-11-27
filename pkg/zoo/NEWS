@@ -2,6 +2,9 @@ Changes in Version 1.8-5
 
   o Added dedicated diff() methods for "yearmon" and "yearqtr" objects.
 
+  o Fix potential problems when logic comparisons in if() are not of
+    length 1 (reported by Kurt Hornik).
+
 
 Changes in Version 1.8-4
 
