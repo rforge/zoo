@@ -5,6 +5,9 @@ Changes in Version 1.8-5
   o Fix potential problems when logic comparisons in if() are not of
     length 1 (reported by Kurt Hornik).
 
+  o read.zoo(x) did not process columns correctly who had column names
+    that are intergers in 1:ncol(x).
+
 
 Changes in Version 1.8-4
 
