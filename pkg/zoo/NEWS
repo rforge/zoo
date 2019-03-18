@@ -20,6 +20,10 @@ Changes in Version 1.8-5
   o read.zoo(x) did not process columns correctly who had column names
     that are intergers in 1:ncol(x).
 
+  o Add example on ?ggplot2.zoo that illustrates how to use scale_x_yearmon
+    for a discrete labeling (rather than continuous). Adapted from:
+    https://stackoverflow.com/questions/54591625/missing-yearmon-labels-using-ggplot-scale-x-yearmon/54592173#54592173
+
 
 Changes in Version 1.8-4
 
