@@ -197,6 +197,7 @@ plot(zoo(coredata(z)), xaxt = "n", panel = function(x, y, ..., Time = time(z)) {
 
 ## plot with left and right axes
 ## modified from http://www.mayin.org/ajayshah/KB/R/html/g6.html
+suppressWarnings(RNGversion("3.5.0"))
 set.seed(1)
 z <- zoo(cbind(A = cumsum(rnorm(100)), B = cumsum(rnorm(100, mean = 0.2))))
 opar <- par(mai = c(.8, .8, .2, .8))

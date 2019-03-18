@@ -24,6 +24,11 @@ Changes in Version 1.8-5
     for a discrete labeling (rather than continuous). Adapted from:
     https://stackoverflow.com/questions/54591625/missing-yearmon-labels-using-ggplot-scale-x-yearmon/54592173#54592173
 
+  o Added suppressWarnings(RNGversion("3.5.0")) in all vignettes and manual
+    pages that use set.seed() to make computations reproducible. This is
+    necessitated by recent (> 3.5.0) improvements in R's default RNG to
+    yield the same output in all CRAN checks.
+
 
 Changes in Version 1.8-4
 
