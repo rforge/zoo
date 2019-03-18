@@ -163,7 +163,7 @@ df <-  data.frame(dates = as.yearmon("2018-08") + 0:6/12, values = c(2:6, 0, 1))
 ggplot(df, aes(x = dates, y = values)) + 
  geom_bar(position = "dodge", stat = "identity") +      
  theme_light() + xlab("Month") + ylab("values")+ 
- scale_x_continuous(breaks = as.numeric(df$dates), labels = format(df$dates,"%Y %m"))
+ scale_x_continuous(breaks = as.numeric(df$dates), labels = format(df$dates,"\%Y \%m"))
 
 }
 }
