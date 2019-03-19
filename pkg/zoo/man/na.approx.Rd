@@ -16,13 +16,13 @@ values.
 }
 \usage{
 na.approx(object, \dots) 
-\method{na.approx}{zoo}(object, x = index(object), xout, \dots, na.rm = TRUE, along)
+\method{na.approx}{zoo}(object, x = index(object), xout, \dots, na.rm = TRUE, maxgap = Inf, along)
 \method{na.approx}{zooreg}(object, \dots) 
 \method{na.approx}{ts}(object, \dots)
 \method{na.approx}{default}(object, x = index(object), xout, \dots, na.rm = TRUE, maxgap = Inf, along) 
 
 na.spline(object, \dots) 
-\method{na.spline}{zoo}(object, x = index(object), xout, \dots, na.rm = TRUE, along)
+\method{na.spline}{zoo}(object, x = index(object), xout, \dots, na.rm = TRUE, maxgap = Inf, along)
 \method{na.spline}{zooreg}(object, \dots) 
 \method{na.spline}{ts}(object, \dots)
 \method{na.spline}{default}(object, x = index(object), xout, \dots, na.rm = TRUE, maxgap = Inf, along) 

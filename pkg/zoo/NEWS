@@ -29,6 +29,10 @@ Changes in Version 1.8-5
     necessitated by recent (> 3.5.0) improvements in R's default RNG to
     yield the same output in all CRAN checks.
 
+  o Added maxgap=Inf argument to na.trim(). In particular na.approx() and
+    na.spline() now pass on maxgap=maxgap to na.trim() so that leading/trailing
+    NAs are handled consistently with inner NAs (pointed out by Ken Williams).
+
 
 Changes in Version 1.8-4
 
