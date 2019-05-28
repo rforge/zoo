@@ -4,6 +4,10 @@ Changes in Version 1.8-6
     erroneously changed the last column name. This has been fixed now.
     (Prompted by https://github.com/joshuaulrich/xts/issues/45)
 
+  o Set random seed (along with suppressWarnings(RNGversion("3.5.0"))) in all
+    manual pages that use rnorm() as well. Regenerated reference output
+    of examples.
+
 
 Changes in Version 1.8-5
 

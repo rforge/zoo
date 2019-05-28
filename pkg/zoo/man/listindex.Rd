@@ -50,6 +50,9 @@ listindex(object, \dots)
 \seealso{\code{\link{zoo}}}
 
 \examples{
+suppressWarnings(RNGversion("3.5.0"))
+set.seed(1)
+
 ## two listindex objects wrapping Date vectors
 x <- listindex(as.Date(0) + 0:2)
 y <- listindex(as.Date(0) + 3:5)
