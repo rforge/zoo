@@ -1,6 +1,6 @@
 Package: zoo
-Version: 1.8-6
-Date: 2019-05-27
+Version: 1.8-7
+Date: 2019-08-29
 Title: S3 Infrastructure for Regular and Irregular Time Series (Z's Ordered Observations)
 Authors@R: c(person(given = "Achim", family = "Zeileis", role = c("aut", "cre"), email = "Achim.Zeileis@R-project.org",
                     comment = c(ORCID = "0000-0003-0918-3766")),
@@ -15,7 +15,7 @@ Description: An S3 class with methods for totally ordered indexed
              consistency with ts and base R by providing methods to extend
              standard generics.
 Depends: R (>= 3.1.0), stats
-Suggests: coda, chron, DAAG, fts, ggplot2, mondate, scales, strucchange, timeDate, timeSeries, tis, tseries, xts
+Suggests: coda, chron, DAAG, fts, ggplot2 (>= 3.0.0), mondate, scales, strucchange, timeDate, timeSeries, tis, tseries, xts
 Imports: utils, graphics, grDevices, lattice (>= 0.20-27)
 License: GPL-2 | GPL-3
 URL: http://zoo.R-Forge.R-project.org/

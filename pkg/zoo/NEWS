@@ -1,3 +1,10 @@
+Changes in Version 1.8-7
+
+  o Added scale_type() methods for yearmon/yearqtr to facilitate ggplot2
+    visualizations of zoo series with yearmon/yearqtr time index (suggested
+    by Brian Diggs). This requires at least ggplot2 3.0.0.
+
+
 Changes in Version 1.8-6
 
   o Adding a zero-width zoo series via $<- to an existing zoo series
