@@ -1926,6 +1926,23 @@ Jan 1998 Feb 1998
         NA        1.5        2.0        3.0        3.5        4.0        5.0 
 2000-01-09 2000-01-10 2000-01-11 
        5.5        6.5         NA 
+> ##
+> ## - without expansion to regular grid: find interval widths
+> ## that encompass the previous 3 days for each Date
+> w <- seq_along(tt) - findInterval(tt - 3, tt)
+> ## a solution to computing the widths 'w' that is easier to read but slower
+> ## w <- sapply(tt, function(x) sum(tt >= x - 2 & tt <= x))
+> ##
+> ## - rolling sum from 3-day windows
+> ## without vs. with expansion to regular grid
+> rollapplyr(z, w, sum)
+2000-01-02 2000-01-03 2000-01-06 2000-01-07 2000-01-08 2000-01-09 2000-01-11 
+         1          3          3          7         12         15         13 
+> rollapplyr(zm, 3, sum, partial = TRUE, na.rm = TRUE)
+2000-01-02 2000-01-03 2000-01-04 2000-01-05 2000-01-06 2000-01-07 2000-01-08 
+         1          3          3          2          3          7         12 
+2000-01-09 2000-01-10 2000-01-11 
+        15         11         13 
 > 
 > 
 > ## rolling weekly sums (with some missing dates)
@@ -3213,7 +3230,7 @@ NA  1  2  3 NA  6
 > cleanEx()
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  2.239 0.238 2.346 0.001 0.002 
+Time elapsed:  2.183 0.169 2.221 0.001 0.002 
 > grDevices::dev.off()
 null device 
           1 
