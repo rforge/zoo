@@ -1,3 +1,9 @@
+Changes in Version 1.8-8
+
+  o diff.zoo(x, arithmetic = FALSE) now also works if x contains negative
+    data.
+
+
 Changes in Version 1.8-7
 
   o Added scale_type() methods for yearmon/yearqtr to facilitate ggplot2
