@@ -1,3 +1,12 @@
+Changes in Version 1.8-9
+
+  o Improved internal functionality in na.spline.default() in the same way
+    na.approx.default() was enhanced in zoo 1.7-14 and 1.7-13. One difference
+    is that while na.approx() requires at least two non-NA observations,
+    na.spline() just needs one non-NA observation (using a constant to
+    interpolate in that case).
+
+
 Changes in Version 1.8-8
 
   o diff.zoo(x, arithmetic = FALSE) now also works if x contains negative
