@@ -181,7 +181,7 @@ rollapply(z, 3, sum, na.rm = TRUE, fill = NA)
 rollapply(z, 3, sum, na.rm = TRUE, partial = TRUE)
 
 # this will exclude time points 1 and 2
-# It corresonds to align = "right", width = 3
+# It corresponds to align = "right", width = 3
 rollapply(zoo(1:8), list(seq(-2, 0)), sum)
 
 # but this will include points 1 and 2
