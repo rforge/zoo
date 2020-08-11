@@ -120,7 +120,7 @@ rollapply.zoo <- function(data, width, FUN, ..., by = 1,
 				FUN(data[replace(posns, !ix, 0)], ...)
 			}
 		}
-    } else {
+        } else {
 		# dimensioned
 		#
 		# same f as in TRUE leg except data[.] becomes data[.,]
