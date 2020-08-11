@@ -6,6 +6,10 @@ Changes in Version 1.8-9
     na.spline() just needs one non-NA observation (using a constant to
     interpolate in that case).
 
+  o If the FUN in rollapply() returns a matrix or data.frame with more than
+    one row per element/time point, then this is flattened now so that the
+    result is again a matrix with one row per element/time point.
+
 
 Changes in Version 1.8-8
 

@@ -142,6 +142,11 @@ rollapply.zoo <- function(data, width, FUN, ..., by = 1,
 		
 	ix <- !sapply(dat, is.null) # integer indexes of non-nulls
 
+        ## flatten data if output of FUN has a dim and > 1 row (e.g., matrix or data.frame)
+        if(any(sapply(dat[ix], function(d) !is.null(nrow(d)) && nrow(d) > 1L))) {
+	    dat[ix] <- lapply(dat[ix], function(d) unlist(as.data.frame(d)))
+	}
+
 	if (!missing(fill) || !missing(na.pad)) {
 
 		# replace NULLs with NAs
