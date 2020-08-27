@@ -10,6 +10,13 @@ Changes in Version 1.8-9
     one row per element/time point, then this is flattened now so that the
     result is again a matrix with one row per element/time point.
 
+  o merge.zoo() now handles the case of all indexes being integer or numeric
+    by coercing the integer indexes to numeric (reported by Simone Giannerini).
+
+  o zooreg(x) now allows to create an integer index if start (and end, if any)
+    are integer and the implied deltat is not numerically different from an
+    integer value.
+
 
 Changes in Version 1.8-8
 
