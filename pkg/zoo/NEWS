@@ -1,5 +1,8 @@
 Changes in Version 1.8-9
 
+  o Added a basic boxplot(x, ...) method for zoo objects that simply calls
+    boxplot(coredata(x), ...).
+
   o Improved internal functionality in na.spline.default() in the same way
     na.approx.default() was enhanced in zoo 1.7-14 and 1.7-13. One difference
     is that while na.approx() requires at least two non-NA observations,
